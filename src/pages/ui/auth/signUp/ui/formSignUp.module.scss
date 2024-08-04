@@ -1,0 +1,78 @@
+.card {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  max-width: 378px;
+  height: 648px;
+  margin: 24px auto;
+  padding: 35px 25px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  width: 100%;
+  max-width: 348px;
+  margin: 28px 0 20px;
+
+  & button {
+    box-sizing: border-box;
+    background-color: var(--color-info-500);
+  }
+}
+
+.containerInput {
+  flex-grow: 1;
+  width: 100%;
+  text-align: center;
+}
+
+.input {
+  width: 100%;
+  min-width: 348px;
+  max-width: 348px;
+}
+
+.containerCheckbox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 12px 0;
+
+  & a:visited {
+    color: var(--color-info-500);
+  }
+}
+
+.registration {
+  color: var(--color-light-900);
+  text-align: center;
+}
+
+.card .signIn {
+  margin: 0 auto;
+  color: var(--color-info-500);
+  text-decoration: none;
+}
+
+.title {
+  align-self: center;
+  margin: 10px 0;
+}
+
+.iconsBlock {
+  display: flex;
+  gap: 30%;
+  justify-content: center;
+  padding: 10px;
+}
+
+@media (width <= 576px) {
+  .input {
+    width: 100%;
+    min-width: 100%;
+  }
+}
