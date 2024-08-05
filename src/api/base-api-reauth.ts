@@ -1,4 +1,4 @@
-import { fetchBaseQuery } from '@reduxjs/toolkit/query'
+import { fetchBaseQuery, FetchBaseQueryMeta } from '@reduxjs/toolkit/query'
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { Mutex } from 'async-mutex'
 import Router from 'next/router'
@@ -34,8 +34,7 @@ export const baseQueryWithReauth: BaseQueryFn<
           },
           api,
           extraOptions
-          // TODO: remove any
-        )) as any
+        )) as QueryReturnValue<UpdateAccessTokenResponse, FetchBaseQueryError, FetchBaseQueryMeta>
         if (refreshResult.data) {
           localStorage.setItem('token', refreshResult.data.accessToken)
           // retry the initial query
@@ -56,3 +55,21 @@ export const baseQueryWithReauth: BaseQueryFn<
   }
   return result
 }
+
+type UpdateAccessTokenResponse = {
+  userId?: number
+  accessToken: string
+  refreshToken?: string
+}
+
+type QueryReturnValue<T = unknown, E = unknown, M = unknown> =
+  | {
+      error: E
+      data?: undefined
+      meta?: M
+    }
+  | {
+      error?: undefined
+      data: T
+      meta?: M
+    }
