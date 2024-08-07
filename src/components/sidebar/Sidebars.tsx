@@ -1,6 +1,7 @@
 import s from './sidebars.module.scss'
 
 import { Typography } from '@honor-ui/inctagram-ui-kit'
+
 import {
   BookmarkOutline,
   HomeOutline,
@@ -10,7 +11,7 @@ import {
   PlusSquareOutline,
   Search,
   TrendingUp,
-} from '@honor-ui/inctagram-ui-kit/dist/assets/icons'
+} from '@honor-ui/inctagram-ui-kit'
 
 export const Sidebars = () => {
   return (

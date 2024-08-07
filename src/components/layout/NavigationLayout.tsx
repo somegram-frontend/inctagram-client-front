@@ -1,6 +1,7 @@
-import { Header, Sidebars } from '@honor-ui/inctagram-ui-kit'
-import { PropsWithChildren } from 'react'
+import { Header } from '@/components/header'
+import { Sidebars } from '@/components/sidebar'
 import { NextPage } from 'next'
+import { PropsWithChildren } from 'react'
 
 type navigationLayoutProps = {
   isAuth: boolean
