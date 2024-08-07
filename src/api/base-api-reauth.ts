@@ -40,7 +40,6 @@ export const baseQueryWithReauth: BaseQueryFn<
           // retry the initial query
           result = await baseQuery(args, api, extraOptions)
         } else {
-          console.log('logged out')
           Router.push('auth/login')
         }
       } finally {
