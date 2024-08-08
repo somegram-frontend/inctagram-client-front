@@ -11,10 +11,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@honor-ui/inctagram-ui-kit": "^0.0.2",
+    "@honor-ui/inctagram-ui-kit": "^0.0.6",
     "next": "14.2.5",
-    "react": "^18",
-    "react-dom": "^18"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@it-incubator/prettier-config": "^0.1.2",
