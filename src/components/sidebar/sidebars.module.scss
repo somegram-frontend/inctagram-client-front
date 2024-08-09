@@ -1,0 +1,50 @@
+.box {
+  width: 100%;
+  max-width: 220px;
+  background-color: var(--color-dark-700);
+  border-right: 1px solid var(--color-dark-300);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+
+  margin-bottom: 24px;
+
+  ul {
+    margin: 0;
+    padding: 22px;
+    list-style-type: none;
+  }
+
+  li {
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    padding: 12px;
+
+    color: var(--color-light-100);
+
+    svg {
+      margin-right: 10px;
+    }
+
+    &:hover {
+      color: var(--color-accent-500);
+    }
+
+    &:disabled {
+      color: var(--color-dark-100);
+    }
+
+    &:focus {
+      color: var(--color-light-100);
+      outline: 2px solid var(--color-accent-500);
+    }
+  }
+}

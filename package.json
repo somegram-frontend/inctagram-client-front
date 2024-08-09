@@ -11,14 +11,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@honor-ui/inctagram-ui-kit": "^0.0.1",
-    "@reduxjs/toolkit": "^2.2.7",
-    "async-mutex": "^0.5.0",
+    "@honor-ui/inctagram-ui-kit": "^0.0.6",
     "next": "14.2.5",
-    "next-redux-wrapper": "^8.1.0",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-redux": "^9.1.2"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@it-incubator/prettier-config": "^0.1.2",
