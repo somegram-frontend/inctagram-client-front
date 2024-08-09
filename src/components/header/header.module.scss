@@ -1,0 +1,53 @@
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  place-content: center space-between;
+  align-items: center;
+
+  width: 100%;
+  max-width: 1280px;
+  height: 60px;
+  padding: 20px;
+
+  background: var(--color-dark-700);
+  border-top: 1px solid var(--color-dark-300);
+}
+
+.logo {
+  font-family: var(--font-family-primary), sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 138%;
+  color: var(--color-light-100);
+}
+
+.register {
+  display: flex;
+  gap: 35px;
+}
+
+.select {
+  width: 165px;
+}
+
+.flagContainer {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.buttons {
+  display: flex;
+  gap: 25px;
+}
+
+.bell {
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+
+  height: 40px;
+
+  color: var(--color-light-100);
+}
