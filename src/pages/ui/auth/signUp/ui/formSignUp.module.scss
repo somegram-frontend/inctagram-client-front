@@ -26,15 +26,13 @@
   flex-grow: 1;
   justify-content: space-between;
 
-  width: 100%;
-
-  text-align: flex-start;
-
   & .input {
-    width: 100%;
-    min-width: 348px;
-    max-width: 348px;
+    min-width: 324px;
   }
+}
+
+.containerInput button {
+  right: -30px;
 }
 
 .containerCheckbox {

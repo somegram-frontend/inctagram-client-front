@@ -46,7 +46,7 @@ const loginSchema = z
             'Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.',
         }
       )
-      .max(30, { message: 'The field must not contain more than 30 characters' }),
+      .max(20, { message: 'The field must not contain more than 20 characters' }),
     confirmPassword: z.string(),
     isAgree: z.boolean().refine(val => val === true, { message: 'The checkbox must be checked' }),
   })
@@ -96,19 +96,28 @@ export const FormSignUp = ({ onSubmit }: Props) => {
             label={'Username'}
             name={'username'}
             trigger={trigger}
+            className={s.input}
           />
-          <ControlledInput control={control} label={'Email'} name={'email'} trigger={trigger} />
+          <ControlledInput
+            control={control}
+            label={'Email'}
+            name={'email'}
+            trigger={trigger}
+            className={s.input}
+          />
           <ControlledInput
             control={control}
             label={'Password'}
             name={'password'}
             trigger={trigger}
+            className={s.input}
           />
           <ControlledInput
             control={control}
             label={'Password confirmation'}
             name={'confirmPassword'}
             trigger={trigger}
+            className={s.input}
           />
         </div>
         <div className={s.containerCheckbox}>

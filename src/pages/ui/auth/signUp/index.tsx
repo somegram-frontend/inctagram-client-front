@@ -4,7 +4,9 @@ import { FormSignUp, SignUpForm } from './ui/FormSignUp'
 const SignUp = () => {
   const router = useRouter()
   const onSubmitSignUp = (formData: SignUpForm) => {
-    router.push('/email-sent')
+    const email = formData.email
+
+    router.push(`/ui/auth/signUp/email-sent?email=${encodeURIComponent(email)}`)
   }
 
   return <FormSignUp onSubmit={onSubmitSignUp} />
