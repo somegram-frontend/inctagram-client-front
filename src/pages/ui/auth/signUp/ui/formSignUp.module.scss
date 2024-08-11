@@ -4,7 +4,8 @@
 
   width: 100%;
   max-width: 378px;
-  height: 648px;
+  height: 100%;
+  min-height: 648px;
   margin: 24px auto;
   padding: 35px 25px;
 }
@@ -16,46 +17,42 @@
 
   width: 100%;
   max-width: 348px;
-  margin: 28px 0 20px;
-
-  & button {
-    box-sizing: border-box;
-    background-color: var(--color-info-500);
-  }
+  margin: 10px 0;
 }
 
 .containerInput {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
-  width: 100%;
-  text-align: center;
-}
+  justify-content: space-between;
 
-.input {
   width: 100%;
-  min-width: 348px;
-  max-width: 348px;
+
+  text-align: flex-start;
+
+  & .input {
+    width: 100%;
+    min-width: 348px;
+    max-width: 348px;
+  }
 }
 
 .containerCheckbox {
   display: flex;
+  gap: 10px;
   align-items: center;
-  justify-content: space-between;
-  margin: 12px 0;
+  margin-top: 20px;
+}
 
-  & a:visited {
-    color: var(--color-info-500);
-  }
+.err {
+  margin-bottom: 20px;
 }
 
 .registration {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   color: var(--color-light-900);
-  text-align: center;
-}
-
-.card .signIn {
-  margin: 0 auto;
-  color: var(--color-info-500);
-  text-decoration: none;
 }
 
 .title {
@@ -68,11 +65,8 @@
   gap: 30%;
   justify-content: center;
   padding: 10px;
-}
 
-@media (width <= 576px) {
-  .input {
-    width: 100%;
-    min-width: 100%;
+  & svg {
+    transform: scale(1.5);
   }
 }
