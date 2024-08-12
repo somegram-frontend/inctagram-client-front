@@ -6,7 +6,7 @@ const SignUp = () => {
   const onSubmitSignUp = (formData: SignUpForm) => {
     const email = formData.email
 
-    router.push(`/ui/auth/signUp/emailSent?email=${encodeURIComponent(email)}`)
+    router.push(`/ui/auth/signUp/ui/emailSent?email=${encodeURIComponent(email)}`)
   }
 
   return <FormSignUp onSubmit={onSubmitSignUp} />
