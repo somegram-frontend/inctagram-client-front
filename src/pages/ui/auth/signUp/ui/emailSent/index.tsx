@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { Button, Cards, Close, Typography } from '@honor-ui/inctagram-ui-kit'
 import '@honor-ui/inctagram-ui-kit/css'
-import s from './email-sent.module.scss'
+import s from './emailSent.module.scss'
 
 const EmailSent = () => {
   const router = useRouter()

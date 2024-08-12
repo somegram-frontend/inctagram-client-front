@@ -22,7 +22,7 @@ export const ControlledInput = <T extends FieldValues>({
   ...rest
 }: Props<T>) => {
   const {
-    field: { onBlur, onChange, value },
+    field: { onChange, value },
   } = useController({
     control,
     name,
