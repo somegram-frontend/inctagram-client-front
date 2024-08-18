@@ -24,3 +24,37 @@ export type loginArgs = {
   email: string
   password: string
 }
+
+export type registrationErrorResponse400 = {
+  error: string
+  message: string
+  details: {
+    email: string
+    username: string
+  }
+}
+
+export type registrationErrorResponse422 = {
+  statusCode: number
+  message: string
+  errors: [
+    {
+      property: string
+      constraints: {
+        IsUsername: string
+      }
+    },
+    {
+      property: string
+      constraints: {
+        isEmail: string
+      }
+    },
+    {
+      property: symbol
+      constraints: {
+        length: string
+      }
+    },
+  ]
+}

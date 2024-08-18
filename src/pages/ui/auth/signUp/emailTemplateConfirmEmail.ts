@@ -1,7 +1,7 @@
 //Шаблон письма подтверждения email
 
-const appDeploy = `http://localhost:3000/confirm-email/##token##` //TODO  change to deploy-app-path, when finish develop
-// const appDeploy = `https:// ... .app/confirm-email##token##`
+const appDeploy = `http://localhost:3000/ui/auth/signUp/ui/emailConfirm/##token##` //TODO  change to deploy-app-path, when finish develop
+// const appDeploy = `https:// ... .app/ui/auth/signUp/ui/emailConfirm/##token##`
 
 export const emailTemplateConfirmEmail = `
 <!DOCTYPE html >
@@ -11,7 +11,7 @@ export const emailTemplateConfirmEmail = `
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <title>Письмо</title>
     </head>
-    <body class="body" style="width:100%;height:100%;padding:0;Margin:5px">
+    <body class="body" style="width:100%;height:100%;padding:0;Margin:0">
         <div>
             <table style="border-collapse:collapse;border-spacing:0;max-width:600px;width:100%;margin: 0 auto;">
                 <tr>
@@ -22,17 +22,18 @@ export const emailTemplateConfirmEmail = `
                             <h2 style='margin: 0'>Hi, ##name##.</h2>
                             Please confirm your email by clicking on the button below:
                         </p>
-                        <br/>
                         <a href="${appDeploy}" style="text-decoration:none;color:#ffffff;background-color:#382766;display:block;margin-top: 20px;border-radius:10px;padding:10px 0;text-align:center">
                             Confirm your email
                         </a>
+                        <br/>
                         <p>
                             If it doesn't work, copy and paste the following link in your browser:
                             <br/><a href="${appDeploy}">${appDeploy}</a>
                         </p>
-                        <h3 style="color:#cc1439;text-align:center;margin-bottom: 0">
+                        <br/>
+                        <h4 style="color:#cc1439;text-align:center;margin-bottom: 0">
                             If you didn't request this message just ignore it.
-                        </h3>
+                        </h4>
                     </td>
                 </tr>
             </table>

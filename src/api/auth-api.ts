@@ -3,6 +3,7 @@ import {
   loginArgs,
   registrationArgs,
   registrationConformationArgs,
+  registrationErrorResponse422,
   restorePasswordArgs,
   restorePasswordConfirmationArgs,
 } from '@/api/auth-api.types'
