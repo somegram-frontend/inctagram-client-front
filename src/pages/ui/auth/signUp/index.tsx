@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { FormSignUp, SignUpForm } from './ui/formSingUp/FormSignUp'
+import { FormSignUp, SignUpForm } from './formSingUp/FormSignUp'
 import { useRegistrationMutation } from '@/api/auth-api'
 import { emailTemplateConfirmEmail } from './emailTemplateConfirmEmail'
 import { registrationArgs, registrationErrorResponse422 } from '@/api/auth-api.types'
@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 const SignUp = () => {
   const router = useRouter()
   const [signUp, signUpResult] = useRegistrationMutation()
-  let email: string = ''
+  let email: string
   const onSubmitSignUp = (formData: SignUpForm) => {
     email = formData.email
     const signUpData: registrationArgs = {
@@ -19,7 +19,7 @@ const SignUp = () => {
     }
     signUp(signUpData)
   }
-  // TODO
+
   if (signUpResult.isLoading) return <h2>...Loading</h2> // TODO use Preloader
 
   if (signUpResult.error) {
@@ -33,7 +33,10 @@ const SignUp = () => {
 
   if (signUpResult.isSuccess) {
     toast.success('Registration completed successfully.\nCheck your email')
-    router.push(`/ui/auth/signUp/ui/emailSent?email=${encodeURIComponent(email)}`)
+    signUpResult.originalArgs &&
+      router.push(
+        `/ui/auth/signUp/emailSent?email=${encodeURIComponent(signUpResult.originalArgs.email)}`
+      )
   }
 
   return <FormSignUp onSubmit={onSubmitSignUp} />

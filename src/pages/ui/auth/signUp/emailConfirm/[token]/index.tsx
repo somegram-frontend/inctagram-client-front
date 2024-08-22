@@ -9,11 +9,11 @@ import { useParams } from 'next/navigation'
 const EmailConfirm = () => {
   const router = useRouter()
   const param = useParams()
-  if (param && param.id) {
-    if (Array.isArray(param.id)) {
+  if (param && param.token) {
+    if (Array.isArray(param.token)) {
       return
     } else {
-      param.id && localStorage.setItem('token', param.id)
+      param.token && localStorage.setItem('token', param.token)
     }
   }
   const onClickHandler = () => {

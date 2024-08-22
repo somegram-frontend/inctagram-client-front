@@ -6,7 +6,7 @@ import s from './emailSent.module.scss'
 const EmailSent = () => {
   const router = useRouter()
   const { email } = router.query
-
+  console.log(email)
   const onClickHandler = () => {
     router.push('/ui/auth/signUp')
   }
