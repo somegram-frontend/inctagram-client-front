@@ -1,0 +1,13 @@
+.privacy {
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+  align-items: center;
+
+  max-width: 1280px;
+  margin: 5vh auto;
+
+  & .link {
+    align-self: flex-start;
+  }
+}
