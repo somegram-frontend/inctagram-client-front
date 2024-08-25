@@ -93,5 +93,10 @@ export const authApi = baseApi.injectEndpoints({
   },
 })
 
-export const { useGoogleQuery, useGoogleCallbackQuery, useGithubQuery, useRegistrationMutation } =
-  authApi
+export const {
+  useGoogleQuery,
+  useGoogleCallbackQuery,
+  useGithubQuery,
+  useRegistrationMutation,
+  useLogoutMutation,
+} = authApi

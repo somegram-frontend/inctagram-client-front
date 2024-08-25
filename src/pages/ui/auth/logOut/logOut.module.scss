@@ -1,0 +1,39 @@
+.main {
+  width: 100%;
+  padding: 30px 24px 36px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 18px;
+}
+
+.text {
+  display: inline-block;
+  padding-bottom: 42px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+
+  & .button {
+    padding: 6px 34px;
+    border: 1px solid var(--color-accent-500);
+  }
+
+  & button:not(:last-child) {
+    margin-right: 24px;
+  }
+}
+
+.closeIcon {
+  cursor: pointer;
+}
