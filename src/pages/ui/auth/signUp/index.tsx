@@ -33,10 +33,8 @@ const SignUp = () => {
 
   if (signUpResult.isSuccess) {
     toast.success('Registration completed successfully.\nCheck your email')
-    signUpResult.originalArgs &&
-      router.push(
-        `/ui/auth/signUp/emailSent?email=${encodeURIComponent(signUpResult.originalArgs.email)}`
-      )
+    const email = signUpResult.originalArgs?.email || ''
+    router.push(`/ui/auth/signUp/emailSent?email=${encodeURIComponent(email)}`)
   }
 
   return <FormSignUp onSubmit={onSubmitSignUp} />

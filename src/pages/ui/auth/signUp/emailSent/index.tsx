@@ -22,6 +22,12 @@ const EmailSent = () => {
       <Typography as="p" variant="regular_text16" className={s.text}>
         We have sent a link to confirm your email to {email}
       </Typography>
+      <Typography as="p" variant="regular_text16" className={s.text}>
+        If you have not received the letter, check your SPAM folder in your mail.
+      </Typography>
+      <Typography as="p" variant="regular_text16" className={s.text}>
+        If there is no letter there, then repeat the registration.
+      </Typography>
       <Button onClick={onClickHandler} className={s.button}>
         OK
       </Button>
