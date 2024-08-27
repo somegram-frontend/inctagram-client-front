@@ -1,17 +1,25 @@
 import { useLogoutMutation } from '@/api/auth-api'
 import { useRouter } from 'next/router'
-import { Button, Cards, CloseOutline, Typography } from '@honor-ui/inctagram-ui-kit'
-import { MouseEvent } from 'react'
+import { Button, LogOut as LogOutIcon } from '@honor-ui/inctagram-ui-kit'
 import s from './logOut.module.scss'
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from '@/components/dialog/Dialog'
-import { LogOut as LogOutIcon } from '@honor-ui/inctagram-ui-kit'
 
-const LogOut = () => {
+type Props = {
+  email: string
+}
+
+const LogOut = ({ email }: Props) => {
   const router = useRouter()
   const [logout] = useLogoutMutation()
 
-  const onClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
-    router.push('/ui/auth/signIn')
+  const onClickHandler = async () => {
+    try {
+      await logout().unwrap()
+      router.push('ui/auth/signIn')
+    } catch (error) {
+      // TODO add error handler
+      console.log(error)
+    }
   }
 
   return (
@@ -21,9 +29,7 @@ const LogOut = () => {
       </DialogTrigger>
       <DialogContent title={'Log Out'}>
         <div className={s.main}>
-          <span className={s.text}>
-            Are you really want to log out of your account ___email name___?
-          </span>
+          <span className={s.text}>Are you really want to log out of your account {email}?</span>
           <div className={s.buttonContainer}>
             <Button onClick={onClickHandler} variant={'outlined'} className={s.button}>
               Yes

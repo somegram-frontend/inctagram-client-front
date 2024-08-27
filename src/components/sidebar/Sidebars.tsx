@@ -4,14 +4,13 @@ import { Typography } from '@honor-ui/inctagram-ui-kit'
 import {
   BookmarkOutline,
   HomeOutline,
-  LogOut as LogOutIcon,
   MessageCircleOutline,
   PersonOutline,
   PlusSquareOutline,
   Search,
   TrendingUp,
 } from '@honor-ui/inctagram-ui-kit'
-import Link from 'next/link'
+
 import LogOut from '@/pages/ui/auth/logOut'
 
 export const Sidebars = () => {
@@ -43,12 +42,10 @@ export const Sidebars = () => {
           </Typography>
           <ul></ul>
           <ul></ul>
-          {/*<Link href="/ui/auth/logOut">*/}
           <Typography as={'li'} variant={'medium_text14'}>
-            {/*<LogOutIcon /> Log Out*/}
-            <LogOut />
+            {/*TODO add props email*/}
+            <LogOut email={'email'} />
           </Typography>
-          {/*</Link>*/}
         </ul>
       </div>
     </div>
