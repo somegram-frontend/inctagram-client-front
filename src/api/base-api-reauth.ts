@@ -40,7 +40,7 @@ export const baseQueryWithReauth: BaseQueryFn<
           // retry the initial query
           result = await baseQuery(args, api, extraOptions)
         } else {
-          Router.push('auth/login')
+          Router.push('ui/auth/signIn')
         }
       } finally {
         // release must be called once the mutex should be released again.
