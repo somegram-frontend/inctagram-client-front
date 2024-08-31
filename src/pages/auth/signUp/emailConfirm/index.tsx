@@ -37,21 +37,18 @@ const EmailConfirm = () => {
       }
     }
   }
-  ;(isErrorConformation || isErrorReconformation) && toast.error('Registration failed')
+
   isSuccessConformation && toast.success('Registration completed successfully.')
-  isSuccessReconformation &&
-    toast.success('We have sent a link to confirm registration to your email.')
+  ;(isErrorConformation || isErrorReconformation) && toast.error('Registration failed')
+  isSuccessReconformation && toast.success('Registration completed successfully.\nCheck your email')
 
   const signInHandler = () => {
     conformation({ token })
-    router.push('/auth/signIn')
+    isSuccessConformation && router.push('/auth/signIn')
   }
   const expiredLinkHandler = () => {
     reconformation({ html: emailTemplateConfirmEmail, token })
-    isErrorReconformation &&
-      setTimeout(() => {
-        router.push('/auth/signUp')
-      }, 10000)
+    isSuccessReconformation && router.push('/auth/signUp/emailSent')
   }
   return (
     <>
