@@ -1,7 +1,7 @@
 //Шаблон письма подтверждения email
 
-const appDeploy = `http://localhost:3000/ui/auth/signUp/emailConfirm/##token##` //TODO  change to deploy-app-path, when finish develop
-// const appDeploy = `https:// ... .app/ui/auth/signUp/emailConfirm/##token##`
+const appDeploy = `http://localhost:3000/auth/signUp/emailConfirm?token=##token##&expiredAt=##expiredAt##` //TODO  change to deploy-app-path, when finish develop
+// const appDeploy = `https:// ... .app/auth/signUp/emailConfirm?token=##token##&expiredAt=##expiredAt##`
 
 export const emailTemplateConfirmEmail = `
 <!DOCTYPE html >
@@ -28,7 +28,7 @@ export const emailTemplateConfirmEmail = `
                         <br/>
                         <p>
                             If it doesn't work, copy and paste the following link in your browser:
-                            <br/><a href="${appDeploy} style="font-size:12px">${appDeploy}</a>
+                            <br/><a href="${appDeploy}" style="font-size:12px">${appDeploy}</a>
                         </p>
                         <br/>
                         <h4 style="color:#cc1439;text-align:center;margin-bottom: 0">

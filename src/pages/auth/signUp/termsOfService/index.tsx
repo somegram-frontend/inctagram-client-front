@@ -9,7 +9,7 @@ const PrivacyPolicy = () => {
   const router = useRouter()
   return (
     <Cards className={s.privacy}>
-      <Typography as={Link} href={'/ui/auth/signUp'} variant={'regular_link'} className={s.link}>
+      <Typography as={Link} href={'/auth/signUp'} variant={'regular_link'} className={s.link}>
         Back to Sign Up {/*TODO add backArrow icon*/}
       </Typography>
       <Typography as={'h1'} variant={'h1'}>

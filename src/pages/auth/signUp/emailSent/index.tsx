@@ -6,9 +6,9 @@ import s from './emailSent.module.scss'
 const EmailSent = () => {
   const router = useRouter()
   const { email } = router.query
-  console.log(email)
+
   const onClickHandler = () => {
-    router.push('/ui/auth/signUp')
+    router.push('/auth/signUp')
   }
 
   return (
@@ -20,12 +20,18 @@ const EmailSent = () => {
         <Close onClick={onClickHandler} />
       </div>
       <Typography as="p" variant="regular_text16" className={s.text}>
-        We have sent a link to confirm your email to {email}
+        {!!email
+          ? `We have sent a link to confirm your email to ${email}`
+          : 'We have sent a link to confirm registration to your email'}
       </Typography>
       <Typography as="p" variant="regular_text16" className={s.text}>
+        The link is valid for 5 minutes. If you don&apos;t have time to use it, we will send you
+        another one.
+      </Typography>
+      <Typography as="p" variant="small_text" className={s.text}>
         If you have not received the letter, check your SPAM folder in your mail.
       </Typography>
-      <Typography as="p" variant="regular_text16" className={s.text}>
+      <Typography as="p" variant="small_text" className={s.text}>
         If there is no letter there, then repeat the registration.
       </Typography>
       <Button onClick={onClickHandler} className={s.button}>
