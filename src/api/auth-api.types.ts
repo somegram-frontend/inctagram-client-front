@@ -58,3 +58,12 @@ export type registrationErrorResponse422 = {
     },
   ]
 }
+
+export type loginResponse = {
+  accessToken: string
+}
+
+export enum EnumTokens {
+  'ACCESS_TOKEN' = 'accessToken',
+  'REFRESH_TOKEN' = 'refreshToken',
+}

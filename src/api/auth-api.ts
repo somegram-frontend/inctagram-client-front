@@ -1,6 +1,7 @@
 import { baseApi } from '@/api/base-api'
 import {
   loginArgs,
+  loginResponse,
   registrationArgs,
   registrationConformationArgs,
   registrationErrorResponse422,
@@ -56,7 +57,7 @@ export const authApi = baseApi.injectEndpoints({
           }
         },
       }),
-      login: builder.mutation<any, loginArgs>({
+      login: builder.mutation<loginResponse, loginArgs>({
         query: body => {
           return {
             url: 'v1/auth/login',
@@ -97,6 +98,7 @@ export const {
   useGoogleQuery,
   useGoogleCallbackQuery,
   useGithubQuery,
+  useLoginMutation,
   useRegistrationMutation,
   useLogoutMutation,
 } = authApi
