@@ -26,11 +26,11 @@ const loginSchema = z
   .object({
     username: z
       .string()
+      .regex(/^[0-9A-Za-z_-]+$/, {
+        message: 'Username must contain only latin letters, numbers, underscores, or hyphens.',
+      })
       .min(1, { message: 'This field has to be filled.' })
       .min(6, { message: 'Username must be at least 6 characters' })
-      .regex(/^[0-9A-Za-z_-]+$/, {
-        message: 'Username must contain only letters, numbers, underscores, or hyphens.',
-      })
       .max(30, { message: 'The field must not contain more than 30 characters' }),
     email: z
       .string()
@@ -43,7 +43,7 @@ const loginSchema = z
         /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~])[0-9A-Za-z!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]+$/,
         {
           message:
-            'Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.',
+            'Password must include at least one uppercase latin letter, one lowercase latin letter, one number, and one special character.',
         }
       )
       .max(20, { message: 'The field must not contain more than 20 characters' }),
@@ -124,11 +124,11 @@ export const FormSignUp = ({ onSubmit }: Props) => {
           <ControlledCheckbox control={control} label={''} name={'isAgree'} trigger={trigger} />
           <Typography as={'span'} variant={'small_text'}>
             I agree to the{' '}
-            <Typography as={Link} href={'/ui/auth/signUp/termsOfService'} variant={'small_link'}>
+            <Typography as={Link} href={'/auth/signUp/termsOfService'} variant={'small_link'}>
               Terms of Service
             </Typography>
             {' and '}
-            <Typography as={Link} href={'/ui/auth/signUp/privacyPolicy'} variant={'small_link'}>
+            <Typography as={Link} href={'/auth/signUp/privacyPolicy'} variant={'small_link'}>
               Privacy Policy
             </Typography>
           </Typography>
@@ -144,7 +144,7 @@ export const FormSignUp = ({ onSubmit }: Props) => {
       </form>
       <Typography as={'h2'} className={s.registration} variant={'medium_text14'}>
         Do you have an account?
-        <Typography as={Link} href={'/ui/auth/signIn'} variant={'regular_link'}>
+        <Typography as={Link} href={'/auth/signIn'} variant={'regular_link'}>
           Sign In
         </Typography>
       </Typography>

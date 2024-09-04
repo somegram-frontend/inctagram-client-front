@@ -1,3 +1,4 @@
+'use client'
 import { useLogoutMutation } from '@/api/auth-api'
 import { useRouter } from 'next/router'
 import { Button, LogOut as LogOutIcon } from '@honor-ui/inctagram-ui-kit'
@@ -15,7 +16,7 @@ const LogOut = ({ email }: Props) => {
   const onClickHandler = async () => {
     try {
       await logout().unwrap()
-      router.push('ui/auth/signIn')
+      router.push('auth/signIn')
     } catch (error) {
       // TODO add error handler
       console.log(error)
