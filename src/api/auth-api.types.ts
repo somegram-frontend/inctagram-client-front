@@ -65,6 +65,15 @@ export type RegistrationErrorResponse422 = {
   ]
 }
 
+export type loginResponse = {
+  accessToken: string
+}
+
+export enum EnumTokens {
+  'ACCESS_TOKEN' = 'accessToken',
+  'REFRESH_TOKEN' = 'refreshToken',
+}
+
 export type ConfirmationErrorResponse400 = {
   error: string
   message: string
