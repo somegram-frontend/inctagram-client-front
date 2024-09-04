@@ -27,7 +27,7 @@ export const emailTemplateForgotPassword = `
                         </a>
                         <p>
                             If it doesn't work, copy and paste the following link in your browser:
-                            <br/><a href="${appDeploy}">${appDeploy}</a>
+                            <br/><br/><a href="${appDeploy}" style="font-size:12px">${appDeploy}</a>
                         </p>
                         <h3 style="color:#cc1439;text-align:center;margin-bottom: 0">
                             If you didn't request this message just ignore it.

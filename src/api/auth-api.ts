@@ -1,9 +1,11 @@
 import { baseApi } from '@/api/base-api'
 import {
+  ConfirmationResponse,
   loginArgs,
-  registrationArgs,
-  registrationConformationArgs,
-  registrationErrorResponse422,
+  RegistrationReconfirmationArgs,
+  RegistrationConformationArgs,
+  RegistrationResponse,
+  RegistrationArgs,
   restorePasswordArgs,
   restorePasswordConfirmationArgs,
 } from '@/api/auth-api.types'
@@ -11,7 +13,7 @@ import {
 export const authApi = baseApi.injectEndpoints({
   endpoints: builder => {
     return {
-      registration: builder.mutation<any, registrationArgs>({
+      registration: builder.mutation<RegistrationResponse, RegistrationArgs>({
         query: body => {
           return {
             url: 'v1/auth/registration',
@@ -20,10 +22,19 @@ export const authApi = baseApi.injectEndpoints({
           }
         },
       }),
-      registrationConformation: builder.mutation<any, registrationConformationArgs>({
+      conformation: builder.mutation<ConfirmationResponse, RegistrationConformationArgs>({
         query: body => {
           return {
             url: 'v1/auth/registration-confirmation',
+            method: 'POST',
+            body,
+          }
+        },
+      }),
+      reconformation: builder.mutation<any, RegistrationReconfirmationArgs>({
+        query: body => {
+          return {
+            url: 'v1/auth/registration-reconfirmation',
             method: 'POST',
             body,
           }
@@ -98,5 +109,7 @@ export const {
   useGoogleCallbackQuery,
   useGithubQuery,
   useRegistrationMutation,
+  useConformationMutation,
+  useReconformationMutation,
   useLogoutMutation,
 } = authApi

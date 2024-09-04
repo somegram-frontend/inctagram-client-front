@@ -11,7 +11,7 @@ import {
   TrendingUp,
 } from '@honor-ui/inctagram-ui-kit'
 
-import LogOut from '@/pages/ui/auth/logOut'
+import LogOut from '@/pages/auth/logOut'
 
 export const Sidebars = () => {
   return (
