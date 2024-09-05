@@ -57,14 +57,3 @@
   align-self: center;
   margin: 10px 0;
 }
-
-.iconsBlock {
-  display: flex;
-  gap: 30%;
-  justify-content: center;
-  padding: 10px;
-
-  & svg {
-    transform: scale(1.5);
-  }
-}
