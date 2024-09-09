@@ -11,10 +11,17 @@ export const DialogContent = forwardRef<ElementRef<typeof DialogPrimitive.Conten
   ({ children, title, ...props }: Props, ref) => (
     <DialogPrimitive.Portal>
       <DialogPrimitive.Overlay className={s.overlay} />
-      <DialogPrimitive.Content {...props} ref={ref} className={s.dialogContent}>
+      <DialogPrimitive.Content
+        {...props}
+        ref={ref}
+        className={s.dialogContent}
+        aria-describedby={undefined}
+      >
         {title && (
           <div className={s.header}>
-            <Typography variant={'h1'}>{title}</Typography>
+            <DialogPrimitive.Title>
+              <Typography variant={'h1'}>{title}</Typography>
+            </DialogPrimitive.Title>
             <DialogPrimitive.Close aria-label="Close">
               <CloseOutline className={s.iconButton} />
             </DialogPrimitive.Close>

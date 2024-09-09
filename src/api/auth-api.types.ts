@@ -17,12 +17,12 @@ export type restorePasswordArgs = {
   html: string
 }
 
-export type restorePasswordConfirmationArgs = {
+export type RestorePasswordConfirmationArgs = {
   code: string
   password: string
 }
 
-export type loginArgs = {
+export type LoginArgs = {
   email: string
   password: string
 }
@@ -65,7 +65,7 @@ export type RegistrationErrorResponse422 = {
   ]
 }
 
-export type loginResponse = {
+export type LoginResponse = {
   accessToken: string
 }
 

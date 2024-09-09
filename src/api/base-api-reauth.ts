@@ -22,6 +22,7 @@ export const baseQueryWithReauth: BaseQueryFn<
   // wait until the mutex is available without locking it
   await mutex.waitForUnlock()
   let result = await baseQuery(args, api, extraOptions)
+  console.log(result)
   if (result.error && result.error.status === 401) {
     // checking whether the mutex is locked
     if (!mutex.isLocked()) {
@@ -41,7 +42,7 @@ export const baseQueryWithReauth: BaseQueryFn<
           // retry the initial query
           result = await baseQuery(args, api, extraOptions)
         } else {
-          Router.push('auth/signIn')
+          Router.push('/auth/signIn')
         }
       } finally {
         // release must be called once the mutex should be released again.

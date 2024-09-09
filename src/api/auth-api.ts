@@ -1,17 +1,14 @@
 import { baseApi } from '@/api/base-api'
 import {
   ConfirmationResponse,
-  loginArgs,
-  loginResponse,
-  registrationArgs,
-  registrationConformationArgs,
-  registrationErrorResponse422,
+  LoginArgs,
+  LoginResponse,
   RegistrationReconfirmationArgs,
   RegistrationConformationArgs,
   RegistrationResponse,
   RegistrationArgs,
   restorePasswordArgs,
-  restorePasswordConfirmationArgs,
+  RestorePasswordConfirmationArgs,
 } from '@/api/auth-api.types'
 
 export const authApi = baseApi.injectEndpoints({
@@ -62,7 +59,7 @@ export const authApi = baseApi.injectEndpoints({
           }
         },
       }),
-      restorePasswordConfirmation: builder.mutation<any, restorePasswordConfirmationArgs>({
+      restorePasswordConfirmation: builder.mutation<any, RestorePasswordConfirmationArgs>({
         query: body => {
           return {
             url: 'v1/auth/restore-password-confirmation',
@@ -71,30 +68,30 @@ export const authApi = baseApi.injectEndpoints({
           }
         },
       }),
-      login: builder.mutation<loginResponse, loginArgs>({
+      login: builder.mutation<LoginResponse, LoginArgs>({
         query: body => {
           return {
             url: 'v1/auth/login',
             method: 'POST',
             body,
+            credentials: 'include',
           }
         },
       }),
-      logout: builder.mutation<any, void>({
-        query: body => {
+      logout: builder.mutation<void, void>({
+        query: () => {
           return {
             url: 'v1/auth/logout',
             method: 'POST',
-            body,
+            credentials: 'include',
           }
         },
       }),
-      refreshToken: builder.mutation<any, void>({
-        query: body => {
+      refreshToken: builder.mutation<void, void>({
+        query: () => {
           return {
             url: 'v1/auth/refresh-token',
             method: 'POST',
-            body,
           }
         },
       }),

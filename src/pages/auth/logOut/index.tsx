@@ -13,19 +13,24 @@ const LogOut = ({ email }: Props) => {
   const router = useRouter()
   const [logout] = useLogoutMutation()
 
-  const onClickHandler = async () => {
-    try {
-      await logout().unwrap()
-      router.push('auth/signIn')
-    } catch (error) {
-      // TODO add error handler
-      console.log(error)
-    }
+  // const onClickHandler = async () => {
+  //   try {
+  //     await logout().unwrap()
+  //     void router.push('/auth/signIn')
+  //   } catch (error) {
+  //     // TODO add error handler
+  //     console.log(error)
+  //   }
+  // }
+
+  const onClickHandler = () => {
+    logout().unwrap()
+    void router.push('/auth/signIn')
   }
 
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger className={s.triggerButton}>
         <LogOutIcon /> Log Out
       </DialogTrigger>
       <DialogContent title={'Log Out'}>

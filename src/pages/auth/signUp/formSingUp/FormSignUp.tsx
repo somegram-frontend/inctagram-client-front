@@ -17,6 +17,7 @@ import { isValid, z } from 'zod'
 import s from './formSignUp.module.scss'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
 import { ControlledCheckbox } from '@/components/controlled/ControlledCheckbox'
+import { PASSWORD_PATTERN, USERNAME_PATTERN } from '@/shared/const/regex'
 
 type Props = {
   onSubmit: (data: SignUpForm) => void
@@ -26,7 +27,7 @@ const loginSchema = z
   .object({
     username: z
       .string()
-      .regex(/^[0-9A-Za-z_-]+$/, {
+      .regex(USERNAME_PATTERN, {
         message: 'Username must contain only latin letters, numbers, underscores, or hyphens.',
       })
       .min(1, { message: 'This field has to be filled.' })
@@ -39,13 +40,10 @@ const loginSchema = z
     password: z
       .string()
       .min(6, { message: 'Password must be at least 6 characters' })
-      .regex(
-        /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~])[0-9A-Za-z!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]+$/,
-        {
-          message:
-            'Password must include at least one uppercase latin letter, one lowercase latin letter, one number, and one special character.',
-        }
-      )
+      .regex(PASSWORD_PATTERN, {
+        message:
+          'Password must include at least one uppercase latin letter, one lowercase latin letter, one number, and one special character.',
+      })
       .max(20, { message: 'The field must not contain more than 20 characters' }),
     confirmPassword: z.string(),
     isAgree: z.boolean().refine(val => val === true, { message: 'The checkbox must be checked' }),

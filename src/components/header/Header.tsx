@@ -30,8 +30,11 @@ export const Header = ({ isAuth }: HeaderProps) => {
 
   return isAuth ? (
     <header className={s.header}>
-      <div className={s.logo}>Somegram</div>
-      <Link href="auth/signUp"> SignUp </Link>
+      <div className={s.logo}>
+        <Link href={'/auth/signIn'}>Somegram</Link>
+      </div>
+      {/*<div className={s.logo}>Somegram</div>*/}
+      {/*<Link href="auth/signUp"> SignUp </Link>*/}
       <div className={s.register}>
         <div className={s.bell}>{<OutlineBell />}</div>
         <Select
@@ -47,7 +50,10 @@ export const Header = ({ isAuth }: HeaderProps) => {
     </header>
   ) : (
     <header className={s.header}>
-      <div className={s.logo}>Somegram</div>
+      {/*<div className={s.logo}>Somegram</div>*/}
+      <div className={s.logo}>
+        <Link href={'/'}>Somegram</Link>
+      </div>
       <div className={s.register}>
         <Select
           className={s.select}
@@ -59,7 +65,13 @@ export const Header = ({ isAuth }: HeaderProps) => {
           }
         />
         <div className={s.buttons}>
-          <Button variant={'primary'}>Log In</Button> <Button variant={'primary'}>Sign up</Button>
+          {/*<Button variant={'primary'}>Log In</Button> <Button variant={'primary'}>Sign up</Button>*/}
+          <Link href="auth/signUp">
+            <Button variant={'primary'}>Sign up</Button>
+          </Link>
+          <Link href="auth/signIn">
+            <Button variant={'primary'}>Log In</Button>
+          </Link>
         </div>
       </div>
     </header>

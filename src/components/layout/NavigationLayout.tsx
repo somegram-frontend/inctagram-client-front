@@ -12,7 +12,7 @@ const NavigationLayout: NextPage<PropsWithChildren & navigationLayoutProps> = pr
   return (
     <>
       <Header isAuth={isAuth} />
-      {isAuth ? <Sidebars></Sidebars> : ''}
+      {isAuth ? <Sidebars /> : ''}
       {children}
     </>
   )
