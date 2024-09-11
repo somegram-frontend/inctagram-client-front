@@ -6,6 +6,7 @@ import { Header } from '@/components/header'
 
 const SignIn = () => {
   const router = useRouter()
+
   const [signIn, { isError, data, isSuccess, isLoading }] = useLoginMutation()
 
   if (isLoading) return <h2>...Loading</h2> // TODO use Preloader
@@ -13,6 +14,7 @@ const SignIn = () => {
   if (isSuccess && data.accessToken) {
     localStorage.setItem(EnumTokens.ACCESS_TOKEN, data.accessToken)
     // void router.push(`/`)
+
     void router.push(`/users/profile`)
   }
 

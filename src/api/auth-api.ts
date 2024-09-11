@@ -9,6 +9,7 @@ import {
   RegistrationArgs,
   restorePasswordArgs,
   RestorePasswordConfirmationArgs,
+  MeResponse,
 } from '@/api/auth-api.types'
 
 export const authApi = baseApi.injectEndpoints({
@@ -77,6 +78,7 @@ export const authApi = baseApi.injectEndpoints({
             credentials: 'include',
           }
         },
+        invalidatesTags: ['Me'],
       }),
       logout: builder.mutation<void, void>({
         query: () => {
@@ -101,6 +103,10 @@ export const authApi = baseApi.injectEndpoints({
       githubCallback: builder.query<any, void>({
         query: () => `v1/auth/github/callback`,
       }),
+      me: builder.query<MeResponse, void>({
+        query: () => '/v1/auth/me',
+        providesTags: ['Me'],
+      }),
     }
   },
 })
@@ -114,4 +120,5 @@ export const {
   useConformationMutation,
   useReconformationMutation,
   useLogoutMutation,
+  useMeQuery,
 } = authApi

@@ -78,6 +78,7 @@ export type ConfirmationErrorResponse400 = {
   error: string
   message: string
 }
+
 export type ConfirmationErrorResponse422 = {
   statusCode: number
   message: string
@@ -98,3 +99,16 @@ export type RegistrationResponse = RegistrationResponseSuccess &
 export type ConfirmationResponse = RegistrationResponseSuccess &
   ConfirmationErrorResponse400 &
   ConfirmationErrorResponse422
+
+export type MeResponseSuccess = {
+  email: string
+  userName: string
+  userId: string
+}
+
+export type MeErrorResponse401 = {
+  statusCode: number
+  message: string
+}
+
+export type MeResponse = MeResponseSuccess & MeErrorResponse401
