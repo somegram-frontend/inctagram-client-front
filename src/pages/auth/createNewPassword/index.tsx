@@ -40,14 +40,8 @@ const CreateNewPassword = () => {
 
   const [createNewPass, { isLoading }] = useRestorePasswordConfirmationMutation()
   const router = useRouter()
-  const [recoveryCode, setRecoveryCode] = useState<string>('')
-
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (hash) {
-      setRecoveryCode(hash.split('#')[1])
-    }
-  }, []);
+  const searchParams = useSearchParams();
+  const recoveryCode = decodeURIComponent(searchParams.get('code') ?? '').replace(/\s+/g, '+')
 
   console.log(recoveryCode)
 
