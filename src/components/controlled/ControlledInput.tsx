@@ -19,6 +19,7 @@ export const ControlledInput = <T extends FieldValues>({
   name,
   shouldUnregister,
   trigger,
+  errorMessage,
   ...rest
 }: Props<T>) => {
   const {
@@ -29,6 +30,8 @@ export const ControlledInput = <T extends FieldValues>({
     shouldUnregister,
   })
   const { errors } = useFormState({ control })
+  const error = (errors[name]?.message || errorMessage) as string
+
   return (
     <Input
       {...rest}
@@ -39,7 +42,7 @@ export const ControlledInput = <T extends FieldValues>({
       onBlur={() => trigger(name)}
       value={value}
       type={name.match(/password/i) ? 'password' : name === 'email' ? name : 'text'}
-      errorMessage={errors[name]?.message as string}
+      errorMessage={error}
     ></Input>
   )
 }

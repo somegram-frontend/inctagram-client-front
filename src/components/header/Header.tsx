@@ -1,6 +1,7 @@
 import s from './header.module.scss'
 import { Button, OutlineBell, Select } from '@honor-ui/inctagram-ui-kit'
 import { FlagRussia, FlagUnitedKingdom } from '@honor-ui/inctagram-ui-kit'
+import Link from 'next/link'
 
 type HeaderProps = {
   isAuth: boolean
@@ -30,6 +31,7 @@ export const Header = ({ isAuth }: HeaderProps) => {
   return isAuth ? (
     <header className={s.header}>
       <div className={s.logo}>Somegram</div>
+      <Link href="auth/signUp"> SignUp </Link>
       <div className={s.register}>
         <div className={s.bell}>{<OutlineBell />}</div>
         <Select

@@ -2,13 +2,14 @@ import { fetchBaseQuery, FetchBaseQueryMeta } from '@reduxjs/toolkit/query'
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { Mutex } from 'async-mutex'
 import Router from 'next/router'
+import { EnumTokens } from '@/api/auth-api.types'
 
 // create a new mutex
 const mutex = new Mutex()
 const baseQuery = fetchBaseQuery({
   baseUrl: 'https://somegram.online/api',
   prepareHeaders: headers => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem(EnumTokens.ACCESS_TOKEN)
     headers.set('Authorization', `Bearer ${token}`)
     return headers
   },
@@ -36,11 +37,11 @@ export const baseQueryWithReauth: BaseQueryFn<
           extraOptions
         )) as QueryReturnValue<UpdateAccessTokenResponse, FetchBaseQueryError, FetchBaseQueryMeta>
         if (refreshResult.data) {
-          localStorage.setItem('token', refreshResult.data.accessToken)
+          localStorage.setItem(EnumTokens.ACCESS_TOKEN, refreshResult.data.accessToken)
           // retry the initial query
           result = await baseQuery(args, api, extraOptions)
         } else {
-          Router.push('ui/auth/signIn')
+          Router.push('auth/signIn')
         }
       } finally {
         // release must be called once the mutex should be released again.
