@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useId } from 'react';
+import { useId, useState } from 'react';
 import { Button, Cards, Typography } from '@honor-ui/inctagram-ui-kit';
 import { ControlledInput } from '@/components/controlled/ControlledInput';
 import s from './formForgotPassword.module.scss'
@@ -25,7 +25,7 @@ const ForgotPasswordSchema = z
 export type FormForgotPasswordType = z.infer<typeof ForgotPasswordSchema>
 
 const FormForgotPassword = ({ onSubmit }: Props) => {
-    const { control, trigger, handleSubmit, setValue } = useForm<FormForgotPasswordType>({
+    const { control, trigger, handleSubmit, setValue, watch } = useForm<FormForgotPasswordType>({
         resolver: zodResolver(ForgotPasswordSchema),
         defaultValues: {
             email: '',
@@ -36,8 +36,14 @@ const FormForgotPassword = ({ onSubmit }: Props) => {
     const { data: siteKey, error, isLoading } = useRecaptchaSiteKeyQuery()
     const formId = useId()
 
+    const [isCheckboxChecked, setCheckboxChecked] = useState(false)
+    const emailValue = watch('email');
+
+    const isButtonDisabled = !isCheckboxChecked || !emailValue;
+
     const handleRecaptchaChange = (token: string | null) => {
-        setValue('recaptchaToken', token || '');
+        setValue('recaptchaToken', token || '')
+        setCheckboxChecked(true)
     };
 
     return (
@@ -55,7 +61,7 @@ const FormForgotPassword = ({ onSubmit }: Props) => {
                 <Typography as={'p'} variant={'regular_text14'} className={s.informTitle}>
                     Enter your email address and we will send you further instructions
                 </Typography>
-                <Button form={formId} fullWidth className={s.button}>Send Link</Button>
+                <Button form={formId} fullWidth className={s.button} disabled={isButtonDisabled}>Send Link</Button>
                 <Button variant={'borderless'} fullWidth className={s.button}>Back to Sign In</Button>
                 <div className={s.captcha}>
                     {siteKey ?
@@ -71,7 +77,5 @@ const FormForgotPassword = ({ onSubmit }: Props) => {
         </Cards>
     );
 };
-
-//6LdptRAqAAAAAIFDtiIPnl5QarAlPIr73oFD3sfB  мой рабочий токен
 
 export default FormForgotPassword;

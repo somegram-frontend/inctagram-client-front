@@ -72,7 +72,7 @@ export const FormSignIn = ({ onSubmit, errorMessage }: Props) => {
         <Typography
           className={s.forgotPasswordLink}
           as={Link}
-          href={'/ui/auth/forgotPassword'}
+          href={'/auth/forgotPassword'}
           variant={'regular_link'}
         >
           Forgot Password

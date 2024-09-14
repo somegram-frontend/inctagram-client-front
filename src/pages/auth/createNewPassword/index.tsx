@@ -4,6 +4,10 @@ import { ControlledInput } from "@/components/controlled/ControlledInput"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useRestorePasswordConfirmationMutation } from "@/api/auth-api"
+import { useRouter } from "next/router"
+import { useSearchParams } from "next/navigation"
+import { useEffect, useState } from "react"
 
 const createNewPasswordSchema = z
   .object({
@@ -34,12 +38,33 @@ const CreateNewPassword = () => {
     }
   })
 
+  const [createNewPass, { isLoading }] = useRestorePasswordConfirmationMutation()
+  const router = useRouter()
+  const [recoveryCode, setRecoveryCode] = useState<string>('')
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      setRecoveryCode(hash.split('#')[1])
+    }
+  }, []);
+
+  console.log(recoveryCode)
+
+  const onSubmit = (data: any) => {
+    createNewPass({ code: recoveryCode, password: data.newPassword })
+      .unwrap()
+      .then(() => {
+        router.push('/auth/signIn')
+      })
+  }
+
   return (
     <Cards className={s.card}>
       <Typography as={'h1'} className={s.title}>
         Create New Password
       </Typography>
-      <form className={s.form}>
+      <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={s.inputWrapper}>
           <ControlledInput
             control={control}
