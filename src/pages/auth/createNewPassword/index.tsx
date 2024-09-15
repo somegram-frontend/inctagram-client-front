@@ -1,5 +1,4 @@
 import { Button, Cards, Typography } from "@honor-ui/inctagram-ui-kit"
-import s from './createNewPassword.module.scss'
 import { ControlledInput } from "@/components/controlled/ControlledInput"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -7,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useRestorePasswordConfirmationMutation } from "@/api/auth-api"
 import { useRouter } from "next/router"
 import { useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import s from './createNewPassword.module.scss'
 
 const createNewPasswordSchema = z
   .object({
@@ -24,6 +23,10 @@ const createNewPasswordSchema = z
       .max(20, { message: 'The field must not contain more than 20 characters' }),
     confirmPassword: z.string(),
   })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: 'Passwords must match',
+    path: ['confirmPassword'],
+  });
 
 export type FormCreateNewPassword = z.infer<typeof createNewPasswordSchema>
 
@@ -43,14 +46,13 @@ const CreateNewPassword = () => {
   const searchParams = useSearchParams();
   const recoveryCode = decodeURIComponent(searchParams.get('code') ?? '').replace(/\s+/g, '+')
 
-  console.log(recoveryCode)
-
-  const onSubmit = (data: any) => {
-    createNewPass({ code: recoveryCode, password: data.newPassword })
-      .unwrap()
-      .then(() => {
-        router.push('/auth/signIn')
-      })
+  const onSubmit = async (data: FormCreateNewPassword) => {
+    try {
+      await createNewPass({ code: recoveryCode, password: data.newPassword }).unwrap()
+      router.push('/auth/signIn')
+    } catch (error) {
+      router.push('/auth/passwordRecovery')
+    }
   }
 
   return (

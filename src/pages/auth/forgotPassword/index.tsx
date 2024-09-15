@@ -10,18 +10,22 @@ import s from './forgotPassword.module.scss'
 
 const ForgotPassword = () => {
   const router = useRouter()
-  const [forgotPass, forgotPasswordResult] = useRestorePasswordMutation()
+  const [forgotPass, { isError }] = useRestorePasswordMutation()
   const [isModalOpen, setIsModalOpen] = useState(false)
-  let email: string
-  const onSubmitForgotPassword = (formData: FormForgotPasswordType) => {
+  let [email, setEmail] = useState("")
+
+  const onSubmitForgotPassword = async (formData: FormForgotPasswordType) => {
     email = formData.email
     const forgotPassword: restorePasswordArgs = {
       email: formData.email,
       recaptchaToken: formData.recaptchaToken,
       html: emailTemplateForgotPassword,
     }
-    forgotPass(forgotPassword)
-    setIsModalOpen(true)
+    setEmail(formData.email)
+    const result = await forgotPass(forgotPassword)
+    if (!result.error) {
+      setIsModalOpen(true)
+    }
   }
 
   const handleCloseModal = () => {
@@ -31,11 +35,13 @@ const ForgotPassword = () => {
 
   return (
     <>
-      <FormForgotPassword onSubmit={onSubmitForgotPassword} />
+      <FormForgotPassword
+        onSubmit={onSubmitForgotPassword}
+        errorMessage={isError ? 'User with this email doesn\'t exist' : ''} />
       <Dialog open={isModalOpen} onOpenChange={handleCloseModal}>
         <DialogContent title={'Email sent'}>
           <div className={s.main}>
-            <span className={s.text}>We have sent a link to confirm your email to {forgotPasswordResult.originalArgs?.email}</span>
+            <span className={s.text}>We have sent a link to confirm your email to {email}</span>
             <div className={s.buttonContainer}>
               <DialogClose>
                 <Button className={s.button} onClick={handleCloseModal}>OK</Button>

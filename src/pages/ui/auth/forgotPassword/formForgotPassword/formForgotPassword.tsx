@@ -10,6 +10,7 @@ import { useRecaptchaSiteKeyQuery } from '@/api/auth-api';
 
 type Props = {
     onSubmit: (data: FormForgotPasswordType) => void
+    errorMessage: string
 }
 
 const ForgotPasswordSchema = z
@@ -24,7 +25,7 @@ const ForgotPasswordSchema = z
 
 export type FormForgotPasswordType = z.infer<typeof ForgotPasswordSchema>
 
-const FormForgotPassword = ({ onSubmit }: Props) => {
+const FormForgotPassword = ({ onSubmit, errorMessage }: Props) => {
     const { control, trigger, handleSubmit, setValue, watch } = useForm<FormForgotPasswordType>({
         resolver: zodResolver(ForgotPasswordSchema),
         defaultValues: {
@@ -57,7 +58,8 @@ const FormForgotPassword = ({ onSubmit }: Props) => {
                     label={'Email'}
                     name={'email'}
                     trigger={trigger}
-                    className={s.input} />
+                    className={s.input} 
+                    errorMessage={errorMessage}/>
                 <Typography as={'p'} variant={'regular_text14'} className={s.informTitle}>
                     Enter your email address and we will send you further instructions
                 </Typography>
