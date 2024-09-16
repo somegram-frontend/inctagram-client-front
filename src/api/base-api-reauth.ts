@@ -10,7 +10,9 @@ const baseQuery = fetchBaseQuery({
   baseUrl: 'https://somegram.online/api',
   prepareHeaders: headers => {
     const token = localStorage.getItem(EnumTokens.ACCESS_TOKEN)
-    headers.set('Authorization', `Bearer ${token}`)
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`)
+    }
     return headers
   },
 })
@@ -37,12 +39,13 @@ export const baseQueryWithReauth: BaseQueryFn<
           api,
           extraOptions
         )) as QueryReturnValue<UpdateAccessTokenResponse, FetchBaseQueryError, FetchBaseQueryMeta>
+        console.log(refreshResult.data)
         if (refreshResult.data) {
           localStorage.setItem(EnumTokens.ACCESS_TOKEN, refreshResult.data.accessToken)
           // retry the initial query
           result = await baseQuery(args, api, extraOptions)
         } else {
-          Router.push('/auth/signIn')
+          void Router.push('/auth/signIn')
         }
       } finally {
         // release must be called once the mutex should be released again.

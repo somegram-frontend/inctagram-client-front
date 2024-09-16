@@ -1,16 +1,18 @@
 import { baseApi } from '@/api/base-api'
 import {
   ConfirmationResponse,
+  EnumTokens,
   LoginArgs,
   LoginResponse,
-  RegistrationReconfirmationArgs,
-  RegistrationConformationArgs,
-  RegistrationResponse,
+  MeResponse,
   RegistrationArgs,
+  RegistrationConformationArgs,
+  RegistrationReconfirmationArgs,
+  RegistrationResponse,
   restorePasswordArgs,
   RestorePasswordConfirmationArgs,
-  MeResponse,
 } from '@/api/auth-api.types'
+import Router from 'next/router'
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: builder => {
@@ -87,6 +89,15 @@ export const authApi = baseApi.injectEndpoints({
             method: 'POST',
             credentials: 'include',
           }
+        },
+        async onQueryStarted(_, { dispatch, queryFulfilled, getState }) {
+          try {
+            await queryFulfilled
+            localStorage.removeItem(EnumTokens.ACCESS_TOKEN)
+            dispatch(authApi.util.invalidateTags(['Me']))
+            dispatch(authApi.util.resetApiState())
+            void Router.push('/auth/signIn')
+          } catch {}
         },
       }),
       refreshToken: builder.mutation<void, void>({

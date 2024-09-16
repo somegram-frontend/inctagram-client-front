@@ -1,6 +1,5 @@
 'use client'
 import { useLogoutMutation } from '@/api/auth-api'
-import { useRouter } from 'next/router'
 import { Button, LogOut as LogOutIcon } from '@honor-ui/inctagram-ui-kit'
 import s from './logOut.module.scss'
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from '@/components/dialog/Dialog'
@@ -10,22 +9,19 @@ type Props = {
 }
 
 const LogOut = ({ email }: Props) => {
-  const router = useRouter()
-  const [logout] = useLogoutMutation()
-
-  // const onClickHandler = async () => {
-  //   try {
-  //     await logout().unwrap()
-  //     void router.push('/auth/signIn')
-  //   } catch (error) {
-  //     // TODO add error handler
-  //     console.log(error)
-  //   }
-  // }
+  const [logout, { isLoading }] = useLogoutMutation()
 
   const onClickHandler = () => {
-    logout().unwrap()
-    void router.push('/auth/signIn')
+    logout()
+      .unwrap()
+      .then(() => {
+        if (isLoading) {
+          return <h2>Loading</h2>
+        }
+      })
+      .catch(e => {
+        console.log(e)
+      })
   }
 
   return (

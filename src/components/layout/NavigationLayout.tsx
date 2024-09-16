@@ -2,6 +2,7 @@ import { Header } from '@/components/header'
 import { Sidebars } from '@/components/sidebar'
 import { NextPage } from 'next'
 import { PropsWithChildren } from 'react'
+import s from './NavigationLayout.module.scss'
 
 type navigationLayoutProps = {
   isAuth: boolean
@@ -12,8 +13,10 @@ const NavigationLayout: NextPage<PropsWithChildren & navigationLayoutProps> = pr
   return (
     <>
       <Header isAuth={isAuth} />
-      {isAuth ? <Sidebars /> : ''}
-      {children}
+      <div className={s.authContent}>
+        {isAuth ? <Sidebars /> : ''}
+        {children}
+      </div>
     </>
   )
 }
