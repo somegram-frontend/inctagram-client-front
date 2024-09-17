@@ -1,4 +1,4 @@
-import { FormSignIn } from '@/pages/ui/auth/signIn/formSignIn/FormSignIn'
+import { FormSignIn } from '@/pages/auth/signIn/formSignIn/FormSignIn'
 import { useRouter } from 'next/router'
 import { useLoginMutation } from '@/api/auth-api'
 import { EnumTokens } from '@/api/auth-api.types'
