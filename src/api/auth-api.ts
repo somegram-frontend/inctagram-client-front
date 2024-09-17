@@ -132,4 +132,7 @@ export const {
   useReconformationMutation,
   useLogoutMutation,
   useMeQuery,
+  useRecaptchaSiteKeyQuery,
+  useRestorePasswordMutation,
+  useRestorePasswordConfirmationMutation,
 } = authApi

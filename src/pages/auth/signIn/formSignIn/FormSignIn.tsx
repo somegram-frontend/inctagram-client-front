@@ -70,7 +70,7 @@ export const FormSignIn = ({ onSubmit, errorMessage, onSignGit, onSignGoogle }: 
         <Typography
           className={s.forgotPasswordLink}
           as={Link}
-          href={'/ui/auth/forgotPassword'}
+          href={'/auth/forgotPassword'}
           variant={'regular_link'}
         >
           Forgot Password
