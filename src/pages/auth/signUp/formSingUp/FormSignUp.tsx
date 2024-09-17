@@ -1,15 +1,7 @@
-'use client'
-
 import { useId } from 'react'
 import { useForm } from 'react-hook-form'
 import Link from 'next/link'
-import {
-  GithubSvgrepoCom31 as Github,
-  GoogleSvgrepoCom1 as Google,
-  Button,
-  Typography,
-  Cards,
-} from '@honor-ui/inctagram-ui-kit'
+import { Button, Typography, Cards } from '@honor-ui/inctagram-ui-kit'
 import '@honor-ui/inctagram-ui-kit/css'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { isValid, z } from 'zod'
@@ -17,16 +9,21 @@ import { isValid, z } from 'zod'
 import s from './formSignUp.module.scss'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
 import { ControlledCheckbox } from '@/components/controlled/ControlledCheckbox'
+import { PASSWORD_PATTERN, USERNAME_PATTERN } from '@/shared/const/regex'
+import { AuthProviders } from '@/pages/auth/authProviders'
+import { useAuthRedirect } from '@/pages/auth/authProviders/useAuthRedirect'
 
 type Props = {
   onSubmit: (data: SignUpForm) => void
+  onSignGoogle: () => void
+  onSignGit: () => void
 }
 
 const loginSchema = z
   .object({
     username: z
       .string()
-      .regex(/^[0-9A-Za-z_-]+$/, {
+      .regex(USERNAME_PATTERN, {
         message: 'Username must contain only latin letters, numbers, underscores, or hyphens.',
       })
       .min(1, { message: 'This field has to be filled.' })
@@ -39,13 +36,10 @@ const loginSchema = z
     password: z
       .string()
       .min(6, { message: 'Password must be at least 6 characters' })
-      .regex(
-        /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~])[0-9A-Za-z!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]+$/,
-        {
-          message:
-            'Password must include at least one uppercase latin letter, one lowercase latin letter, one number, and one special character.',
-        }
-      )
+      .regex(PASSWORD_PATTERN, {
+        message:
+          'Password must include at least one uppercase latin letter, one lowercase latin letter, one number, and one special character.',
+      })
       .max(20, { message: 'The field must not contain more than 20 characters' }),
     confirmPassword: z.string(),
     isAgree: z.boolean().refine(val => val === true, { message: 'The checkbox must be checked' }),
@@ -62,7 +56,7 @@ const loginSchema = z
 
 export type SignUpForm = z.infer<typeof loginSchema>
 
-export const FormSignUp = ({ onSubmit }: Props) => {
+export const FormSignUp = ({ onSubmit, onSignGit, onSignGoogle }: Props) => {
   const {
     control,
     handleSubmit,
@@ -85,10 +79,7 @@ export const FormSignUp = ({ onSubmit }: Props) => {
       <Typography as={'h1'} className={s.title}>
         Sign Up
       </Typography>
-      <div className={s.iconsBlock}>
-        <Google />
-        <Github />
-      </div>
+      <AuthProviders onSignGit={onSignGit} onSignGoogle={onSignGoogle} />
       <form className={s.form} id={formId} onSubmit={handleSubmit(onSubmit)}>
         <div className={s.containerInput}>
           <ControlledInput
