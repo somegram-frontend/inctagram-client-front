@@ -1,18 +1,18 @@
 import { baseApi } from '@/api/base-api'
 import {
   ConfirmationResponse,
-  loginArgs,
-  loginResponse,
-  registrationArgs,
-  registrationConformationArgs,
-  registrationErrorResponse422,
-  RegistrationReconfirmationArgs,
-  RegistrationConformationArgs,
-  RegistrationResponse,
+  EnumTokens,
+  LoginArgs,
+  LoginResponse,
+  MeResponse,
   RegistrationArgs,
+  RegistrationConformationArgs,
+  RegistrationReconfirmationArgs,
+  RegistrationResponse,
   restorePasswordArgs,
-  restorePasswordConfirmationArgs,
+  RestorePasswordConfirmationArgs,
 } from '@/api/auth-api.types'
+import Router from 'next/router'
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: builder => {
@@ -62,7 +62,7 @@ export const authApi = baseApi.injectEndpoints({
           }
         },
       }),
-      restorePasswordConfirmation: builder.mutation<any, restorePasswordConfirmationArgs>({
+      restorePasswordConfirmation: builder.mutation<any, RestorePasswordConfirmationArgs>({
         query: body => {
           return {
             url: 'v1/auth/restore-password-confirmation',
@@ -71,30 +71,40 @@ export const authApi = baseApi.injectEndpoints({
           }
         },
       }),
-      login: builder.mutation<loginResponse, loginArgs>({
+      login: builder.mutation<LoginResponse, LoginArgs>({
         query: body => {
           return {
             url: 'v1/auth/login',
             method: 'POST',
             body,
+            credentials: 'include',
           }
         },
+        invalidatesTags: ['Me'],
       }),
-      logout: builder.mutation<any, void>({
-        query: body => {
+      logout: builder.mutation<void, void>({
+        query: () => {
           return {
             url: 'v1/auth/logout',
             method: 'POST',
-            body,
+            credentials: 'include',
           }
         },
+        async onQueryStarted(_, { dispatch, queryFulfilled, getState }) {
+          try {
+            await queryFulfilled
+            localStorage.removeItem(EnumTokens.ACCESS_TOKEN)
+            dispatch(authApi.util.invalidateTags(['Me']))
+            dispatch(authApi.util.resetApiState())
+            void Router.push('/auth/signIn')
+          } catch {}
+        },
       }),
-      refreshToken: builder.mutation<any, void>({
-        query: body => {
+      refreshToken: builder.mutation<void, void>({
+        query: () => {
           return {
             url: 'v1/auth/refresh-token',
             method: 'POST',
-            body,
           }
         },
       }),
@@ -103,6 +113,10 @@ export const authApi = baseApi.injectEndpoints({
       }),
       githubCallback: builder.query<any, void>({
         query: () => `v1/auth/github/callback`,
+      }),
+      me: builder.query<MeResponse, void>({
+        query: () => '/v1/auth/me',
+        providesTags: ['Me'],
       }),
     }
   },
@@ -117,4 +131,5 @@ export const {
   useConformationMutation,
   useReconformationMutation,
   useLogoutMutation,
+  useMeQuery,
 } = authApi

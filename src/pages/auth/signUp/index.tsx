@@ -5,6 +5,8 @@ import { useRegistrationMutation } from '@/api/auth-api'
 import { emailTemplateConfirmEmail } from './emailTemplateConfirmEmail'
 import { RegistrationArgs, RegistrationResponse } from '@/api/auth-api.types'
 import { toast } from 'react-toastify'
+import NavigationLayout from '@/components/layout/NavigationLayout'
+import { Header } from '@/components/header'
 import { useAuthRedirect } from '@/pages/auth/authProviders/useAuthRedirect'
 
 const SignUp = () => {
@@ -48,7 +50,12 @@ const SignUp = () => {
     router.push(`/auth/signUp/emailSent?email=${encodeURIComponent(email)}`)
   }
 
-  return <FormSignUp onSubmit={onSubmitSignUp} onSignGoogle={onSignGoogle} onSignGit={onSignGit} />
+  return (
+    <div>
+      <Header isAuth />
+      <FormSignUp onSubmit={onSubmitSignUp} onSignGoogle={onSignGoogle} onSignGit={onSignGit} />
+    </div>
+  )
 }
 
 export default SignUp

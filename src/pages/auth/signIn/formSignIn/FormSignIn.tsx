@@ -32,9 +32,13 @@ export const FormSignIn = ({ onSubmit, errorMessage, onSignGit, onSignGoogle }: 
     trigger,
   } = useForm<SignInForm>({
     resolver: zodResolver(loginSchema),
+    // defaultValues: {
+    //   email: '',
+    //   password: '',
+    // },
     defaultValues: {
-      email: '',
-      password: '',
+      email: 'pnubya@mailto.plus',
+      password: '44sfa8@A8qQs',
     },
   })
   const formId = useId()
@@ -79,7 +83,7 @@ export const FormSignIn = ({ onSubmit, errorMessage, onSignGit, onSignGoogle }: 
         <Typography as={'h2'} className={s.registration} variant={'regular_text14'}>
           Don’t have an account?
         </Typography>
-        <Link href={'/ui/auth/signUp'}>
+        <Link href={'/auth/signUp'}>
           <Button variant={'borderless'}>Sign Up</Button>
         </Link>
       </div>
