@@ -7,8 +7,10 @@ import { RegistrationArgs, RegistrationResponse } from '@/api/auth-api.types'
 import { toast } from 'react-toastify'
 import NavigationLayout from '@/components/layout/NavigationLayout'
 import { Header } from '@/components/header'
+import { useAuthRedirect } from '@/pages/auth/authProviders/useAuthRedirect'
 
 const SignUp = () => {
+  const { onSignGit, onSignGoogle } = useAuthRedirect()
   const router = useRouter()
   const [signUp, { error, isError, isSuccess, isLoading, originalArgs }] = useRegistrationMutation()
   let email: string
@@ -51,7 +53,7 @@ const SignUp = () => {
   return (
     <div>
       <Header isAuth />
-      <FormSignUp onSubmit={onSubmitSignUp} />
+      <FormSignUp onSubmit={onSubmitSignUp} onSignGoogle={onSignGoogle} onSignGit={onSignGit} />
     </div>
   )
 }

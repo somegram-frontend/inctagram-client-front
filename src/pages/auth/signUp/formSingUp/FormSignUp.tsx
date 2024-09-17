@@ -1,15 +1,7 @@
-'use client'
-
 import { useId } from 'react'
 import { useForm } from 'react-hook-form'
 import Link from 'next/link'
-import {
-  GithubSvgrepoCom31 as Github,
-  GoogleSvgrepoCom1 as Google,
-  Button,
-  Typography,
-  Cards,
-} from '@honor-ui/inctagram-ui-kit'
+import { Button, Typography, Cards } from '@honor-ui/inctagram-ui-kit'
 import '@honor-ui/inctagram-ui-kit/css'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { isValid, z } from 'zod'
@@ -18,9 +10,13 @@ import s from './formSignUp.module.scss'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
 import { ControlledCheckbox } from '@/components/controlled/ControlledCheckbox'
 import { PASSWORD_PATTERN, USERNAME_PATTERN } from '@/shared/const/regex'
+import { AuthProviders } from '@/pages/auth/authProviders'
+import { useAuthRedirect } from '@/pages/auth/authProviders/useAuthRedirect'
 
 type Props = {
   onSubmit: (data: SignUpForm) => void
+  onSignGoogle: () => void
+  onSignGit: () => void
 }
 
 const loginSchema = z
@@ -60,7 +56,7 @@ const loginSchema = z
 
 export type SignUpForm = z.infer<typeof loginSchema>
 
-export const FormSignUp = ({ onSubmit }: Props) => {
+export const FormSignUp = ({ onSubmit, onSignGit, onSignGoogle }: Props) => {
   const {
     control,
     handleSubmit,
@@ -83,10 +79,7 @@ export const FormSignUp = ({ onSubmit }: Props) => {
       <Typography as={'h1'} className={s.title}>
         Sign Up
       </Typography>
-      <div className={s.iconsBlock}>
-        <Google />
-        <Github />
-      </div>
+      <AuthProviders onSignGit={onSignGit} onSignGoogle={onSignGoogle} />
       <form className={s.form} id={formId} onSubmit={handleSubmit(onSubmit)}>
         <div className={s.containerInput}>
           <ControlledInput
