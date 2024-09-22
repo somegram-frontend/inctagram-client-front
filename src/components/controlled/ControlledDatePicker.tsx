@@ -1,16 +1,16 @@
-import { DatePicker } from "@honor-ui/inctagram-ui-kit"
-import { Control, FieldValues, useController, UseControllerProps } from "react-hook-form"
+import { DatePicker } from '@honor-ui/inctagram-ui-kit'
+import { Control, FieldValues, useController, UseControllerProps } from 'react-hook-form'
 
 type DatePickerProps = {
-  disabled?: boolean;
-  endDate?: Date | undefined;
-  errorMessage?: string;
-  label?: string;
-  selectsRange?: boolean;
-  setEndDate?: (date: Date | undefined) => void;
-  setStartDate: (date: Date | undefined) => void;
-  startDate: Date | undefined;
-};
+  disabled?: boolean
+  endDate?: Date | undefined
+  errorMessage?: string
+  label?: string
+  selectsRange?: boolean
+  setEndDate?: (date: Date | undefined) => void
+  setStartDate: (date: Date | undefined) => void
+  startDate: Date | undefined
+}
 
 type Props<T extends FieldValues> = {
   control: Control<T>
@@ -18,7 +18,6 @@ type Props<T extends FieldValues> = {
   name: keyof T
 } & Omit<DatePickerProps, 'name' | 'onChange' | 'onBlur'> &
   Omit<UseControllerProps<T>, 'control'>
-
 
 export const ControledDatePicker = <T extends FieldValues>({
   control,
@@ -33,7 +32,6 @@ export const ControledDatePicker = <T extends FieldValues>({
     control,
     name,
   })
-
 
   return (
     <DatePicker
