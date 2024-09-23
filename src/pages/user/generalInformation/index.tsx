@@ -3,8 +3,9 @@ import s from './generalinformation.module.scss'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
-import { Button, DatePicker, Select, TextArea } from '@honor-ui/inctagram-ui-kit'
+import { Button, Select, TextArea } from '@honor-ui/inctagram-ui-kit'
 import { ControlledSelect } from '@/components/controlled/ControledSelect'
+import { DatePicker } from '@/components/datePicker'
 
 const changeGeneralInformationSchema = z
     .object({
@@ -85,7 +86,7 @@ const GeneralInformation = () => {
                         name={'lastName'}
                         trigger={trigger}
                         className={s.input} />
-                    {/* <Controller
+                    <Controller
                         control={control}
                         name="datePicker"
                         render={({ field: { onChange, value } }) => (
@@ -95,7 +96,7 @@ const GeneralInformation = () => {
                                 label="Дата рождения"
                             />
                         )}
-                    /> */}
+                    />
                     <ControlledSelect
                         label={'Select your country'}
                         name={'country'}
