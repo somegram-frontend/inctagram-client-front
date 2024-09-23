@@ -66,7 +66,7 @@ export const FormSignIn = ({ onSubmit, errorMessage, onSignGit, onSignGoogle }: 
         >
           Forgot Password
         </Typography>
-        <Button form={formId} fullWidth disabled={!isValid}>
+        <Button form={formId} fullWidth disabled={!isValid} className={s.disabledButton}>
           Sign In
         </Button>
       </form>
