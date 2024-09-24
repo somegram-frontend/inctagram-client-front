@@ -11,7 +11,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@honor-ui/inctagram-ui-kit": "^0.0.8",
+    "@honor-ui/inctagram-ui-kit": "^0.0.10",
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-dialog": "^1.1.1",
     "@reduxjs/toolkit": "^2.2.7",
