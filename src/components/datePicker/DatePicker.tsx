@@ -7,12 +7,8 @@ import { enGB } from 'date-fns/locale'
 import InputStyles from '@honor-ui/inctagram-ui-kit'
 import s from './datePicker.module.scss'
 
-// import { CalendarOutline, ChevronLeft, ChevronRight } from '@honor-ui/inctagram-ui-kit'
-import { CalendarOutline} from '@honor-ui/inctagram-ui-kit'
+import { CalendarOutline, ChevronLeft, ChevronRight } from '@honor-ui/inctagram-ui-kit'
 
-// import CalendarOutline from '../../assets/icons/CalendarOutline'
-// import ChevronLeft from '../../assets/icons/ChevronLeft'
-// import ChevronRight from '../../assets/icons/ChevronRight'
 import { Input, type InputProps } from '@honor-ui/inctagram-ui-kit'
 import { Typography } from '@honor-ui/inctagram-ui-kit'
 
@@ -109,10 +105,10 @@ const RenderCustomHeader = ({
         <Typography variant={'bold_text16'}>{format(date, 'LLLL y')}</Typography>{' '}
       </div>
       <button className={s.button} onClick={decreaseMonth} type={'button'}>
-        {/* {<ChevronLeft />} */}
+        {<ChevronLeft />}
       </button>
       <button className={s.button} onClick={increaseMonth} type={'button'}>
-        {/* {<ChevronRight />} */}
+        {<ChevronRight />}
       </button>
     </div>
   )
