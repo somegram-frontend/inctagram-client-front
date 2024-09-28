@@ -3,9 +3,9 @@ import { type ComponentPropsWithoutRef, type ElementRef, type ReactNode, forward
 import * as SelectRadix from '@radix-ui/react-select'
 import clsx from 'clsx'
 
-import s from './testSelect.module.scss'
+import s from './select.module.scss'
 import * as ScrollArea from '@radix-ui/react-scroll-area';
-// import Icon from '../../assets/icons/ArrowDown'
+import Icon from '../../../public/ArrowDown'
 
 export type Option = {
     label: ReactNode | string
@@ -23,7 +23,7 @@ export type SelectProps = {
 
 type Props = Omit<ComponentPropsWithoutRef<typeof SelectRadix.Root>, keyof SelectProps> &
     SelectProps
-export const TestSelect = forwardRef<ElementRef<typeof SelectRadix.Root>, Props>((props, ref) => {
+export const Select = forwardRef<ElementRef<typeof SelectRadix.Root>, Props>((props, ref) => {
     const {
         className,
         classNameContent,
@@ -48,7 +48,7 @@ export const TestSelect = forwardRef<ElementRef<typeof SelectRadix.Root>, Props>
                 >
                     <SelectRadix.Value placeholder={placeholder} />
                     <SelectRadix.Icon asChild className={'SelectIcon'}>
-                        {/* <Icon className={clsx(s.icon, disabled && s.iconDisabled)} name={'arrow'} /> */}
+                        <Icon className={clsx(s.icon, disabled && s.iconDisabled)} name={'arrow'} />
                     </SelectRadix.Icon>
                 </SelectRadix.Trigger>
                 <SelectRadix.Portal>
@@ -80,5 +80,3 @@ export const TestSelect = forwardRef<ElementRef<typeof SelectRadix.Root>, Props>
         </label>
     )
 })
-
-// Select.displayName = 'Select'

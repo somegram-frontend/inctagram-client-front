@@ -8,3 +8,13 @@ export type ApiResponse = {
     msg: string;
     data: CountryData[];
 };
+
+export type CitiesApiResponse = {
+    error: boolean;
+    msg: string;
+    data: string[];
+};
+
+export type GetCitiesRequest = {
+    country: string;
+};

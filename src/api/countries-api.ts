@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { ApiResponse } from './countries-api.type'
+import { ApiResponse, CitiesApiResponse, GetCitiesRequest } from './countries-api.type'
 
 export const countriesApi = createApi({
     reducerPath: 'countriesApi',
@@ -9,7 +9,16 @@ export const countriesApi = createApi({
             query: () => 'countries',
         }
         ),
+        getCitiesList: builder.mutation<CitiesApiResponse, GetCitiesRequest>({
+            query: body => {
+                return {
+                    url: 'countries/cities',
+                    method: 'POST',
+                    body,
+                }
+            }
+        })
     }),
 })
 
-export const { useGetCountriesListQuery } = countriesApi
+export const { useGetCountriesListQuery, useGetCitiesListMutation } = countriesApi

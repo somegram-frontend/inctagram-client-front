@@ -1,7 +1,6 @@
 import { ComponentPropsWithoutRef, ReactNode } from 'react'
 import { Control, FieldValues, UseControllerProps, useController } from 'react-hook-form'
-import * as SelectRadix from '@radix-ui/react-select'
-import { Select } from '@honor-ui/inctagram-ui-kit'
+import { Select } from '../select'
 
 export type Option = {
   label: ReactNode | string
@@ -15,10 +14,7 @@ export type SelectProps = {
   options: Option[]
   placeholder?: ReactNode | string
   small?: boolean
-} & ComponentPropsWithoutRef<typeof SelectRadix.Root>
-
-// export type Props<T extends FieldValues> =
-//     UseControllerProps<T> & Omit<SelectProps, 'onChange' | 'value'>
+} & ComponentPropsWithoutRef<typeof Select>
 
 type Props<T extends FieldValues> = {
   control: Control<T>
