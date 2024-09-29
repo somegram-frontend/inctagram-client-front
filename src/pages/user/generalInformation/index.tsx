@@ -3,9 +3,8 @@ import s from './generalinformation.module.scss'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
-import { Button, Select, DatePicker, TextArea } from '@honor-ui/inctagram-ui-kit'
+import { Button, Select, TextArea, DatePicker } from '@honor-ui/inctagram-ui-kit'
 import { ControlledSelect } from '@/components/controlled/ControledSelect'
-// import { DatePicker } from '@/components/datePicker/DatePicker'
 
 const changeGeneralInformationSchema = z.object({
   userName: z.string().min(6, { message: 'Password must be at least 6 characters' }),
@@ -82,17 +81,6 @@ const GeneralInformation = () => {
             trigger={trigger}
             className={s.input}
           />
-          {/* <Controller
-                        control={control}
-                        name="datePicker"
-                        render={({ field: { onChange, value } }) => (
-                            <DatePicker
-                                setStartDate={onChange}
-                                startDate={value}
-                                label="Дата рождения"
-                            />
-                        )}
-                    /> */}
           <Controller
             control={control}
             name="datePicker"
