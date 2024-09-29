@@ -5,7 +5,7 @@ import { Button, Cards, Typography } from '@honor-ui/inctagram-ui-kit'
 import '@honor-ui/inctagram-ui-kit/css'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-
+import { signInSchema } from '@/shared/utils/loginSchemas'
 import s from './formSignIn.module.scss'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
 import { AuthProviders } from '@/pages/auth/authProviders'
@@ -17,12 +17,7 @@ type Props = {
   onSignGit: () => void
 }
 
-const loginSchema = z.object({
-  email: z.string(),
-  password: z.string(),
-})
-
-export type SignInForm = z.infer<typeof loginSchema>
+export type SignInForm = z.infer<typeof signInSchema>
 
 export const FormSignIn = ({ onSubmit, errorMessage, onSignGit, onSignGoogle }: Props) => {
   const {
@@ -31,14 +26,10 @@ export const FormSignIn = ({ onSubmit, errorMessage, onSignGit, onSignGoogle }: 
     formState: { isValid },
     trigger,
   } = useForm<SignInForm>({
-    resolver: zodResolver(loginSchema),
-    // defaultValues: {
-    //   email: '',
-    //   password: '',
-    // },
+    resolver: zodResolver(signInSchema),
     defaultValues: {
-      email: 'pnubya@mailto.plus',
-      password: '44sfa8@A8qQs',
+      email: '',
+      password: '',
     },
   })
   const formId = useId()
@@ -75,7 +66,7 @@ export const FormSignIn = ({ onSubmit, errorMessage, onSignGit, onSignGoogle }: 
         >
           Forgot Password
         </Typography>
-        <Button form={formId} fullWidth disabled={!isValid}>
+        <Button form={formId} fullWidth disabled={!isValid} className={s.disabledButton}>
           Sign In
         </Button>
       </form>

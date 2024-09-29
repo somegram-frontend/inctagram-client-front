@@ -5,13 +5,11 @@ import { Button, Typography, Cards } from '@honor-ui/inctagram-ui-kit'
 import '@honor-ui/inctagram-ui-kit/css'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { isValid, z } from 'zod'
-
+import { signUpSchema } from '@/shared/utils/loginSchemas'
 import s from './formSignUp.module.scss'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
 import { ControlledCheckbox } from '@/components/controlled/ControlledCheckbox'
-import { PASSWORD_PATTERN, USERNAME_PATTERN } from '@/shared/const/regex'
 import { AuthProviders } from '@/pages/auth/authProviders'
-import { useAuthRedirect } from '@/pages/auth/authProviders/useAuthRedirect'
 
 type Props = {
   onSubmit: (data: SignUpForm) => void
@@ -19,42 +17,7 @@ type Props = {
   onSignGit: () => void
 }
 
-const loginSchema = z
-  .object({
-    username: z
-      .string()
-      .regex(USERNAME_PATTERN, {
-        message: 'Username must contain only latin letters, numbers, underscores, or hyphens.',
-      })
-      .min(1, { message: 'This field has to be filled.' })
-      .min(6, { message: 'Username must be at least 6 characters' })
-      .max(30, { message: 'The field must not contain more than 30 characters' }),
-    email: z
-      .string()
-      .min(1, { message: 'This field has to be filled.' })
-      .email('This is not a valid email.'),
-    password: z
-      .string()
-      .min(6, { message: 'Password must be at least 6 characters' })
-      .regex(PASSWORD_PATTERN, {
-        message:
-          'Password must include at least one uppercase latin letter, one lowercase latin letter, one number, and one special character.',
-      })
-      .max(20, { message: 'The field must not contain more than 20 characters' }),
-    confirmPassword: z.string(),
-    isAgree: z.boolean().refine(val => val === true, { message: 'The checkbox must be checked' }),
-  })
-  .refine(
-    values => {
-      return values.password === values.confirmPassword
-    },
-    {
-      message: 'Passwords must match!',
-      path: ['confirmPassword'],
-    }
-  )
-
-export type SignUpForm = z.infer<typeof loginSchema>
+export type SignUpForm = z.infer<typeof signUpSchema>
 
 export const FormSignUp = ({ onSubmit, onSignGit, onSignGoogle }: Props) => {
   const {
@@ -63,7 +26,7 @@ export const FormSignUp = ({ onSubmit, onSignGit, onSignGoogle }: Props) => {
     formState: { errors, isValid },
     trigger,
   } = useForm<SignUpForm>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       username: '',
       email: '',
