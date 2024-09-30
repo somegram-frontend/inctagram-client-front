@@ -5,8 +5,9 @@ import s from './generalinformation.module.scss'
 
 const GeneralInformation = () => {
 
-  const onSubmitProfileForm = (formData: FormChangeGeneralInformation) => {
+  const onSubmitProfileForm = async (formData: FormChangeGeneralInformation) => {
     console.log('test')
+    console.log(formData)
   }
 
   return (

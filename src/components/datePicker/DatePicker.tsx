@@ -84,7 +84,7 @@ const RenderCustomInput = ({ className, disabled, errorMessage, label, ...rest }
     return (
         <Input
             className={clsx(s.dateInput, s.input, errorMessage && s.hasError)}
-            disabled={disabled}
+            // disabled={disabled}
             errorMessage={errorMessage}
             icon={<CalendarOutline className={clsx(s.calendarIcon, errorMessage && s.hasError)} />}
             label={label}
