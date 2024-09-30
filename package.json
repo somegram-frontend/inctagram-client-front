@@ -11,12 +11,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@honor-ui/inctagram-ui-kit": "^0.0.8",
+    "@honor-ui/inctagram-ui-kit": "^0.0.31",
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-dialog": "^1.1.1",
     "@reduxjs/toolkit": "^2.2.7",
     "async-mutex": "^0.5.0",
-    "next": "14.2.5",
+    "next": "^14.2.13",
     "next-redux-wrapper": "^8.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
