@@ -9,14 +9,21 @@
   border: 3px solid green;
 }
 
-.input {
-  min-width: 734px;
-  margin-bottom: 24px;
+.inputWrapper {
+  width: 100%;
+
+  & div {
+    min-width: 100%;
+  }
+
+  & input {
+    margin-bottom: 24px;
+  }
 }
 
 .datePicker {
   width: 100%;
-  margin-bottom: 24px;
+  margin-bottom: 54px;
 }
 
 .wrapperSelect {
@@ -45,39 +52,3 @@
   display: flex;
   justify-content: end;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// .select {
-//   &.content {
-//     overflow-y: auto;
-//     height: 50px;
-//   }
-// }
-
-// .ScrollAreaViewport {
-//   width: 100%;
-//   height: 50px;
-// }
-
-// .dropdownMenu {
-//   overflow-y: auto;
-//   max-height: 100px;
-//   background: black;
-// }
-

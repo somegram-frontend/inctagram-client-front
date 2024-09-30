@@ -1,6 +1,4 @@
-'use client'
 import { useForm } from 'react-hook-form'
-import s from './profileForm.module.scss'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
@@ -9,10 +7,12 @@ import { useGetCitiesListMutation, useGetCountriesListQuery } from '@/api/countr
 import { useEffect, useId, useMemo, useState } from 'react'
 import { ControlledSelect } from '@/components/controlled/ControledSelect'
 import { DatePicker } from '@/components/datePicker'
+import { format } from 'date-fns';
+
+import s from './profileForm.module.scss'
 
 type Props = {
     onSubmit: (data: FormChangeGeneralInformation) => void
-    errorMessage: string
 }
 
 const changeGeneralInformationSchema = z.object({
@@ -38,14 +38,14 @@ const changeGeneralInformationSchema = z.object({
             message: 'Allowed characters: A-Z, a-z, А-Я, а-я',
         }),
     dateOfBirth: z
-        .any(),
-        // .min(10, { message: 'Enter the date in the format dd.mm.yyyy' })
-        // .max(10, { message: 'Enter the date in the format dd.mm.yyyy' })
-        // .refine(value => /^\d{2}\.\d{2}\.\d{4}$/.test(value), {
-        //     message: 'Invalid date format, use dd.mm.yyyy',
-        // }),
-    country: z.any(),
-    city: z.any(),
+        .string()
+        .min(10, { message: 'Enter the date in the format dd.mm.yyyy' })
+        .max(10, { message: 'Enter the date in the format dd.mm.yyyy' })
+        .refine(value => /^\d{2}\.\d{2}\.\d{4}$/.test(value), {
+            message: 'Invalid date format, use dd.mm.yyyy',
+        }),
+    country: z.string(),
+    city: z.string(),
     about: z
         .string()
         .max(200, { message: 'Maximum 200 characters' })
@@ -56,7 +56,7 @@ const changeGeneralInformationSchema = z.object({
 
 export type FormChangeGeneralInformation = z.infer<typeof changeGeneralInformationSchema>
 
-const ProfileForm = ({ onSubmit, errorMessage }: Props) => {
+const ProfileForm = ({ onSubmit }: Props) => {
 
     const { control, register, trigger, handleSubmit, watch, setValue } = useForm<FormChangeGeneralInformation>({
         resolver: zodResolver(changeGeneralInformationSchema),
@@ -104,41 +104,40 @@ const ProfileForm = ({ onSubmit, errorMessage }: Props) => {
         return [];
     }, [citiesData, citiesLoading])
 
-    const testSubmit = (dateOfBirth: string | null) => {
-        setValue('dateOfBirth', dateOfBirth || '')
-        console.log('click')
-    };
-
     return (
         <div className={s.wrapper}>
             <form className={s.form} id={formId} onSubmit={handleSubmit(onSubmit)}>
-                <ControlledInput
-                    control={control}
-                    label={'Username'}
-                    name={'userName'}
-                    trigger={trigger}
-                    className={s.input}
-                />
-                <ControlledInput
-                    control={control}
-                    label={'First Name'}
-                    name={'firstName'}
-                    trigger={trigger}
-                    className={s.input}
-                />
-                <ControlledInput
-                    control={control}
-                    label={'Last Name'}
-                    name={'lastName'}
-                    trigger={trigger}
-                    className={s.input}
-                />
+                <div className={s.inputWrapper}>
+                    <ControlledInput
+                        control={control}
+                        label={'Username'}
+                        name={'userName'}
+                        trigger={trigger}
+                        className={s.input}
+                    />
+                    <ControlledInput
+                        control={control}
+                        label={'First Name'}
+                        name={'firstName'}
+                        trigger={trigger}
+                        className={s.input}
+                    />
+                    <ControlledInput
+                        control={control}
+                        label={'Last Name'}
+                        name={'lastName'}
+                        trigger={trigger}
+                        className={s.input}
+                    />
+                </div>
                 <DatePicker
                     label={'Date of birth'}
-                    {...register('dateOfBirth')}
-                    setStartDate={setStartDate}
-                    startDate={startDate} 
-                    />
+                    setStartDate={(date) => {
+                        setStartDate(date)
+                        setValue('dateOfBirth', date ? format(date, 'dd.MM.yyyy') : '')
+                    }}
+                    startDate={startDate}
+                />
                 <div className={s.wrapperSelect}>
                     <ControlledSelect
                         control={control}
@@ -159,7 +158,7 @@ const ProfileForm = ({ onSubmit, errorMessage }: Props) => {
                     {...register('about')}
                     className={s.textArea} />
                 <div className={s.buttonContainer}>
-                <Button onClick={() => {testSubmit}}>Save Change</Button>
+                    <Button>Save Change</Button>
                 </div>
             </form>
         </div>

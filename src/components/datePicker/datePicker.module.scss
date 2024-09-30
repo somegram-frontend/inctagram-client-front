@@ -1,5 +1,9 @@
 .box {
     width: 100%;
+
+    & div {
+      max-width: 100%;
+    }
   }
   
   .dateInput {
@@ -199,4 +203,5 @@
       color: var(--color-light-100);
       border: 1px solid var(--color-light-100);
     }
-  }
+  }  }  }  }
+
