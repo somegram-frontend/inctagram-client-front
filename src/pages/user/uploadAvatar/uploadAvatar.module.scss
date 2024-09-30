@@ -1,0 +1,28 @@
+.wrapper {
+  width: 100%;
+  max-width: 972px;
+  margin: 24px auto;
+}
+
+.uploadPhoto {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+// .inputFile {
+//   position: relative;
+//   display: inline-block;
+// }
+
+// .inputFile input[type='file'] {
+//   position: absolute;
+//   z-index: -1;
+
+//   display: block;
+
+//   width: 0;
+//   height: 0;
+
+//   opacity: 0;
+// }

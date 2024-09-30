@@ -37,7 +37,7 @@ export const FormSignIn = ({ onSubmit, errorMessage, onSignGit, onSignGoogle }: 
     //   password: '',
     // },
     defaultValues: {
-      email: 'pnubya@mailto.plus',
+      email: '5752applicable@starmail.net',
       password: '44sfa8@A8qQs',
     },
   })
