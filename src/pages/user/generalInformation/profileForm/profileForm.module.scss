@@ -1,0 +1,83 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  max-width: 740px;
+  margin: 0 auto;
+
+  border: 3px solid green;
+}
+
+.input {
+  min-width: 734px;
+  margin-bottom: 24px;
+}
+
+.datePicker {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.wrapperSelect {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.select {
+  width: 100%;
+  margin-right: 24px;
+}
+
+.select:last-child {
+  margin-right: 0; 
+}
+
+.textArea {
+  margin-bottom: 48px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: end;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// .select {
+//   &.content {
+//     overflow-y: auto;
+//     height: 50px;
+//   }
+// }
+
+// .ScrollAreaViewport {
+//   width: 100%;
+//   height: 50px;
+// }
+
+// .dropdownMenu {
+//   overflow-y: auto;
+//   max-height: 100px;
+//   background: black;
+// }
+
