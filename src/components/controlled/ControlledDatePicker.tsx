@@ -37,10 +37,10 @@ export const ControledDatePicker = <T extends FieldValues>({
     <DatePicker
       {...rest}
       startDate={value}
-      // onChange={(date: Date | undefined) => {
-      //   onChange(date)
-      //   trigger(name)
-      // }}
+      setStartDate={(date: Date | undefined) => {
+        onChange(date)
+        trigger(name)
+      }}
       // onBlur={() => {
       //   onBlur()
       //   trigger(name)
