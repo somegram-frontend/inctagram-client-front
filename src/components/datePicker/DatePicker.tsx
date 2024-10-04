@@ -1,11 +1,9 @@
+import React, { forwardRef } from 'react'
 import ReactDatePicker, { type ReactDatePickerCustomHeaderProps } from 'react-datepicker'
-
 import clsx from 'clsx'
 import { format } from 'date-fns'
 import { enGB } from 'date-fns/locale'
-
 import s from './datePicker.module.scss'
-
 import CalendarOutline from '../../../public/CalendarOutline'
 import ChevronLeft from '../../../public/ChevronLeft'
 import ChevronRight from '../../../public/ChevronRight'
@@ -20,7 +18,7 @@ export type DatePickerProps = {
     setEndDate?: (date: Date | undefined) => void
     setStartDate: (date: Date | undefined) => void
     startDate: Date | undefined
-}
+};
 
 export const DatePicker = (props: DatePickerProps) => {
     const {
@@ -77,21 +75,21 @@ export const DatePicker = (props: DatePickerProps) => {
                 toggleCalendarOnIconClick
             />
         </div>
-    )
-}
+    );
+};
 
-const RenderCustomInput = ({ className, disabled, errorMessage, label, ...rest }: InputProps) => {
+const RenderCustomInput = forwardRef<HTMLInputElement, InputProps>(({ className, disabled, errorMessage, label, ...rest }: InputProps, ref) => {
     return (
         <Input
+            ref={ref}
             className={clsx(s.dateInput, s.input, errorMessage && s.hasError)}
-            // disabled={disabled}
             errorMessage={errorMessage}
             icon={<CalendarOutline className={clsx(s.calendarIcon, errorMessage && s.hasError)} />}
             label={label}
             {...rest}
         />
     )
-}
+})
 
 const RenderCustomHeader = ({
     date,

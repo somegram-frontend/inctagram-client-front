@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef, ReactNode } from 'react'
-import { Control, FieldValues, UseControllerProps, useController } from 'react-hook-form'
+import { Control, FieldValues, UseControllerProps, useController, useFormState } from 'react-hook-form'
 import { Select } from '../select'
 
 export type Option = {
@@ -14,6 +14,7 @@ export type SelectProps = {
   options: Option[]
   placeholder?: ReactNode | string
   small?: boolean
+  errorMessage?: string
 } & ComponentPropsWithoutRef<typeof Select>
 
 type Props<T extends FieldValues> = {
@@ -38,12 +39,16 @@ export const ControlledSelect = <T extends FieldValues>({
     defaultValue,
   })
 
+  const { errors } = useFormState({ control })
+  const error = errors[name]?.message
+
   return (
     <Select
       options={options}
       onValueChange={onChange}
       value={value}
       defaultValue={defaultValue}
+      errorMessage={error}
       {...rest}
     />
   )

@@ -10,9 +10,8 @@ const GeneralInformation = () => {
 
   const onSubmitProfileForm = async (formData: FormChangeGeneralInformation) => {
     await profileFillInfo(formData)
+    console.log(formData)
   }
-
-  console.log(profileData)
 
   return (
     <div className={s.wrapper}>

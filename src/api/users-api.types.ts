@@ -4,6 +4,7 @@ export type GetProfileSuccess = {
     lastName: string
     dateOfBirth: string
     city: string
+    country: string
     about: string
     avatar: {
         url: string
@@ -37,4 +38,5 @@ export type UserProfile = {
     dateOfBirth: string
     about: string
     city: string
+    country: string
 }

@@ -7,7 +7,7 @@ import { useGetCitiesListMutation, useGetCountriesListQuery } from '@/api/countr
 import { useEffect, useId, useMemo, useState } from 'react'
 import { ControlledSelect } from '@/components/controlled/ControledSelect'
 import { DatePicker } from '@/components/datePicker'
-import { format, parseISO } from 'date-fns'
+import { format, parse } from 'date-fns'
 
 import s from './profileForm.module.scss'
 
@@ -16,6 +16,7 @@ type DefaultDataValueType = {
     firstName: string
     lastName: string
     dateOfBirth: string
+    country: string
     city: string
     about: string
 }
@@ -54,8 +55,8 @@ const changeGeneralInformationSchema = z.object({
         .refine(value => /^\d{2}\.\d{2}\.\d{4}$/.test(value), {
             message: 'Invalid date format, use dd.mm.yyyy',
         }),
-    country: z.string(),
-    city: z.string(),
+    country: z.string().min(1, { message: 'Country is required' }),
+    city: z.string().min(1, { message: 'City is required' }),
     about: z
         .string()
         .max(200, { message: 'Maximum 200 characters' })
@@ -68,7 +69,7 @@ export type FormChangeGeneralInformation = z.infer<typeof changeGeneralInformati
 
 const ProfileForm = ({ onSubmit, defaultDataValue }: Props) => {
 
-    const { control, register, trigger, handleSubmit, watch, setValue } = useForm<FormChangeGeneralInformation>({
+    const { control, register, trigger, handleSubmit, watch, setValue, formState: { errors } } = useForm<FormChangeGeneralInformation>({
         resolver: zodResolver(changeGeneralInformationSchema),
         defaultValues: {
             userName: '',
@@ -81,21 +82,38 @@ const ProfileForm = ({ onSubmit, defaultDataValue }: Props) => {
         },
     })
 
+    const { data, error, isLoading } = useGetCountriesListQuery()
+    const [getCities, { data: citiesData, isLoading: citiesLoading }] = useGetCitiesListMutation()
+
+    const [startDate, setStartDate] = useState<Date | undefined>(undefined)
+
+    const selectedCountry = watch('country')
+    const formId = useId()
+
+
     useEffect(() => {
         if (defaultDataValue) {
+            console.log(new Date(defaultDataValue.dateOfBirth))
             setValue('userName', defaultDataValue.userName)
             setValue('firstName', defaultDataValue.firstName)
             setValue('lastName', defaultDataValue.lastName)
-            setValue('dateOfBirth', format(parseISO(defaultDataValue.dateOfBirth), 'dd/MM/yyyy'))
-            setValue('country', defaultDataValue.city)
+            setValue('country', defaultDataValue.country)
+            const timer = setTimeout(() => {
+                setValue('city', defaultDataValue.city)
+            }, 2000)
             setValue('about', defaultDataValue.about)
+            setValue('dateOfBirth', format(defaultDataValue.dateOfBirth, 'dd.MM.yyyy'))
+            setStartDate(new Date(defaultDataValue.dateOfBirth))
+            return () => clearTimeout(timer)
         }
     }, [defaultDataValue, setValue])
 
-    const { data, error, isLoading } = useGetCountriesListQuery()
-    const [getCities, { data: citiesData, error: citiesError, isLoading: citiesLoading }] = useGetCitiesListMutation()
-    const [startDate, setStartDate] = useState<Date | undefined>(undefined)
-    const formId = useId()
+
+    useEffect(() => {
+        if (selectedCountry) {
+            getCities({ country: selectedCountry })
+        }
+    }, [selectedCountry, getCities])
 
     const optionsCountry = useMemo(() => {
         if (data && !isLoading && !error) {
@@ -106,14 +124,6 @@ const ProfileForm = ({ onSubmit, defaultDataValue }: Props) => {
         }
         return []
     }, [data, isLoading, error])
-
-    const selectedCountry = watch('country')
-
-    useEffect(() => {
-        if (selectedCountry) {
-            getCities({ country: selectedCountry })
-        }
-    }, [selectedCountry, getCities])
 
     const optionsCity = useMemo(() => {
         if (citiesData && !citiesLoading) {
@@ -158,6 +168,7 @@ const ProfileForm = ({ onSubmit, defaultDataValue }: Props) => {
                         setValue('dateOfBirth', date ? format(date, 'dd.MM.yyyy') : '')
                     }}
                     startDate={startDate}
+                    errorMessage={errors.dateOfBirth?.message}
                 />
                 <div className={s.wrapperSelect}>
                     <ControlledSelect
