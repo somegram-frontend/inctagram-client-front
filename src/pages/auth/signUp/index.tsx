@@ -5,17 +5,15 @@ import { useRegistrationMutation } from '@/api/auth-api'
 import { emailTemplateConfirmEmail } from './emailTemplateConfirmEmail'
 import { RegistrationArgs, RegistrationResponse } from '@/api/auth-api.types'
 import { toast } from 'react-toastify'
-import NavigationLayout from '@/components/layout/NavigationLayout'
 import { Header } from '@/components/header'
 import { useAuthRedirect } from '@/pages/auth/authProviders/useAuthRedirect'
+import { Loader } from '@/components/loader/Loader'
 
 const SignUp = () => {
   const { onSignGit, onSignGoogle } = useAuthRedirect()
   const router = useRouter()
   const [signUp, { error, isError, isSuccess, isLoading, originalArgs }] = useRegistrationMutation()
-  let email: string
   const onSubmitSignUp = (formData: SignUpForm) => {
-    email = formData.email
     const signUpData: RegistrationArgs = {
       username: formData.username,
       email: formData.email,
@@ -25,22 +23,22 @@ const SignUp = () => {
     signUp(signUpData)
   }
 
-  if (isLoading) return <h2>...Loading</h2> // TODO use Preloader
+  if (isLoading) {
+    return <Loader />
+  }
 
   if (isError) {
     const err = error as { data: RegistrationResponse }
-    if ('details' in err.data) {
-      const errorMessage =
-        `${err.data.details.email || ''} ${err.data.details.username || ''}` ||
-        'Registration failed'
+    if (err.data?.details) {
+      const errorMessage = `${err.data.details.email! || ''} ${err.data.details.username || ''}`
       toast.error(errorMessage)
-    } else if ('errors' in err.data) {
-      const errorMessages = (err.data as RegistrationResponse).errors
+    } else if (err.data?.errors) {
+      const errorMessages = err.data.errors
         .map(e => Object.values(e.constraints).join(', '))
         .join('; ')
       toast.error(errorMessages)
     } else {
-      toast.error('Registration failed')
+      toast.error(err.data?.message || 'Registration failed')
     }
   }
 
