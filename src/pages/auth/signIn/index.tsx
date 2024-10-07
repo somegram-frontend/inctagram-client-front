@@ -1,7 +1,7 @@
 import { FormSignIn } from '@/pages/auth/signIn/formSignIn/FormSignIn'
 import { useRouter } from 'next/router'
 import { useLoginMutation } from '@/api/auth-api'
-import { EnumTokens } from '@/api/auth-api.types'
+import { EnumTokens } from '@/shared/const/enums'
 import { Header } from '@/components/header'
 import { useAuthRedirect } from '@/pages/auth/authProviders/useAuthRedirect'
 
