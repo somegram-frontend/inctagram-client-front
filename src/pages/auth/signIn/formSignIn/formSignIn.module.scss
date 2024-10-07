@@ -36,10 +36,6 @@
   }
 }
 
-.containerInput button {
-  right: -30px;
-}
-
 .registration {
   display: flex;
   flex-direction: column;
@@ -57,5 +53,11 @@
 
   &:visited {
     color: var(--color-light-900);
+  }
+}
+
+.disabledButton {
+  &:disabled {
+    cursor: default;
   }
 }

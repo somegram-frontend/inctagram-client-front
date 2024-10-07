@@ -1,10 +1,9 @@
+import { EnumTokens } from '@/shared/const/enums'
 import { fetchBaseQuery, FetchBaseQueryMeta } from '@reduxjs/toolkit/query'
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { Mutex } from 'async-mutex'
 import Router from 'next/router'
-import { EnumTokens } from '@/api/auth-api.types'
 
-// create a new mutex
 const mutex = new Mutex()
 const baseQuery = fetchBaseQuery({
   baseUrl: 'https://somegram.online/api',
@@ -24,7 +23,6 @@ export const baseQueryWithReauth: BaseQueryFn<
   // wait until the mutex is available without locking it
   await mutex.waitForUnlock()
   let result = await baseQuery(args, api, extraOptions)
-  console.log(result)
   if (result.error && result.error.status === 401) {
     // checking whether the mutex is locked
     if (!mutex.isLocked()) {
@@ -39,7 +37,7 @@ export const baseQueryWithReauth: BaseQueryFn<
           api,
           extraOptions
         )) as QueryReturnValue<UpdateAccessTokenResponse, FetchBaseQueryError, FetchBaseQueryMeta>
-        console.log(refreshResult.data)
+
         if (refreshResult.data) {
           localStorage.setItem(EnumTokens.ACCESS_TOKEN, refreshResult.data.accessToken)
           // retry the initial query

@@ -1,7 +1,6 @@
 import { baseApi } from '@/api/base-api'
 import {
   ConfirmationResponse,
-  EnumTokens,
   LoginArgs,
   LoginResponse,
   MeResponse,
@@ -13,6 +12,7 @@ import {
   RestorePasswordConfirmationArgs,
 } from '@/api/auth-api.types'
 import Router from 'next/router'
+import { EnumTokens } from '@/shared/const/enums'
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: builder => {
@@ -35,10 +35,10 @@ export const authApi = baseApi.injectEndpoints({
           }
         },
       }),
-      reconformation: builder.mutation<any, RegistrationReconfirmationArgs>({
+      reconformation: builder.mutation<RegistrationResponse, RegistrationReconfirmationArgs>({
         query: body => {
           return {
-            url: 'v1/auth/registration-reconfirmation',
+            url: 'v1/auth/registration-email-resending',
             method: 'POST',
             body,
           }
