@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+
+  width: 100%;
+  max-width: 972px;
+  margin: 24px auto;
+
+  border: 3px solid white;
+}
+
+.uploadPhoto {
+  display: flex;
+  flex-direction: row;
+  max-width: 196px;
+  border: 3px solid red;
+}
+
+.fillProfile {
+  display: flex;
+  flex-direction: row;
+  max-width: 740px;
+  border: 3px solid green;
+}
