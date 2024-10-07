@@ -1,6 +1,6 @@
 'use client'
 import ProfileForm, { FormChangeGeneralInformation } from './profileForm/ProfileForm'
-import { useGetProfileQuery, useProfileFillInfoMutation } from '@/api/users-api';
+import { useGetProfileQuery, useProfileFillInfoMutation } from '@/api/users-api'
 
 import s from './generalinformation.module.scss'
 
@@ -16,9 +16,7 @@ const GeneralInformation = () => {
   return (
     <div className={s.wrapper}>
       <div className={s.uploadPhoto}>photo</div>
-      <ProfileForm
-        onSubmit={onSubmitProfileForm}
-        defaultDataValue={profileData} />
+      <ProfileForm onSubmit={onSubmitProfileForm} defaultDataValue={profileData} />
     </div>
   )
 }

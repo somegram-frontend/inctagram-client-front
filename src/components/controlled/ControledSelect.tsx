@@ -1,6 +1,6 @@
-import { ComponentPropsWithoutRef, ReactNode } from 'react'
-import { Control, FieldValues, UseControllerProps, useController, useFormState } from 'react-hook-form'
+import { Control, FieldValues, Path, useController, useFormState } from 'react-hook-form'
 import { Select } from '../select'
+import { ReactNode } from 'react'
 
 export type Option = {
   label: ReactNode | string
@@ -15,12 +15,14 @@ export type SelectProps = {
   placeholder?: ReactNode | string
   small?: boolean
   errorMessage?: string
-} & ComponentPropsWithoutRef<typeof Select>
+} & React.ComponentPropsWithoutRef<typeof Select>
 
 type Props<T extends FieldValues> = {
   control: Control<T>
-} & Omit<SelectProps, 'onChange' | 'value'> &
-  Omit<UseControllerProps<T>, 'control'>
+  shouldUnregister?: boolean
+  name: Path<T>
+  defaultValue?: T[Path<T>]
+} & SelectProps
 
 export const ControlledSelect = <T extends FieldValues>({
   control,

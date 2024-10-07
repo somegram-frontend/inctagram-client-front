@@ -1,110 +1,109 @@
 .label {
-    color: var(--color-light-900);
+  color: var(--color-light-900);
+}
+
+.trigger {
+  cursor: pointer;
+
+  display: flex;
+  column-gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+  width: 100%;
+  padding: 6px 12px;
+
+  color: var(--color-light-100);
+
+  background-color: var(--color-dark-700);
+  border: 2px solid var(--color-dark-100);
+  border-radius: 2px;
+  outline: none;
+
+  .icon {
+    fill: var(--color-light-100);
+    transition: 0.2s;
   }
-  
-  .trigger {
-    cursor: pointer;
-  
-    display: flex;
-    column-gap: 12px;
-    align-items: center;
-    justify-content: space-between;
-  
-    box-sizing: border-box;
-    width: 100%;
-    padding: 6px 12px;
-  
-    color: var(--color-light-100);
-  
-    background-color: var(--color-dark-700);
-    border: 2px solid var(--color-dark-100);
-    border-radius: 2px;
+
+  &.small {
+    column-gap: 6px;
+    padding: 0 2px 0 6px;
+    font-size: var(--font-size-s);
+  }
+
+  &:focus-visible:not([data-disabled]) {
+    color: var(--color-light-900);
+    border: 2px solid var(--color-accent-500);
     outline: none;
-  
+
     .icon {
-      fill: var(--color-light-100);
-      transition: 0.2s;
+      color: var(--color-light-100);
     }
-  
+  }
+
+  &[data-state='open'] {
+    border-color: var(--color-light-100);
+    border-radius: 2px 2px 0 0;
+
+    .icon {
+      transform: rotate(180deg);
+    }
+  }
+
+  &:hover:not([data-disabled]) {
+    cursor: pointer;
+    background-color: var(--color-dark-500);
+  }
+
+  &[data-disabled] {
+    cursor: initial;
+    color: var(--color-dark-300);
+    border-color: var(--color-dark-300);
+  }
+}
+
+.triggerDisabled {
+  cursor: auto;
+  color: var(--color-dark-100);
+  border: 1px solid var(--color-dark-100);
+
+  .iconDisabled {
+    color: var(--color-light-100);
+    fill: var(--color-light-100);
+  }
+}
+
+.content {
+  z-index: 999;
+
+  overflow-y: scroll;
+
+  width: var(--radix-select-trigger-width);
+  max-height: 150px;
+
+  color: var(--color-light-900);
+
+  background-color: var(--color-dark-700);
+  border: 2px solid var(--color-light-100);
+  border-radius: 0 0 2px 2px;
+
+  .item {
+    cursor: pointer;
+    padding: 6px 12px;
+    outline: none;
+    transition: 0.2s;
+
     &.small {
-      column-gap: 6px;
-      padding: 0 2px 0 6px;
+      padding: 0 6px;
       font-size: var(--font-size-s);
     }
-  
-    &:focus-visible:not([data-disabled]) {
-      color: var(--color-light-900);
-      border: 2px solid var(--color-accent-500);
-      outline: none;
-  
-      .icon {
-        color: var(--color-light-100);
-      }
-    }
-  
-    &[data-state='open'] {
-      border-color: var(--color-light-100);
-      border-radius: 2px 2px 0 0;
-  
-      .icon {
-        transform: rotate(180deg);
-      }
-    }
-  
-    &:hover:not([data-disabled]) {
-      cursor: pointer;
-      background-color: var(--color-dark-500);
-    }
-  
-    &[data-disabled] {
-      cursor: initial;
-      color: var(--color-dark-300);
-      border-color: var(--color-dark-300);
-    }
-  }
-  
-  .triggerDisabled {
-    cursor: auto;
-    color: var(--color-dark-100);
-    border: 1px solid var(--color-dark-100);
-  
-    .iconDisabled {
-      color: var(--color-light-100);
-      fill: var(--color-light-100);
-    }
-  }
-  
-  .content {
-    z-index: 999;
 
-    overflow-y: scroll;
-
-    width: var(--radix-select-trigger-width);
-    max-height: 150px;
-    
-    color: var(--color-light-900);
-  
-    background-color: var(--color-dark-700);
-    border: 2px solid var(--color-light-100);
-    border-radius: 0 0 2px 2px;
-  
-    .item {
-      cursor: pointer;
-      padding: 6px 12px;
-      outline: none;
-      transition: 0.2s;
-  
-      &.small {
-        padding: 0 6px;
-        font-size: var(--font-size-s);
-      }
-  
-      &:hover,
-      &:focus-visible,
-      &[data-state='checked'] {
-        color: var(--color-accent-500);
-        background-color: var(--color-dark-300);
-      }
+    &:hover,
+    &:focus-visible,
+    &[data-state='checked'] {
+      color: var(--color-accent-500);
+      background-color: var(--color-dark-300);
     }
   }
-  
+}

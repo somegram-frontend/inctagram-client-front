@@ -10,7 +10,8 @@ const makeStore = () =>
       [baseApi.reducerPath]: baseApi.reducer,
       [countriesApi.reducerPath]: countriesApi.reducer,
     },
-    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(baseApi.middleware, countriesApi.middleware),
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware().concat(baseApi.middleware, countriesApi.middleware),
     devTools: true,
   })
 

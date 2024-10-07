@@ -8,4 +8,4 @@ export const baseApi = createApi({
   endpoints: builder => ({}),
 })
 
-export const { } = baseApi
+export const {} = baseApi
