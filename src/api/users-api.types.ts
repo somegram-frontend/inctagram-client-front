@@ -5,6 +5,17 @@ export type GetProfileSuccess = UserProfile & {
   }
 }
 
+export type ProfileResponse = {
+  statusCode: number
+  message: string
+  errors: {
+    property: string
+    constraints: {
+      [key: string]: string
+    }
+  }[]
+}
+
 export type UploadAvatarSuccess = {
   statusCode: number
 }
