@@ -12,10 +12,20 @@ export const usersApi = baseApi.injectEndpoints({
         query: ({ file }) => {
           const formData = new FormData()
           formData.append('file', file)
+
           return {
             url: `v1/users/profile-upload-avatar`,
             method: 'POST',
             body: formData,
+          }
+        },
+        invalidatesTags: ['Profile'],
+      }),
+      deleteAvatar: builder.mutation<void, void>({
+        query: () => {
+          return {
+            url: 'v1/users/profile-delete-avatar',
+            method: 'DELETE',
           }
         },
         invalidatesTags: ['Profile'],
@@ -32,4 +42,9 @@ export const usersApi = baseApi.injectEndpoints({
   },
 })
 
-export const { useUploadAvatarMutation, useGetProfileQuery, useProfileFillInfoMutation } = usersApi
+export const {
+  useUploadAvatarMutation,
+  useGetProfileQuery,
+  useDeleteAvatarMutation,
+  useProfileFillInfoMutation,
+} = usersApi

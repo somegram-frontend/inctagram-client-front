@@ -5,6 +5,16 @@ export type GetProfileSuccess = UserProfile & {
   }
 }
 
+export type UserProfile = {
+  userName: string
+  firstName: string
+  lastName: string
+  dateOfBirth: string
+  about: string
+  city: string
+  country: string
+}
+
 export type ProfileResponse = {
   statusCode: number
   message: string
@@ -34,13 +44,3 @@ export type UploadAvatarResponse422 = {
 }
 
 export type UploadAvatarResponse = UploadAvatarSuccess & UploadAvatarResponse422
-
-export type UserProfile = {
-  userName: string
-  firstName: string
-  lastName: string
-  dateOfBirth: string
-  about: string
-  city: string
-  country: string
-}

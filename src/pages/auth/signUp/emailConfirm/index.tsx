@@ -6,82 +6,112 @@ import s from './emailConfirm.module.scss'
 import emailConfirm from '/public/emailConfirmImage.png'
 import linkExpired from '/public/linkExpiredImage.png'
 import Image from 'next/image'
-import { differenceInMinutes, parseISO } from 'date-fns'
 import { useConformationMutation, useReconformationMutation } from '@/api/auth-api'
 import { emailTemplateConfirmEmail } from '../emailTemplateConfirmEmail'
 import { toast } from 'react-toastify'
+import { useEffect, useState } from 'react'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/dialog/Dialog'
+import { Loader } from '@/components/loader/Loader'
+import { RegistrationResponse } from '@/api/auth-api.types'
 
 const EmailConfirm = () => {
-  const [conformation, { isSuccess: isSuccessConformation, isError: isErrorConformation }] =
-    useConformationMutation()
+  const router = useRouter()
+  const { token } = router.query
+  const [conformation, { isLoading, error, data, isSuccess, isError }] = useConformationMutation()
   const [reconformation, { isSuccess: isSuccessReconformation, isError: isErrorReconformation }] =
     useReconformationMutation()
-  const router = useRouter()
-  const params = router.query
-  let expiredLink: number = 0
-  let token: string
-  if (params && params.expiredAt) {
-    if (Array.isArray(params.expiredAt)) {
-      return
-    } else {
-      const startDate = parseISO(params.expiredAt)
-      const currentDate = new Date()
-      expiredLink = 1440 + differenceInMinutes(currentDate, startDate)
-      console.log(expiredLink)
-      if (params && params.token) {
-        if (Array.isArray(params.token)) {
-          return
-        } else {
-          token = params.token
-        }
-      }
+  const [isOpen, setIsOpen] = useState(true)
+  useEffect(() => {
+    if (token) {
+      conformation({ token: token as string })
     }
-  }
+  }, [token])
 
-  isSuccessConformation && toast.success('Registration completed successfully.')
-  ;(isErrorConformation || isErrorReconformation) && toast.error('Registration failed')
+  isSuccess && toast.success('Registration completed successfully.')
+  ;(isError || isErrorReconformation) &&
+    toast.error((error as { data: RegistrationResponse })?.data?.message || 'Registration failed')
   isSuccessReconformation && toast.success('Registration completed successfully.\nCheck your email')
 
   const signInHandler = () => {
-    conformation({ token })
-    isSuccessConformation && router.push('/auth/signIn')
+    isSuccess && router.push('/auth/signIn')
   }
   const expiredLinkHandler = () => {
-    reconformation({ html: emailTemplateConfirmEmail, token })
+    reconformation({ html: emailTemplateConfirmEmail, token: token as string })
     isSuccessReconformation && router.push('/auth/signUp/emailSent')
   }
-  return (
-    <>
-      {expiredLink < 5 ? (
-        <div className={s.main}>
-          <Typography as="h1" variant="h1" className={s.title}>
-            Congratulations!
-          </Typography>
-          <Typography as="p" variant="regular_text16">
-            Your email has been confirmed
-          </Typography>
-          <Button onClick={signInHandler} className={s.button}>
-            Sign In
-          </Button>
-          <Image src={emailConfirm} alt="background image" width={432} height={300} />
-        </div>
-      ) : (
-        <div>
-          <div className={s.main}>
-            <Typography as="h1" variant="h1" className={s.title}>
-              Email verification link expired
-            </Typography>
-            <Typography as="p" variant="regular_text16">
-              Looks like the verification link has expired. Not to worry, we can send the link again
-            </Typography>
-            <Button onClick={expiredLinkHandler} className={s.button} fullWidth>
-              Resend verification link
-            </Button>
-            <Image src={linkExpired} alt="background image" width={432} height={300} />
+  const close400 = () => {
+    setIsOpen(false)
+    router.push('/auth/signUp')
+  }
+  const close500 = () => {
+    setIsOpen(false)
+    router.push('/')
+  }
+  if (isLoading) {
+    return <Loader />
+  }
+  const err = error as { data: RegistrationResponse }
+  if (isSuccess) {
+    return (
+      <div className={s.main}>
+        <Typography as="h1" variant="h1" className={s.title}>
+          Congratulations!
+        </Typography>
+        <Typography as="p" variant="regular_text16">
+          Your email has been confirmed
+        </Typography>
+        <Button onClick={signInHandler} className={s.button}>
+          Sign In
+        </Button>
+        <Image src={emailConfirm} alt="background image" width={432} height={300} />
+      </div>
+    )
+  }
+
+  if ((error as { data: RegistrationResponse })?.data?.statusCode === 500) {
+    return (
+      <Dialog open={isOpen} onOpenChange={close500}>
+        <DialogContent title="Error">
+          <div className={s.dialog}>
+            <p>{(error as { data: RegistrationResponse })?.data?.message}.</p>
+            <p>Please try confirm your registration later.</p>
           </div>
-        </div>
-      )}
-    </>
-  )
+        </DialogContent>
+      </Dialog>
+    )
+  }
+
+  if (
+    (error as { data: RegistrationResponse })?.data?.statusCode === 404 ||
+    (error as { data: RegistrationResponse })?.data?.statusCode === 422
+  ) {
+    return (
+      <Dialog open={isOpen} onOpenChange={close400}>
+        <DialogContent title="Error">
+          <div className={s.dialog}>
+            <p>{(error as { data: RegistrationResponse })?.data?.message}.</p>
+            <p>Please re-register.</p>
+          </div>
+        </DialogContent>
+      </Dialog>
+    )
+  }
+  if ((error as { data: RegistrationResponse })?.data?.statusCode === 400) {
+    return (
+      <div className={s.main}>
+        <Typography as="h1" variant="h1" className={s.title}>
+          Email verification link expired
+        </Typography>
+        <Typography as="p" variant="regular_text16">
+          Looks like the verification link has expired. Not to worry, we can send the link again
+        </Typography>
+        <Button onClick={expiredLinkHandler} className={s.button} fullWidth>
+          Resend verification link
+        </Button>
+        <Image src={linkExpired} alt="background image" width={432} height={300} />
+      </div>
+    )
+  }
 }
+
 export default EmailConfirm
