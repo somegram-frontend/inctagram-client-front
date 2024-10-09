@@ -1,7 +1,6 @@
-import { ComponentPropsWithoutRef, ReactNode } from 'react'
-import { Control, FieldValues, UseControllerProps, useController } from 'react-hook-form'
-import * as SelectRadix from '@radix-ui/react-select'
-import { Select } from '@honor-ui/inctagram-ui-kit'
+import { Control, FieldValues, Path, useController, useFormState } from 'react-hook-form'
+import { Select } from '../select'
+import { ReactNode } from 'react'
 
 export type Option = {
   label: ReactNode | string
@@ -15,15 +14,15 @@ export type SelectProps = {
   options: Option[]
   placeholder?: ReactNode | string
   small?: boolean
-} & ComponentPropsWithoutRef<typeof SelectRadix.Root>
-
-// export type Props<T extends FieldValues> =
-//     UseControllerProps<T> & Omit<SelectProps, 'onChange' | 'value'>
+  errorMessage?: string
+} & React.ComponentPropsWithoutRef<typeof Select>
 
 type Props<T extends FieldValues> = {
   control: Control<T>
-} & Omit<SelectProps, 'onChange' | 'value'> &
-  Omit<UseControllerProps<T>, 'control'>
+  shouldUnregister?: boolean
+  name: Path<T>
+  defaultValue?: T[Path<T>]
+} & SelectProps
 
 export const ControlledSelect = <T extends FieldValues>({
   control,
@@ -42,12 +41,16 @@ export const ControlledSelect = <T extends FieldValues>({
     defaultValue,
   })
 
+  const { errors } = useFormState({ control })
+  const error = errors[name]?.message
+
   return (
     <Select
       options={options}
       onValueChange={onChange}
       value={value}
       defaultValue={defaultValue}
+      errorMessage={error}
       {...rest}
     />
   )

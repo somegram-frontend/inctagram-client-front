@@ -1,14 +1,29 @@
-export type GetProfileSuccess = {
+export type GetProfileSuccess = UserProfile & {
+  email: string
+  avatar: {
+    url: string
+  }
+}
+
+export type UserProfile = {
   userName: string
   firstName: string
   lastName: string
   dateOfBirth: string
-  city: string
   about: string
-  avatar: {
-    url: string
-  }
-  email: string
+  city: string
+  country: string
+}
+
+export type ProfileResponse = {
+  statusCode: number
+  message: string
+  errors: {
+    property: string
+    constraints: {
+      [key: string]: string
+    }
+  }[]
 }
 
 export type UploadAvatarSuccess = {

@@ -14,7 +14,7 @@ const SignIn = () => {
 
   if (isSuccess && data.accessToken) {
     localStorage.setItem(EnumTokens.ACCESS_TOKEN, data.accessToken)
-    void router.push(`/users/profile`)
+    void router.push(`/user/`)
   }
 
   return (

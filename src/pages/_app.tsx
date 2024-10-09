@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 import 'react-toastify/dist/ReactToastify.css'
 import { Slide, ToastContainer } from 'react-toastify'
 import '@honor-ui/inctagram-ui-kit/css'
+import { Select } from '@honor-ui/inctagram-ui-kit'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode

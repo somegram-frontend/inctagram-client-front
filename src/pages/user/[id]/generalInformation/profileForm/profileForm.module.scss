@@ -1,0 +1,54 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  max-width: 740px;
+  margin: 0 auto;
+
+  border: 3px solid green;
+}
+
+.inputWrapper {
+  width: 100%;
+
+  & div {
+    min-width: 100%;
+  }
+
+  & input {
+    margin-bottom: 24px;
+  }
+}
+
+.datePicker {
+  width: 100%;
+  margin-bottom: 54px;
+}
+
+.wrapperSelect {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.select {
+  width: 100%;
+  margin-right: 24px;
+}
+
+.select:last-child {
+  margin-right: 0;
+}
+
+.textArea {
+  margin-bottom: 48px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: end;
+}

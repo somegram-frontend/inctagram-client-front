@@ -1,11 +1,11 @@
-import { Button, Cards, Typography } from "@honor-ui/inctagram-ui-kit"
-import { ControlledInput } from "@/components/controlled/ControlledInput"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useRestorePasswordConfirmationMutation } from "@/api/auth-api"
-import { useRouter } from "next/router"
-import { useSearchParams } from "next/navigation"
+import { Button, Cards, Typography } from '@honor-ui/inctagram-ui-kit'
+import { ControlledInput } from '@/components/controlled/ControlledInput'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRestorePasswordConfirmationMutation } from '@/api/auth-api'
+import { useRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
 import s from './createNewPassword.module.scss'
 
 const createNewPasswordSchema = z
@@ -23,27 +23,25 @@ const createNewPasswordSchema = z
       .max(20, { message: 'The field must not contain more than 20 characters' }),
     confirmPassword: z.string(),
   })
-  .refine((data) => data.newPassword === data.confirmPassword, {
+  .refine(data => data.newPassword === data.confirmPassword, {
     message: 'Passwords must match',
     path: ['confirmPassword'],
-  });
+  })
 
 export type FormCreateNewPassword = z.infer<typeof createNewPasswordSchema>
 
-
 const CreateNewPassword = () => {
-
   const { control, trigger, handleSubmit } = useForm<FormCreateNewPassword>({
     resolver: zodResolver(createNewPasswordSchema),
     defaultValues: {
       newPassword: '',
-      confirmPassword: ''
-    }
+      confirmPassword: '',
+    },
   })
 
   const [createNewPass, { isLoading }] = useRestorePasswordConfirmationMutation()
   const router = useRouter()
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()
   const recoveryCode = decodeURIComponent(searchParams.get('code') ?? '').replace(/\s+/g, '+')
 
   const onSubmit = async (data: FormCreateNewPassword) => {
@@ -67,13 +65,15 @@ const CreateNewPassword = () => {
             label={'New password'}
             name={'newPassword'}
             trigger={trigger}
-            className={s.input} />
+            className={s.input}
+          />
           <ControlledInput
             control={control}
             label={'Password confirmation'}
             name={'confirmPassword'}
             trigger={trigger}
-            className={s.input} />
+            className={s.input}
+          />
         </div>
         <Typography as={'p'} variant={'regular_text14'} className={s.informTitle}>
           Your password must be between 6 and 20 characters

@@ -1,5 +1,5 @@
 import { baseApi } from '@/api/base-api'
-import { GetProfileSuccess, UploadAvatarResponse } from './users-api.types'
+import { GetProfileSuccess, UploadAvatarResponse, UserProfile } from './users-api.types'
 
 export const usersApi = baseApi.injectEndpoints({
   endpoints: builder => {
@@ -30,8 +30,21 @@ export const usersApi = baseApi.injectEndpoints({
         },
         invalidatesTags: ['Profile'],
       }),
+      profileFillInfo: builder.mutation<void, UserProfile>({
+        query: data => ({
+          url: `v1/users/profile-fill-info`,
+          method: 'PUT',
+          body: data,
+        }),
+        invalidatesTags: ['Profile'],
+      }),
     }
   },
 })
 
-export const { useUploadAvatarMutation, useGetProfileQuery, useDeleteAvatarMutation } = usersApi
+export const {
+  useUploadAvatarMutation,
+  useGetProfileQuery,
+  useDeleteAvatarMutation,
+  useProfileFillInfoMutation,
+} = usersApi
