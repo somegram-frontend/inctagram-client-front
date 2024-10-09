@@ -3,6 +3,8 @@ import ProfileForm, { FormChangeGeneralInformation } from './profileForm/Profile
 import { useGetProfileQuery, useProfileFillInfoMutation } from '@/api/users-api'
 
 import s from './generalinformation.module.scss'
+import UploadAvatar from '../../uploadAvatar'
+import NavigationLayout from '@/components/layout/NavigationLayout'
 
 const GeneralInformation = () => {
   const [profileFillInfo] = useProfileFillInfoMutation()
@@ -14,10 +16,12 @@ const GeneralInformation = () => {
   }
 
   return (
-    <div className={s.wrapper}>
-      <div className={s.uploadPhoto}>photo</div>
-      <ProfileForm onSubmit={onSubmitProfileForm} defaultDataValue={profileData} />
-    </div>
+    <NavigationLayout isAuth={true}>
+      <div className={s.wrapper}>
+        <UploadAvatar />
+        <ProfileForm onSubmit={onSubmitProfileForm} defaultDataValue={profileData} />
+      </div>
+    </NavigationLayout>
   )
 }
 
