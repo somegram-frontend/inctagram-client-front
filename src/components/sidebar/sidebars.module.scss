@@ -1,6 +1,8 @@
 .box {
   width: 100%;
   max-width: 220px;
+  min-height: 730px;
+
   background-color: var(--color-dark-700);
   border-right: 1px solid var(--color-dark-300);
 }
@@ -30,6 +32,10 @@
 
     color: var(--color-light-100);
 
+    &.searchSpace {
+      margin-bottom: 60px;
+    }
+
     svg {
       margin-right: 10px;
     }
@@ -45,6 +51,10 @@
     &:focus {
       color: var(--color-light-100);
       outline: 2px solid var(--color-accent-500);
+    }
+
+    &:last-child {
+      margin-top: 180px;
     }
   }
 }

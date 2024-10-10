@@ -1,18 +1,10 @@
-import { Button } from '@honor-ui/inctagram-ui-kit'
-import { useRouter } from 'next/router'
+import NavigationLayout from '@/components/layout/NavigationLayout'
 
 const Profile = () => {
-  const router = useRouter()
-
-  const handleProfileSettingClick = () => {
-    router.push(`${router.asPath}/generalInformation`)
-  }
-
   return (
-    <>
+    <NavigationLayout isAuth={true}>
       <div>My Profile</div>
-      <Button onClick={handleProfileSettingClick}>Profile Settings</Button>
-    </>
+    </NavigationLayout>
   )
 }
 
