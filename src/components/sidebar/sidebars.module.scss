@@ -32,6 +32,10 @@
 
     color: var(--color-light-100);
 
+    &.searchSpace {
+      margin-bottom: 60px;
+    }
+
     svg {
       margin-right: 10px;
     }
@@ -47,6 +51,10 @@
     &:focus {
       color: var(--color-light-100);
       outline: 2px solid var(--color-accent-500);
+    }
+
+    &:last-child {
+      margin-top: 180px;
     }
   }
 }

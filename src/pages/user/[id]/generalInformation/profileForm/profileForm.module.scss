@@ -47,6 +47,20 @@
 }
 
 .buttonContainer {
+  position: relative;
   display: flex;
   justify-content: end;
+
+  ::before {
+    content: '';
+
+    position: absolute;
+    top: -30px;
+    left: -260px;
+
+    width: 972px;
+    height: 1px;
+
+    background-color: var(--color-dark-300);
+  }
 }
