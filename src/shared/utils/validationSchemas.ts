@@ -73,18 +73,18 @@ export const changeGeneralInformationSchema = z.object({
       message: 'Allowed characters: A-Z, a-z, А-Я, а-я',
     }),
   dateOfBirth: z
-    .string()
-    .min(10, { message: 'Enter the date in the format dd.mm.yyyy' })
-    .max(10, { message: 'Enter the date in the format dd.mm.yyyy' })
-    .refine(value => /^\d{2}\.\d{2}\.\d{4}$/.test(value), {
-      message: 'Invalid date format, use dd.mm.yyyy',
+    .date()
+    .refine((date) => {
+      return (new Date().getTime() - new Date(date).getTime()) > 13 * 365 * 24 * 60 * 60 * 1000
+    }, {
+      message: "Must be at least 13 years old",
     }),
   country: z.string().min(1, { message: 'Country is required' }),
   city: z.string().min(1, { message: 'City is required' }),
   about: z
     .string()
     .max(200, { message: 'Maximum 200 characters' })
-    .refine(value => /^[0-9A-Za-zА-Яа-я\s\-_.,!]*$/.test(value), {
+    .refine(value => /^[0-9A-Za-zА-Яа-я\s\-_.'":,!]*$/.test(value), {
       message: 'Allowed characters: 0-9, A-Z, a-z, А-Я, а-я, and special characters',
     }),
 })
