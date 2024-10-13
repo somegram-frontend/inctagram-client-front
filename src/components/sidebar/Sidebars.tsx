@@ -27,11 +27,18 @@ export const Sidebars = () => {
     })
   }
 
+  const handleHomeClick = () => {
+    router.push({
+      pathname: '/user/[id]/',
+      query: { id: data?.userId },
+    })
+  }
+
   return (
     <div className={s.box}>
       <div className={s.content}>
         <ul>
-          <Typography as={'li'} variant={'medium_text14'}>
+          <Typography as={'li'} variant={'medium_text14'} onClick={handleHomeClick}>
             <HomeOutline /> Home
           </Typography>
           <Typography as={'li'} variant={'medium_text14'}>

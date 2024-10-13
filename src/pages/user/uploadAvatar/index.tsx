@@ -8,9 +8,10 @@ import style from '../../auth/logOut/logOut.module.scss'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { Button, ImageOutline, CloseOutline } from '@honor-ui/inctagram-ui-kit'
 import { DialogTrigger, Dialog, DialogContent, DialogClose } from '@/components/dialog/Dialog'
+import { Loader } from '@/components/loader/Loader'
 
 const UploadAvatar = () => {
-  const [uploadPhoto] = useUploadAvatarMutation()
+  const [uploadPhoto, { isLoading }] = useUploadAvatarMutation()
   const [deletePhoto] = useDeleteAvatarMutation()
   const { data } = useGetProfileQuery()
   const [photo, setPhoto] = useState<File | null>(null)
@@ -52,6 +53,12 @@ const UploadAvatar = () => {
     setOpenDelete(false)
     setAva('')
   }
+  if (isLoading)
+    return (
+      <div className={s.loader}>
+        <Loader />
+      </div>
+    )
 
   return (
     <div className={s.addProfilePhotoContainer}>
@@ -94,8 +101,8 @@ const UploadAvatar = () => {
           <Button variant="outlined">Add a Profile photo</Button>
         </DialogTrigger>
         <DialogContent title={'Upload avatar'}>
-          <div className={s.upoadPhotoErrorContainer}>
-            {error && <span className={s.upoadPhotoError}>{error}</span>}
+          <div className={s.uploadPhotoErrorContainer}>
+            {error && <span className={s.uploadPhotoError}>{error}</span>}
           </div>
           <div className={s.wrapper}>
             {ava ? (

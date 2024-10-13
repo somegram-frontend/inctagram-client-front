@@ -9,13 +9,15 @@ import s from './profileForm.module.scss'
 import { changeGeneralInformationSchema } from '@/shared/utils/validationSchemas'
 import { UserProfile } from '@/api/users-api.types'
 import { ControlledDatePicker } from '@/components/controlled/ControlledDatePicker'
+import { Loader } from '@/components/loader/Loader'
 
 type Props = {
-  onSubmit: (data: Omit<UserProfile, 'dateOfBirth'> & { dateOfBirth: Date }) => void
-  dataValue?: Omit<UserProfile, 'dateOfBirth'> & { dateOfBirth: Date }
+  isLoadingUpdate: boolean
+  onSubmit: (data: UserProfile) => void
+  dataValue?: UserProfile
 }
 
-const ProfileForm = ({ onSubmit, dataValue }: Props) => {
+const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
   const {
     control,
     register,
@@ -23,14 +25,14 @@ const ProfileForm = ({ onSubmit, dataValue }: Props) => {
     handleSubmit,
     watch,
     setValue,
-    formState: { errors, isValid },
-  } = useForm<Omit<UserProfile, 'dateOfBirth'> & { dateOfBirth: Date }>({
+    formState: { errors },
+  } = useForm<UserProfile>({
     resolver: zodResolver(changeGeneralInformationSchema),
     defaultValues: {
       userName: dataValue?.userName || '',
       firstName: dataValue?.firstName || '',
       lastName: dataValue?.lastName || '',
-      dateOfBirth: dataValue?.dateOfBirth || new Date(),
+      dateOfBirth: dataValue?.dateOfBirth || '',
       country: dataValue?.country || '',
       city: dataValue?.city || '',
       about: dataValue?.about || '',
@@ -40,7 +42,10 @@ const ProfileForm = ({ onSubmit, dataValue }: Props) => {
   const { data, error, isLoading } = useGetCountriesListQuery()
   const [getCities, { data: citiesData, isLoading: citiesLoading }] = useGetCitiesListMutation()
 
-  const [startDate, setStartDate] = useState<Date | undefined>(dataValue?.dateOfBirth || new Date())
+  const [startDate, setStartDate] = useState(dataValue!.dateOfBirth)
+  const setDatePicker = (d: Date | undefined) => {
+    setStartDate(d as unknown as string)
+  }
 
   const selectedCountry = watch('country')
   const formId = useId()
@@ -75,6 +80,13 @@ const ProfileForm = ({ onSubmit, dataValue }: Props) => {
     return []
   }, [citiesData, citiesLoading])
 
+  if (isLoadingUpdate)
+    return (
+      <div className={s.loader}>
+        <Loader />
+      </div>
+    )
+
   return (
     <div className={s.wrapper}>
       <form className={s.form} id={formId} onSubmit={handleSubmit(onSubmit)}>
@@ -107,8 +119,8 @@ const ProfileForm = ({ onSubmit, dataValue }: Props) => {
           name={'dateOfBirth'}
           trigger={trigger}
           className={s.datePicker}
-          setStartDate={setStartDate}
-          startDate={startDate}
+          setStartDate={setDatePicker}
+          startDate={startDate as unknown as Date}
         />
         <div className={s.wrapperSelect}>
           <ControlledSelect
@@ -130,7 +142,7 @@ const ProfileForm = ({ onSubmit, dataValue }: Props) => {
         <TextArea label={'About Me'} {...register('about')} className={s.textArea} name={'about'} />
         <span className={s.textAreaError}>{errors.about?.message}</span>
         <div className={s.buttonContainer}>
-          <Button disabled={!isValid}>Save Change</Button>
+          <Button disabled={!!Object.keys(errors).length}>Save Change</Button>
         </div>
       </form>
     </div>

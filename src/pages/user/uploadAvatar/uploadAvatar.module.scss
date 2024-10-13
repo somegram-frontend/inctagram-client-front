@@ -68,13 +68,13 @@
   border-radius: 50%;
 }
 
-.upoadPhotoErrorContainer {
+.uploadPhotoErrorContainer {
   width: 100%;
   max-width: 440px;
   margin: 0 auto;
 }
 
-.upoadPhotoError {
+.uploadPhotoError {
   display: inline-block;
 
   width: 100%;
@@ -119,7 +119,6 @@
 }
 
 .avatar {
-  // width: 100%;
   width: 330px;
   height: 340px;
   object-fit: cover;
@@ -150,4 +149,11 @@
   height: 0;
 
   opacity: 0;
+}
+
+.loader {
+  position: absolute;
+  z-index: 99;
+  inset: 0;
+  background-color: var(--color-dark-900);
 }
