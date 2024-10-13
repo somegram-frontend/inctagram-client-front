@@ -92,6 +92,7 @@ export const changeGeneralInformationSchema = z.object({
   city: z.string().min(1, { message: 'City is required' }),
   about: z
     .string()
+    .min(1, { message: 'Field is required' })
     .max(200, { message: 'Maximum 200 characters' })
     .refine(value => /^[0-9A-Za-zА-Яа-я\s\-_.'":,!]*$/.test(value), {
       message: 'Allowed characters: 0-9, A-Z, a-z, А-Я, а-я, and special characters',
