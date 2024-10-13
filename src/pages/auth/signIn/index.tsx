@@ -13,7 +13,6 @@ const SignIn = () => {
   const router = useRouter()
 
   const [signIn, { isError, data, isSuccess, isLoading, error }] = useLoginMutation()
-
   if (isLoading) return <Loader />
 
   if (isSuccess && data.accessToken) {
