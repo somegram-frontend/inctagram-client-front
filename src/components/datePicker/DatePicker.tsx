@@ -109,7 +109,6 @@ export const DatePicker = (props: DatePickerProps) => {
         popperPlacement={'bottom-start'}
         renderCustomHeader={RenderCustomHeader}
         selected={startDate}
-        startDate={startDate}
         toggleCalendarOnIconClick
       />
     </div>

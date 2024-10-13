@@ -25,7 +25,7 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
     handleSubmit,
     watch,
     setValue,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<UserProfile>({
     resolver: zodResolver(changeGeneralInformationSchema),
     defaultValues: {
@@ -42,12 +42,9 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
   const { data, error, isLoading } = useGetCountriesListQuery()
   const [getCities, { data: citiesData, isLoading: citiesLoading }] = useGetCitiesListMutation()
 
-  const [startDate, setStartDate] = useState(
-    dataValue?.dateOfBirth ? new Date(dataValue.dateOfBirth) : new Date()
-  )
-
-  const setDatePicker = (date: Date | undefined) => {
-    setStartDate(date || new Date())
+  const [startDate, setStartDate] = useState(dataValue!.dateOfBirth)
+  const setDatePicker = (d: Date | undefined) => {
+    setStartDate(d as unknown as string)
   }
 
   const selectedCountry = watch('country')
@@ -123,7 +120,7 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
           trigger={trigger}
           className={s.datePicker}
           setStartDate={setDatePicker}
-          startDate={new Date(startDate)}
+          startDate={startDate as unknown as Date}
         />
         <div className={s.wrapperSelect}>
           <ControlledSelect
@@ -145,7 +142,7 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
         <TextArea label={'About Me'} {...register('about')} className={s.textArea} name={'about'} />
         <span className={s.textAreaError}>{errors.about?.message}</span>
         <div className={s.buttonContainer}>
-          <Button disabled={!isValid}>Save Change</Button>
+          <Button disabled={!!Object.keys(errors).length}>Save Change</Button>
         </div>
       </form>
     </div>
