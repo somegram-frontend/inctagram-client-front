@@ -1,5 +1,5 @@
 import { baseApi } from '@/api/base-api'
-import { GetProfileSuccess, UploadAvatarResponse, UserProfile } from './users-api.types'
+import { GetProfileSuccess, ProfileResponse, UserProfile } from './users-api.types'
 
 export const usersApi = baseApi.injectEndpoints({
   endpoints: builder => {
@@ -8,7 +8,7 @@ export const usersApi = baseApi.injectEndpoints({
         query: () => `v1/users/profile-info`,
         providesTags: ['Profile'],
       }),
-      uploadAvatar: builder.mutation<UploadAvatarResponse, { file: File }>({
+      uploadAvatar: builder.mutation<ProfileResponse, { file: File }>({
         query: ({ file }) => {
           const formData = new FormData()
           formData.append('file', file)
@@ -30,7 +30,7 @@ export const usersApi = baseApi.injectEndpoints({
         },
         invalidatesTags: ['Profile'],
       }),
-      profileFillInfo: builder.mutation<void, UserProfile>({
+      profileFillInfo: builder.mutation<ProfileResponse, UserProfile>({
         query: data => ({
           url: `v1/users/profile-fill-info`,
           method: 'PUT',

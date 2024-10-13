@@ -5,8 +5,6 @@
   width: 100%;
   max-width: 740px;
   margin: 0 auto;
-
-  border: 3px solid green;
 }
 
 .inputWrapper {
@@ -18,12 +16,17 @@
 
   & input {
     margin-bottom: 24px;
+    color: var(--color-light--700);
   }
 }
 
 .datePicker {
   width: 100%;
-  margin-bottom: 54px;
+  margin-bottom: 24px;
+
+  & input {
+    color: var(--color-light--700);
+  }
 }
 
 .wrapperSelect {
@@ -44,11 +47,30 @@
   margin-right: 0;
 }
 
-.textArea {
-  margin-bottom: 48px;
+.textAreaError {
+  color: var(--color-danger-500);
 }
 
 .buttonContainer {
+  position: relative;
+
   display: flex;
   justify-content: end;
+
+  width: 100%;
+  margin-top: 48px;
+  padding-top: 30px;
+
+  ::before {
+    content: '';
+
+    position: absolute;
+    top: -30px;
+    left: -260px;
+
+    width: 972px;
+    height: 1px;
+
+    background-color: var(--color-dark-300);
+  }
 }

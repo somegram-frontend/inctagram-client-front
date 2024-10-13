@@ -1,25 +1,21 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
 import { Button, TextArea } from '@honor-ui/inctagram-ui-kit'
 import { useGetCitiesListMutation, useGetCountriesListQuery } from '@/api/countries-api'
 import { useEffect, useId, useMemo, useState } from 'react'
-import { ControlledSelect } from '@/components/controlled/ControledSelect'
-import { DatePicker } from '@/components/datePicker'
-import { format } from 'date-fns'
-
+import { ControlledSelect } from '@/components/controlled/ControlledSelect'
 import s from './profileForm.module.scss'
-import { changeGeneralInformationSchema } from '@/shared/utils/loginSchemas'
+import { changeGeneralInformationSchema } from '@/shared/utils/validationSchemas'
+import { UserProfile } from '@/api/users-api.types'
+import { ControlledDatePicker } from '@/components/controlled/ControlledDatePicker'
 
 type Props = {
-  onSubmit: (data: FormChangeGeneralInformation) => void
-  defaultDataValue?: FormChangeGeneralInformation
+  onSubmit: (data: Omit<UserProfile, 'dateOfBirth'> & { dateOfBirth: Date }) => void
+  dataValue?: Omit<UserProfile, 'dateOfBirth'> & { dateOfBirth: Date }
 }
 
-export type FormChangeGeneralInformation = z.infer<typeof changeGeneralInformationSchema>
-
-const ProfileForm = ({ onSubmit, defaultDataValue }: Props) => {
+const ProfileForm = ({ onSubmit, dataValue }: Props) => {
   const {
     control,
     register,
@@ -27,54 +23,37 @@ const ProfileForm = ({ onSubmit, defaultDataValue }: Props) => {
     handleSubmit,
     watch,
     setValue,
-    formState: { errors },
-  } = useForm<FormChangeGeneralInformation>({
+    formState: { errors, isValid },
+  } = useForm<Omit<UserProfile, 'dateOfBirth'> & { dateOfBirth: Date }>({
     resolver: zodResolver(changeGeneralInformationSchema),
     defaultValues: {
-      userName: '',
-      firstName: '',
-      lastName: '',
-      dateOfBirth: '',
-      country: '',
-      city: '',
-      about: '',
+      userName: dataValue?.userName || '',
+      firstName: dataValue?.firstName || '',
+      lastName: dataValue?.lastName || '',
+      dateOfBirth: dataValue?.dateOfBirth || new Date(),
+      country: dataValue?.country || '',
+      city: dataValue?.city || '',
+      about: dataValue?.about || '',
     },
   })
 
   const { data, error, isLoading } = useGetCountriesListQuery()
   const [getCities, { data: citiesData, isLoading: citiesLoading }] = useGetCitiesListMutation()
 
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined)
+  const [startDate, setStartDate] = useState<Date | undefined>(dataValue?.dateOfBirth || new Date())
 
   const selectedCountry = watch('country')
   const formId = useId()
 
   useEffect(() => {
-    if (defaultDataValue) {
-      setValue('userName', defaultDataValue.userName)
-      setValue('firstName', defaultDataValue.firstName)
-      setValue('lastName', defaultDataValue.lastName)
-      setValue('country', defaultDataValue.country)
-      const setCityValue = async () => {
-        await getCities({ country: defaultDataValue.country })
-        setValue('city', defaultDataValue.city)
-      }
-      setCityValue()
-      setValue('about', defaultDataValue.about)
-      setValue('dateOfBirth', format(defaultDataValue.dateOfBirth, 'dd.MM.yyyy'))
-      setStartDate(new Date(defaultDataValue.dateOfBirth))
-    }
-  }, [defaultDataValue, setValue, getCities])
-
-  useEffect(() => {
     if (selectedCountry) {
       getCities({ country: selectedCountry }).then(() => {
-        if (defaultDataValue && defaultDataValue.city) {
-          setValue('city', defaultDataValue.city)
+        if (dataValue && dataValue.city) {
+          setValue('city', dataValue.city)
         }
       })
     }
-  }, [selectedCountry, getCities, defaultDataValue, setValue])
+  }, [selectedCountry, getCities, dataValue, setValue])
 
   const optionsCountry = useMemo(() => {
     if (data && !isLoading && !error) {
@@ -122,14 +101,14 @@ const ProfileForm = ({ onSubmit, defaultDataValue }: Props) => {
             className={s.input}
           />
         </div>
-        <DatePicker
+        <ControlledDatePicker
+          control={control}
           label={'Date of birth'}
-          setStartDate={date => {
-            setStartDate(date)
-            setValue('dateOfBirth', date ? format(date, 'dd.MM.yyyy') : '')
-          }}
+          name={'dateOfBirth'}
+          trigger={trigger}
+          className={s.datePicker}
+          setStartDate={setStartDate}
           startDate={startDate}
-          errorMessage={errors.dateOfBirth?.message}
         />
         <div className={s.wrapperSelect}>
           <ControlledSelect
@@ -148,9 +127,10 @@ const ProfileForm = ({ onSubmit, defaultDataValue }: Props) => {
             className={s.select}
           />
         </div>
-        <TextArea label={'About Me'} {...register('about')} className={s.textArea} />
+        <TextArea label={'About Me'} {...register('about')} className={s.textArea} name={'about'} />
+        <span className={s.textAreaError}>{errors.about?.message}</span>
         <div className={s.buttonContainer}>
-          <Button>Save Change</Button>
+          <Button disabled={!isValid}>Save Change</Button>
         </div>
       </form>
     </div>

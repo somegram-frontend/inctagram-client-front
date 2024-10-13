@@ -77,3 +77,5 @@ export const Select = forwardRef<ElementRef<typeof SelectRadix.Root>, Props>((pr
     </label>
   )
 })
+
+Select.displayName = 'Select'
