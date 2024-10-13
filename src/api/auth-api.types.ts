@@ -49,15 +49,8 @@ export type RegistrationResponse = ConfirmationResponse & {
     username: string
   }
 }
-export type MeResponseSuccess = {
+export type MeResponse = {
   email: string
   userName: string
   userId: string
 }
-
-export type MeErrorResponse401 = {
-  statusCode: number
-  message: string
-}
-
-export type MeResponse = MeResponseSuccess & MeErrorResponse401

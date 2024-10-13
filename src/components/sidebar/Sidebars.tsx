@@ -21,9 +21,15 @@ export const Sidebars = () => {
   const { data } = useMeQuery()
 
   const handleProfileSettingClick = () => {
-    // router.push(`${router.asPath}/generalInformation`)
     router.push({
       pathname: '/user/[id]/generalInformation',
+      query: { id: data?.userId },
+    })
+  }
+
+  const handleHomeClick = () => {
+    router.push({
+      pathname: '/user/[id]/',
       query: { id: data?.userId },
     })
   }
@@ -32,7 +38,7 @@ export const Sidebars = () => {
     <div className={s.box}>
       <div className={s.content}>
         <ul>
-          <Typography as={'li'} variant={'medium_text14'}>
+          <Typography as={'li'} variant={'medium_text14'} onClick={handleHomeClick}>
             <HomeOutline /> Home
           </Typography>
           <Typography as={'li'} variant={'medium_text14'}>

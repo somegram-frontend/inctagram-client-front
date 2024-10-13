@@ -1,16 +1,19 @@
 import NavigationLayout from '@/components/layout/NavigationLayout'
 import { useMeQuery } from '@/api/auth-api'
 import { useRouter } from 'next/router'
+import { Loader } from '@/components/loader/Loader'
 
 const Profile = () => {
   const router = useRouter()
-  const { data } = useMeQuery()
+  const { data, isLoading } = useMeQuery()
 
   if (data && data.userId) {
-    void router.push(`/user/${data.userId}`)
+    router.push(`/user/${data.userId}`)
   }
 
-  return <NavigationLayout isAuth={true}>{JSON.stringify(data)}</NavigationLayout>
+  if (isLoading) return <Loader />
+
+  return <NavigationLayout isAuth={true}></NavigationLayout>
 }
 
 export default Profile

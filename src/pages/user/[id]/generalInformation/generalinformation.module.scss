@@ -8,9 +8,9 @@
   margin: 24px 62px 0 24px;
 }
 
-.uploadPhoto {
-  display: flex;
-  flex-direction: row;
-  max-width: 196px;
-  border: 3px solid red;
+.loader {
+  position: absolute;
+  z-index: 99;
+  inset: 0;
+  background-color: var(--color-dark--800);
 }

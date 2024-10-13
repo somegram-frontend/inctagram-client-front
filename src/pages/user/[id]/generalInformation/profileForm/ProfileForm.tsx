@@ -9,13 +9,15 @@ import s from './profileForm.module.scss'
 import { changeGeneralInformationSchema } from '@/shared/utils/validationSchemas'
 import { UserProfile } from '@/api/users-api.types'
 import { ControlledDatePicker } from '@/components/controlled/ControlledDatePicker'
+import { Loader } from '@/components/loader/Loader'
 
 type Props = {
+  isLoadingUpdate: boolean
   onSubmit: (data: Omit<UserProfile, 'dateOfBirth'> & { dateOfBirth: Date }) => void
   dataValue?: Omit<UserProfile, 'dateOfBirth'> & { dateOfBirth: Date }
 }
 
-const ProfileForm = ({ onSubmit, dataValue }: Props) => {
+const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
   const {
     control,
     register,
@@ -74,6 +76,13 @@ const ProfileForm = ({ onSubmit, dataValue }: Props) => {
     }
     return []
   }, [citiesData, citiesLoading])
+
+  if (isLoadingUpdate)
+    return (
+      <div className={s.loader}>
+        <Loader />
+      </div>
+    )
 
   return (
     <div className={s.wrapper}>

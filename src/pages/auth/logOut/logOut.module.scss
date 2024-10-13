@@ -17,8 +17,8 @@
 
 .text {
   display: inline-block;
-  padding-bottom: 42px;
   min-width: 400px;
+  padding-bottom: 42px;
 }
 
 .buttonContainer {
@@ -41,4 +41,11 @@
 
 .triggerButton {
   display: flex;
+}
+
+.loader {
+  position: absolute;
+  z-index: 99;
+  inset: 0;
+  background-color: var(--color-dark--800);
 }
