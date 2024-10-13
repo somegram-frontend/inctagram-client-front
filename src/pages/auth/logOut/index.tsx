@@ -10,61 +10,61 @@ import { toast } from 'react-toastify'
 const LogOut = () => {
   const { data } = useMeQuery()
 
-const LogOut = ({ email }: Props) => {
-  const [logout, { isLoading, isSuccess, isError, error }] = useLogoutMutation()
+  const LogOut = ({ email }: Props) => {
+    const [logout, { isLoading, isSuccess, isError, error }] = useLogoutMutation()
 
-  const onClickHandler = () => {
-    logout()
-  }
-
-  if (isLoading)
-    return (
-      <div className={s.loader}>
-        <Loader />
-      </div>
-    )
-
-  if (isSuccess) {
-    toast.success('You are logout successfully.')
-  }
-
-  if (isError) {
-    const err = error as { data: RegistrationResponse }
-    if (err.data?.details) {
-      const errorMessage = `${err.data.details.email! || ''} ${err.data.details.username || ''}`
-      errorMessage && toast.error(errorMessage)
-    } else if (err.data?.errors) {
-      const errorMessages = err.data.errors
-        .map(e => Object.values(e.constraints).join(', '))
-        .join('; ')
-      errorMessages && toast.error(errorMessages)
-    } else {
-      toast.error(err.data?.message || 'Logout failed')
+    const onClickHandler = () => {
+      logout()
     }
-  }
 
-  return (
-    <Dialog>
-      <DialogTrigger className={s.triggerButton}>
-        <LogOutIcon /> Log Out
-      </DialogTrigger>
-      <DialogContent title={'Log Out'}>
-        <div className={s.main}>
-          <span className={s.text}>
-            Are you really want to log out of your account {data?.email}?
-          </span>
-          <div className={s.buttonContainer}>
-            <Button onClick={onClickHandler} variant={'outlined'} className={s.button}>
-              Yes
-            </Button>
-            <DialogClose>
-              <Button className={s.button}>No</Button>
-            </DialogClose>
-          </div>
+    if (isLoading)
+      return (
+        <div className={s.loader}>
+          <Loader />
         </div>
-      </DialogContent>
-    </Dialog>
-  )
-}
+      )
 
+    if (isSuccess) {
+      toast.success('You are logout successfully.')
+    }
+
+    if (isError) {
+      const err = error as { data: RegistrationResponse }
+      if (err.data?.details) {
+        const errorMessage = `${err.data.details.email! || ''} ${err.data.details.username || ''}`
+        errorMessage && toast.error(errorMessage)
+      } else if (err.data?.errors) {
+        const errorMessages = err.data.errors
+          .map(e => Object.values(e.constraints).join(', '))
+          .join('; ')
+        errorMessages && toast.error(errorMessages)
+      } else {
+        toast.error(err.data?.message || 'Logout failed')
+      }
+    }
+
+    return (
+      <Dialog>
+        <DialogTrigger className={s.triggerButton}>
+          <LogOutIcon /> Log Out
+        </DialogTrigger>
+        <DialogContent title={'Log Out'}>
+          <div className={s.main}>
+            <span className={s.text}>
+              Are you really want to log out of your account {data?.email}?
+            </span>
+            <div className={s.buttonContainer}>
+              <Button onClick={onClickHandler} variant={'outlined'} className={s.button}>
+                Yes
+              </Button>
+              <DialogClose>
+                <Button className={s.button}>No</Button>
+              </DialogClose>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    )
+  }
+}
 export default LogOut
