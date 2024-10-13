@@ -21,7 +21,6 @@ export const Sidebars = () => {
   const { data } = useMeQuery()
 
   const handleProfileSettingClick = () => {
-    // router.push(`${router.asPath}/generalInformation`)
     router.push({
       pathname: '/user/[id]/generalInformation',
       query: { id: data?.userId },
@@ -54,7 +53,7 @@ export const Sidebars = () => {
             <BookmarkOutline /> Favorites
           </Typography>
           <Typography as={'li'} variant={'medium_text14'}>
-            <LogOut email={'email'} />
+            <LogOut />
           </Typography>
         </ul>
       </div>
