@@ -20,7 +20,6 @@ type AppPropsWithLayout = AppProps & {
 const inter = Inter({ subsets: ['latin'] })
 
 export default function MyApp({ Component, ...rest }: AppPropsWithLayout) {
-  // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? (page => page)
 
   const { store, props } = wrapper.useWrappedStore(rest)
@@ -39,7 +38,7 @@ export default function MyApp({ Component, ...rest }: AppPropsWithLayout) {
           position={'bottom-left'}
           rtl={false}
           stacked
-          style={{ marginBottom: '50px', marginLeft: '50px' }}
+          style={{ marginLeft: '10px' }}
           theme={'dark'}
           transition={Slide}
         />
