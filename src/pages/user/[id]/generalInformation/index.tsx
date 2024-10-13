@@ -19,11 +19,8 @@ const GeneralInformation = () => {
   ] = useProfileFillInfoMutation()
   const { data, isLoading, isSuccess, isError: isErrorGet } = useGetProfileQuery()
 
-  const onSubmitProfileForm = async (
-    formData: Omit<UserProfile, 'dateOfBirth'> & { dateOfBirth: Date }
-  ) => {
-    const data = { ...formData, dateOfBirth: format(formData.dateOfBirth, 'dd.MM.yyyy') }
-    await profileFillInfo(data)
+  const onSubmitProfileForm = async (formData: UserProfile) => {
+    await profileFillInfo({ ...formData, dateOfBirth: format(formData.dateOfBirth, 'dd.MM.yyyy') })
   }
 
   if (isLoading)
@@ -55,8 +52,8 @@ const GeneralInformation = () => {
         <div className={s.wrapper}>
           <UploadAvatar />
           <ProfileForm
+            dataValue={data}
             onSubmit={onSubmitProfileForm}
-            dataValue={{ ...data, dateOfBirth: new Date(data.dateOfBirth) }}
             isLoadingUpdate={isLoadingUpdate}
           />
         </div>

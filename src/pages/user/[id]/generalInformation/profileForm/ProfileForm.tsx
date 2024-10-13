@@ -13,8 +13,8 @@ import { Loader } from '@/components/loader/Loader'
 
 type Props = {
   isLoadingUpdate: boolean
-  onSubmit: (data: Omit<UserProfile, 'dateOfBirth'> & { dateOfBirth: Date }) => void
-  dataValue?: Omit<UserProfile, 'dateOfBirth'> & { dateOfBirth: Date }
+  onSubmit: (data: UserProfile) => void
+  dataValue?: UserProfile
 }
 
 const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
@@ -26,13 +26,13 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
     watch,
     setValue,
     formState: { errors, isValid },
-  } = useForm<Omit<UserProfile, 'dateOfBirth'> & { dateOfBirth: Date }>({
+  } = useForm<UserProfile>({
     resolver: zodResolver(changeGeneralInformationSchema),
     defaultValues: {
       userName: dataValue?.userName || '',
       firstName: dataValue?.firstName || '',
       lastName: dataValue?.lastName || '',
-      dateOfBirth: dataValue?.dateOfBirth || new Date(),
+      dateOfBirth: dataValue?.dateOfBirth || '',
       country: dataValue?.country || '',
       city: dataValue?.city || '',
       about: dataValue?.about || '',
@@ -42,7 +42,13 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
   const { data, error, isLoading } = useGetCountriesListQuery()
   const [getCities, { data: citiesData, isLoading: citiesLoading }] = useGetCitiesListMutation()
 
-  const [startDate, setStartDate] = useState<Date | undefined>(dataValue?.dateOfBirth || new Date())
+  const [startDate, setStartDate] = useState(
+    dataValue?.dateOfBirth ? new Date(dataValue.dateOfBirth) : new Date()
+  )
+
+  const setDatePicker = (date: Date | undefined) => {
+    setStartDate(date || new Date())
+  }
 
   const selectedCountry = watch('country')
   const formId = useId()
@@ -116,8 +122,8 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
           name={'dateOfBirth'}
           trigger={trigger}
           className={s.datePicker}
-          setStartDate={setStartDate}
-          startDate={startDate}
+          setStartDate={setDatePicker}
+          startDate={new Date(startDate)}
         />
         <div className={s.wrapperSelect}>
           <ControlledSelect
