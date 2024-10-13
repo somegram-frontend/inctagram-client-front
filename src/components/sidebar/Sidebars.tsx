@@ -60,7 +60,7 @@ export const Sidebars = () => {
             <BookmarkOutline /> Favorites
           </Typography>
           <Typography as={'li'} variant={'medium_text14'}>
-            <LogOut />
+            <LogOut email={data?.email} />
           </Typography>
         </ul>
       </div>

@@ -1,5 +1,5 @@
 'use client'
-import { useLogoutMutation, useMeQuery } from '@/api/auth-api'
+import { useLogoutMutation } from '@/api/auth-api'
 import { Button, LogOut as LogOutIcon } from '@honor-ui/inctagram-ui-kit'
 import s from './logOut.module.scss'
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from '@/components/dialog/Dialog'
@@ -7,7 +7,9 @@ import { Loader } from '@/components/loader/Loader'
 import { RegistrationResponse } from '@/api/auth-api.types'
 import { toast } from 'react-toastify'
 
-type Props = { email: string }
+type Props = {
+  email: string | undefined
+}
 
 const LogOut = ({ email }: Props) => {
   const [logout, { isLoading, isSuccess, isError, error }] = useLogoutMutation()
