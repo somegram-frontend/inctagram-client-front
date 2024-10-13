@@ -97,7 +97,7 @@ export const DatePicker = (props: DatePickerProps) => {
         customInput={
           <RenderCustomInput disabled={disabled} errorMessage={errorMessage} label={label} />
         }
-        dateFormat={'dd/MM/yyyy'}
+        dateFormat={'dd.MM.yyyy'}
         dayClassName={() => s.dayDate}
         disabled={disabled}
         endDate={endDate}

@@ -9,6 +9,7 @@ import { ChangeEvent, FormEvent, useState } from 'react'
 import { Button, ImageOutline, CloseOutline } from '@honor-ui/inctagram-ui-kit'
 import { DialogTrigger, Dialog, DialogContent, DialogClose } from '@/components/dialog/Dialog'
 import { Loader } from '@/components/loader/Loader'
+import Image from 'next/image'
 
 const UploadAvatar = () => {
   const [uploadPhoto, { isLoading }] = useUploadAvatarMutation()
@@ -65,7 +66,13 @@ const UploadAvatar = () => {
       <div className={s.addProfilePhotoContainer}>
         {data?.avatar.url ? (
           <div className={s.profileAvaContainer}>
-            <img src={data?.avatar.url} className={s.profileAvatar} />
+            <Image
+              src={data?.avatar.url}
+              className={s.profileAvatar}
+              alt=""
+              width={190}
+              height={190}
+            />
           </div>
         ) : (
           <div className={s.defaultAvaContainer}>
@@ -107,7 +114,7 @@ const UploadAvatar = () => {
           <div className={s.wrapper}>
             {ava ? (
               <div className={s.avatarContainer}>
-                <img src={ava} className={s.avatar} />
+                <Image src={ava} className={s.avatar} alt="" width={190} height={190} />
               </div>
             ) : (
               <div className={s.defaultImageContainer}>

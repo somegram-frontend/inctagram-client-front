@@ -72,13 +72,22 @@ export const changeGeneralInformationSchema = z.object({
     .refine(value => /^[A-Za-zА-Яа-я]+$/.test(value), {
       message: 'Allowed characters: A-Z, a-z, А-Я, а-я',
     }),
-  dateOfBirth: z
-    .date()
-    .refine((date) => {
-      return (new Date().getTime() - new Date(date).getTime()) > 13 * 365 * 24 * 60 * 60 * 1000
-    }, {
-      message: "Must be at least 13 years old",
-    }),
+  dateOfBirth: z.preprocess(
+    arg => {
+      if (typeof arg === 'string' || arg instanceof String) {
+        return new Date(arg as string)
+      }
+      return arg
+    },
+    z.date().refine(
+      date => {
+        return new Date().getTime() - date.getTime() > 13 * 365 * 24 * 60 * 60 * 1000
+      },
+      {
+        message: 'Must be at least 13 years old',
+      }
+    )
+  ),
   country: z.string().min(1, { message: 'Country is required' }),
   city: z.string().min(1, { message: 'City is required' }),
   about: z

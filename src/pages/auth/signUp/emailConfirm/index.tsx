@@ -25,7 +25,7 @@ const EmailConfirm = () => {
     if (token) {
       conformation({ token: token as string })
     }
-  }, [token])
+  }, [token, conformation])
 
   isSuccess && toast.success('Registration completed successfully.')
   ;(isError || isErrorReconformation) &&

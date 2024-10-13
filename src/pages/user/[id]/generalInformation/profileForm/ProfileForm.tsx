@@ -41,10 +41,9 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
 
   const { data, error, isLoading } = useGetCountriesListQuery()
   const [getCities, { data: citiesData, isLoading: citiesLoading }] = useGetCitiesListMutation()
-
-  const [startDate, setStartDate] = useState(dataValue!.dateOfBirth)
+  const [startDate, setStartDate] = useState<Date | undefined>(new Date(dataValue!.dateOfBirth))
   const setDatePicker = (d: Date | undefined) => {
-    setStartDate(d as unknown as string)
+    setStartDate(d || new Date())
   }
 
   const selectedCountry = watch('country')
@@ -120,7 +119,7 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
           trigger={trigger}
           className={s.datePicker}
           setStartDate={setDatePicker}
-          startDate={startDate as unknown as Date}
+          startDate={startDate}
         />
         <div className={s.wrapperSelect}>
           <ControlledSelect
