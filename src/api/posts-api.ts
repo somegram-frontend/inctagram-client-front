@@ -6,7 +6,7 @@ export const authApi = baseApi.injectEndpoints({
     return {
       getUserPosts: builder.query<GetUserPostsResponse, GetUserPostsArgs>({
         query: userId => `v1/posts/${userId}`,
-        providesTags: ['Profile'],
+        providesTags: ['Posts'],
       }),
     }
   },

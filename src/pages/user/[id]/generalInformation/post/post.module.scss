@@ -1,0 +1,109 @@
+.postContainer {
+  display: flex;
+  min-height: 560px;
+  border: 1px solid var(--color-dark-100);
+}
+
+.postImage {
+  width: 490px;
+  height: 40em;
+}
+
+.descriptionContainer {
+  width: 100%;
+  max-width: 480px;
+  border-left: 1px solid var(--color-dark-100);
+}
+
+.descriptionHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--color-dark-100);
+}
+
+.descriptionHeaderProfile {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.descriptionAvatarImage {
+  width: 40px;
+  height: 40px;
+  border: 1px solid gray;
+  border-radius: 50px;
+}
+
+.descriptionCommentsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+
+  padding: 12px 24px;
+
+  border-bottom: 1px solid var(--color-dark-100);
+}
+
+.descriptionCommentContainer {
+  display: flex;
+}
+
+.descriptionCommentIcon {
+  width: 15px;
+  height: 15px;
+  margin-top: 1em;
+  background-color: bisque;
+}
+
+.descriptionComment {
+  padding: 0 24px 0 12px;
+}
+
+.descriptionLikes {
+  padding-top: 20px;
+  border-bottom: 1px solid var(--color-dark-100);
+}
+
+.descriptionLikesIconsContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 24px;
+}
+
+.descriptionLikesIcons {
+  display: flex;
+  gap: 25px;
+}
+
+.descriptionLikesIcon {
+  width: 25px;
+  height: 25px;
+  background-color: bisque;
+}
+
+.descriptionLikesAvatarsContainer {
+  display: flex;
+  padding: 12px 24px;
+
+  & span {
+    padding-left: 12px;
+  }
+}
+
+.descriptionLikesAvatarImage {
+  width: 25px;
+  height: 25px;
+  border: 1px solid gray;
+  border-radius: 50px;
+}
+
+.date {
+  padding: 12px 24px;
+}
+
+.descriptionFooter {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 24px;
+}

@@ -1,11 +1,17 @@
 import { useGetUserPostsQuery } from '@/api/posts-api'
 import { useRouter } from 'next/router'
 import NavigationLayout from '@/components/layout/NavigationLayout'
+import { useState } from 'react'
+import { Dialog, DialogContent, DialogTrigger } from '@radix-ui/react-dialog'
+import { Button } from '@honor-ui/inctagram-ui-kit'
+import { Post } from './generalInformation/post/Post'
 
 const Profile = () => {
-  const router = useRouter()
-  let id = JSON.stringify(router.query.id)
-  const { data } = useGetUserPostsQuery({ userId: id })
+  // const router = useRouter()
+  // let id = JSON.stringify(router.query.id)
+  // const { data } = useGetUserPostsQuery({ userId: id })
+
+  const [openPost, setOpenPost] = useState(false)
 
   return (
     <NavigationLayout isAuth={true}>
@@ -19,7 +25,16 @@ const Profile = () => {
         }}
       >
         My Profile
-        {data?.items.map(el => <div>{JSON.stringify(el)}</div>)}
+        <div>
+          <Dialog open={openPost} onOpenChange={setOpenPost}>
+            <DialogTrigger asChild>
+              <Button variant="outlined">Post</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <Post />
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
     </NavigationLayout>
   )
