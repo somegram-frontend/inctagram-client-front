@@ -70,7 +70,6 @@ export const Post = () => {
           <span className={s.date}>July 3, 2021</span>
         </div>
         <div className={`${s.descriptionFooter} ${s.wrapper}`}>
-          {/* <span>Add a Comment...</span> */}
           <Button variant="borderless" as="span" className={s.descriptionFooterBtn}>
             Add a Comment...
           </Button>
