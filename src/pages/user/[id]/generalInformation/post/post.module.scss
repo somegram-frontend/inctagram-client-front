@@ -4,9 +4,13 @@
   border: 1px solid var(--color-dark-100);
 }
 
+.wrapper {
+  padding: 12px 24px;
+}
+
 .postImage {
-  width: 490px;
-  height: 40em;
+  min-width: 490px;
+  min-height: 40em;
 }
 
 .descriptionContainer {
@@ -18,7 +22,6 @@
 .descriptionHeader {
   display: flex;
   justify-content: space-between;
-  padding: 12px 24px;
   border-bottom: 1px solid var(--color-dark-100);
 }
 
@@ -35,63 +38,71 @@
   border-radius: 50px;
 }
 
+.descriptionUserName {
+  font-weight: 600;
+}
+
+.descriptionHeaderButton {
+  cursor: pointer;
+  color: var(--color-accent-500);
+}
+
 .descriptionCommentsContainer {
   display: flex;
   flex-direction: column;
   gap: 35px;
-
-  padding: 12px 24px;
-
   border-bottom: 1px solid var(--color-dark-100);
 }
 
 .descriptionCommentContainer {
   display: flex;
-}
-
-.descriptionCommentIcon {
-  width: 15px;
-  height: 15px;
-  margin-top: 1em;
-  background-color: bisque;
+  width: 100%;
 }
 
 .descriptionComment {
   padding: 0 24px 0 12px;
 }
 
-.descriptionLikes {
+.descriptionCommentIconContainer {
+  padding-top: 1em;
+}
+
+.descriptionCommentIcon {
+  &.iconActive {
+    color: var(--color-danger-500);
+  }
+}
+
+.descriptionReactions {
   padding-top: 20px;
   border-bottom: 1px solid var(--color-dark-100);
 }
 
-.descriptionLikesIconsContainer {
+.descriptionReactionsIconsContainer {
   display: flex;
   justify-content: space-between;
-  padding: 12px 24px;
 }
 
-.descriptionLikesIcons {
+.descriptionReactionsIcons {
   display: flex;
   gap: 25px;
 }
 
-.descriptionLikesIcon {
+.descriptionReactionsIcon {
   width: 25px;
   height: 25px;
   background-color: bisque;
 }
 
-.descriptionLikesAvatarsContainer {
+.descriptionReactionsAvatarsContainer {
   display: flex;
-  padding: 12px 24px;
 
   & span {
     padding-left: 12px;
   }
 }
 
-.descriptionLikesAvatarImage {
+.descriptionReactionsAvatarImage {
   width: 25px;
   height: 25px;
   border: 1px solid gray;
@@ -99,11 +110,10 @@
 }
 
 .date {
-  padding: 12px 24px;
+  color: var(--color-light-900);
 }
 
 .descriptionFooter {
   display: flex;
   justify-content: space-between;
-  padding: 12px 24px;
 }
