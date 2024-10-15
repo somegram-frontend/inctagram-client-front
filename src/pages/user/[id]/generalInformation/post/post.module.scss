@@ -34,7 +34,6 @@
 .descriptionAvatarImage {
   width: 40px;
   height: 40px;
-  border: 1px solid gray;
   border-radius: 50px;
 }
 
@@ -68,6 +67,8 @@
 }
 
 .descriptionCommentIcon {
+  cursor: pointer;
+
   &.iconActive {
     color: var(--color-danger-500);
   }
@@ -91,11 +92,11 @@
 .descriptionReactionsIcon {
   width: 25px;
   height: 25px;
-  background-color: bisque;
 }
 
 .descriptionReactionsAvatarsContainer {
   display: flex;
+  padding: 19px 10px 5px;
 
   & span {
     padding-left: 12px;
@@ -105,8 +106,14 @@
 .descriptionReactionsAvatarImage {
   width: 25px;
   height: 25px;
-  border: 1px solid gray;
+  margin-left: -10px;
   border-radius: 50px;
+
+  &:hover {
+    z-index: 999;
+    transform: translateY(-5px);
+    transition: transform 0.5s ease-out;
+  }
 }
 
 .date {
@@ -116,4 +123,15 @@
 .descriptionFooter {
   display: flex;
   justify-content: space-between;
+}
+
+.descriptionFooterBtn {
+  justify-content: start;
+  width: 100%;
+  padding: 6px 0;
+  color: var(--color-light-900);
+
+  &:hover {
+    color: var(--color-light-700);
+  }
 }
