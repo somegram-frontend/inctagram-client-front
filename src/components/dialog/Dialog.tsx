@@ -1,15 +1,18 @@
 import { ElementRef, forwardRef, ComponentPropsWithoutRef } from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import s from './dialog.module.scss'
-import { Button, CloseOutline, Typography } from '@honor-ui/inctagram-ui-kit'
+import { ArrowIosBack, Button, CloseOutline, Typography } from '@honor-ui/inctagram-ui-kit'
 
 type Props = {
   title?: string
   customTitle?: string
+  customBtn?: string
+  onCustomBtnClickGo?: () => void
+  onCustomBtnClickBack?: () => void
 } & ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 
 export const DialogContent = forwardRef<ElementRef<typeof DialogPrimitive.Content>, Props>(
-  ({ children, title, customTitle, ...props }: Props, ref) => (
+  ({ children, title, customTitle, customBtn, onCustomBtnClickGo, onCustomBtnClickBack, ...props }: Props, ref) => (
     <DialogPrimitive.Portal>
       <DialogPrimitive.Overlay className={s.overlay} />
       <DialogPrimitive.Content
@@ -29,7 +32,17 @@ export const DialogContent = forwardRef<ElementRef<typeof DialogPrimitive.Conten
           </div>
         )}
         {customTitle && (
-          <Button>Next</Button>
+          <div className={s.header}>
+            <Button variant='borderless' className={s.customBtnLeft} onClick={onCustomBtnClickBack}>
+              <ArrowIosBack className={s.iconButton} />
+            </Button>
+            <DialogPrimitive.Title>
+              <Typography variant={'h1'}>{customTitle}</Typography>
+            </DialogPrimitive.Title>
+            <Button variant='borderless' className={s.customBtnRight} onClick={onCustomBtnClickGo}>
+              {customBtn}
+            </Button>
+          </div>
         )}
         {children}
       </DialogPrimitive.Content>

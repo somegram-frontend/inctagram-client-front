@@ -58,3 +58,22 @@
   .PhotoBtn {
     margin-bottom: 24px;
   }
+
+  .uploadPhotoErrorContainer {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+  
+  .uploadPhotoError {
+    display: inline-block;
+  
+    width: 100%;
+    margin-top: 25px;
+    padding: 6px 24px;
+  
+    text-align: center;
+  
+    background-color: var(--color-danger-900);
+    border: 1px solid var(--color-danger-500);
+  }
