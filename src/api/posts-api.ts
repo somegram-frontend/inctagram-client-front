@@ -23,7 +23,7 @@ export const authApi = baseApi.injectEndpoints({
           const formData = new FormData()
           formData.append('file', file)
           return {
-            url: '/api/v1/posts/photo',
+            url: 'v1/posts/photo',
             method: 'POST',
             body: formData,
           }

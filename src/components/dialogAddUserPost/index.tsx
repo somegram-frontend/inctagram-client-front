@@ -1,5 +1,5 @@
 import { Button, ImageOutline, PlusSquareOutline } from '@honor-ui/inctagram-ui-kit'
-import { Dialog, DialogContent, DialogTrigger } from '../dialog/Dialog'
+import { Dialog, DialogClose, DialogContent, DialogTrigger } from '../dialog/Dialog'
 import s from './dialogAddUserPost.module.scss'
 import style from '../../pages/auth/logOut/logOut.module.scss'
 import { ChangeEvent, FormEvent, useState } from 'react'
@@ -42,43 +42,42 @@ const DialogAddUserPost = () => {
     }
 
     return (
-        <Dialog>
-            <DialogTrigger className={style.triggerButton}>
-                <PlusSquareOutline /> Create
-            </DialogTrigger>
-            <DialogContent title={'Add Photo'}>
-                <div className={s.wrapper}>
-                    {photo ? (
-                        <div className={s.photoContainer}>
-                            <Image src={photo} className={s.photo} alt="" width={190} height={190} />
-                        </div>
-                    ) : (
-                        <div className={s.defaultImageContainer}>
-                            <ImageOutline />
-                        </div>
-                    )}
-                    <form onSubmit={submitHandler}>
-                        <label className={s.inputFile}>
-                            <input type="file" name='photo_upload' accept='image/*' onChange={uploadHandler} />
-                            {photo || <div className={s.btnWrapper}>
-                                <Button as='span' className={s.PhotoBtn}>
-                                    Select from Computer
-                                </Button>
-                                <Button type='submit' variant='outlined'>
-                                    Open Draft
-                                </Button>
+        <div>
+            <Dialog>
+                <DialogTrigger className={style.triggerButton}>
+                    <PlusSquareOutline /> Create
+                </DialogTrigger>
+                <DialogContent customTitle={'as'}>
+                    <div className={s.wrapper}>
+                        {photo ? (
+                            <div className={s.photoContainer}>
+                                <Image src={photo} className={s.photo} alt="" width={492} height={504} />
                             </div>
-                            }
-                        </label>
-                        {photo && (
-                            <Button type="submit" className={s.saveAvaBtn}>
-                                Save
-                            </Button>
+                        ) : (
+                            <div className={s.defaultImageContainer}>
+                                <ImageOutline />
+                            </div>
                         )}
-                    </form>
-                </div>
-            </DialogContent>
-        </Dialog>
+                        <form onSubmit={submitHandler}>
+                            <label className={s.inputFile}>
+                                <input type="file" name='photo_upload' accept='image/*' onChange={uploadHandler} />
+                                {!photo ? <div className={s.btnWrapper}>
+                                    <Button as='span' className={s.PhotoBtn}>
+                                        Select from Computer
+                                    </Button>
+                                    <Button type='submit' variant='outlined'>
+                                        Open Draft
+                                    </Button>
+                                </div>
+                                    :
+                                    <Button>save</Button>
+                                }
+                            </label>
+                        </form>
+                    </div>
+                </DialogContent>
+            </Dialog>
+        </div>
     )
 }
 
