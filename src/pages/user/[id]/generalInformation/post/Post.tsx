@@ -23,11 +23,14 @@ const DescriptionComment = () => {
         <b>URLProfiele</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua.
       </span>
-      <div className={s.descriptionCommentIconContainer} onClick={() => setClick(!click)}>
+      <div className={s.descriptionCommentIconContainer}>
         {click ? (
-          <Heart className={`${s.descriptionCommentIcon} ${s.iconActive}`} />
+          <Heart
+            className={`${s.descriptionCommentIcon} ${s.iconActive}`}
+            onClick={() => setClick(false)}
+          />
         ) : (
-          <HeartOutline className={s.descriptionCommentIcon} />
+          <HeartOutline className={s.descriptionCommentIcon} onClick={() => setClick(true)} />
         )}
       </div>
     </div>
