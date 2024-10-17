@@ -1,17 +1,21 @@
-import { Button, ImageOutline, PlusSquareOutline } from '@honor-ui/inctagram-ui-kit'
+import { Button, ImageOutline, PlusSquareOutline, TextArea } from '@honor-ui/inctagram-ui-kit'
 import { Dialog, DialogContent, DialogTrigger } from '../dialog/Dialog'
 import s from './dialogAddUserPost.module.scss'
 import style from '../../pages/auth/logOut/logOut.module.scss'
 import { ChangeEvent, useState } from 'react'
 import Image from 'next/image'
-import { useAddPhotoForPostMutation } from '@/api/posts-api'
+import { useAddPhotoForPostMutation, useAddUserPostsMutation } from '@/api/posts-api'
 import { Loader } from '@/components/loader/Loader'
 
 const DialogAddUserPost = () => {
     const [uploadPhoto, { isLoading }] = useAddPhotoForPostMutation()
+    const [sendPost] = useAddUserPostsMutation()
+    const [open, setOpen] = useState(false)
     const [file, setFile] = useState<File | null>(null)
     const [photo, setPhoto] = useState('')
     const [error, setError] = useState('')
+    const [publicPost, setPublicPost] = useState(false)
+    const [description, setDescription] = useState('')
 
     const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.currentTarget.files && e.currentTarget.files.length) {
@@ -32,19 +36,39 @@ const DialogAddUserPost = () => {
         }
     }
 
-    const handleCustomButtonClickGo = () => {
+    const handleCustomButtonClickNext = () => {
         if (file) {
             uploadPhoto({ file })
+            setPublicPost(true)
         }
     }
 
-    const handleCustomButtonClickBack = () => {
+    const handleCustomButtonClickBackToPhoto = () => {
         setPhoto('')
     }
 
+    const handleCustomButtonClickBackToCropping = () => {
+        setPublicPost(false)
+    }
+
+    const handleDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setDescription(e.target.value)
+    }
+
+    const handleCustomButtonClickPublish = () => {
+        if (file) {
+            sendPost({ description, files: [[file.name]] })
+            setPhoto('')
+            setPublicPost(false)
+            setDescription('')
+            setOpen(false)
+        }
+    }
+
+
     return (
         <div>
-            <Dialog>
+            <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger className={style.triggerButton}>
                     <PlusSquareOutline /> Create
                 </DialogTrigger>
@@ -69,20 +93,41 @@ const DialogAddUserPost = () => {
                         </label>
                     </div>
                 </DialogContent> :
-                    <DialogContent customTitle={'Cropping'} customBtn={'Next'} onCustomBtnClickGo={handleCustomButtonClickGo} onCustomBtnClickBack={handleCustomButtonClickBack}>
+                    <DialogContent
+                        customTitle={'Cropping'}
+                        customBtn={'Next'}
+                        onCustomBtnClickGo={handleCustomButtonClickNext}
+                        onCustomBtnClickBack={handleCustomButtonClickBackToPhoto}>
                         <div className={s.wrapper}>
-                            {isLoading
-                                ?
-                                (<div className={s.loader}>
-                                    <Loader />
-                                </div>)
-                                :
-                                (<div className={s.photoContainer}>
-                                    <Image src={photo} className={s.photo} alt="" width={492} height={504} />
-                                </div>)}
+                            <div className={s.photoContainer}>
+                                <Image src={photo} className={s.photo} alt="" width={492} height={504} />
+                            </div>
                         </div>
                     </DialogContent>
                 }
+                {publicPost
+                    ?
+                    (<DialogContent
+                        customTitle={'Publication'}
+                        customBtn={'Publish'}
+                        onCustomBtnClickGo={handleCustomButtonClickPublish}
+                        onCustomBtnClickBack={handleCustomButtonClickBackToCropping}>
+                        <div className={s.wrapper}>
+                            <div className={s.photoContainer}>
+                                <Image src={photo} className={s.photo} alt="" width={492} height={504} />
+                            </div>
+                            <div>
+                                <TextArea
+                                    label={'Add publication descriptions'}
+                                    name={'descriptions'}
+                                    value={description}
+                                    onChange={handleDescriptionChange}
+                                />
+                            </div>
+                        </div>
+                    </DialogContent>)
+                    :
+                    ''}
             </Dialog>
         </div >
     )
