@@ -12,8 +12,18 @@
 
 .profileAvaContainer {
   overflow: hidden;
+
+  width: 100%;
+  max-width: 190px;
   max-height: 190px;
+
   border-radius: 50%;
+}
+
+.profileAvatar {
+  width: 100%;
+  min-width: 190px;
+  object-fit: cover;
 }
 
 .defaultAvaContainer {
@@ -100,6 +110,12 @@
   border-radius: 50%;
 }
 
+.avatar {
+  width: 330px;
+  height: 340px;
+  object-fit: cover;
+}
+
 .defaultImageContainer {
   display: flex;
   align-items: center;
@@ -110,18 +126,6 @@
   margin: 108px 135px 60px;
 
   background-color: var(--color-dark-500);
-}
-
-.profileAvatar {
-  width: 100%;
-  min-width: 190px;
-  object-fit: cover;
-}
-
-.avatar {
-  width: 330px;
-  height: 340px;
-  object-fit: cover;
 }
 
 .inputFile {

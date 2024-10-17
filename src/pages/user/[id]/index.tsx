@@ -2,7 +2,7 @@ import { useGetUserPostsQuery } from '@/api/posts-api'
 import { useRouter } from 'next/router'
 import NavigationLayout from '@/components/layout/NavigationLayout'
 import { useState } from 'react'
-import { Dialog, DialogContent, DialogTrigger } from '@radix-ui/react-dialog'
+import { DialogTrigger, Dialog, DialogContent, DialogClose } from '@/components/dialog/Dialog'
 import { Button, ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
 import { Post } from './generalInformation/post/Post'
 import { useMeQuery } from '@/api/auth-api'
@@ -10,13 +10,18 @@ import { useGetProfileQuery } from '@/api/users-api'
 import Image from 'next/image'
 import s from '../uploadAvatar/uploadAvatar.module.scss'
 import style from './generalInformation/user.module.scss'
-import { Loader } from '@/components/loader/Loader'
 
 const Profile = () => {
   const router = useRouter()
-  // let id = JSON.stringify(router.query.id)
-  // const { data } = useGetUserPostsQuery({ userId: id })
-  const { data: me, isLoading: meLoading } = useMeQuery()
+  let id = router.query.id
+  const { data: userPost } = useGetUserPostsQuery(
+    {
+      userId: id as string,
+    },
+    { skip: id === undefined }
+  )
+
+  const { data: me } = useMeQuery()
   const { data: profile } = useGetProfileQuery()
   const [openPost, setOpenPost] = useState(false)
 
