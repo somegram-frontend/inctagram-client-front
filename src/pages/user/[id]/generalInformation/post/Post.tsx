@@ -5,6 +5,7 @@ import {
   HeartOutline,
   MoreHorizontalOutline,
   PaperPlaneOutline,
+  TextArea,
 } from '@honor-ui/inctagram-ui-kit'
 import s from './post.module.scss'
 import Image from 'next/image'
@@ -20,6 +21,7 @@ const DescriptionComment = () => {
         <b>URLProfiele</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua.
       </span>
+      {/* <TextArea></TextArea> */}
       <div className={s.descriptionCommentIconContainer} onClick={() => setClick(!click)}>
         {click ? (
           <Heart className={`${s.descriptionCommentIcon} ${s.iconActive}`} />

@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  min-height: 560px;
+}
+
+.descriptionEdit {
+  margin-top: 24px;
+  margin-bottom: 216px;
+
+  & span {
+    color: var(--color-light-900);
+  }
+
+  & span:last-child {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -6px;
+  }
+}
+
+.textArea {
+  width: 100%;
+  min-width: 430px;
+  min-height: 145px;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+
+  & button {
+    width: 100%;
+    max-width: 135px;
+  }
+}

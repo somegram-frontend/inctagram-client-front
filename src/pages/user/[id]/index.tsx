@@ -3,13 +3,14 @@ import { useRouter } from 'next/router'
 import NavigationLayout from '@/components/layout/NavigationLayout'
 import { useState } from 'react'
 import { DialogTrigger, Dialog, DialogContent, DialogClose } from '@/components/dialog/Dialog'
-import { Button, ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
+import { Button, ImageOutline, TextArea, Typography } from '@honor-ui/inctagram-ui-kit'
 import { Post } from './generalInformation/post/Post'
 import { useMeQuery } from '@/api/auth-api'
 import { useGetProfileQuery } from '@/api/users-api'
 import Image from 'next/image'
 import s from '../uploadAvatar/uploadAvatar.module.scss'
 import style from './generalInformation/user.module.scss'
+import { EditPost } from './generalInformation/epitPost/EditPost'
 
 const Profile = () => {
   const router = useRouter()
@@ -87,8 +88,11 @@ const Profile = () => {
             <DialogTrigger asChild>
               <Button variant="outlined">Post</Button>
             </DialogTrigger>
-            <DialogContent>
+            {/* <DialogContent>
               <Post />
+            </DialogContent> */}
+            <DialogContent title={'Edit Post'}>
+              <EditPost />
             </DialogContent>
           </Dialog>
         </div>
