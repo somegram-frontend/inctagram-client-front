@@ -3,28 +3,80 @@ import { useRouter } from 'next/router'
 import NavigationLayout from '@/components/layout/NavigationLayout'
 import { useState } from 'react'
 import { Dialog, DialogContent, DialogTrigger } from '@radix-ui/react-dialog'
-import { Button } from '@honor-ui/inctagram-ui-kit'
+import { Button, ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
 import { Post } from './generalInformation/post/Post'
+import { useMeQuery } from '@/api/auth-api'
+import { useGetProfileQuery } from '@/api/users-api'
+import Image from 'next/image'
+import s from '../uploadAvatar/uploadAvatar.module.scss'
+import style from './generalInformation/user.module.scss'
+import { Loader } from '@/components/loader/Loader'
 
 const Profile = () => {
-  // const router = useRouter()
+  const router = useRouter()
   // let id = JSON.stringify(router.query.id)
   // const { data } = useGetUserPostsQuery({ userId: id })
-
+  const { data: me, isLoading: meLoading } = useMeQuery()
+  const { data: profile } = useGetProfileQuery()
   const [openPost, setOpenPost] = useState(false)
+
+  const handleProfileSettingClick = () => {
+    router.push({
+      pathname: '/user/[id]/generalInformation',
+      query: { id: me?.userId },
+    })
+  }
 
   return (
     <NavigationLayout isAuth={true}>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%',
-          height: 'calc(99vh - 60px)',
-        }}
-      >
-        My Profile
+      <div className={style.container}>
+        <div className={style.profile}>
+          {profile?.avatar.url ? (
+            <div className={s.profileAvaContainer}>
+              <Image
+                src={profile ? profile.avatar.url : ''}
+                className={s.profileAvatar}
+                alt=""
+                width={190}
+                height={190}
+              />
+            </div>
+          ) : (
+            <div className={s.defaultAvaContainer}>
+              <ImageOutline />
+            </div>
+          )}
+          <div className={style.profileData}>
+            <div className={style.profileNameAndBtnContainer}>
+              <Typography variant="h1">{me?.userName}</Typography>
+              <Button variant="secondary" onClick={handleProfileSettingClick}>
+                Profile Settings
+              </Button>
+            </div>
+            <div className={style.profileFollowersContainer}>
+              <span>
+                2 218 <br />
+                Following
+              </span>
+              <span>
+                2 358 <br />
+                Followers
+              </span>
+              <span>
+                2 764 <br />
+                Publications
+              </span>
+            </div>
+            <span>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+              exercitation ullamco{' '}
+              <Typography variant="regular_link">
+                laboris nisi ut aliquip ex ea commodo consequat.
+              </Typography>
+            </span>
+          </div>
+        </div>
         <div>
           <Dialog open={openPost} onOpenChange={setOpenPost}>
             <DialogTrigger asChild>
