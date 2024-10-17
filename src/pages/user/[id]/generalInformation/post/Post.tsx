@@ -1,11 +1,13 @@
 import {
   BookmarkOutline,
   Button,
+  Edit2Outline,
   Heart,
   HeartOutline,
   MoreHorizontalOutline,
   PaperPlaneOutline,
   TextArea,
+  TrashOutline,
 } from '@honor-ui/inctagram-ui-kit'
 import s from './post.module.scss'
 import Image from 'next/image'
@@ -21,7 +23,6 @@ const DescriptionComment = () => {
         <b>URLProfiele</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua.
       </span>
-      {/* <TextArea></TextArea> */}
       <div className={s.descriptionCommentIconContainer} onClick={() => setClick(!click)}>
         {click ? (
           <Heart className={`${s.descriptionCommentIcon} ${s.iconActive}`} />
@@ -33,19 +34,43 @@ const DescriptionComment = () => {
   )
 }
 
-export const Post = () => {
+type Props = {
+  setEditPost: (value: boolean) => void
+}
+
+export const Post = ({ setEditPost }: Props) => {
+  const [editMenu, setEditMenu] = useState(false)
+
+  const onEditClickHandler = () => {
+    setEditMenu(true)
+  }
+
+  const buttonMenuClass = editMenu ? `${s.buttonMenu} ${s.visible}` : `${s.buttonMenu}`
+
   return (
     <div className={s.postContainer}>
-      <img src="" alt="" className={s.postImage} />
+      <Image src="" alt="post image" className={s.postImage} />
       <div className={s.descriptionContainer}>
         <div className={`${s.descriptionHeader} ${s.wrapper}`}>
           <div className={s.descriptionHeaderProfile}>
             <Image src={defaultAva} alt="" className={s.descriptionAvatarImage} />
             <span className={s.descriptionUserName}>URLProfile</span>
           </div>
-          <button>
+          <button onClick={onEditClickHandler} className={s.editButton}>
             <MoreHorizontalOutline className={s.descriptionHeaderButton} />
           </button>
+          <div className={buttonMenuClass}>
+            <ul>
+              <li onClick={() => setEditPost(true)}>
+                <Edit2Outline />
+                Edit Post
+              </li>
+              <li>
+                <TrashOutline />
+                Delete Post
+              </li>
+            </ul>
+          </div>
         </div>
         <div className={`${s.descriptionCommentsContainer} ${s.wrapper}`}>
           {/* TODO add map */}

@@ -4,14 +4,22 @@ import Image from 'next/image'
 import { Button, TextArea, Typography } from '@honor-ui/inctagram-ui-kit'
 import defaultAva from '../../../../../shared/images/Mask group.jpg'
 
-export const EditPost = () => {
+type Props = {
+  setEditPost: (value: boolean) => void
+}
+
+export const EditPost = ({ setEditPost }: Props) => {
   return (
     <div className={s.container}>
-      <img src="" alt="" className={postStyle.postImage} />
+      <Image src="" alt="post image" className={postStyle.postImage} />
       <div className={postStyle.descriptionContainer}>
         <div className={postStyle.wrapper}>
           <div className={postStyle.descriptionHeaderProfile}>
-            <Image src={defaultAva} alt="" className={postStyle.descriptionAvatarImage} />
+            <Image
+              src={defaultAva}
+              alt="user profile"
+              className={postStyle.descriptionAvatarImage}
+            />
             <span className={postStyle.descriptionUserName}>URLProfile</span>
           </div>
           <div className={s.descriptionEdit}>
@@ -23,7 +31,7 @@ export const EditPost = () => {
             <Typography variant="small_text">200/500</Typography>
           </div>
           <div className={s.button}>
-            <Button>Save Changes</Button>
+            <Button onClick={() => setEditPost(false)}>Save Changes</Button>
           </div>
         </div>
       </div>

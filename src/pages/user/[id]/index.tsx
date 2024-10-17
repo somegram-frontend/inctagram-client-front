@@ -25,6 +25,7 @@ const Profile = () => {
   const { data: me } = useMeQuery()
   const { data: profile } = useGetProfileQuery()
   const [openPost, setOpenPost] = useState(false)
+  const [editPost, setEditPost] = useState(false)
 
   const handleProfileSettingClick = () => {
     router.push({
@@ -88,12 +89,17 @@ const Profile = () => {
             <DialogTrigger asChild>
               <Button variant="outlined">Post</Button>
             </DialogTrigger>
-            {/* <DialogContent>
-              <Post />
-            </DialogContent> */}
-            <DialogContent title={'Edit Post'}>
-              <EditPost />
+            <DialogContent title={editPost ? 'Edit Post' : ''}>
+              {editPost ? (
+                <EditPost setEditPost={setEditPost} />
+              ) : (
+                <Post setEditPost={setEditPost} />
+              )}
+              {/* <Post /> */}
             </DialogContent>
+            {/* <DialogContent title={'Edit Post'}>
+              <EditPost />
+            </DialogContent> */}
           </Dialog>
         </div>
       </div>
