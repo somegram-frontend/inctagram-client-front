@@ -4,11 +4,10 @@ import s from './dialogAddUserPost.module.scss'
 import style from '../../pages/auth/logOut/logOut.module.scss'
 import { ChangeEvent, useState } from 'react'
 import Image from 'next/image'
-import { useAddPhotoForPostMutation, useAddUserPostsMutation } from '@/api/posts-api'
+import { useAddUserPostsMutation } from '@/api/posts-api'
 import { Loader } from '@/components/loader/Loader'
 
 const DialogAddUserPost = () => {
-    const [uploadPhoto, { isLoading }] = useAddPhotoForPostMutation()
     const [sendPost] = useAddUserPostsMutation()
     const [open, setOpen] = useState(false)
     const [file, setFile] = useState<File | null>(null)
@@ -38,7 +37,6 @@ const DialogAddUserPost = () => {
 
     const handleCustomButtonClickNext = () => {
         if (file) {
-            uploadPhoto({ file })
             setPublicPost(true)
         }
     }
@@ -57,7 +55,8 @@ const DialogAddUserPost = () => {
 
     const handleCustomButtonClickPublish = () => {
         if (file) {
-            sendPost({ description, files: [[file.name]] })
+            sendPost({ files: [file], description })
+            console.log({ files: [file], description })
             setPhoto('')
             setPublicPost(false)
             setDescription('')
