@@ -1,4 +1,4 @@
-import { Button, ImageOutline, PlusSquareOutline, TextArea } from '@honor-ui/inctagram-ui-kit'
+import { Button, ImageOutline, PlusSquareOutline, Select, TextArea } from '@honor-ui/inctagram-ui-kit'
 import { Dialog, DialogContent, DialogTrigger } from '../dialog/Dialog'
 import s from './dialogAddUserPost.module.scss'
 import style from '../../pages/auth/logOut/logOut.module.scss'
@@ -111,7 +111,7 @@ const DialogAddUserPost = () => {
                         customBtn={'Publish'}
                         onCustomBtnClickGo={handleCustomButtonClickPublish}
                         onCustomBtnClickBack={handleCustomButtonClickBackToCropping}>
-                        <div className={s.wrapper}>
+                        <div className={s.publicWrapper}>
                             <div className={s.photoContainer}>
                                 <Image src={photo} className={s.photo} alt="" width={492} height={504} />
                             </div>
@@ -122,6 +122,7 @@ const DialogAddUserPost = () => {
                                     value={description}
                                     onChange={handleDescriptionChange}
                                 />
+                                <Select label='Add location' options={[]} />
                             </div>
                         </div>
                     </DialogContent>)
