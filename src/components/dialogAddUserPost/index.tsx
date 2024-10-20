@@ -6,6 +6,7 @@ import { ChangeEvent, useState } from 'react'
 import Image from 'next/image'
 import { useAddUserPostsMutation } from '@/api/posts-api'
 import { Loader } from '@/components/loader/Loader'
+import { PinOutline } from '@honor-ui/inctagram-ui-kit'
 
 const DialogAddUserPost = () => {
     const [sendPost] = useAddUserPostsMutation()
@@ -122,7 +123,12 @@ const DialogAddUserPost = () => {
                                     value={description}
                                     onChange={handleDescriptionChange}
                                 />
-                                <Select label='Add location' options={[]} />
+                                <div className={s.selectWrapper}>
+                                    <Select label={'Add location'} name={'location'} options={[]} className={s.select} />
+                                    <span className={s.customArrow}>
+                                        <PinOutline /> {/* Вставляем иконку */}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </DialogContent>)
