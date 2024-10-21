@@ -5,10 +5,11 @@ import { CloseOutline, Typography } from '@honor-ui/inctagram-ui-kit'
 
 type Props = {
   title?: string
+  withoutCloseIcon?: boolean
 } & ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 
 export const DialogContent = forwardRef<ElementRef<typeof DialogPrimitive.Content>, Props>(
-  ({ children, title, ...props }: Props, ref) => (
+  ({ children, title, withoutCloseIcon, ...props }: Props, ref) => (
     <DialogPrimitive.Portal>
       <DialogPrimitive.Overlay className={s.overlay} />
       <DialogPrimitive.Content
@@ -22,9 +23,11 @@ export const DialogContent = forwardRef<ElementRef<typeof DialogPrimitive.Conten
             <DialogPrimitive.Title>
               <Typography variant={'h1'}>{title}</Typography>
             </DialogPrimitive.Title>
-            <DialogPrimitive.Close aria-label="Close">
-              <CloseOutline className={s.iconButton} />
-            </DialogPrimitive.Close>
+            {!withoutCloseIcon && (
+              <DialogPrimitive.Close aria-label="Close">
+                <CloseOutline className={s.iconButton} />
+              </DialogPrimitive.Close>
+            )}
           </div>
         )}
         {children}

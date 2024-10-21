@@ -45,7 +45,7 @@ export const Post = ({ setEditPost }: Props) => {
   const [editMenu, setEditMenu] = useState(false)
 
   const onEditClickHandler = () => {
-    setEditMenu(true)
+    setEditMenu(editMenu => !editMenu)
   }
 
   const buttonMenuClass = editMenu ? `${s.buttonMenu} ${s.visible}` : `${s.buttonMenu}`
