@@ -2,14 +2,18 @@ import { Button, ImageOutline, PlusSquareOutline, Select, TextArea } from '@hono
 import { Dialog, DialogContent, DialogTrigger } from '../dialog/Dialog'
 import s from './dialogAddUserPost.module.scss'
 import style from '../../pages/auth/logOut/logOut.module.scss'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useMemo, useState } from 'react'
 import Image from 'next/image'
 import { useAddUserPostsMutation } from '@/api/posts-api'
-import { Loader } from '@/components/loader/Loader'
 import { PinOutline } from '@honor-ui/inctagram-ui-kit'
+import { useGetProfileQuery, useProfileFillInfoMutation } from '@/api/users-api'
+import { ControlledSelect } from '../controlled/ControlledSelect'
+import { useGetCitiesListMutation } from '@/api/countries-api'
 
 const DialogAddUserPost = () => {
     const [sendPost] = useAddUserPostsMutation()
+    const profileInfo = useGetProfileQuery()
+    const [getCities, { data: citiesData, isLoading: citiesLoading }] = useGetCitiesListMutation()
     const [open, setOpen] = useState(false)
     const [file, setFile] = useState<File | null>(null)
     const [photo, setPhoto] = useState('')
@@ -35,6 +39,16 @@ const DialogAddUserPost = () => {
             }
         }
     }
+
+    const optionsCity = useMemo(() => {
+        if (citiesData && !citiesLoading) {
+            return citiesData.data.map(city => ({
+                label: city,
+                value: city,
+            }))
+        }
+        return []
+    }, [citiesData, citiesLoading])
 
     const handleCustomButtonClickNext = () => {
         if (file) {
@@ -117,6 +131,10 @@ const DialogAddUserPost = () => {
                                 <Image src={photo} className={s.photo} alt="" width={492} height={504} />
                             </div>
                             <div>
+                                <span>
+                                    <Image src={profileInfo.data ? profileInfo.data?.avatar.url : ''} className={s.avatar} alt='' width={100} height={100} />
+                                    {profileInfo.data?.userName}
+                                </span>
                                 <TextArea
                                     label={'Add publication descriptions'}
                                     name={'descriptions'}
@@ -124,9 +142,9 @@ const DialogAddUserPost = () => {
                                     onChange={handleDescriptionChange}
                                 />
                                 <div className={s.selectWrapper}>
-                                    <Select label={'Add location'} name={'location'} options={[]} className={s.select} />
+                                    <Select label={'Add location'} name={'location'} options={optionsCity} className={s.select} />
                                     <span className={s.customArrow}>
-                                        <PinOutline /> {/* Вставляем иконку */}
+                                        <PinOutline />
                                     </span>
                                 </div>
                             </div>
