@@ -15,13 +15,14 @@ export const authApi = baseApi.injectEndpoints({
         providesTags: ['Posts'],
       }),
       updateUserPost: builder.mutation<UpdateUserPostResponse, UpdateUserPostArgs>({
-        query: ({ id, description }) => {
+        query: ({ postId, description }) => {
           return {
-            url: `v1/posts/${id}`,
+            url: `v1/posts/${postId}`,
             method: 'PUT',
-            body: description,
+            body: { description },
           }
         },
+        invalidatesTags: ['Posts'],
       }),
     }
   },

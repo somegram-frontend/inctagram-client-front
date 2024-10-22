@@ -13,45 +13,58 @@ import s from './post.module.scss'
 import Image from 'next/image'
 import defaultAva from '../../../../../shared/images/Mask group.jpg'
 import { useState } from 'react'
+import { ItemsType } from '@/api/posts-api.types'
 
 type DescriptionCommentProps = {
   description?: string | null
+  userName: string
+  userAvatar: string
 }
 
-const DescriptionComment = ({ description }: DescriptionCommentProps) => {
+const DescriptionComment = ({ description, userName, userAvatar }: DescriptionCommentProps) => {
   const [click, setClick] = useState(false)
   return (
     <div className={s.descriptionCommentContainer}>
-      <Image src={defaultAva} alt="" className={s.descriptionAvatarImage} />
+      <Image
+        src={userAvatar || defaultAva}
+        alt="user avatar"
+        width={40}
+        height={40}
+        className={s.descriptionAvatarImage}
+      />
       <span className={s.descriptionComment}>
-        {/* <b>URLProfiele</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. */}
-        <b>URLProfiele</b>{' '}
+        <b>{userName || 'URLProfiele'}</b>{' '}
         {description ||
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
       </span>
-      <div className={s.descriptionCommentIconContainer}>
-        {click ? (
-          <Heart
-            className={`${s.descriptionCommentIcon} ${s.iconActive}`}
-            onClick={() => setClick(false)}
-          />
-        ) : (
-          <HeartOutline className={s.descriptionCommentIcon} onClick={() => setClick(true)} />
-        )}
-      </div>
+      {!userName && (
+        <div className={s.descriptionCommentIconContainer}>
+          {click ? (
+            <Heart
+              className={`${s.descriptionCommentIcon} ${s.iconActive}`}
+              onClick={() => setClick(false)}
+            />
+          ) : (
+            <HeartOutline className={s.descriptionCommentIcon} onClick={() => setClick(true)} />
+          )}
+        </div>
+      )}
     </div>
   )
 }
 
 type Props = {
   setEditPost: (value: boolean) => void
-  postImageSrc: string
-  postDescription: string | null
+  postData: ItemsType[]
 }
 
-export const Post = ({ setEditPost, postImageSrc, postDescription }: Props) => {
+export const Post = ({ setEditPost, postData }: Props) => {
   const [editMenu, setEditMenu] = useState(false)
+
+  const postImage = postData[0].images[0]
+  const postDescription = postData[0].description
+  const userName = postData[0].postOwnerInfo.username
+  const userAvatar = postData[0].postOwnerInfo.avatarUrl
 
   const onEditClickHandler = () => {
     setEditMenu(editMenu => !editMenu)
@@ -61,12 +74,18 @@ export const Post = ({ setEditPost, postImageSrc, postDescription }: Props) => {
 
   return (
     <div className={s.postContainer}>
-      <Image src={postImageSrc} alt="post image" width={490} height={560} className={s.postImage} />
+      <Image src={postImage} alt="post image" width={490} height={560} className={s.postImage} />
       <div className={s.descriptionContainer}>
         <div className={`${s.descriptionHeader} ${s.wrapper}`}>
           <div className={s.descriptionHeaderProfile}>
-            <Image src={defaultAva} alt="" className={s.descriptionAvatarImage} />
-            <span className={s.descriptionUserName}>URLProfile</span>
+            <Image
+              src={userAvatar || defaultAva}
+              alt="my avatar"
+              width={40}
+              height={40}
+              className={s.descriptionAvatarImage}
+            />
+            <span className={s.descriptionUserName}>{userName}</span>
           </div>
           <button onClick={onEditClickHandler} className={s.editButton}>
             <MoreHorizontalOutline className={s.descriptionHeaderButton} />
@@ -86,9 +105,13 @@ export const Post = ({ setEditPost, postImageSrc, postDescription }: Props) => {
         </div>
         <div className={`${s.descriptionCommentsContainer} ${s.wrapper}`}>
           {/* TODO add map */}
-          <DescriptionComment description={postDescription} />
-          <DescriptionComment />
-          <DescriptionComment />
+          <DescriptionComment
+            description={postDescription}
+            userName={userName}
+            userAvatar={userAvatar}
+          />
+          <DescriptionComment userName="" userAvatar="" />
+          <DescriptionComment userName="" userAvatar="" />
         </div>
         <div className={`${s.descriptionReactions} ${s.wrapper}`}>
           <div className={`${s.descriptionReactionsIconsContainer}`}>

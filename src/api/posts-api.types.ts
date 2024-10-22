@@ -10,7 +10,6 @@ export type GetUserPostsResponse = {
   totalCount: number
   pagesCount: number
   items: ItemsType[]
-  postOwnerInfo: PostOwnerInfoType
 }
 
 type PostOwnerInfoType = {
@@ -19,16 +18,17 @@ type PostOwnerInfoType = {
   avatarUrl: string
 }
 
-type ItemsType = {
+export type ItemsType = {
   id: string
   description: string
   createdAt: string
   updatedAt: string
   images: string[]
+  postOwnerInfo: PostOwnerInfoType
 }
 
 export type UpdateUserPostArgs = {
-  id: string
+  postId: string
   description: string
 }
 

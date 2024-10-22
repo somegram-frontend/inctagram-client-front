@@ -3,19 +3,25 @@ import s from './editPost.module.scss'
 import Image from 'next/image'
 import { Button, TextArea, Typography } from '@honor-ui/inctagram-ui-kit'
 import defaultAva from '../../../../../shared/images/Mask group.jpg'
-import { useGetUserPostsQuery, useUpdateUserPostMutation } from '@/api/posts-api'
+import { useUpdateUserPostMutation } from '@/api/posts-api'
 import { ChangeEvent, useState } from 'react'
-import { useRouter } from 'next/router'
+import { ItemsType } from '@/api/posts-api.types'
+import { Loader } from '@/components/loader/Loader'
+import { toast } from 'react-toastify'
 
 type Props = {
   setEditPost: (value: boolean) => void
-  postImageSrc: string
-  postDescription: string
-  userId: string
+  postData: ItemsType[]
 }
 
-export const EditPost = ({ setEditPost, postImageSrc, postDescription, userId }: Props) => {
+export const EditPost = ({ setEditPost, postData }: Props) => {
   const [updatePost, { isLoading, isSuccess, isError }] = useUpdateUserPostMutation()
+
+  const postImage = postData[0].images[0]
+  const postDescription = postData[0].description
+  const userName = postData[0].postOwnerInfo.username
+  const userAvatar = postData[0].postOwnerInfo.avatarUrl
+  const postId = postData[0].id
 
   const [description, setDescription] = useState(postDescription)
 
@@ -25,15 +31,14 @@ export const EditPost = ({ setEditPost, postImageSrc, postDescription, userId }:
   }
 
   const onPostSaveHandler = () => {
-    updatePost({ id: userId, description: description })
+    updatePost({ postId: postId, description })
     setEditPost(false)
   }
 
   return (
     <div className={s.container}>
-      {/* <Image src="" alt="post image" className={postStyle.postImage} /> */}
       <Image
-        src={postImageSrc}
+        src={postImage}
         alt="post image"
         width={490}
         height={560}
@@ -43,23 +48,22 @@ export const EditPost = ({ setEditPost, postImageSrc, postDescription, userId }:
         <div className={postStyle.wrapper}>
           <div className={postStyle.descriptionHeaderProfile}>
             <Image
-              src={defaultAva}
+              src={userAvatar || defaultAva}
               alt="user profile"
+              width={40}
+              height={40}
               className={postStyle.descriptionAvatarImage}
             />
-            <span className={postStyle.descriptionUserName}>URLProfile</span>
+            <span className={postStyle.descriptionUserName}>{userName}</span>
           </div>
           <div className={s.descriptionEdit}>
             <Typography variant="regular_text14">Add publication descriptions</Typography>
-            <TextArea className={s.textArea} onChange={onPostChangeHandler}>
-              {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua. */}
+            <TextArea className={s.textArea} onChange={onPostChangeHandler} value={description}>
               {postDescription}
             </TextArea>
-            <Typography variant="small_text">200/500</Typography>
+            <Typography variant="small_text">{description.length}/500</Typography>
           </div>
           <div className={s.button}>
-            {/* <Button onClick={() => setEditPost(false)}>Save Changes</Button> */}
             <Button onClick={onPostSaveHandler}>Save Changes</Button>
           </div>
         </div>

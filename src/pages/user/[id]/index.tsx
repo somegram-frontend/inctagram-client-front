@@ -23,8 +23,8 @@ const Profile = () => {
     { skip: id === undefined }
   )
 
+  let postData = userPost ? userPost?.items : []
   let imageSrc = userPost ? userPost?.items[0].images[0] : ''
-  let postDescription = userPost ? userPost?.items[0].description : ''
 
   const { data: me } = useMeQuery()
   const { data: profile } = useGetProfileQuery()
@@ -91,7 +91,6 @@ const Profile = () => {
         <div>
           <Dialog open={openPost} onOpenChange={setOpenPost}>
             <DialogTrigger asChild>
-              {/* <Button variant="outlined">Post</Button> */}
               <Image
                 src={imageSrc}
                 alt="my post"
@@ -107,20 +106,11 @@ const Profile = () => {
                 confirmTitle="Close Post"
                 confirmDescription={`Do you really want to close the edition of the publication? If you close changes won’t be saved`}
               >
-                <EditPost
-                  setEditPost={setEditPost}
-                  postImageSrc={imageSrc}
-                  postDescription={postDescription}
-                  userId={id as string}
-                />
+                <EditPost setEditPost={setEditPost} postData={postData} />
               </DialogWithConfirm>
             ) : (
               <DialogContent>
-                <Post
-                  setEditPost={setEditPost}
-                  postImageSrc={imageSrc}
-                  postDescription={postDescription}
-                />
+                <Post setEditPost={setEditPost} postData={postData} />
               </DialogContent>
             )}
           </Dialog>
