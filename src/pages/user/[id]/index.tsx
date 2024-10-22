@@ -23,6 +23,9 @@ const Profile = () => {
     { skip: id === undefined }
   )
 
+  let imageSrc = userPost ? userPost?.items[0].images[0] : ''
+  let postDescription = userPost ? userPost?.items[0].description : ''
+
   const { data: me } = useMeQuery()
   const { data: profile } = useGetProfileQuery()
   const [openPost, setOpenPost] = useState(false)
@@ -88,7 +91,14 @@ const Profile = () => {
         <div>
           <Dialog open={openPost} onOpenChange={setOpenPost}>
             <DialogTrigger asChild>
-              <Button variant="outlined">Post</Button>
+              {/* <Button variant="outlined">Post</Button> */}
+              <Image
+                src={imageSrc}
+                alt="my post"
+                width={230}
+                height={230}
+                className={style.postImage}
+              />
             </DialogTrigger>
             {editPost ? (
               <DialogWithConfirm
@@ -97,11 +107,20 @@ const Profile = () => {
                 confirmTitle="Close Post"
                 confirmDescription={`Do you really want to close the edition of the publication? If you close changes won’t be saved`}
               >
-                <EditPost setEditPost={setEditPost} />
+                <EditPost
+                  setEditPost={setEditPost}
+                  postImageSrc={imageSrc}
+                  postDescription={postDescription}
+                  userId={id as string}
+                />
               </DialogWithConfirm>
             ) : (
               <DialogContent>
-                <Post setEditPost={setEditPost} />
+                <Post
+                  setEditPost={setEditPost}
+                  postImageSrc={imageSrc}
+                  postDescription={postDescription}
+                />
               </DialogContent>
             )}
           </Dialog>

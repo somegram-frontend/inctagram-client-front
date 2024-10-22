@@ -26,3 +26,20 @@ type ItemsType = {
   updatedAt: string
   images: string[]
 }
+
+export type UpdateUserPostArgs = {
+  id: string
+  description: string
+}
+
+export type UpdateUserPostResponse = {
+  statusCode: number
+  message: string
+  error?: string
+  errors?: {
+    property: string
+    constraints: {
+      [key: string]: string
+    }
+  }[]
+}

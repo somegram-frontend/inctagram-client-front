@@ -14,14 +14,21 @@ import Image from 'next/image'
 import defaultAva from '../../../../../shared/images/Mask group.jpg'
 import { useState } from 'react'
 
-const DescriptionComment = () => {
+type DescriptionCommentProps = {
+  description?: string | null
+}
+
+const DescriptionComment = ({ description }: DescriptionCommentProps) => {
   const [click, setClick] = useState(false)
   return (
     <div className={s.descriptionCommentContainer}>
       <Image src={defaultAva} alt="" className={s.descriptionAvatarImage} />
       <span className={s.descriptionComment}>
-        <b>URLProfiele</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua.
+        {/* <b>URLProfiele</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. */}
+        <b>URLProfiele</b>{' '}
+        {description ||
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
       </span>
       <div className={s.descriptionCommentIconContainer}>
         {click ? (
@@ -39,9 +46,11 @@ const DescriptionComment = () => {
 
 type Props = {
   setEditPost: (value: boolean) => void
+  postImageSrc: string
+  postDescription: string | null
 }
 
-export const Post = ({ setEditPost }: Props) => {
+export const Post = ({ setEditPost, postImageSrc, postDescription }: Props) => {
   const [editMenu, setEditMenu] = useState(false)
 
   const onEditClickHandler = () => {
@@ -52,7 +61,7 @@ export const Post = ({ setEditPost }: Props) => {
 
   return (
     <div className={s.postContainer}>
-      <Image src="" alt="post image" className={s.postImage} />
+      <Image src={postImageSrc} alt="post image" width={490} height={560} className={s.postImage} />
       <div className={s.descriptionContainer}>
         <div className={`${s.descriptionHeader} ${s.wrapper}`}>
           <div className={s.descriptionHeaderProfile}>
@@ -77,7 +86,7 @@ export const Post = ({ setEditPost }: Props) => {
         </div>
         <div className={`${s.descriptionCommentsContainer} ${s.wrapper}`}>
           {/* TODO add map */}
-          <DescriptionComment />
+          <DescriptionComment description={postDescription} />
           <DescriptionComment />
           <DescriptionComment />
         </div>
