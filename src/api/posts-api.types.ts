@@ -27,7 +27,6 @@ type ItemsType = {
   images: string[]
 }
 
-
 export type AddUserPostsResponse = ApiResponse & {
   id: string
   description: string

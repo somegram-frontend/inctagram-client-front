@@ -8,7 +8,7 @@ export const authApi = baseApi.injectEndpoints({
         query: userId => `v1/posts/${userId}`,
         providesTags: ['Profile'],
       }),
-      addUserPosts: builder.mutation<AddUserPostsResponse, { files: File[], description: string }>({
+      addUserPosts: builder.mutation<AddUserPostsResponse, { files: File[]; description: string }>({
         query: ({ files, description }) => {
           const formData = new FormData()
           files.forEach(file => formData.append('files', file))
@@ -18,13 +18,10 @@ export const authApi = baseApi.injectEndpoints({
             method: 'POST',
             body: formData,
           }
-        }
+        },
       }),
     }
   },
 })
 
-export const {
-  useGetUserPostsQuery,
-  useAddUserPostsMutation,
-} = authApi
+export const { useGetUserPostsQuery, useAddUserPostsMutation } = authApi

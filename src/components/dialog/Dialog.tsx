@@ -12,7 +12,18 @@ type Props = {
 } & ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 
 export const DialogContent = forwardRef<ElementRef<typeof DialogPrimitive.Content>, Props>(
-  ({ children, title, customTitle, customBtn, onCustomBtnClickGo, onCustomBtnClickBack, ...props }: Props, ref) => (
+  (
+    {
+      children,
+      title,
+      customTitle,
+      customBtn,
+      onCustomBtnClickGo,
+      onCustomBtnClickBack,
+      ...props
+    }: Props,
+    ref
+  ) => (
     <DialogPrimitive.Portal>
       <DialogPrimitive.Overlay className={s.overlay} />
       <DialogPrimitive.Content
@@ -33,13 +44,13 @@ export const DialogContent = forwardRef<ElementRef<typeof DialogPrimitive.Conten
         )}
         {customTitle && (
           <div className={s.header}>
-            <Button variant='borderless' className={s.customBtnLeft} onClick={onCustomBtnClickBack}>
+            <Button variant="borderless" className={s.customBtnLeft} onClick={onCustomBtnClickBack}>
               <ArrowIosBack className={s.iconButton} />
             </Button>
             <DialogPrimitive.Title>
               <Typography variant={'h1'}>{customTitle}</Typography>
             </DialogPrimitive.Title>
-            <Button variant='borderless' className={s.customBtnRight} onClick={onCustomBtnClickGo}>
+            <Button variant="borderless" className={s.customBtnRight} onClick={onCustomBtnClickGo}>
               {customBtn}
             </Button>
           </div>
