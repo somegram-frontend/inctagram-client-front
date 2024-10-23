@@ -1,6 +1,10 @@
 import {
+  ArrowIosBack,
+  ArrowIosForward,
   Button,
+  Close,
   ImageOutline,
+  PlusCircleOutline,
   PlusSquareOutline,
   Select,
   TextArea,
@@ -16,44 +20,23 @@ import { PinOutline } from '@honor-ui/inctagram-ui-kit'
 import { useGetProfileQuery } from '@/api/users-api'
 import { useGetCountriesListQuery } from '@/api/countries-api'
 
+import Slider from 'react-slick'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
+
 const DialogAddUserPost = () => {
   const [sendPost] = useAddUserPostsMutation()
   const profileInfo = useGetProfileQuery()
   const { data, error, isLoading } = useGetCountriesListQuery()
 
   const [open, setOpen] = useState(false)
-  const [file, setFile] = useState<File | null>(null)
-  const [photo, setPhoto] = useState('')
+  const [files, setFiles] = useState<File[]>([])
   const [errorUpload, setErrorUpload] = useState('')
   const [publicPost, setPublicPost] = useState(false)
   const [description, setDescription] = useState('')
+  const [images, setImages] = useState<string[]>([])
 
   const maxChars = 500
-
-  const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    const uploadedFile = e.currentTarget.files?.[0]
-    if (uploadedFile) {
-      validateFile(uploadedFile)
-    }
-  }
-
-  const validateFile = (file: File) => {
-    if (file.size > 10000000) {
-      resetFile('Error! Photo size must be less than 10 MB!')
-    } else if (!['image/jpeg', 'image/png'].includes(file.type)) {
-      resetFile('Error! The format of the uploaded photo must be PNG or JPEG')
-    } else {
-      setFile(file)
-      setErrorUpload('')
-      const downloadUrl = URL.createObjectURL(new Blob([file], { type: 'image/jpeg' }))
-      setPhoto(downloadUrl)
-    }
-  }
-
-  const resetFile = (errorMessage: string) => {
-    setPhoto('')
-    setErrorUpload(errorMessage)
-  }
 
   const optionsCountry = useMemo(() => {
     if (data && !isLoading && !error) {
@@ -65,18 +48,76 @@ const DialogAddUserPost = () => {
     return []
   }, [data, isLoading, error])
 
+  const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    const uploadedFiles = e.currentTarget.files
+    if (uploadedFiles) {
+      const newFiles = Array.from(uploadedFiles)
+      validateFiles(newFiles)
+    }
+  }
+
+  const validateFiles = (uploadedFiles: File[]) => {
+    const validFiles: File[] = []
+    for (const file of uploadedFiles) {
+      if (file.size > 10000000) {
+        resetFile('Error! Photo size must be less than 10 MB!')
+        return
+      } else if (!['image/jpeg', 'image/png'].includes(file.type)) {
+        resetFile('Error! The format of the uploaded photo must be PNG or JPEG')
+        return
+      }
+      validFiles.push(file)
+    }
+    setFiles(prevFiles => [...prevFiles, ...validFiles])
+    setImages(prevImages => [...prevImages, ...validFiles.map(file => URL.createObjectURL(file))])
+    setErrorUpload('')
+  }
+
+  const resetFile = (errorMessage: string) => {
+    setImages([])
+    setErrorUpload(errorMessage)
+  }
+
   const handlePublish = () => {
-    if (file) {
-      sendPost({ files: [file], description })
+    if (files.length > 0) {
+      sendPost({ files, description })
       resetPostState()
     }
   }
 
   const resetPostState = () => {
-    setPhoto('')
+    setFiles([])
+    setImages([])
     setPublicPost(false)
     setDescription('')
     setOpen(false)
+  }
+
+  const removeImage = (index: number) => {
+    const updatedImages = [...images]
+    const updatedFiles = [...files]
+    updatedImages.splice(index, 1)
+    updatedFiles.splice(index, 1)
+    setImages(updatedImages)
+    setFiles(updatedFiles)
+  }
+
+  const Arrow = ({ direction, onClick }: { direction: 'prev' | 'next'; onClick: () => void }) => (
+    <div className={direction === 'prev' ? s.customPrevArrow : s.customNextArrow} onClick={onClick}>
+      {direction === 'prev' ? <ArrowIosBack /> : <ArrowIosForward />}
+    </div>
+  )
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    prevArrow: <Arrow direction="prev" onClick={() => {}} />,
+    nextArrow: <Arrow direction="next" onClick={() => {}} />,
+    vertical: false,
+    adaptiveHeight: true,
   }
 
   return (
@@ -85,7 +126,7 @@ const DialogAddUserPost = () => {
         <DialogTrigger className={style.triggerButton}>
           <PlusSquareOutline /> Create
         </DialogTrigger>
-        {!photo ? (
+        {images.length === 0 ? (
           <DialogContent title={'Add Photo'}>
             <div className={s.uploadPhotoErrorContainer}>
               {errorUpload && <span className={s.uploadPhotoError}>{errorUpload}</span>}
@@ -95,7 +136,13 @@ const DialogAddUserPost = () => {
                 <ImageOutline />
               </div>
               <label className={s.inputFile}>
-                <input type="file" name="photo_upload" accept="image/*" onChange={handleUpload} />
+                <input
+                  type="file"
+                  name="photo_upload"
+                  accept="image/*"
+                  onChange={handleUpload}
+                  multiple
+                />
                 <div className={s.btnWrapper}>
                   <Button as="span" className={s.PhotoBtn}>
                     Select from Computer
@@ -110,11 +157,57 @@ const DialogAddUserPost = () => {
             customTitle={'Cropping'}
             customBtn={'Next'}
             onCustomBtnClickGo={() => setPublicPost(true)}
-            onCustomBtnClickBack={() => setPhoto('')}
+            onCustomBtnClickBack={() => setImages([])}
           >
-            <div className={s.wrapper}>
+            <div className={s.wrapperCropping}>
+              {images.length > 0 && (
+                <div className={s.sliderWrapper}>
+                  <Slider {...settings}>
+                    {images.map((image, index) => (
+                      <div key={index} className={s.slide}>
+                        <Image
+                          src={image}
+                          alt={`Image ${index}`}
+                          width={492}
+                          height={504}
+                          className={s.photo}
+                        />
+                      </div>
+                    ))}
+                  </Slider>
+                </div>
+              )}
               <div className={s.photoContainer}>
-                <Image src={photo} className={s.photo} alt="" width={492} height={504} />
+                {images.map((image, index) => (
+                  <div key={index} className={s.imageWrapper}>
+                    <Image
+                      src={image}
+                      className={s.minPhoto}
+                      alt={`Image ${index}`}
+                      width={80}
+                      height={82}
+                    />
+                    <button className={s.removeButton} onClick={() => removeImage(index)}>
+                      <Close />
+                    </button>
+                  </div>
+                ))}
+                <div className={s.addPhotoContainer}>
+                  <label className={s.inputFile}>
+                    <input
+                      type="file"
+                      name="photo_upload"
+                      accept="image/*"
+                      onChange={handleUpload}
+                      multiple
+                    />
+                    <div className={s.btnWrapper}>
+                      <Button as="span" className={s.CircleBtn} variant="borderless">
+                        <PlusCircleOutline />
+                      </Button>
+                    </div>
+                  </label>
+                </div>
               </div>
             </div>
           </DialogContent>
@@ -127,8 +220,20 @@ const DialogAddUserPost = () => {
             onCustomBtnClickBack={() => setPublicPost(false)}
           >
             <div className={s.publicWrapper}>
-              <div className={s.photoContainer}>
-                <Image src={photo} className={s.photo} alt="" width={492} height={504} />
+              <div className={s.sliderWrapper}>
+                <Slider {...settings}>
+                  {images.map((image, index) => (
+                    <div key={index} className={s.slide}>
+                      <Image
+                        src={image}
+                        alt={`Image ${index}`}
+                        width={492}
+                        height={504}
+                        className={s.photo}
+                      />
+                    </div>
+                  ))}
+                </Slider>
               </div>
               <div className={s.descriptionContainer}>
                 <div className={s.userWrapper}>

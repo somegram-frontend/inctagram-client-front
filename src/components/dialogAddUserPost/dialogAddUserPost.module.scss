@@ -4,14 +4,28 @@
   align-items: center;
 }
 
+.wrapperCropping {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+}
+
 .photoContainer {
+  position: absolute;
+  right: 12px;
+  bottom: 50px;
+
   overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
 
-  min-width: 492px;
-  min-height: 504px;
+  min-width: 80px;
+  max-height: 106px;
+
+  opacity: 0.9;
+  background-color: var(--color-dark-500);
+  border-radius: 4px;
 }
 
 .photo {
@@ -141,10 +155,101 @@
 
 .counter {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   color: var(--color-light-900);
 }
 
 .textAreaWrapper {
   margin-bottom: 18px;
+}
+
+.wrapperPhotos {
+  display: flex;
+}
+
+.CircleBtn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  color: var(--color-light-100);
+}
+
+.imageWrapper {
+  position: relative;
+
+  display: inline-block;
+
+  width: 80px;
+  height: 82px;
+  margin-right: 12px;
+}
+
+.removeButton {
+  cursor: pointer;
+
+  position: absolute;
+  z-index: 10;
+  top: 2px;
+  right: -10px;
+
+  width: 24px;
+  height: 24px;
+
+  opacity: 0.7;
+  background: transparent;
+  background-color: var(--color-dark-100);
+  border: none;
+  border-radius: 4px;
+}
+
+.minPhoto {
+  display: block;
+  width: 80px;
+  height: 82px;
+  margin: 0 12px;
+}
+
+.slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slick-slide img {
+  max-width: 100%;
+  height: auto;
+}
+
+.sliderWrapper {
+  max-width: 492px;
+
+  button::before {
+    color: red;
+  }
+}
+
+.customNextArrow,
+.customPrevArrow {
+  cursor: pointer;
+
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+
+  width: 24px;
+  height: 24px;
+
+  opacity: 0.7;
+  background: transparent;
+  background-color: var(--color-dark-100);
+  border: none;
+  border-radius: 4px;
+
+  &.customNextArrow {
+    right: 10px;
+  }
+
+  &.customPrevArrow {
+    left: 10px;
+  }
 }
