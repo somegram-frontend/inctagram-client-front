@@ -28,8 +28,10 @@ export const FormSignIn = ({ onSubmit, errorMessage, onSignGit, onSignGoogle }: 
   } = useForm<SignInForm>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      // email: '',
+      // password: '',
+      email: '5752applicable@starmail.net',
+      password: '44sfa8@A8qQs',
     },
   })
   const formId = useId()
