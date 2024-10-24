@@ -1,19 +1,19 @@
 .sliderWrapper {
-    max-width: 492px;
-  }
+  max-width: 492px;
+}
 
-  .slide {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .slick-slide img {
-    max-width: 100%;
-    height: auto;
-  }
+.slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .customNextArrow,
+.slick-slide img {
+  max-width: 100%;
+  height: auto;
+}
+
+.customNextArrow,
 .customPrevArrow {
   cursor: pointer;
 

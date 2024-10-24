@@ -19,21 +19,18 @@ import { useAddUserPostsMutation } from '@/api/posts-api'
 import { PinOutline } from '@honor-ui/inctagram-ui-kit'
 import { useGetProfileQuery } from '@/api/users-api'
 import { useGetCountriesListQuery } from '@/api/countries-api'
-
-import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import { DialogTitle } from '@radix-ui/react-dialog'
 import PhotoSlider from './photoSlider'
 import { toast } from 'react-toastify'
-import { Loader } from '../loader/Loader'
 
 const DialogAddUserPost = () => {
   const [sendPost] = useAddUserPostsMutation()
   const profileInfo = useGetProfileQuery()
   const { data, error, isLoading } = useGetCountriesListQuery()
 
-  const [open, setOpen] = useState(false)
+  const [isFirstModalOpen, setIsFirstModalOpen] = useState(false)
+  const [isSecondModalOpen, setIsSecondModalOpen] = useState(false)
   const [files, setFiles] = useState<File[]>([])
   const [errorUpload, setErrorUpload] = useState('')
   const [publicPost, setPublicPost] = useState(false)
@@ -63,8 +60,8 @@ const DialogAddUserPost = () => {
   const validateFiles = (uploadedFiles: File[]) => {
     const validFiles: File[] = []
     for (const file of uploadedFiles) {
-      if (file.size > 10000000) {
-        resetFile('Error! Photo size must be less than 10 MB!')
+      if (file.size > 20000000) {
+        resetFile('Error! Photo size must be less than 20 MB!')
         return
       } else if (!['image/jpeg', 'image/png'].includes(file.type)) {
         resetFile('Error! The format of the uploaded photo must be PNG or JPEG')
@@ -99,7 +96,7 @@ const DialogAddUserPost = () => {
     setImages([])
     setPublicPost(false)
     setDescription('')
-    setOpen(false)
+    setIsFirstModalOpen(false)
   }
 
   const removeImage = (index: number) => {
@@ -111,29 +108,8 @@ const DialogAddUserPost = () => {
     setFiles(updatedFiles)
   }
 
-  const Arrow = ({ direction, onClick }: { direction: 'prev' | 'next'; onClick: () => void }) => (
-    <div className={direction === 'prev' ? s.customPrevArrow : s.customNextArrow} onClick={onClick}>
-      {direction === 'prev' ? <ArrowIosBack /> : <ArrowIosForward />}
-    </div>
-  )
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    prevArrow: <Arrow direction="prev" onClick={() => {}} />,
-    nextArrow: <Arrow direction="next" onClick={() => {}} />,
-    vertical: false,
-    adaptiveHeight: true,
-  }
-
-
-  const [isSecondModalOpen, setIsSecondModalOpen] = useState(false)
-
-  const hanleCloseFirstModal = () => {
-    setOpen(false)
+  const handleCloseFirstModal = () => {
+    setIsFirstModalOpen(false)
     setIsSecondModalOpen(false)
   }
 
@@ -141,17 +117,17 @@ const DialogAddUserPost = () => {
     setIsSecondModalOpen(false)
   }
 
-  const handleFirstModalOpenChange = (open: boolean) => {
-    if(!open) {
-      setIsSecondModalOpen(true) 
+  const handleFirstModalOpenChange = (isFirstModalOpen: boolean) => {
+    if (!isFirstModalOpen) {
+      setIsSecondModalOpen(true)
       return
     }
-    setOpen(open)
+    setIsFirstModalOpen(isFirstModalOpen)
   }
 
   return (
     <div>
-      <Dialog open={open} onOpenChange={handleFirstModalOpenChange}>
+      <Dialog open={isFirstModalOpen} onOpenChange={handleFirstModalOpenChange}>
         <DialogTrigger className={style.triggerButton}>
           <PlusSquareOutline /> Create
         </DialogTrigger>
@@ -189,7 +165,7 @@ const DialogAddUserPost = () => {
             onCustomBtnClickBack={() => setImages([])}
           >
             <div className={s.wrapperCropping}>
-              <PhotoSlider image={images}/>
+              <PhotoSlider image={images} />
               <div className={s.photoContainer}>
                 {images.map((image, index) => (
                   <div key={index} className={s.imageWrapper}>
@@ -216,9 +192,9 @@ const DialogAddUserPost = () => {
                     />
                     <div className={s.btnWrapper}>
                       {images.length < 10 &&
-                      (<Button as="span" className={s.CircleBtn} variant="borderless">
-                        <PlusCircleOutline />
-                      </Button>)
+                        (<Button as="span" className={s.CircleBtn} variant="borderless">
+                          <PlusCircleOutline />
+                        </Button>)
                       }
                     </div>
                   </label>
@@ -235,7 +211,7 @@ const DialogAddUserPost = () => {
             onCustomBtnClickBack={() => setPublicPost(false)}
           >
             <div className={s.publicWrapper}>
-              <PhotoSlider image={images}/>
+              <PhotoSlider image={images} />
               <div className={s.descriptionContainer}>
                 <div className={s.userWrapper}>
                   <Image
@@ -282,14 +258,14 @@ const DialogAddUserPost = () => {
       <Dialog open={isSecondModalOpen} onOpenChange={setIsSecondModalOpen}>
         <DialogContent title={'Close'}>
           <div className={s.secondModalWrapper}>
-          <Typography variant='regular_text14' className={s.closeTypogrphy}>
-            Do you really want to close the creation of a publication ? 
-            If you close everything will be delete
-          </Typography>
-          <div className={s.modalBtnWrapper}>
-          <Button onClick={handleReturnToFirstModal} variant='outlined'>Discard</Button>
-          <Button onClick={hanleCloseFirstModal}>Save draft</Button>
-          </div>
+            <Typography variant='regular_text14' className={s.closeTypography}>
+              Do you really want to close the creation of a publication ?
+              <br />If you close everything will be delete
+            </Typography>
+            <div className={s.modalBtnWrapper}>
+              <Button onClick={handleReturnToFirstModal} variant='outlined'>Discard</Button>
+              <Button onClick={handleCloseFirstModal}>Save draft</Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>

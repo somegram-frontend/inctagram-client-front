@@ -14,16 +14,18 @@
   position: absolute;
   right: 12px;
   bottom: 50px;
+
   overflow: hidden;
+  overflow: auto hidden;
   display: flex;
   align-items: center;
   justify-content: flex-direction;
 
-  max-width: 250px;
-  max-height: 106px;
-  overflow-x: auto;
-  overflow-y: hidden;
+  max-width: 244px;
+  max-height: 120px;
+
   white-space: nowrap;
+
   opacity: 0.9;
   background-color: var(--color-dark-500);
   border-radius: 4px;
@@ -181,7 +183,7 @@
   display: inline-block;
 
   width: 80px;
-  height: 82px;
+  height: 92px;
   margin-right: 12px;
 }
 
@@ -190,7 +192,7 @@
 
   position: absolute;
   z-index: 10;
-  top: 2px;
+  top: 8px;
   right: -10px;
 
   width: 24px;
@@ -207,7 +209,7 @@
   display: block;
   width: 80px;
   height: 82px;
-  margin: 0 12px;
+  margin: 6px 12px;
 }
 
 .secondModalWrapper {
@@ -215,9 +217,9 @@
   flex-direction: column;
 }
 
-.closeTypogrphy {
-  max-width: 350px;
-  padding: 26px;
+.closeTypography {
+  max-width: 332px;
+  padding: 30px 21px 18px 24px;
 }
 
 .modalBtnWrapper {
