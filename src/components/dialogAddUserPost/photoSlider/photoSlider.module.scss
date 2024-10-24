@@ -1,0 +1,40 @@
+.sliderWrapper {
+    max-width: 492px;
+  }
+
+  .slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .slick-slide img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .customNextArrow,
+.customPrevArrow {
+  cursor: pointer;
+
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+
+  width: 24px;
+  height: 24px;
+
+  opacity: 0.7;
+  background: transparent;
+  background-color: var(--color-dark-100);
+  border: none;
+  border-radius: 4px;
+
+  &.customNextArrow {
+    right: 10px;
+  }
+
+  &.customPrevArrow {
+    left: 10px;
+  }
+}

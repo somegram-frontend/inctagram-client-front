@@ -23,6 +23,10 @@ import { useGetCountriesListQuery } from '@/api/countries-api'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import { DialogTitle } from '@radix-ui/react-dialog'
+import PhotoSlider from './photoSlider'
+import { toast } from 'react-toastify'
+import { Loader } from '../loader/Loader'
 
 const DialogAddUserPost = () => {
   const [sendPost] = useAddUserPostsMutation()
@@ -80,7 +84,12 @@ const DialogAddUserPost = () => {
 
   const handlePublish = () => {
     if (files.length > 0) {
-      sendPost({ files, description })
+      sendPost({ files, description }).then(result => {
+        toast.success('Successfully published')
+      }, error => {
+        console.log(error)
+        toast.success(error)
+      })
       resetPostState()
     }
   }
@@ -120,9 +129,29 @@ const DialogAddUserPost = () => {
     adaptiveHeight: true,
   }
 
+
+  const [isSecondModalOpen, setIsSecondModalOpen] = useState(false)
+
+  const hanleCloseFirstModal = () => {
+    setOpen(false)
+    setIsSecondModalOpen(false)
+  }
+
+  const handleReturnToFirstModal = () => {
+    setIsSecondModalOpen(false)
+  }
+
+  const handleFirstModalOpenChange = (open: boolean) => {
+    if(!open) {
+      setIsSecondModalOpen(true) 
+      return
+    }
+    setOpen(open)
+  }
+
   return (
     <div>
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog open={open} onOpenChange={handleFirstModalOpenChange}>
         <DialogTrigger className={style.triggerButton}>
           <PlusSquareOutline /> Create
         </DialogTrigger>
@@ -160,23 +189,7 @@ const DialogAddUserPost = () => {
             onCustomBtnClickBack={() => setImages([])}
           >
             <div className={s.wrapperCropping}>
-              {images.length > 0 && (
-                <div className={s.sliderWrapper}>
-                  <Slider {...settings}>
-                    {images.map((image, index) => (
-                      <div key={index} className={s.slide}>
-                        <Image
-                          src={image}
-                          alt={`Image ${index}`}
-                          width={492}
-                          height={504}
-                          className={s.photo}
-                        />
-                      </div>
-                    ))}
-                  </Slider>
-                </div>
-              )}
+              <PhotoSlider image={images}/>
               <div className={s.photoContainer}>
                 {images.map((image, index) => (
                   <div key={index} className={s.imageWrapper}>
@@ -202,9 +215,11 @@ const DialogAddUserPost = () => {
                       multiple
                     />
                     <div className={s.btnWrapper}>
-                      <Button as="span" className={s.CircleBtn} variant="borderless">
+                      {images.length < 10 &&
+                      (<Button as="span" className={s.CircleBtn} variant="borderless">
                         <PlusCircleOutline />
-                      </Button>
+                      </Button>)
+                      }
                     </div>
                   </label>
                 </div>
@@ -220,21 +235,7 @@ const DialogAddUserPost = () => {
             onCustomBtnClickBack={() => setPublicPost(false)}
           >
             <div className={s.publicWrapper}>
-              <div className={s.sliderWrapper}>
-                <Slider {...settings}>
-                  {images.map((image, index) => (
-                    <div key={index} className={s.slide}>
-                      <Image
-                        src={image}
-                        alt={`Image ${index}`}
-                        width={492}
-                        height={504}
-                        className={s.photo}
-                      />
-                    </div>
-                  ))}
-                </Slider>
-              </div>
+              <PhotoSlider image={images}/>
               <div className={s.descriptionContainer}>
                 <div className={s.userWrapper}>
                   <Image
@@ -277,6 +278,20 @@ const DialogAddUserPost = () => {
             </div>
           </DialogContent>
         )}
+      </Dialog>
+      <Dialog open={isSecondModalOpen} onOpenChange={setIsSecondModalOpen}>
+        <DialogContent title={'Close'}>
+          <div className={s.secondModalWrapper}>
+          <Typography variant='regular_text14' className={s.closeTypogrphy}>
+            Do you really want to close the creation of a publication ? 
+            If you close everything will be delete
+          </Typography>
+          <div className={s.modalBtnWrapper}>
+          <Button onClick={handleReturnToFirstModal} variant='outlined'>Discard</Button>
+          <Button onClick={hanleCloseFirstModal}>Save draft</Button>
+          </div>
+          </div>
+        </DialogContent>
       </Dialog>
     </div>
   )

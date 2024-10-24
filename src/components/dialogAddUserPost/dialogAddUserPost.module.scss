@@ -14,15 +14,16 @@
   position: absolute;
   right: 12px;
   bottom: 50px;
-
   overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-direction;
 
-  min-width: 80px;
+  max-width: 250px;
   max-height: 106px;
-
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
   opacity: 0.9;
   background-color: var(--color-dark-500);
   border-radius: 4px;
@@ -209,47 +210,18 @@
   margin: 0 12px;
 }
 
-.slide {
+.secondModalWrapper {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
 }
 
-.slick-slide img {
-  max-width: 100%;
-  height: auto;
+.closeTypogrphy {
+  max-width: 350px;
+  padding: 26px;
 }
 
-.sliderWrapper {
-  max-width: 492px;
-
-  button::before {
-    color: red;
-  }
-}
-
-.customNextArrow,
-.customPrevArrow {
-  cursor: pointer;
-
-  position: absolute;
-  z-index: 10;
-  top: 50%;
-
-  width: 24px;
-  height: 24px;
-
-  opacity: 0.7;
-  background: transparent;
-  background-color: var(--color-dark-100);
-  border: none;
-  border-radius: 4px;
-
-  &.customNextArrow {
-    right: 10px;
-  }
-
-  &.customPrevArrow {
-    left: 10px;
-  }
+.modalBtnWrapper {
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 26px;
 }
