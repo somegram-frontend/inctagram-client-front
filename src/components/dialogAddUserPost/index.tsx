@@ -81,12 +81,15 @@ const DialogAddUserPost = () => {
 
   const handlePublish = () => {
     if (files.length > 0) {
-      sendPost({ files, description }).then(result => {
-        toast.success('Successfully published')
-      }, error => {
-        console.log(error)
-        toast.success(error)
-      })
+      sendPost({ files, description }).then(
+        result => {
+          toast.success('Successfully published')
+        },
+        error => {
+          console.log(error)
+          toast.success(error)
+        }
+      )
       resetPostState()
     }
   }
@@ -191,11 +194,11 @@ const DialogAddUserPost = () => {
                       multiple
                     />
                     <div className={s.btnWrapper}>
-                      {images.length < 10 &&
-                        (<Button as="span" className={s.CircleBtn} variant="borderless">
+                      {images.length < 10 && (
+                        <Button as="span" className={s.CircleBtn} variant="borderless">
                           <PlusCircleOutline />
-                        </Button>)
-                      }
+                        </Button>
+                      )}
                     </div>
                   </label>
                 </div>
@@ -258,12 +261,15 @@ const DialogAddUserPost = () => {
       <Dialog open={isSecondModalOpen} onOpenChange={setIsSecondModalOpen}>
         <DialogContent title={'Close'}>
           <div className={s.secondModalWrapper}>
-            <Typography variant='regular_text14' className={s.closeTypography}>
+            <Typography variant="regular_text14" className={s.closeTypography}>
               Do you really want to close the creation of a publication ?
-              <br />If you close everything will be delete
+              <br />
+              If you close everything will be delete
             </Typography>
             <div className={s.modalBtnWrapper}>
-              <Button onClick={handleReturnToFirstModal} variant='outlined'>Discard</Button>
+              <Button onClick={handleReturnToFirstModal} variant="outlined">
+                Discard
+              </Button>
               <Button onClick={handleCloseFirstModal}>Save draft</Button>
             </div>
           </div>

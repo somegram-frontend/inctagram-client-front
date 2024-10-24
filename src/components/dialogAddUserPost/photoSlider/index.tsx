@@ -1,19 +1,19 @@
-import React from 'react';
-import Slider from 'react-slick';
-import s from './photoSlider.module.scss';
-import { ArrowIosBack, ArrowIosForward } from '@honor-ui/inctagram-ui-kit';
-import Image from 'next/image';
+import React from 'react'
+import Slider from 'react-slick'
+import s from './photoSlider.module.scss'
+import { ArrowIosBack, ArrowIosForward } from '@honor-ui/inctagram-ui-kit'
+import Image from 'next/image'
 
 type Props = {
-  image: string[];
-};
+  image: string[]
+}
 
 const PhotoSlider: React.FC<Props> = ({ image }) => {
   const Arrow = ({ direction, onClick }: { direction: 'prev' | 'next'; onClick: () => void }) => (
     <div className={direction === 'prev' ? s.customPrevArrow : s.customNextArrow} onClick={onClick}>
       {direction === 'prev' ? <ArrowIosBack /> : <ArrowIosForward />}
     </div>
-  );
+  )
 
   const settings = {
     dots: true,
@@ -21,10 +21,10 @@ const PhotoSlider: React.FC<Props> = ({ image }) => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    prevArrow: <Arrow direction="prev" onClick={() => { }} />,
-    nextArrow: <Arrow direction="next" onClick={() => { }} />,
+    prevArrow: <Arrow direction="prev" onClick={() => {}} />,
+    nextArrow: <Arrow direction="next" onClick={() => {}} />,
     adaptiveHeight: true,
-  };
+  }
 
   return (
     <div>
@@ -46,7 +46,7 @@ const PhotoSlider: React.FC<Props> = ({ image }) => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default PhotoSlider;
+export default PhotoSlider
