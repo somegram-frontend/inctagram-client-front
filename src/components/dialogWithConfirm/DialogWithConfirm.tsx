@@ -5,6 +5,8 @@ import { CloseOutline } from '@honor-ui/inctagram-ui-kit'
 import s from '../../pages/user/uploadAvatar/uploadAvatar.module.scss'
 import { DialogConfirmContent } from './DialogConfirmContent'
 import style from './dialogWithConfirm.module.scss'
+import { useUpdateUserPostMutation } from '@/api/posts-api'
+import { Loader } from '../loader/Loader'
 
 type Props = {
   title: string
@@ -24,6 +26,7 @@ export const DialogWithConfirm = forwardRef<ElementRef<typeof DialogPrimitive.Co
       event.preventDefault()
       setConfirm(true)
     }
+
     return (
       <DialogContent
         title={title}

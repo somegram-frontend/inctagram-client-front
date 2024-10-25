@@ -6,7 +6,6 @@ import {
   HeartOutline,
   MoreHorizontalOutline,
   PaperPlaneOutline,
-  TextArea,
   TrashOutline,
 } from '@honor-ui/inctagram-ui-kit'
 import s from './post.module.scss'
@@ -23,6 +22,7 @@ type DescriptionCommentProps = {
 
 const DescriptionComment = ({ description, userName, userAvatar }: DescriptionCommentProps) => {
   const [click, setClick] = useState(false)
+
   return (
     <div className={s.descriptionCommentContainer}>
       <Image

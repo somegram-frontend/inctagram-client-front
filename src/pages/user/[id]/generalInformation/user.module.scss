@@ -5,6 +5,8 @@
   width: 100%;
   height: calc(99vh - 60px);
   padding: 35px 65px 0 24px;
+
+  background-color: var(--color-dark-700);
 }
 
 .profile {
@@ -32,6 +34,10 @@
 
 .postImage {
   cursor: pointer;
-  border: 1px solid var(--color-light-900);
+  background-color: var(--color-dark-800);
   border-radius: 3px;
+
+  &:hover {
+    opacity: 0.5;
+  }
 }

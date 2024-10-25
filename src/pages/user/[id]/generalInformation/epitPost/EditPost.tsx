@@ -15,7 +15,7 @@ type Props = {
 }
 
 export const EditPost = ({ setEditPost, postData }: Props) => {
-  const [updatePost, { isLoading, isSuccess, isError }] = useUpdateUserPostMutation()
+  const [updatePost, { isLoading, isSuccess, isError, error }] = useUpdateUserPostMutation()
 
   const postImage = postData[0].images[0]
   const postDescription = postData[0].description
@@ -30,9 +30,14 @@ export const EditPost = ({ setEditPost, postData }: Props) => {
     setDescription(newDescription)
   }
 
-  const onPostSaveHandler = () => {
-    updatePost({ postId: postId, description })
+  const onPostSaveHandler = async () => {
+    // await updatePost({ postId: postId, description })
+    await updatePost({ postId: '123', description })
     setEditPost(false)
+  }
+
+  if (isError) {
+    toast.error('error')
   }
 
   return (
@@ -58,13 +63,20 @@ export const EditPost = ({ setEditPost, postData }: Props) => {
           </div>
           <div className={s.descriptionEdit}>
             <Typography variant="regular_text14">Add publication descriptions</Typography>
-            <TextArea className={s.textArea} onChange={onPostChangeHandler} value={description}>
+            <TextArea
+              className={s.textArea}
+              onChange={onPostChangeHandler}
+              value={description}
+              maxLength={500}
+            >
               {postDescription}
             </TextArea>
             <Typography variant="small_text">{description.length}/500</Typography>
           </div>
           <div className={s.button}>
-            <Button onClick={onPostSaveHandler}>Save Changes</Button>
+            <Button onClick={onPostSaveHandler} disabled={isLoading}>
+              Save Changes
+            </Button>
           </div>
         </div>
       </div>
