@@ -9,8 +9,11 @@
 }
 
 .postImage {
+  width: 100%;
   min-width: 490px;
+  height: 100%;
   min-height: 40em;
+
   object-fit: cover;
 }
 

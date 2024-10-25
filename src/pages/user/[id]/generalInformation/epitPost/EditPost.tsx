@@ -5,8 +5,9 @@ import { Button, TextArea, Typography } from '@honor-ui/inctagram-ui-kit'
 import defaultAva from '../../../../../shared/images/Mask group.jpg'
 import { useUpdateUserPostMutation } from '@/api/posts-api'
 import { ChangeEvent, useState } from 'react'
-import { ItemsType } from '@/api/posts-api.types'
+import { ItemsType, UpdateUserPostResponse } from '@/api/posts-api.types'
 import { Loader } from '@/components/loader/Loader'
+import 'react-toastify/dist/ReactToastify.css'
 import { toast } from 'react-toastify'
 
 type Props = {
@@ -27,17 +28,27 @@ export const EditPost = ({ setEditPost, postData }: Props) => {
 
   const onPostChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const newDescription = e.currentTarget.value
+    if (isError) {
+      return
+    }
     setDescription(newDescription)
   }
 
   const onPostSaveHandler = async () => {
-    // await updatePost({ postId: postId, description })
-    await updatePost({ postId: '123', description })
+    await updatePost({ postId: postId, description })
     setEditPost(false)
   }
 
   if (isError) {
-    toast.error('error')
+    const err = error as { data: UpdateUserPostResponse }
+    if (err.data?.errors!) {
+      const errorMessage = Object.values(err.data.errors[0].constraints)[0]
+      toast.error(errorMessage)
+    }
+  }
+
+  if (isSuccess) {
+    return toast.success('Description has been changed')
   }
 
   return (

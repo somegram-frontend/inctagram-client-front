@@ -2,7 +2,7 @@ import { useGetUserPostsQuery } from '@/api/posts-api'
 import { useRouter } from 'next/router'
 import NavigationLayout from '@/components/layout/NavigationLayout'
 import { useState } from 'react'
-import { DialogTrigger, Dialog, DialogContent } from '@/components/dialog/Dialog'
+import { DialogTrigger, Dialog, DialogContent, DialogTitle } from '@/components/dialog/Dialog'
 import { Button, ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
 import { Post } from './generalInformation/post/Post'
 import { useMeQuery } from '@/api/auth-api'
@@ -13,6 +13,7 @@ import style from './generalInformation/user.module.scss'
 import { EditPost } from './generalInformation/epitPost/EditPost'
 import { DialogWithConfirm } from '@/components/dialogWithConfirm/DialogWithConfirm'
 import { Loader } from '@/components/loader/Loader'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
 const Profile = () => {
   const router = useRouter()
@@ -119,7 +120,10 @@ const Profile = () => {
                   <EditPost setEditPost={setEditPost} postData={postData} />
                 </DialogWithConfirm>
               ) : (
-                <DialogContent>
+                <DialogContent description="description">
+                  <VisuallyHidden asChild>
+                    <DialogTitle>Post dialog</DialogTitle>
+                  </VisuallyHidden>
                   <Post setEditPost={setEditPost} postData={postData} />
                 </DialogContent>
               )}

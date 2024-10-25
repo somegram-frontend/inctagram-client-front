@@ -39,7 +39,8 @@ export type UpdateUserPostResponse = {
   errors?: {
     property: string
     constraints: {
-      [key: string]: string
+      // [key: string]: string
+      description: string
     }
   }[]
 }
