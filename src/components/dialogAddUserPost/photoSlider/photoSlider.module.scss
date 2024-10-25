@@ -8,9 +8,11 @@
   justify-content: center;
 }
 
-.slick-slide img {
-  max-width: 100%;
-  height: auto;
+.slick-slide {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 .customNextArrow,

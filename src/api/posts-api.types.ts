@@ -48,3 +48,8 @@ type ValidationError = {
     [key: string]: string
   }
 }
+
+export type AddUserPostsArgs = {
+  files: File[]
+  description: string
+}

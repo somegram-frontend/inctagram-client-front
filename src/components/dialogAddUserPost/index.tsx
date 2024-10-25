@@ -1,32 +1,21 @@
-import {
-  ArrowIosBack,
-  ArrowIosForward,
-  Button,
-  Close,
-  ImageOutline,
-  PlusCircleOutline,
-  PlusSquareOutline,
-  Select,
-  TextArea,
-  Typography,
-} from '@honor-ui/inctagram-ui-kit'
+import { PlusSquareOutline } from '@honor-ui/inctagram-ui-kit'
 import { Dialog, DialogContent, DialogTrigger } from '../dialog/Dialog'
-import s from './dialogAddUserPost.module.scss'
 import style from '../../pages/auth/logOut/logOut.module.scss'
 import { ChangeEvent, useMemo, useState } from 'react'
-import Image from 'next/image'
 import { useAddUserPostsMutation } from '@/api/posts-api'
-import { PinOutline } from '@honor-ui/inctagram-ui-kit'
 import { useGetProfileQuery } from '@/api/users-api'
 import { useGetCountriesListQuery } from '@/api/countries-api'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import PhotoSlider from './photoSlider'
 import { toast } from 'react-toastify'
+import AddPhotoContent from './addPhotoContent'
+import CroppingContent from './croppingContent'
+import PublicationContent from './publicationContent'
+import CloseContent from './closeContent'
 
 const DialogAddUserPost = () => {
   const [sendPost] = useAddUserPostsMutation()
-  const profileInfo = useGetProfileQuery()
+  const { data: profileInfo } = useGetProfileQuery()
   const { data, error, isLoading } = useGetCountriesListQuery()
 
   const [isFirstModalOpen, setIsFirstModalOpen] = useState(false)
@@ -37,7 +26,7 @@ const DialogAddUserPost = () => {
   const [description, setDescription] = useState('')
   const [images, setImages] = useState<string[]>([])
 
-  const maxChars = 500
+  const MAX_CHARS = 500
 
   const optionsCountry = useMemo(() => {
     if (data && !isLoading && !error) {
@@ -136,29 +125,7 @@ const DialogAddUserPost = () => {
         </DialogTrigger>
         {images.length === 0 ? (
           <DialogContent title={'Add Photo'}>
-            <div className={s.uploadPhotoErrorContainer}>
-              {errorUpload && <span className={s.uploadPhotoError}>{errorUpload}</span>}
-            </div>
-            <div className={s.wrapper}>
-              <div className={s.defaultImageContainer}>
-                <ImageOutline />
-              </div>
-              <label className={s.inputFile}>
-                <input
-                  type="file"
-                  name="photo_upload"
-                  accept="image/*"
-                  onChange={handleUpload}
-                  multiple
-                />
-                <div className={s.btnWrapper}>
-                  <Button as="span" className={s.PhotoBtn}>
-                    Select from Computer
-                  </Button>
-                  <Button variant="outlined">Open Draft</Button>
-                </div>
-              </label>
-            </div>
+            <AddPhotoContent errorUpload={errorUpload} handleUpload={handleUpload} />
           </DialogContent>
         ) : (
           <DialogContent
@@ -167,112 +134,37 @@ const DialogAddUserPost = () => {
             onCustomBtnClickGo={() => setPublicPost(true)}
             onCustomBtnClickBack={() => setImages([])}
           >
-            <div className={s.wrapperCropping}>
-              <PhotoSlider image={images} />
-              <div className={s.photoContainer}>
-                {images.map((image, index) => (
-                  <div key={index} className={s.imageWrapper}>
-                    <Image
-                      src={image}
-                      className={s.minPhoto}
-                      alt={`Image ${index}`}
-                      width={80}
-                      height={82}
-                    />
-                    <button className={s.removeButton} onClick={() => removeImage(index)}>
-                      <Close />
-                    </button>
-                  </div>
-                ))}
-                <div className={s.addPhotoContainer}>
-                  <label className={s.inputFile}>
-                    <input
-                      type="file"
-                      name="photo_upload"
-                      accept="image/*"
-                      onChange={handleUpload}
-                      multiple
-                    />
-                    <div className={s.btnWrapper}>
-                      {images.length < 10 && (
-                        <Button as="span" className={s.CircleBtn} variant="borderless">
-                          <PlusCircleOutline />
-                        </Button>
-                      )}
-                    </div>
-                  </label>
-                </div>
-              </div>
-            </div>
+            <CroppingContent
+              handleUpload={handleUpload}
+              images={images}
+              removeImage={removeImage}
+            />
           </DialogContent>
         )}
-        {publicPost && (
+        {publicPost && profileInfo && (
           <DialogContent
             customTitle={'Publication'}
             customBtn={'Publish'}
             onCustomBtnClickGo={handlePublish}
             onCustomBtnClickBack={() => setPublicPost(false)}
           >
-            <div className={s.publicWrapper}>
-              <PhotoSlider image={images} />
-              <div className={s.descriptionContainer}>
-                <div className={s.userWrapper}>
-                  <Image
-                    src={profileInfo.data?.avatar.url || ''}
-                    className={s.avatar}
-                    alt=""
-                    width={100}
-                    height={100}
-                  />
-                  <Typography as={'p'} variant={'bold_text16'} className={s.username}>
-                    {profileInfo.data?.userName}
-                  </Typography>
-                </div>
-                <div className={s.textAreaWrapper}>
-                  <TextArea
-                    label={'Add publication descriptions'}
-                    name={'descriptions'}
-                    value={description}
-                    onChange={e => setDescription(e.target.value)}
-                    maxLength={maxChars}
-                    className={s.TextArea}
-                  />
-                  <Typography variant={'small_text'} className={s.counter}>
-                    {description.length}/{maxChars}
-                  </Typography>
-                </div>
-                <hr className={s.line} />
-                <div className={s.selectWrapper}>
-                  <Select
-                    label={'Add location'}
-                    name={'location'}
-                    options={optionsCountry}
-                    className={s.select}
-                  />
-                  <span className={s.customArrow}>
-                    <PinOutline />
-                  </span>
-                </div>
-              </div>
-            </div>
+            <PublicationContent
+              MAX_CHARS={MAX_CHARS}
+              description={description}
+              images={images}
+              optionsCountry={optionsCountry}
+              profileInfo={profileInfo}
+              setDescription={setDescription}
+            />
           </DialogContent>
         )}
       </Dialog>
       <Dialog open={isSecondModalOpen} onOpenChange={setIsSecondModalOpen}>
         <DialogContent title={'Close'}>
-          <div className={s.secondModalWrapper}>
-            <Typography variant="regular_text14" className={s.closeTypography}>
-              Do you really want to close the creation of a publication ?
-              <br />
-              If you close everything will be delete
-            </Typography>
-            <div className={s.modalBtnWrapper}>
-              <Button onClick={handleReturnToFirstModal} variant="outlined">
-                Discard
-              </Button>
-              <Button onClick={handleCloseFirstModal}>Save draft</Button>
-            </div>
-          </div>
+          <CloseContent
+            handleCloseFirstModal={handleCloseFirstModal}
+            handleReturnToFirstModal={handleReturnToFirstModal}
+          />
         </DialogContent>
       </Dialog>
     </div>

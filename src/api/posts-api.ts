@@ -1,5 +1,10 @@
 import { baseApi } from '@/api/base-api'
-import { AddUserPostsResponse, GetUserPostsArgs, GetUserPostsResponse } from './posts-api.types'
+import {
+  AddUserPostsArgs,
+  AddUserPostsResponse,
+  GetUserPostsArgs,
+  GetUserPostsResponse,
+} from './posts-api.types'
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: builder => {
@@ -8,7 +13,7 @@ export const authApi = baseApi.injectEndpoints({
         query: userId => `v1/posts/${userId}`,
         providesTags: ['Profile'],
       }),
-      addUserPosts: builder.mutation<AddUserPostsResponse, { files: File[]; description: string }>({
+      addUserPosts: builder.mutation<AddUserPostsResponse, AddUserPostsArgs>({
         query: ({ files, description }) => {
           const formData = new FormData()
           files.forEach(file => formData.append('files', file))

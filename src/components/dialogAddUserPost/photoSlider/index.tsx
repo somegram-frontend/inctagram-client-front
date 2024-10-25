@@ -1,4 +1,3 @@
-import React from 'react'
 import Slider from 'react-slick'
 import s from './photoSlider.module.scss'
 import { ArrowIosBack, ArrowIosForward } from '@honor-ui/inctagram-ui-kit'
@@ -33,13 +32,7 @@ const PhotoSlider: React.FC<Props> = ({ image }) => {
           <Slider {...settings}>
             {image.map((imgSrc, index) => (
               <div key={index} className={s.slide}>
-                <Image
-                  src={imgSrc}
-                  alt={`Image ${index}`}
-                  width={492}
-                  height={504}
-                  className={s.photo}
-                />
+                <Image src={imgSrc} alt={`Image ${index}`} width={492} height={504} />
               </div>
             ))}
           </Slider>
