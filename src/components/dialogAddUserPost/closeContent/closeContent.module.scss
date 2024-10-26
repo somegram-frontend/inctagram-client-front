@@ -1,0 +1,16 @@
+.secondModalWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.closeTypography {
+  width: 100%;
+  max-width: 332px;
+  padding: 30px 21px 18px 24px;
+}
+
+.modalBtnWrapper {
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 26px;
+}

@@ -1,0 +1,17 @@
+.inputFile {
+  input[type='file'] {
+    position: absolute;
+    width: 0;
+    opacity: 0;
+  }
+}
+
+.btnWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 48px;
+
+  .photoBtn {
+    margin-bottom: 24px;
+  }
+}

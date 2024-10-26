@@ -1,6 +1,12 @@
+import { useGetUserPostsQuery } from '@/api/posts-api'
+import { useRouter } from 'next/router'
 import NavigationLayout from '@/components/layout/NavigationLayout'
 
 const Profile = () => {
+  const router = useRouter()
+  let id = JSON.stringify(router.query.id)
+  const { data } = useGetUserPostsQuery({ userId: id })
+
   return (
     <NavigationLayout isAuth={true}>
       <div
@@ -13,6 +19,7 @@ const Profile = () => {
         }}
       >
         My Profile
+        {data?.items.map(el => <div>{JSON.stringify(el)}</div>)}
       </div>
     </NavigationLayout>
   )
