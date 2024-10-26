@@ -1,7 +1,3 @@
-.dialogContent {
-  position: relative;
-}
-
 .triggerBtn {
   cursor: pointer;
   position: absolute;
@@ -10,8 +6,6 @@
 }
 
 .contentContainer {
-  width: 100%;
-  min-width: 378px;
   padding: 30px 24px 36px;
 
   & p {

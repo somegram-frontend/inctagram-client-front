@@ -2,7 +2,7 @@ import { DialogContent, DialogClose } from '@/components/dialog/Dialog'
 import { ComponentPropsWithoutRef } from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { Button } from '@honor-ui/inctagram-ui-kit'
-import style from './dialogWithConfirm.module.scss'
+import s from './dialogWithConfirm.module.scss'
 
 type Props = {
   title: string
@@ -16,9 +16,9 @@ export const DialogConfirmContent = ({ title, description, onClose }: Props) => 
   }
   return (
     <DialogContent title={title}>
-      <div className={style.contentContainer}>
+      <div className={s.contentContainer}>
         <p>{description}</p>
-        <div className={style.buttonsContainer}>
+        <div className={s.buttonsContainer}>
           <Button onClick={onCloseDialogHandler}>Yes</Button>
           <DialogClose>
             <Button>No</Button>

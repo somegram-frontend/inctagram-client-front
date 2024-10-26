@@ -2,9 +2,8 @@ import { DialogTrigger, Dialog, DialogContent, DialogTitle } from '@/components/
 import { ElementRef, forwardRef, ComponentPropsWithoutRef, useState } from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { CloseOutline } from '@honor-ui/inctagram-ui-kit'
-import s from '../../pages/user/uploadAvatar/uploadAvatar.module.scss'
 import { DialogConfirmContent } from './DialogConfirmContent'
-import style from './dialogWithConfirm.module.scss'
+import s from './dialogWithConfirm.module.scss'
 
 type Props = {
   title: string
@@ -28,8 +27,8 @@ export const DialogWithConfirm = forwardRef<ElementRef<typeof DialogPrimitive.Co
     return (
       <DialogContent title={title} onInteractOutside={outsideHandler} withoutCloseIcon>
         <Dialog>
-          <DialogTrigger asChild className={style.triggerBtn}>
-            <CloseOutline className={s.iconButton} />
+          <DialogTrigger asChild className={s.triggerBtn}>
+            <CloseOutline />
           </DialogTrigger>
           <DialogConfirmContent
             title={confirmTitle}
@@ -49,3 +48,5 @@ export const DialogWithConfirm = forwardRef<ElementRef<typeof DialogPrimitive.Co
     )
   }
 )
+
+DialogWithConfirm.displayName = 'DialogWithConfirm'

@@ -16,7 +16,7 @@ type Props = {
 }
 
 export const EditPost = ({ setEditPost, postData }: Props) => {
-  const [updatePost, { isLoading, isSuccess, isError, error }] = useUpdateUserPostMutation()
+  const [updatePost, { isLoading }] = useUpdateUserPostMutation()
   const [descriptionError, setDescriptionError] = useState('')
 
   const postImage = postData[0].images[0]
@@ -38,7 +38,9 @@ export const EditPost = ({ setEditPost, postData }: Props) => {
       .unwrap()
       .then(() => {
         setEditPost(false)
-        toast.success('Description has been changed')
+        {
+          postDescription !== description && toast.success('Description has been changed')
+        }
       })
       .catch(e => {
         const err = e as { data: UpdateUserPostResponse }
@@ -71,16 +73,11 @@ export const EditPost = ({ setEditPost, postData }: Props) => {
               height={40}
               className={postStyle.descriptionAvatarImage}
             />
-            <span className={postStyle.descriptionUserName}>{userName}</span>
+            <Typography variant="bold_text16">{userName}</Typography>
           </div>
           <div className={s.descriptionEdit}>
             <Typography variant="regular_text14">Add publication descriptions</Typography>
-            <TextArea
-              className={s.textArea}
-              onChange={onPostChangeHandler}
-              value={description}
-              // maxLength={500}
-            >
+            <TextArea className={s.textArea} onChange={onPostChangeHandler} value={description}>
               {postDescription}
             </TextArea>
             {descriptionError ? (

@@ -2,56 +2,18 @@ import {
   BookmarkOutline,
   Button,
   Edit2Outline,
-  Heart,
   HeartOutline,
   MoreHorizontalOutline,
   PaperPlaneOutline,
   TrashOutline,
+  Typography,
 } from '@honor-ui/inctagram-ui-kit'
 import s from './post.module.scss'
 import Image from 'next/image'
 import defaultAva from '../../../../../shared/images/Mask group.jpg'
 import { useState } from 'react'
 import { ItemsType } from '@/api/posts-api.types'
-
-type DescriptionCommentProps = {
-  description?: string | null
-  userName: string
-  userAvatar: string
-}
-
-const DescriptionComment = ({ description, userName, userAvatar }: DescriptionCommentProps) => {
-  const [click, setClick] = useState(false)
-
-  return (
-    <div className={s.descriptionCommentContainer}>
-      <Image
-        src={userAvatar || defaultAva}
-        alt="user avatar"
-        width={40}
-        height={40}
-        className={s.descriptionAvatarImage}
-      />
-      <span className={s.descriptionComment}>
-        <b>{userName || 'URLProfiele'}</b>{' '}
-        {description ||
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
-      </span>
-      {!userName && (
-        <div className={s.descriptionCommentIconContainer}>
-          {click ? (
-            <Heart
-              className={`${s.descriptionCommentIcon} ${s.iconActive}`}
-              onClick={() => setClick(false)}
-            />
-          ) : (
-            <HeartOutline className={s.descriptionCommentIcon} onClick={() => setClick(true)} />
-          )}
-        </div>
-      )}
-    </div>
-  )
-}
+import { PostComment } from './PostComment'
 
 type Props = {
   setEditPost: (value: boolean) => void
@@ -85,9 +47,9 @@ export const Post = ({ setEditPost, postData }: Props) => {
               height={40}
               className={s.descriptionAvatarImage}
             />
-            <span className={s.descriptionUserName}>{userName}</span>
+            <Typography variant="bold_text16">{userName}</Typography>
           </div>
-          <button onClick={onEditClickHandler} className={s.editButton}>
+          <button onClick={onEditClickHandler}>
             <MoreHorizontalOutline className={s.descriptionHeaderButton} />
           </button>
           <div className={buttonMenuClass}>
@@ -104,14 +66,9 @@ export const Post = ({ setEditPost, postData }: Props) => {
           </div>
         </div>
         <div className={`${s.descriptionCommentsContainer} ${s.wrapper}`}>
-          {/* TODO add map */}
-          <DescriptionComment
-            description={postDescription}
-            userName={userName}
-            userAvatar={userAvatar}
-          />
-          <DescriptionComment userName="" userAvatar="" />
-          <DescriptionComment userName="" userAvatar="" />
+          <PostComment description={postDescription} userName={userName} userAvatar={userAvatar} />
+          <PostComment userName="" userAvatar="" />
+          <PostComment userName="" userAvatar="" />
         </div>
         <div className={`${s.descriptionReactions} ${s.wrapper}`}>
           <div className={`${s.descriptionReactionsIconsContainer}`}>
@@ -126,7 +83,7 @@ export const Post = ({ setEditPost, postData }: Props) => {
             <Image src={defaultAva} alt="" className={s.descriptionReactionsAvatarImage} />
             <Image src={defaultAva} alt="" className={s.descriptionReactionsAvatarImage} />
             <span>
-              2 243 <b>"Like"</b>
+              2 243 <b>&quot;Like&quot;</b>
             </span>
           </div>
           <span className={s.date}>July 3, 2021</span>

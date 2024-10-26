@@ -9,10 +9,10 @@
   & span {
     display: flex;
     justify-content: flex-end;
-    margin-top: -6px;
   }
 
   & .descriptionLength {
+    line-height: 0%;
     color: var(--color-light-900);
   }
 }
