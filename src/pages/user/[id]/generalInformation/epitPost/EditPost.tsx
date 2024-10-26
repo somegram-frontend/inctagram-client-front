@@ -6,9 +6,9 @@ import defaultAva from '../../../../../shared/images/Mask group.jpg'
 import { useUpdateUserPostMutation } from '@/api/posts-api'
 import { ChangeEvent, useState } from 'react'
 import { ItemsType, UpdateUserPostResponse } from '@/api/posts-api.types'
-import { Loader } from '@/components/loader/Loader'
 import 'react-toastify/dist/ReactToastify.css'
 import { toast } from 'react-toastify'
+import { capitalizeFirstLetter } from '@/shared/utils/capitalizeFirstLetter'
 
 type Props = {
   setEditPost: (value: boolean) => void
@@ -17,6 +17,7 @@ type Props = {
 
 export const EditPost = ({ setEditPost, postData }: Props) => {
   const [updatePost, { isLoading, isSuccess, isError, error }] = useUpdateUserPostMutation()
+  const [descriptionError, setDescriptionError] = useState('')
 
   const postImage = postData[0].images[0]
   const postDescription = postData[0].description
@@ -28,27 +29,27 @@ export const EditPost = ({ setEditPost, postData }: Props) => {
 
   const onPostChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const newDescription = e.currentTarget.value
-    if (isError) {
-      return
-    }
+    setDescriptionError('')
     setDescription(newDescription)
   }
 
-  const onPostSaveHandler = async () => {
-    await updatePost({ postId: postId, description })
-    setEditPost(false)
-  }
-
-  if (isError) {
-    const err = error as { data: UpdateUserPostResponse }
-    if (err.data?.errors!) {
-      const errorMessage = Object.values(err.data.errors[0].constraints)[0]
-      toast.error(errorMessage)
-    }
-  }
-
-  if (isSuccess) {
-    return toast.success('Description has been changed')
+  const onPostSaveHandler = () => {
+    updatePost({ postId: postId, description })
+      .unwrap()
+      .then(() => {
+        setEditPost(false)
+        toast.success('Description has been changed')
+      })
+      .catch(e => {
+        const err = e as { data: UpdateUserPostResponse }
+        const errorMessage = err.data.message
+        if (err.data.errors) {
+          const errorMessage = Object.values(err.data.errors[0].constraints)[0]
+          setDescriptionError(capitalizeFirstLetter(errorMessage))
+        } else {
+          toast.error(errorMessage)
+        }
+      })
   }
 
   return (
@@ -78,11 +79,17 @@ export const EditPost = ({ setEditPost, postData }: Props) => {
               className={s.textArea}
               onChange={onPostChangeHandler}
               value={description}
-              maxLength={500}
+              // maxLength={500}
             >
               {postDescription}
             </TextArea>
-            <Typography variant="small_text">{description.length}/500</Typography>
+            {descriptionError ? (
+              <Typography variant="error_text">{descriptionError}</Typography>
+            ) : (
+              <Typography variant="small_text" className={s.descriptionLength}>
+                {description.length}/500
+              </Typography>
+            )}
           </div>
           <div className={s.button}>
             <Button onClick={onPostSaveHandler} disabled={isLoading}>

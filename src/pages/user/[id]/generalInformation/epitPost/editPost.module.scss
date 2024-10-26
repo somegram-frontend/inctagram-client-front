@@ -7,13 +7,13 @@
   margin-bottom: 216px;
 
   & span {
-    color: var(--color-light-900);
-  }
-
-  & span:last-child {
     display: flex;
     justify-content: flex-end;
     margin-top: -6px;
+  }
+
+  & .descriptionLength {
+    color: var(--color-light-900);
   }
 }
 
