@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { Button, TextArea, Typography } from '@honor-ui/inctagram-ui-kit'
 import defaultAva from '../../../../../shared/images/Mask group.jpg'
 import { useUpdateUserPostMutation } from '@/api/posts-api'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { ItemsType, UpdateUserPostResponse } from '@/api/posts-api.types'
 import 'react-toastify/dist/ReactToastify.css'
 import { toast } from 'react-toastify'
@@ -16,7 +16,7 @@ type Props = {
 }
 
 export const EditPost = ({ setEditPost, postData }: Props) => {
-  const [updatePost, { isLoading }] = useUpdateUserPostMutation()
+  const [updatePost, { isLoading, isSuccess, isError, error }] = useUpdateUserPostMutation()
   const [descriptionError, setDescriptionError] = useState('')
 
   const postImage = postData[0].images[0]
@@ -35,23 +35,26 @@ export const EditPost = ({ setEditPost, postData }: Props) => {
 
   const onPostSaveHandler = () => {
     updatePost({ postId: postId, description })
-      .unwrap()
-      .then(() => {
-        setEditPost(false)
-        {
-          postDescription !== description && toast.success('Description has been changed')
-        }
-      })
-      .catch(e => {
-        const err = e as { data: UpdateUserPostResponse }
-        const errorMessage = err.data.message
-        if (err.data.errors) {
-          const errorMessage = Object.values(err.data.errors[0].constraints)[0]
-          setDescriptionError(capitalizeFirstLetter(errorMessage))
-        } else {
-          toast.error(errorMessage)
-        }
-      })
+  }
+
+  useEffect(() => {
+    if (isError) {
+      const err = error as { data: UpdateUserPostResponse }
+      const errorMessage = err.data.message
+      if (err.data.errors) {
+        const errorMessage = Object.values(err.data.errors[0].constraints)[0]
+        setDescriptionError(capitalizeFirstLetter(errorMessage))
+      } else {
+        toast.error(errorMessage)
+      }
+    }
+  }, [isError, error])
+
+  if (isSuccess) {
+    setEditPost(false)
+    {
+      postDescription !== description && toast.success('Description has been changed')
+    }
   }
 
   return (
