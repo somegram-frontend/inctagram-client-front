@@ -39,20 +39,12 @@ export type UpdateUserPostResponse = {
   errors?: {
     property: string
     constraints: {
-      // [key: string]: string
       description: string
     }
   }[]
 }
 
-export type AddUserPostsResponse = ApiResponse & {
-  id: string
-  description: string
-  createdAt: string
-  updatedAt: string
-  images: string[]
-  postOwnerInfo: PostOwnerInfoType
-}
+export type AddUserPostsResponse = ApiResponse & ItemsType
 
 export type ApiResponse = {
   statusCode: number

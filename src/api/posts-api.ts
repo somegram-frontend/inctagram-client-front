@@ -8,7 +8,7 @@ import {
   UpdateUserPostResponse,
 } from './posts-api.types'
 
-export const authApi = baseApi.injectEndpoints({
+export const postsApi = baseApi.injectEndpoints({
   endpoints: builder => {
     return {
       getUserPosts: builder.query<GetUserPostsResponse, GetUserPostsArgs>({
@@ -42,4 +42,4 @@ export const authApi = baseApi.injectEndpoints({
   },
 })
 
-export const { useGetUserPostsQuery, useAddUserPostsMutation, useUpdateUserPostMutation } = authApi
+export const { useGetUserPostsQuery, useAddUserPostsMutation, useUpdateUserPostMutation } = postsApi
