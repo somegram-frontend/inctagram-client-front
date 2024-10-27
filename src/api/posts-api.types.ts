@@ -44,3 +44,30 @@ export type UpdateUserPostResponse = {
     }
   }[]
 }
+
+export type AddUserPostsResponse = ApiResponse & {
+  id: string
+  description: string
+  createdAt: string
+  updatedAt: string
+  images: string[]
+  postOwnerInfo: PostOwnerInfoType
+}
+
+export type ApiResponse = {
+  statusCode: number
+  message: string
+  errors: ValidationError[]
+}
+
+type ValidationError = {
+  property: string
+  constraints: {
+    [key: string]: string
+  }
+}
+
+export type AddUserPostsArgs = {
+  files: File[]
+  description: string
+}

@@ -1,5 +1,7 @@
 import { baseApi } from '@/api/base-api'
 import {
+  AddUserPostsArgs,
+  AddUserPostsResponse,
   GetUserPostsArgs,
   GetUserPostsResponse,
   UpdateUserPostArgs,
@@ -13,6 +15,18 @@ export const authApi = baseApi.injectEndpoints({
         query: ({ userId, pageNumber, pageSize }) =>
           `v1/posts/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
         providesTags: ['Posts'],
+      }),
+      addUserPosts: builder.mutation<AddUserPostsResponse, AddUserPostsArgs>({
+        query: ({ files, description }) => {
+          const formData = new FormData()
+          files.forEach(file => formData.append('files', file))
+          formData.append('description', description)
+          return {
+            url: 'v1/posts',
+            method: 'POST',
+            body: formData,
+          }
+        },
       }),
       updateUserPost: builder.mutation<UpdateUserPostResponse, UpdateUserPostArgs>({
         query: ({ postId, description }) => {
@@ -28,4 +42,4 @@ export const authApi = baseApi.injectEndpoints({
   },
 })
 
-export const { useGetUserPostsQuery, useUpdateUserPostMutation } = authApi
+export const { useGetUserPostsQuery, useAddUserPostsMutation, useUpdateUserPostMutation } = authApi

@@ -14,6 +14,7 @@ import {
 import LogOut from '@/pages/auth/logOut'
 import { useRouter } from 'next/router'
 import { useMeQuery } from '@/api/auth-api'
+import DialogAddUserPost from '../dialogAddUserPost'
 
 export const Sidebars = () => {
   const router = useRouter()
@@ -42,7 +43,7 @@ export const Sidebars = () => {
             <HomeOutline /> Home
           </Typography>
           <Typography as={'li'} variant={'medium_text14'}>
-            <PlusSquareOutline /> Create
+            <DialogAddUserPost />
           </Typography>
           <Typography as={'li'} variant={'medium_text14'} onClick={handleProfileClick}>
             <PersonOutline /> My Profile
