@@ -21,9 +21,9 @@ export const Sidebars = () => {
 
   const { data } = useMeQuery()
 
-  const handleProfileSettingClick = () => {
+  const handleProfileClick = () => {
     router.push({
-      pathname: '/user/[id]/generalInformation',
+      pathname: '/user/[id]',
       query: { id: data?.userId },
     })
   }
@@ -45,7 +45,7 @@ export const Sidebars = () => {
           <Typography as={'li'} variant={'medium_text14'}>
             <DialogAddUserPost />
           </Typography>
-          <Typography as={'li'} variant={'medium_text14'} onClick={handleProfileSettingClick}>
+          <Typography as={'li'} variant={'medium_text14'} onClick={handleProfileClick}>
             <PersonOutline /> My Profile
           </Typography>
           <Typography as={'li'} variant={'medium_text14'}>

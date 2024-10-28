@@ -1,0 +1,43 @@
+.container {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: calc(99vh - 60px);
+  padding: 35px 65px 0 24px;
+
+  background-color: var(--color-dark-700);
+}
+
+.profile {
+  display: flex;
+  margin-bottom: 50px;
+}
+
+.profileData {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-left: 40px;
+}
+
+.profileNameAndBtnContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profileFollowersContainer {
+  display: flex;
+  gap: 100px;
+}
+
+.postImage {
+  cursor: pointer;
+  background-color: var(--color-dark-800);
+  border-radius: 3px;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}

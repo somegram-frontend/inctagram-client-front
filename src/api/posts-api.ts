@@ -4,14 +4,17 @@ import {
   AddUserPostsResponse,
   GetUserPostsArgs,
   GetUserPostsResponse,
+  UpdateUserPostArgs,
+  UpdateUserPostResponse,
 } from './posts-api.types'
 
-export const authApi = baseApi.injectEndpoints({
+export const postsApi = baseApi.injectEndpoints({
   endpoints: builder => {
     return {
       getUserPosts: builder.query<GetUserPostsResponse, GetUserPostsArgs>({
-        query: userId => `v1/posts/${userId}`,
-        providesTags: ['Profile'],
+        query: ({ userId, pageNumber, pageSize }) =>
+          `v1/posts/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+        providesTags: ['Posts'],
       }),
       addUserPosts: builder.mutation<AddUserPostsResponse, AddUserPostsArgs>({
         query: ({ files, description }) => {
@@ -25,8 +28,18 @@ export const authApi = baseApi.injectEndpoints({
           }
         },
       }),
+      updateUserPost: builder.mutation<UpdateUserPostResponse, UpdateUserPostArgs>({
+        query: ({ postId, description }) => {
+          return {
+            url: `v1/posts/${postId}`,
+            method: 'PUT',
+            body: { description },
+          }
+        },
+        invalidatesTags: ['Posts'],
+      }),
     }
   },
 })
 
-export const { useGetUserPostsQuery, useAddUserPostsMutation } = authApi
+export const { useGetUserPostsQuery, useAddUserPostsMutation, useUpdateUserPostMutation } = postsApi

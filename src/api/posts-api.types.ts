@@ -10,7 +10,6 @@ export type GetUserPostsResponse = {
   totalCount: number
   pagesCount: number
   items: ItemsType[]
-  postOwnerInfo: PostOwnerInfoType
 }
 
 type PostOwnerInfoType = {
@@ -19,15 +18,7 @@ type PostOwnerInfoType = {
   avatarUrl: string
 }
 
-type ItemsType = {
-  id: string
-  description: string
-  createdAt: string
-  updatedAt: string
-  images: string[]
-}
-
-export type AddUserPostsResponse = ApiResponse & {
+export type ItemsType = {
   id: string
   description: string
   createdAt: string
@@ -35,6 +26,25 @@ export type AddUserPostsResponse = ApiResponse & {
   images: string[]
   postOwnerInfo: PostOwnerInfoType
 }
+
+export type UpdateUserPostArgs = {
+  postId: string
+  description: string
+}
+
+export type UpdateUserPostResponse = {
+  statusCode: number
+  message: string
+  error?: string
+  errors?: {
+    property: string
+    constraints: {
+      description: string
+    }
+  }[]
+}
+
+export type AddUserPostsResponse = ApiResponse & ItemsType
 
 export type ApiResponse = {
   statusCode: number

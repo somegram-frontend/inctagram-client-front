@@ -1,0 +1,34 @@
+.container {
+  display: flex;
+}
+
+.descriptionEdit {
+  margin-top: 24px;
+  margin-bottom: 50%;
+
+  & span {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  & .descriptionLength {
+    line-height: 0%;
+    color: var(--color-light-900);
+  }
+}
+
+.textArea {
+  width: 100%;
+  min-width: 430px;
+  min-height: 145px;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+
+  & button {
+    width: 100%;
+    max-width: 135px;
+  }
+}

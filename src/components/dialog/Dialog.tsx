@@ -2,6 +2,7 @@ import { ElementRef, forwardRef, ComponentPropsWithoutRef } from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import s from './dialog.module.scss'
 import { ArrowIosBack, Button, CloseOutline, Typography } from '@honor-ui/inctagram-ui-kit'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
 type Props = {
   title?: string
@@ -9,6 +10,8 @@ type Props = {
   customBtn?: string
   onCustomBtnClickGo?: () => void
   onCustomBtnClickBack?: () => void
+  description?: string
+  withoutCloseIcon?: boolean
 } & ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 
 export const DialogContent = forwardRef<ElementRef<typeof DialogPrimitive.Content>, Props>(
@@ -18,6 +21,8 @@ export const DialogContent = forwardRef<ElementRef<typeof DialogPrimitive.Conten
       title,
       customTitle,
       customBtn,
+      description,
+      withoutCloseIcon,
       onCustomBtnClickGo,
       onCustomBtnClickBack,
       ...props
@@ -37,9 +42,11 @@ export const DialogContent = forwardRef<ElementRef<typeof DialogPrimitive.Conten
             <DialogPrimitive.Title>
               <Typography variant={'h1'}>{title}</Typography>
             </DialogPrimitive.Title>
-            <DialogPrimitive.Close aria-label="Close">
-              <CloseOutline className={s.iconButton} />
-            </DialogPrimitive.Close>
+            {!withoutCloseIcon && (
+              <DialogPrimitive.Close aria-label="Close">
+                <CloseOutline className={s.iconButton} />
+              </DialogPrimitive.Close>
+            )}
           </div>
         )}
         {customTitle && (
@@ -55,6 +62,11 @@ export const DialogContent = forwardRef<ElementRef<typeof DialogPrimitive.Conten
             </Button>
           </div>
         )}
+        {description && (
+          <VisuallyHidden asChild>
+            <DialogPrimitive.Description>{description}</DialogPrimitive.Description>
+          </VisuallyHidden>
+        )}
         {children}
       </DialogPrimitive.Content>
     </DialogPrimitive.Portal>
@@ -64,5 +76,6 @@ export const DialogContent = forwardRef<ElementRef<typeof DialogPrimitive.Conten
 export const Dialog = DialogPrimitive.Root
 export const DialogTrigger = DialogPrimitive.Trigger
 export const DialogClose = DialogPrimitive.Close
+export const DialogTitle = DialogPrimitive.Title
 
 DialogContent.displayName = 'DialogContent'

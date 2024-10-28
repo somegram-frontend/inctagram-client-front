@@ -75,7 +75,6 @@ const DialogAddUserPost = () => {
           toast.success('Successfully published')
         },
         error => {
-          console.log(error)
           toast.success(error)
         }
       )
