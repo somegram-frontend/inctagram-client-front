@@ -50,7 +50,7 @@ const DialogAddUserPost = () => {
     const validFiles: File[] = []
     for (const file of uploadedFiles) {
       if (file.size > 20000000) {
-        resetFile('Error! Photo size must be less than 20 MB!')
+        resetFile('The photo must be less than 20 Mb and have JPEG or PNG format')
         return
       } else if (!['image/jpeg', 'image/png'].includes(file.type)) {
         resetFile('Error! The format of the uploaded photo must be PNG or JPEG')
@@ -116,6 +116,10 @@ const DialogAddUserPost = () => {
     setIsFirstModalOpen(isFirstModalOpen)
   }
 
+  const handleCustomBtnClickBack = () => {
+    setIsSecondModalOpen(true)
+  }
+
   return (
     <div>
       <Dialog open={isFirstModalOpen} onOpenChange={handleFirstModalOpenChange}>
@@ -131,7 +135,7 @@ const DialogAddUserPost = () => {
             customTitle={'Cropping'}
             customBtn={'Next'}
             onCustomBtnClickGo={() => setPublicPost(true)}
-            onCustomBtnClickBack={() => setImages([])}
+            onCustomBtnClickBack={handleCustomBtnClickBack}
           >
             <CroppingContent
               handleUpload={handleUpload}
