@@ -27,6 +27,7 @@ export const postsApi = baseApi.injectEndpoints({
             body: formData,
           }
         },
+        invalidatesTags: ['Posts'],
       }),
       updateUserPost: builder.mutation<UpdateUserPostResponse, UpdateUserPostArgs>({
         query: ({ postId, description }) => {

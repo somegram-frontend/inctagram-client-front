@@ -34,6 +34,7 @@
 
 .postImage {
   cursor: pointer;
+  object-fit: cover;
   background-color: var(--color-dark-800);
   border-radius: 3px;
 
