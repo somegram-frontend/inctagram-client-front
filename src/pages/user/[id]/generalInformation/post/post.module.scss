@@ -1,5 +1,6 @@
 .postContainer {
   display: flex;
+  height: 100%;
   border: 1px solid var(--color-dark-100);
 }
 
@@ -8,11 +9,85 @@
 }
 
 .postImage {
-  width: 100%;
-  min-width: 490px;
-  height: 100%;
-  min-height: 40em;
+  object-fit: cover;
+}
 
+.postDots {
+  position: absolute;
+  bottom: 12px;
+  left: 40%;
+
+  display: block;
+
+  width: 100%;
+  max-width: 104px;
+  margin: 0;
+  padding: 0;
+
+  text-align: center;
+  list-style: none;
+
+  opacity: 0.9;
+  background-color: var(--color-dark-300);
+  border-radius: 5%;
+
+  & li {
+    cursor: pointer;
+
+    position: relative;
+
+    display: inline-block;
+
+    width: 20px;
+    height: 20px;
+    margin: 0 5px;
+    padding: 0;
+
+    & button {
+      cursor: pointer;
+
+      display: block;
+
+      width: 20px;
+      height: 20px;
+      padding: 5px;
+
+      font-size: 0;
+      line-height: 0;
+      color: transparent;
+
+      background: transparent;
+      border: 0;
+      outline: none;
+
+      &::before {
+        content: '•';
+
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 20px;
+        height: 20px;
+
+        font-size: 32px;
+        -webkit-font-smoothing: antialiased;
+        line-height: 20px;
+        color: var(--color-light-100);
+        text-align: center;
+      }
+    }
+  }
+}
+
+.postDots :global(li.slick-active) button::before {
+  color: var(--color-accent-500);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  min-height: 562px;
   object-fit: cover;
 }
 
@@ -106,7 +181,6 @@
 }
 
 .descriptionReactions {
-  padding-top: 20px;
   border-bottom: 1px solid var(--color-dark-100);
 }
 

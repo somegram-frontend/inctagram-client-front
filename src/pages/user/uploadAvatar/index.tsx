@@ -144,5 +144,3 @@ const UploadAvatar = () => {
 }
 
 export default UploadAvatar
-
-//TODO fix margin when error
