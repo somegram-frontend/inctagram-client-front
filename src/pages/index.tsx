@@ -1,6 +1,6 @@
-import NavigationLayout from '@/pages/_layout'
+import Layout from '@/pages/_layout'
 import '@honor-ui/inctagram-ui-kit/css'
 
 export default function Home() {
-  return <NavigationLayout isAuth={false}>Public Page</NavigationLayout>
+  return <Layout isAuth={false}>Public Page</Layout>
 }

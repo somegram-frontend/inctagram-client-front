@@ -2,13 +2,13 @@ import { Header } from '@/components/header'
 import { Sidebars } from '@/components/sidebar'
 import { NextPage } from 'next'
 import { PropsWithChildren } from 'react'
-import s from './navigationLayout.module.scss'
+import s from './layout.module.scss'
 
-type navigationLayoutProps = {
+type layoutProps = {
   isAuth: boolean
 }
 
-const NavigationLayout: NextPage<PropsWithChildren & navigationLayoutProps> = props => {
+const Layout: NextPage<PropsWithChildren & layoutProps> = props => {
   const { children, isAuth } = props
   return (
     <>
@@ -21,4 +21,4 @@ const NavigationLayout: NextPage<PropsWithChildren & navigationLayoutProps> = pr
   )
 }
 
-export default NavigationLayout
+export default Layout

@@ -1,6 +1,6 @@
 import { useGetUserPostsQuery } from '@/api/posts-api'
 import { useRouter } from 'next/router'
-import NavigationLayout from '@/pages/_layout'
+import Layout from '@/pages/_layout'
 import { useState } from 'react'
 import { DialogTrigger, Dialog, DialogContent, DialogTitle } from '@/components/dialog'
 import { Button, ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
@@ -45,7 +45,7 @@ const Profile = () => {
   }
 
   return (
-    <NavigationLayout isAuth={true}>
+    <Layout isAuth={true}>
       <div className={style.container}>
         <div className={style.profile}>
           {profile?.avatar.url ? (
@@ -125,7 +125,7 @@ const Profile = () => {
           </Dialog>
         </div>
       </div>
-    </NavigationLayout>
+    </Layout>
   )
 }
 
