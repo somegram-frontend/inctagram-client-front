@@ -83,8 +83,8 @@ export const EditPost = ({ setEditPost, postData }: Props) => {
             <Typography variant="bold_text16">{userName}</Typography>
           </div>
           <form className={s.descriptionEdit} onSubmit={handleSubmit(onSubmit)}>
-            <Typography variant="regular_text14">Add publication descriptions</Typography>
             <TextArea
+              label="Add publication descriptions"
               id={'description'}
               className={s.textArea}
               {...register('description', {

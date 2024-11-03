@@ -24,12 +24,10 @@ type Props = {
 export const Post = ({ setEditPost, postData }: Props) => {
   const [editMenu, setEditMenu] = useState(false)
 
-  const postImage = postData[0].images[0]
+  const postImages = postData[0].images
   const postDescription = postData[0].description
   const userName = postData[0].postOwnerInfo.username
   const userAvatar = postData[0].postOwnerInfo.avatarUrl
-
-  const images = postData[0].images
 
   const onEditClickHandler = () => {
     setEditMenu(editMenu => !editMenu)
@@ -40,7 +38,7 @@ export const Post = ({ setEditPost, postData }: Props) => {
   return (
     <div className={s.postContainer}>
       <PhotoSlider
-        image={images}
+        image={postImages}
         className={s.postImage}
         dotClass={s.postDots}
         imgClass={s.image}
@@ -87,9 +85,21 @@ export const Post = ({ setEditPost, postData }: Props) => {
             <BookmarkOutline className={s.descriptionReactionsIcon} />
           </div>
           <div className={s.descriptionReactionsAvatarsContainer}>
-            <Image src={defaultAva} alt="" className={s.descriptionReactionsAvatarImage} />
-            <Image src={defaultAva} alt="" className={s.descriptionReactionsAvatarImage} />
-            <Image src={defaultAva} alt="" className={s.descriptionReactionsAvatarImage} />
+            <Image
+              src={defaultAva}
+              alt="defaultAva"
+              className={s.descriptionReactionsAvatarImage}
+            />
+            <Image
+              src={defaultAva}
+              alt="defaultAva"
+              className={s.descriptionReactionsAvatarImage}
+            />
+            <Image
+              src={defaultAva}
+              alt="defaultAva"
+              className={s.descriptionReactionsAvatarImage}
+            />
             <span>
               2 243 <b>&quot;Like&quot;</b>
             </span>
