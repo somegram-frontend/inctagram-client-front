@@ -4,57 +4,61 @@ import Image from 'next/image'
 import { Button, TextArea, Typography } from '@honor-ui/inctagram-ui-kit'
 import defaultAva from '../../../../../shared/images/Mask group.jpg'
 import { useUpdateUserPostMutation } from '@/api/posts-api'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { useState } from 'react'
 import { ItemsType, UpdateUserPostResponse } from '@/api/posts-api.types'
 import 'react-toastify/dist/ReactToastify.css'
 import { toast } from 'react-toastify'
-import { capitalizeFirstLetter } from '@/shared/utils/capitalizeFirstLetter'
+import { useForm } from 'react-hook-form'
 
 type Props = {
   setEditPost: (value: boolean) => void
   postData: ItemsType[]
 }
 
-export const EditPost = ({ setEditPost, postData }: Props) => {
-  const [updatePost, { isLoading, isSuccess, isError, error }] = useUpdateUserPostMutation()
-  const [descriptionError, setDescriptionError] = useState('')
+type DescriptionField = {
+  description: string
+}
 
+export const EditPost = ({ setEditPost, postData }: Props) => {
   const postImage = postData[0].images[0]
   const postDescription = postData[0].description
   const userName = postData[0].postOwnerInfo.username
   const userAvatar = postData[0].postOwnerInfo.avatarUrl
   const postId = postData[0].id
 
+  const [updatePost, { isLoading, isSuccess, isError, error }] = useUpdateUserPostMutation()
   const [description, setDescription] = useState(postDescription)
 
-  const onPostChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const newDescription = e.currentTarget.value
-    setDescriptionError('')
-    setDescription(newDescription)
-  }
+  const {
+    handleSubmit,
+    register,
+    watch,
+    formState: { errors },
+  } = useForm<DescriptionField>({
+    defaultValues: {
+      description: description,
+    },
+  })
 
-  const onPostSaveHandler = () => {
-    updatePost({ postId: postId, description })
-  }
-
-  useEffect(() => {
-    if (isError) {
-      const err = error as { data: UpdateUserPostResponse }
+  if (isError) {
+    const err = error as { data: UpdateUserPostResponse }
+    if (err.data.message) {
       const errorMessage = err.data.message
-      if (err.data.errors) {
-        const errorMessage = Object.values(err.data.errors[0].constraints)[0]
-        setDescriptionError(capitalizeFirstLetter(errorMessage))
-      } else {
-        toast.error(errorMessage)
-      }
+      errorMessage && toast.error(errorMessage)
+      setEditPost(false)
     }
-  }, [isError, error])
+  }
 
   if (isSuccess) {
     setEditPost(false)
     {
       postDescription !== description && toast.success('Description has been changed')
     }
+  }
+
+  const onSubmit = (data: DescriptionField) => {
+    setDescription(data.description)
+    updatePost({ postId: postId, description: data.description })
   }
 
   return (
@@ -78,24 +82,31 @@ export const EditPost = ({ setEditPost, postData }: Props) => {
             />
             <Typography variant="bold_text16">{userName}</Typography>
           </div>
-          <div className={s.descriptionEdit}>
-            <Typography variant="regular_text14">Add publication descriptions</Typography>
-            <TextArea className={s.textArea} onChange={onPostChangeHandler} value={description}>
+          <form className={s.descriptionEdit} onSubmit={handleSubmit(onSubmit)}>
+            <TextArea
+              label="Add publication descriptions"
+              id={'description'}
+              className={s.textArea}
+              {...register('description', {
+                maxLength: {
+                  value: 500,
+                  message: 'The post description should not exceed 500 characters.',
+                },
+              })}
+            >
               {postDescription}
             </TextArea>
-            {descriptionError ? (
-              <Typography variant="error_text">{descriptionError}</Typography>
+            {errors.description ? (
+              <Typography variant="error_text">{errors.description.message}</Typography>
             ) : (
               <Typography variant="small_text" className={s.descriptionLength}>
-                {description.length}/500
+                {`${watch('description').length}/500`}
               </Typography>
             )}
-          </div>
-          <div className={s.button}>
-            <Button onClick={onPostSaveHandler} disabled={isLoading}>
-              Save Changes
-            </Button>
-          </div>
+            <div className={s.button}>
+              <Button disabled={isLoading}>Save Changes</Button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

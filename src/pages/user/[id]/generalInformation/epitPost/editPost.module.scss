@@ -4,16 +4,19 @@
 
 .descriptionEdit {
   margin-top: 24px;
-  margin-bottom: 50%;
 
   & span {
     display: flex;
     justify-content: flex-end;
+    line-height: 0%;
   }
 
   & .descriptionLength {
-    line-height: 0%;
     color: var(--color-light-900);
+  }
+
+  & label {
+    line-height: 0%;
   }
 }
 
@@ -26,6 +29,7 @@
 .button {
   display: flex;
   justify-content: flex-end;
+  margin-top: 55%;
 
   & button {
     width: 100%;

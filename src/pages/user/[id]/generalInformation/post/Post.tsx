@@ -14,6 +14,7 @@ import defaultAva from '../../../../../shared/images/Mask group.jpg'
 import { useState } from 'react'
 import { ItemsType } from '@/api/posts-api.types'
 import { PostComment } from './PostComment'
+import PhotoSlider from '@/components/dialogAddUserPost/photoSlider'
 
 type Props = {
   setEditPost: (value: boolean) => void
@@ -23,7 +24,7 @@ type Props = {
 export const Post = ({ setEditPost, postData }: Props) => {
   const [editMenu, setEditMenu] = useState(false)
 
-  const postImage = postData[0].images[0]
+  const postImages = postData[0].images
   const postDescription = postData[0].description
   const userName = postData[0].postOwnerInfo.username
   const userAvatar = postData[0].postOwnerInfo.avatarUrl
@@ -36,7 +37,12 @@ export const Post = ({ setEditPost, postData }: Props) => {
 
   return (
     <div className={s.postContainer}>
-      <Image src={postImage} alt="post image" width={490} height={560} className={s.postImage} />
+      <PhotoSlider
+        image={postImages}
+        className={s.postImage}
+        dotClass={s.postDots}
+        imgClass={s.image}
+      />
       <div className={s.descriptionContainer}>
         <div className={`${s.descriptionHeader} ${s.wrapper}`}>
           <div className={s.descriptionHeaderProfile}>
@@ -79,9 +85,21 @@ export const Post = ({ setEditPost, postData }: Props) => {
             <BookmarkOutline className={s.descriptionReactionsIcon} />
           </div>
           <div className={s.descriptionReactionsAvatarsContainer}>
-            <Image src={defaultAva} alt="" className={s.descriptionReactionsAvatarImage} />
-            <Image src={defaultAva} alt="" className={s.descriptionReactionsAvatarImage} />
-            <Image src={defaultAva} alt="" className={s.descriptionReactionsAvatarImage} />
+            <Image
+              src={defaultAva}
+              alt="defaultAva"
+              className={s.descriptionReactionsAvatarImage}
+            />
+            <Image
+              src={defaultAva}
+              alt="defaultAva"
+              className={s.descriptionReactionsAvatarImage}
+            />
+            <Image
+              src={defaultAva}
+              alt="defaultAva"
+              className={s.descriptionReactionsAvatarImage}
+            />
             <span>
               2 243 <b>&quot;Like&quot;</b>
             </span>
