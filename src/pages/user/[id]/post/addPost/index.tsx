@@ -117,7 +117,7 @@ const DialogAddUserPost = () => {
     setIsSecondModalOpen(true)
   }
 
-  if (isCreateLoading) <Loader />
+  if (isCreateLoading) return <Loader />
   // if (isCreateSuccess) {
   //   toast.success('Successfully published')
   // }
