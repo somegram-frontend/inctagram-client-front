@@ -1,18 +1,18 @@
 import { useGetUserPostsQuery } from '@/api/posts-api'
 import { useRouter } from 'next/router'
-import NavigationLayout from '@/components/layout/NavigationLayout'
+import NavigationLayout from '@/pages/_layout'
 import { useState } from 'react'
-import { DialogTrigger, Dialog, DialogContent, DialogTitle } from '@/components/dialog/Dialog'
+import { DialogTrigger, Dialog, DialogContent, DialogTitle } from '@/components/dialog'
 import { Button, ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
-import { Post } from './generalInformation/post/Post'
+import { Post } from './post'
 import { useMeQuery } from '@/api/auth-api'
 import { useGetProfileQuery } from '@/api/users-api'
 import Image from 'next/image'
-import s from '../uploadAvatar/uploadAvatar.module.scss'
+import s from './profile/uploadProfileAvatar/uploadProfileAvatar.module.scss'
 import style from './user.module.scss'
-import { EditPost } from './generalInformation/epitPost/EditPost'
-import { DialogWithConfirm } from '@/components/dialogWithConfirm/DialogWithConfirm'
-import { Loader } from '@/components/loader/Loader'
+import { EditPost } from './post/editPost'
+import { DialogWithConfirm } from '@/components/dialogWithConfirm'
+import { Loader } from '@/components/loader'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
 const Profile = () => {
@@ -35,7 +35,7 @@ const Profile = () => {
 
   const handleProfileSettingClick = () => {
     router.push({
-      pathname: '/user/[id]/generalInformation',
+      pathname: '/user/[id]/profile',
       query: { id: me?.userId },
     })
   }

@@ -1,5 +1,5 @@
 import PhotoSlider from '../photoSlider'
-import style from '../dialogAddUserPost.module.scss'
+import style from '../addPost.module.scss'
 import s from './croppingContent.module.scss'
 import Image from 'next/image'
 import { Button, Close, PlusCircleOutline } from '@honor-ui/inctagram-ui-kit'

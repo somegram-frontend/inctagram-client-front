@@ -2,7 +2,7 @@ import { Header } from '@/components/header'
 import { Sidebars } from '@/components/sidebar'
 import { NextPage } from 'next'
 import { PropsWithChildren } from 'react'
-import s from './NavigationLayout.module.scss'
+import s from './navigationLayout.module.scss'
 
 type navigationLayoutProps = {
   isAuth: boolean

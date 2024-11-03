@@ -1,4 +1,4 @@
-import { PASSWORD_PATTERN, USERNAME_PATTERN } from '@/shared/const/regex'
+import { PASSWORD_PATTERN, USERNAME_PATTERN } from './regex'
 import { z } from 'zod'
 
 export const signUpSchema = z
@@ -50,7 +50,7 @@ export const signInSchema = z.object({
     }),
 })
 
-export const changeGeneralInformationSchema = z.object({
+export const changeProfileSchema = z.object({
   userName: z
     .string()
     .min(6, { message: 'Minimum 6 characters' })

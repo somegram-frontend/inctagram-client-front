@@ -1,8 +1,8 @@
-import { DialogTrigger, Dialog, DialogContent, DialogTitle } from '@/components/dialog/Dialog'
+import { DialogTrigger, Dialog, DialogContent, DialogTitle } from '@/components/dialog'
 import { ElementRef, forwardRef, ComponentPropsWithoutRef, useState } from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { CloseOutline } from '@honor-ui/inctagram-ui-kit'
-import { DialogConfirmContent } from './DialogConfirmContent'
+import { DialogConfirmContent } from './dialogConfirmContent'
 import s from './dialogWithConfirm.module.scss'
 
 type Props = {

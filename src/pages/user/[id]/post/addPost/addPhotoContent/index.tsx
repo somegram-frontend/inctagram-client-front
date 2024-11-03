@@ -1,5 +1,5 @@
 import s from './addPhotoContent.module.scss'
-import style from '../dialogAddUserPost.module.scss'
+import style from '../addPost.module.scss'
 import { Button, ImageOutline } from '@honor-ui/inctagram-ui-kit'
 
 type Props = {

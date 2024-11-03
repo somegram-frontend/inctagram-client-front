@@ -1,10 +1,10 @@
-import { FormSignIn } from '@/pages/auth/signIn/formSignIn/FormSignIn'
+import { FormSignIn } from '@/pages/auth/signIn/formSignIn'
 import { useRouter } from 'next/router'
 import { useLoginMutation } from '@/api/auth-api'
 import { EnumTokens } from '@/shared/const/enums'
 import { Header } from '@/components/header'
 import { useAuthRedirect } from '@/pages/auth/authProviders/useAuthRedirect'
-import { Loader } from '@/components/loader/Loader'
+import { Loader } from '@/components/loader'
 import { RegistrationResponse } from '@/api/auth-api.types'
 import { toast } from 'react-toastify'
 

@@ -1,17 +1,17 @@
 'use client'
-import ProfileForm from './profileForm/ProfileForm'
+import ProfileForm from './profileForm'
 import { useGetProfileQuery, useProfileFillInfoMutation } from '@/api/users-api'
 
-import s from './generalInformation.module.scss'
-import UploadAvatar from '../../uploadAvatar'
-import NavigationLayout from '@/components/layout/NavigationLayout'
-import { Loader } from '@/components/loader/Loader'
+import s from './profile.module.scss'
+import UploadAvatar from './uploadProfileAvatar'
+import NavigationLayout from '@/pages/_layout'
+import { Loader } from '@/components/loader'
 import { ProfileResponse, UserProfile } from '@/api/users-api.types'
 import { format } from 'date-fns'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
 
-const GeneralInformation = () => {
+const Profile = () => {
   const router = useRouter()
   const [
     profileFillInfo,
@@ -61,4 +61,4 @@ const GeneralInformation = () => {
     )
 }
 
-export default GeneralInformation
+export default Profile

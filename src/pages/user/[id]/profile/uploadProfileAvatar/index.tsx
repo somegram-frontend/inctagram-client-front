@@ -3,12 +3,12 @@ import {
   useGetProfileQuery,
   useUploadAvatarMutation,
 } from '@/api/users-api'
-import s from './uploadAvatar.module.scss'
-import style from '../../auth/logOut/logOut.module.scss'
+import s from './uploadProfileAvatar.module.scss'
+import style from '@/pages/auth/logOut/logOut.module.scss'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { Button, ImageOutline, CloseOutline } from '@honor-ui/inctagram-ui-kit'
-import { DialogTrigger, Dialog, DialogContent, DialogClose } from '@/components/dialog/Dialog'
-import { Loader } from '@/components/loader/Loader'
+import { DialogTrigger, Dialog, DialogContent, DialogClose } from '@/components/dialog'
+import { Loader } from '@/components/loader'
 import Image from 'next/image'
 
 const UploadAvatar = () => {

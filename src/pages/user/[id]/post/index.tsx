@@ -10,11 +10,11 @@ import {
 } from '@honor-ui/inctagram-ui-kit'
 import s from './post.module.scss'
 import Image from 'next/image'
-import defaultAva from '../../../../../shared/images/Mask group.jpg'
+import defaultAva from '@/assets/Mask group.jpg'
 import { useState } from 'react'
 import { ItemsType } from '@/api/posts-api.types'
-import { PostComment } from './PostComment'
-import PhotoSlider from '@/components/dialogAddUserPost/photoSlider'
+import { PostComment } from './addPost/postComment'
+import PhotoSlider from '@/pages/user/[id]/post/addPost/photoSlider'
 
 type Props = {
   setEditPost: (value: boolean) => void

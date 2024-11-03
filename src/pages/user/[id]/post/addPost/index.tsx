@@ -1,6 +1,6 @@
 import { PlusSquareOutline } from '@honor-ui/inctagram-ui-kit'
-import { Dialog, DialogContent, DialogTrigger } from '../dialog/Dialog'
-import style from '../../pages/auth/logOut/logOut.module.scss'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/dialog'
+import style from '@/pages/auth/logOut/logOut.module.scss'
 import { ChangeEvent, useMemo, useState } from 'react'
 import { useAddUserPostsMutation } from '@/api/posts-api'
 import { useGetProfileQuery } from '@/api/users-api'
@@ -124,7 +124,7 @@ const DialogAddUserPost = () => {
     <div>
       <Dialog open={isFirstModalOpen} onOpenChange={handleFirstModalOpenChange}>
         <DialogTrigger className={style.triggerButton}>
-          <PlusSquareOutline /> Create
+          <PlusSquareOutline /> Create Post
         </DialogTrigger>
         {images.length === 0 ? (
           <DialogContent title={'Add Photo'}>

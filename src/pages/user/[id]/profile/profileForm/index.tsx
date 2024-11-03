@@ -6,10 +6,10 @@ import { useGetCitiesListMutation, useGetCountriesListQuery } from '@/api/countr
 import { useEffect, useId, useMemo, useState } from 'react'
 import { ControlledSelect } from '@/components/controlled/ControlledSelect'
 import s from './profileForm.module.scss'
-import { changeGeneralInformationSchema } from '@/shared/utils/validationSchemas'
+import { changeProfileSchema } from '@/shared/const/validationSchemas'
 import { UserProfile } from '@/api/users-api.types'
 import { ControlledDatePicker } from '@/components/controlled/ControlledDatePicker'
-import { Loader } from '@/components/loader/Loader'
+import { Loader } from '@/components/loader'
 
 type Props = {
   isLoadingUpdate: boolean
@@ -27,7 +27,7 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
     setValue,
     formState: { errors },
   } = useForm<UserProfile>({
-    resolver: zodResolver(changeGeneralInformationSchema),
+    resolver: zodResolver(changeProfileSchema),
     defaultValues: {
       userName: dataValue?.userName || '',
       firstName: dataValue?.firstName || '',

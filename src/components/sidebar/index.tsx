@@ -14,7 +14,7 @@ import {
 import LogOut from '@/pages/auth/logOut'
 import { useRouter } from 'next/router'
 import { useMeQuery } from '@/api/auth-api'
-import DialogAddUserPost from '../dialogAddUserPost'
+import DialogAddUserPost from '@/pages/user/[id]/post/addPost'
 
 export const Sidebars = () => {
   const router = useRouter()
@@ -23,7 +23,7 @@ export const Sidebars = () => {
 
   const handleProfileClick = () => {
     router.push({
-      pathname: '/user/[id]',
+      pathname: '/user/[id]/profile',
       query: { id: data?.userId },
     })
   }
