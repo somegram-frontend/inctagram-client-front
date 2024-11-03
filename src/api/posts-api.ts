@@ -1,7 +1,7 @@
 import { baseApi } from '@/api/base-api'
 import {
   AddUserPostsArgs,
-  AddUserPostsResponse,
+  ApiResponse,
   GetUserPostsArgs,
   GetUserPostsResponse,
   UpdateUserPostArgs,
@@ -16,7 +16,7 @@ export const postsApi = baseApi.injectEndpoints({
           `v1/posts/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
         providesTags: ['Posts'],
       }),
-      addUserPosts: builder.mutation<AddUserPostsResponse, AddUserPostsArgs>({
+      addUserPosts: builder.mutation<ApiResponse, AddUserPostsArgs>({
         query: ({ files, description }) => {
           const formData = new FormData()
           files.forEach(file => formData.append('files', file))
@@ -39,8 +39,21 @@ export const postsApi = baseApi.injectEndpoints({
         },
         invalidatesTags: ['Posts'],
       }),
+      deleteUserPost: builder.mutation<ApiResponse, {postId: string}>({
+        query: ({ postId }) => {
+          return {
+            url: `v1/posts/${postId}`,
+            method: 'DELETE',
+          }
+        },
+        invalidatesTags: ['Posts'],
+      }),
     }
   },
 })
 
-export const { useGetUserPostsQuery, useAddUserPostsMutation, useUpdateUserPostMutation } = postsApi
+export const { 
+  useGetUserPostsQuery, 
+  useAddUserPostsMutation, 
+  useUpdateUserPostMutation, 
+  useDeleteUserPostMutation } = postsApi

@@ -12,9 +12,14 @@ import AddPhotoContent from './addPhotoContent'
 import CroppingContent from './croppingContent'
 import PublicationContent from './publicationContent'
 import CloseContent from './closeContent'
+import { Loader } from '@/components/loader'
+import { ApiResponse } from '@/api/countries-api.type'
 
 const DialogAddUserPost = () => {
-  const [sendPost] = useAddUserPostsMutation()
+  const [
+    sendPost,
+    { isLoading: isCreateLoading, isSuccess: isCreateSuccess, isError: isCreateError },
+  ] = useAddUserPostsMutation()
   const { data: profileInfo } = useGetProfileQuery()
   const { data, error, isLoading } = useGetCountriesListQuery()
 
@@ -70,14 +75,7 @@ const DialogAddUserPost = () => {
 
   const handlePublish = () => {
     if (files.length > 0) {
-      sendPost({ files, description }).then(
-        result => {
-          toast.success('Successfully published')
-        },
-        error => {
-          toast.success(error)
-        }
-      )
+      sendPost({ files, description })
       resetPostState()
     }
   }
@@ -120,6 +118,13 @@ const DialogAddUserPost = () => {
     setIsSecondModalOpen(true)
   }
 
+  if (isCreateLoading) <Loader />
+  if (isCreateSuccess) {
+    toast.success('Successfully published')
+  }
+  if (isCreateError) {
+    toast.error('Publish failed')
+  }
   return (
     <div>
       <Dialog open={isFirstModalOpen} onOpenChange={handleFirstModalOpenChange}>

@@ -12,19 +12,19 @@ import { useForm } from 'react-hook-form'
 
 type Props = {
   setEditPost: (value: boolean) => void
-  postData: ItemsType[]
+  post: ItemsType
 }
 
 type DescriptionField = {
   description: string
 }
 
-export const EditPost = ({ setEditPost, postData }: Props) => {
-  const postImage = postData[0].images[0]
-  const postDescription = postData[0].description
-  const userName = postData[0].postOwnerInfo.username
-  const userAvatar = postData[0].postOwnerInfo.avatarUrl
-  const postId = postData[0].id
+export const EditPost = ({ setEditPost, post }: Props) => {
+  const postImage = post.images[0]
+  const postDescription = post.description
+  const userName = post.postOwnerInfo.username
+  const userAvatar = post.postOwnerInfo.avatarUrl
+  const postId = post.id
 
   const [updatePost, { isLoading, isSuccess, isError, error }] = useUpdateUserPostMutation()
   const [description, setDescription] = useState(postDescription)
@@ -63,13 +63,7 @@ export const EditPost = ({ setEditPost, postData }: Props) => {
 
   return (
     <div className={s.container}>
-      <Image
-        src={postImage}
-        alt="post image"
-        width={490}
-        height={560}
-        className={postStyle.postImage}
-      />
+      <Image src={postImage} alt="post image" width={490} height={560} className={s.postImage} />
       <div className={postStyle.descriptionContainer}>
         <div className={postStyle.wrapper}>
           <div className={postStyle.descriptionHeaderProfile}>

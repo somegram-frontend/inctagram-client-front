@@ -4,13 +4,13 @@ import { ArrowIosBack, ArrowIosForward } from '@honor-ui/inctagram-ui-kit'
 import Image from 'next/image'
 
 type Props = {
-  image: string[]
+  images: string[]
   className?: string
   dotClass?: string
   imgClass?: string
 }
 
-const PhotoSlider: React.FC<Props> = ({ image, className, dotClass, imgClass }) => {
+const PhotoSlider: React.FC<Props> = ({ images, className, dotClass, imgClass }) => {
   const Arrow = ({ direction, onClick }: { direction: 'prev' | 'next'; onClick: () => void }) => (
     <div className={direction === 'prev' ? s.customPrevArrow : s.customNextArrow} onClick={onClick}>
       {direction === 'prev' ? <ArrowIosBack /> : <ArrowIosForward />}
@@ -30,27 +30,25 @@ const PhotoSlider: React.FC<Props> = ({ image, className, dotClass, imgClass }) 
 
   return (
     <div>
-      {image.length > 0 && (
-        <div className={s.sliderWrapper}>
-          <Slider
-            {...settings}
-            className={className ? className : ''}
-            dotsClass={dotClass ? dotClass : 'slick-dots'}
-          >
-            {image.map((imgSrc, index) => (
-              <div key={index} className={s.slide}>
-                <Image
-                  src={imgSrc}
-                  alt={`Image ${index}`}
-                  width={492}
-                  height={504}
-                  className={imgClass ? imgClass : ''}
-                />
-              </div>
-            ))}
-          </Slider>
-        </div>
-      )}
+      <div className={s.sliderWrapper}>
+        <Slider
+          {...settings}
+          className={className ? className : ''}
+          dotsClass={dotClass ? dotClass : 'slick-dots'}
+        >
+          {images?.map(imgSrc => (
+            <div key={imgSrc} className={s.slide}>
+              <Image
+                src={imgSrc}
+                alt="post images"
+                width={492}
+                height={504}
+                className={imgClass || ''}
+              />
+            </div>
+          ))}
+        </Slider>
+      </div>
     </div>
   )
 }

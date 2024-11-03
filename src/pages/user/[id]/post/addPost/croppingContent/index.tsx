@@ -1,4 +1,4 @@
-import PhotoSlider from '../photoSlider'
+import PhotoSlider from '../../../../../../components/photoSlider'
 import style from '../addPost.module.scss'
 import s from './croppingContent.module.scss'
 import Image from 'next/image'
@@ -14,7 +14,7 @@ const CroppingContent: React.FC<Props> = ({ images, handleUpload, removeImage })
   return (
     <>
       <div className={s.wrapperCropping}>
-        <PhotoSlider image={images} />
+        <PhotoSlider images={images} />
         <div className={s.photoContainer}>
           {images.map((image, index) => (
             <div key={index} className={s.imageWrapper}>

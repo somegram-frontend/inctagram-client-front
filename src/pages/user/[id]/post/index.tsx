@@ -14,31 +14,43 @@ import defaultAva from '@/assets/images/Mask group.jpg'
 import { useState } from 'react'
 import { ItemsType } from '@/api/posts-api.types'
 import { PostComment } from './addPost/postComment'
-import PhotoSlider from '@/pages/user/[id]/post/addPost/photoSlider'
+import PhotoSlider from '@/components/photoSlider'
+import { useDeleteUserPostMutation } from '@/api/posts-api'
+import { useRouter } from 'next/router'
+import { Loader } from '@/components/loader'
 
 type Props = {
   setEditPost: (value: boolean) => void
-  postData: ItemsType[]
+  post: ItemsType
 }
 
-export const Post = ({ setEditPost, postData }: Props) => {
+export const Post = ({ setEditPost, post }: Props) => {
   const [editMenu, setEditMenu] = useState(false)
-
-  const postImages = postData[0].images
-  const postDescription = postData[0].description
-  const userName = postData[0].postOwnerInfo.username
-  const userAvatar = postData[0].postOwnerInfo.avatarUrl
+  const router = useRouter()
+  const [deletePost, { isLoading, isSuccess }] = useDeleteUserPostMutation()
 
   const onEditClickHandler = () => {
     setEditMenu(editMenu => !editMenu)
   }
+  const deletePostHandler = async () => {
+    await deletePost({ postId: post.id })
+  }
 
   const buttonMenuClass = editMenu ? `${s.buttonMenu} ${s.visible}` : `${s.buttonMenu}`
+
+  if (isLoading) {
+    return <Loader />
+  }
+
+  if (isSuccess) {
+    setEditPost(false)
+    router.push(`/user/${post.postOwnerInfo.userId}`)
+  }
 
   return (
     <div className={s.postContainer}>
       <PhotoSlider
-        image={postImages}
+        images={post.images}
         className={s.postImage}
         dotClass={s.postDots}
         imgClass={s.image}
@@ -47,13 +59,13 @@ export const Post = ({ setEditPost, postData }: Props) => {
         <div className={`${s.descriptionHeader} ${s.wrapper}`}>
           <div className={s.descriptionHeaderProfile}>
             <Image
-              src={userAvatar || defaultAva}
+              src={post?.postOwnerInfo.avatarUrl || defaultAva}
               alt="my avatar"
               width={40}
               height={40}
               className={s.descriptionAvatarImage}
             />
-            <Typography variant="bold_text16">{userName}</Typography>
+            <Typography variant="bold_text16">{post?.postOwnerInfo.username}</Typography>
           </div>
           <button onClick={onEditClickHandler}>
             <MoreHorizontalOutline className={s.descriptionHeaderButton} />
@@ -64,7 +76,7 @@ export const Post = ({ setEditPost, postData }: Props) => {
                 <Edit2Outline />
                 Edit Post
               </li>
-              <li>
+              <li onClick={() => deletePostHandler()}>
                 <TrashOutline />
                 Delete Post
               </li>
@@ -72,9 +84,11 @@ export const Post = ({ setEditPost, postData }: Props) => {
           </div>
         </div>
         <div className={`${s.descriptionCommentsContainer} ${s.wrapper}`}>
-          <PostComment description={postDescription} userName={userName} userAvatar={userAvatar} />
-          <PostComment userName="" userAvatar="" />
-          <PostComment userName="" userAvatar="" />
+          <PostComment
+            description={post?.description}
+            userName={post?.postOwnerInfo.username}
+            userAvatar={post?.postOwnerInfo.avatarUrl}
+          />
         </div>
         <div className={`${s.descriptionReactions} ${s.wrapper}`}>
           <div className={`${s.descriptionReactionsIconsContainer}`}>

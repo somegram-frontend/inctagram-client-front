@@ -2,6 +2,13 @@
   display: flex;
 }
 
+.postImage {
+  align-self: center;
+  width: 350px;
+  height: 350px;
+  object-fit: cover;
+}
+
 .descriptionEdit {
   margin-top: 24px;
 
@@ -29,7 +36,7 @@
 .button {
   display: flex;
   justify-content: flex-end;
-  margin-top: 55%;
+  margin-top: 10%;
 
   & button {
     width: 100%;

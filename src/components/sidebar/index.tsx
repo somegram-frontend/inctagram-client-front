@@ -23,7 +23,7 @@ export const Sidebars = () => {
 
   const handleProfileClick = () => {
     router.push({
-      pathname: '/user/[id]/profile',
+      pathname: '/user/[id]/',
       query: { id: data?.userId },
     })
   }

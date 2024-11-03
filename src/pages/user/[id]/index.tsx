@@ -11,26 +11,24 @@ import Image from 'next/image'
 import s from './profile/uploadProfileAvatar/uploadProfileAvatar.module.scss'
 import style from './user.module.scss'
 import { EditPost } from './post/editPost'
-import { DialogWithConfirm } from '@/components/dialogWithConfirm'
+import { DialogWithConfirm } from './post/editPost/dialogWithConfirm'
 import { Loader } from '@/components/loader'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
 const Profile = () => {
   const router = useRouter()
   let id = router.query.id
-  const { data: userPost, isLoading: isPostsLoading } = useGetUserPostsQuery(
+  const { data: userPosts, isLoading: isPostsLoading } = useGetUserPostsQuery(
     {
       userId: id as string,
     },
     { skip: id === undefined }
   )
 
-  let postData = userPost ? userPost?.items : []
-  let imageSrc = userPost ? userPost?.items[0].images[0] : ''
-
   const { data: me } = useMeQuery()
   const { data: profile } = useGetProfileQuery()
   const [openPost, setOpenPost] = useState(false)
+  const [openPostId, setOpenPostId] = useState('')
   const [editPost, setEditPost] = useState(false)
 
   const handleProfileSettingClick = () => {
@@ -94,35 +92,42 @@ const Profile = () => {
             </Typography>
           </div>
         </div>
-        <div>
-          <Dialog open={openPost} onOpenChange={setOpenPost}>
-            <DialogTrigger asChild>
-              <Image
-                src={imageSrc}
-                alt="my post"
-                width={230}
-                height={230}
-                className={style.postImage}
-              />
-            </DialogTrigger>
-            {editPost ? (
-              <DialogWithConfirm
-                onClose={setEditPost}
-                title="Edit Post"
-                confirmTitle="Close Post"
-                confirmDescription={`Do you really want to close the edition of the publication? If you close changes won’t be saved`}
-              >
-                <EditPost setEditPost={setEditPost} postData={postData} />
-              </DialogWithConfirm>
-            ) : (
-              <DialogContent description="description">
-                <VisuallyHidden asChild>
-                  <DialogTitle>Post dialog</DialogTitle>
-                </VisuallyHidden>
-                <Post setEditPost={setEditPost} postData={postData} />
-              </DialogContent>
-            )}
-          </Dialog>
+        <div className={style.postsGrid}>
+          {userPosts?.items.map(post => {
+            return (
+              <div key={post.id} className={style.postItem}>
+                <Dialog open={openPost && openPostId === post.id} onOpenChange={setOpenPost}>
+                  <DialogTrigger asChild>
+                    <Image
+                      src={post.images[0]}
+                      alt="my post"
+                      width={230}
+                      height={230}
+                      className={style.postImage}
+                      onClick={() => setOpenPostId(post.id)}
+                    />
+                  </DialogTrigger>
+                  {editPost ? (
+                    <DialogWithConfirm
+                      onClose={setEditPost}
+                      title="Edit Post"
+                      confirmTitle="Close Post"
+                      confirmDescription={`Do you really want to close the edition of the publication? If you close changes won’t be saved`}
+                    >
+                      <EditPost setEditPost={setEditPost} post={post} />
+                    </DialogWithConfirm>
+                  ) : (
+                    <DialogContent description="description">
+                      <VisuallyHidden asChild>
+                        <DialogTitle>Post dialog</DialogTitle>
+                      </VisuallyHidden>
+                      <Post setEditPost={setEditPost} post={post} />
+                    </DialogContent>
+                  )}
+                </Dialog>
+              </div>
+            )
+          })}
         </div>
       </div>
     </Layout>

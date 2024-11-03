@@ -1,6 +1,6 @@
 import React from 'react'
 import s from './publicationContent.module.scss'
-import PhotoSlider from '../photoSlider'
+import PhotoSlider from '../../../../../../components/photoSlider'
 import Image from 'next/image'
 import { PinOutline, Select, TextArea, Typography } from '@honor-ui/inctagram-ui-kit'
 import { GetProfileSuccess } from '@/api/users-api.types'
@@ -30,7 +30,7 @@ const PublicationContent: React.FC<Props> = ({
   return (
     <>
       <div className={s.publicWrapper}>
-        <PhotoSlider image={images} />
+        <PhotoSlider images={images} />
         <div className={s.descriptionContainer}>
           <div className={s.userWrapper}>
             <Image
