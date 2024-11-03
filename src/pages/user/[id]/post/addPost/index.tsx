@@ -13,7 +13,6 @@ import CroppingContent from './croppingContent'
 import PublicationContent from './publicationContent'
 import CloseContent from './closeContent'
 import { Loader } from '@/components/loader'
-import { ApiResponse } from '@/api/countries-api.type'
 
 const DialogAddUserPost = () => {
   const [
@@ -119,9 +118,9 @@ const DialogAddUserPost = () => {
   }
 
   if (isCreateLoading) <Loader />
-  if (isCreateSuccess) {
-    toast.success('Successfully published')
-  }
+  // if (isCreateSuccess) {
+  //   toast.success('Successfully published')
+  // }
   if (isCreateError) {
     toast.error('Publish failed')
   }
