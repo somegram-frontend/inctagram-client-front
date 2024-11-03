@@ -1,6 +1,6 @@
 import { useGetUserPostsQuery } from '@/api/posts-api'
 import { useRouter } from 'next/router'
-import Layout from '@/pages/_layout'
+import Layout from '@/layout'
 import { useState } from 'react'
 import { DialogTrigger, Dialog, DialogContent, DialogTitle } from '@/components/dialog'
 import { Button, ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'

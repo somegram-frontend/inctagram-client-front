@@ -10,7 +10,7 @@ import {
 } from '@honor-ui/inctagram-ui-kit'
 import s from './post.module.scss'
 import Image from 'next/image'
-import defaultAva from '@/assets/Mask group.jpg'
+import defaultAva from '@/assets/images/Mask group.jpg'
 import { useState } from 'react'
 import { ItemsType } from '@/api/posts-api.types'
 import { PostComment } from './addPost/postComment'

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Image from 'next/image'
-import defaultAva from '@/assets/Mask group.jpg'
+import defaultAva from '@/assets/images/Mask group.jpg'
 import { Heart, HeartOutline } from '@honor-ui/inctagram-ui-kit'
 import s from '../../post.module.scss'
 

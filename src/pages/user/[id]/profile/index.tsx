@@ -4,7 +4,7 @@ import { useGetProfileQuery, useProfileFillInfoMutation } from '@/api/users-api'
 
 import s from './profile.module.scss'
 import UploadAvatar from './uploadProfileAvatar'
-import Layout from '@/pages/_layout'
+import Layout from '@/layout'
 import { Loader } from '@/components/loader'
 import { ProfileResponse, UserProfile } from '@/api/users-api.types'
 import { format } from 'date-fns'

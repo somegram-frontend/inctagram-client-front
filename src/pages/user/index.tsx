@@ -1,4 +1,4 @@
-import Layout from '@/pages/_layout'
+import Layout from '@/layout'
 import { useMeQuery } from '@/api/auth-api'
 import { useRouter } from 'next/router'
 import { Loader } from '@/components/loader'

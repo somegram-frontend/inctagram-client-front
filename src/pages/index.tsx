@@ -1,4 +1,4 @@
-import Layout from '@/pages/_layout'
+import Layout from '@/layout'
 import '@honor-ui/inctagram-ui-kit/css'
 
 export default function Home() {
