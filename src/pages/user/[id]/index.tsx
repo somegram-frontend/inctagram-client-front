@@ -26,7 +26,7 @@ const Profile = () => {
   )
 
   let postData = userPost ? userPost?.items : []
-  let imageSrc = userPost ? userPost?.items[0].images[0] : ''
+  let imageSrc = userPost?.items[0]?.images[0]
 
   const { data: me } = useMeQuery()
   const { data: profile } = useGetProfileQuery()
@@ -48,7 +48,7 @@ const Profile = () => {
     <NavigationLayout isAuth={true}>
       <div className={style.container}>
         <div className={style.profile}>
-          {profile?.avatar.url ? (
+          {profile?.avatar?.url ? (
             <div className={s.profileAvaContainer}>
               <Image
                 src={profile ? profile.avatar.url : ''}
@@ -97,13 +97,15 @@ const Profile = () => {
         <div>
           <Dialog open={openPost} onOpenChange={setOpenPost}>
             <DialogTrigger asChild>
-              <Image
-                src={imageSrc}
-                alt="my post"
-                width={230}
-                height={230}
-                className={style.postImage}
-              />
+              {userPost?.items[0]?.images[0] && (
+                <Image
+                  src={imageSrc as string}
+                  alt="my post"
+                  width={230}
+                  height={230}
+                  className={style.postImage}
+                />
+              )}
             </DialogTrigger>
             {editPost ? (
               <DialogWithConfirm
