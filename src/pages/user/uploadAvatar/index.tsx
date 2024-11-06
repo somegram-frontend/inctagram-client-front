@@ -64,7 +64,7 @@ const UploadAvatar = () => {
   return (
     <div className={s.addProfilePhotoContainer}>
       <div className={s.addProfilePhotoContainer}>
-        {data?.avatar.url ? (
+        {data?.avatar?.url ? (
           <div className={s.profileAvaContainer}>
             <Image
               src={data?.avatar.url}
@@ -81,7 +81,7 @@ const UploadAvatar = () => {
         )}
         <Dialog open={openDelete} onOpenChange={setOpenDelete}>
           <DialogTrigger asChild className={style.triggerButton}>
-            {data?.avatar.url && (
+            {data?.avatar?.url && (
               <button className={s.deleteAvaBtn}>
                 <CloseOutline />
               </button>
