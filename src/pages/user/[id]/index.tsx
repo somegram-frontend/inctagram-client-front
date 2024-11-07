@@ -46,7 +46,7 @@ const Profile = () => {
     <Layout isAuth={true}>
       <div className={style.container}>
         <div className={style.profile}>
-          {profile?.avatar.url ? (
+          {profile?.avatar?.url ? (
             <div className={s.profileAvaContainer}>
               <Image
                 src={profile ? profile.avatar.url : ''}
@@ -99,7 +99,7 @@ const Profile = () => {
                 <Dialog open={openPost && openPostId === post.id} onOpenChange={setOpenPost}>
                   <DialogTrigger asChild>
                     <Image
-                      src={post.images[0]}
+                      src={post?.images[0]}
                       alt="my post"
                       width={230}
                       height={230}
