@@ -36,9 +36,24 @@
   cursor: pointer;
   object-fit: cover;
   background-color: var(--color-dark-800);
-  border-radius: 3px;
+  border-radius: 10px;
 
   &:hover {
     opacity: 0.5;
   }
+}
+
+.postsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.postItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+  max-width: 250px;
 }

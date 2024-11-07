@@ -12,12 +12,6 @@ export type GetUserPostsResponse = {
   items: ItemsType[]
 }
 
-type PostOwnerInfoType = {
-  userId: string
-  username: string
-  avatarUrl: string
-}
-
 export type ItemsType = {
   id: string
   description: string
@@ -25,6 +19,12 @@ export type ItemsType = {
   updatedAt: string
   images: string[]
   postOwnerInfo: PostOwnerInfoType
+}
+
+type PostOwnerInfoType = {
+  userId: string
+  username: string
+  avatarUrl: string
 }
 
 export type UpdateUserPostArgs = {
@@ -43,8 +43,6 @@ export type UpdateUserPostResponse = {
     }
   }[]
 }
-
-export type AddUserPostsResponse = ApiResponse & ItemsType
 
 export type ApiResponse = {
   statusCode: number

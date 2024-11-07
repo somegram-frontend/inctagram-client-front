@@ -1,41 +1,39 @@
 import { useGetUserPostsQuery } from '@/api/posts-api'
 import { useRouter } from 'next/router'
-import NavigationLayout from '@/components/layout/NavigationLayout'
+import Layout from '@/layout'
 import { useState } from 'react'
-import { DialogTrigger, Dialog, DialogContent, DialogTitle } from '@/components/dialog/Dialog'
+import { DialogTrigger, Dialog, DialogContent, DialogTitle } from '@/components/dialog'
 import { Button, ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
-import { Post } from './generalInformation/post/Post'
+import { Post } from './post'
 import { useMeQuery } from '@/api/auth-api'
 import { useGetProfileQuery } from '@/api/users-api'
 import Image from 'next/image'
-import s from '../uploadAvatar/uploadAvatar.module.scss'
+import s from './profile/uploadProfileAvatar/uploadProfileAvatar.module.scss'
 import style from './user.module.scss'
-import { EditPost } from './generalInformation/epitPost/EditPost'
-import { DialogWithConfirm } from '@/components/dialogWithConfirm/DialogWithConfirm'
-import { Loader } from '@/components/loader/Loader'
+import { EditPost } from './post/editPost'
+import { DialogWithConfirm } from './post/editPost/dialogWithConfirm'
+import { Loader } from '@/components/loader'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
 const Profile = () => {
   const router = useRouter()
   let id = router.query.id
-  const { data: userPost, isLoading: isPostsLoading } = useGetUserPostsQuery(
+  const { data: userPosts, isLoading: isPostsLoading } = useGetUserPostsQuery(
     {
       userId: id as string,
     },
     { skip: id === undefined }
   )
 
-  let postData = userPost ? userPost?.items : []
-  let imageSrc = userPost?.items[0]?.images[0]
-
   const { data: me } = useMeQuery()
   const { data: profile } = useGetProfileQuery()
   const [openPost, setOpenPost] = useState(false)
+  const [openPostId, setOpenPostId] = useState('')
   const [editPost, setEditPost] = useState(false)
 
   const handleProfileSettingClick = () => {
     router.push({
-      pathname: '/user/[id]/generalInformation',
+      pathname: '/user/[id]/profile',
       query: { id: me?.userId },
     })
   }
@@ -45,7 +43,7 @@ const Profile = () => {
   }
 
   return (
-    <NavigationLayout isAuth={true}>
+    <Layout isAuth={true}>
       <div className={style.container}>
         <div className={style.profile}>
           {profile?.avatar?.url ? (
@@ -94,40 +92,45 @@ const Profile = () => {
             </Typography>
           </div>
         </div>
-        <div>
-          <Dialog open={openPost} onOpenChange={setOpenPost}>
-            <DialogTrigger asChild>
-              {userPost?.items[0]?.images[0] && (
-                <Image
-                  src={imageSrc as string}
-                  alt="my post"
-                  width={230}
-                  height={230}
-                  className={style.postImage}
-                />
-              )}
-            </DialogTrigger>
-            {editPost ? (
-              <DialogWithConfirm
-                onClose={setEditPost}
-                title="Edit Post"
-                confirmTitle="Close Post"
-                confirmDescription={`Do you really want to close the edition of the publication? If you close changes won’t be saved`}
-              >
-                <EditPost setEditPost={setEditPost} postData={postData} />
-              </DialogWithConfirm>
-            ) : (
-              <DialogContent description="description">
-                <VisuallyHidden asChild>
-                  <DialogTitle>Post dialog</DialogTitle>
-                </VisuallyHidden>
-                <Post setEditPost={setEditPost} postData={postData} />
-              </DialogContent>
-            )}
-          </Dialog>
+        <div className={style.postsGrid}>
+          {userPosts?.items.map(post => {
+            return (
+              <div key={post.id} className={style.postItem}>
+                <Dialog open={openPost && openPostId === post.id} onOpenChange={setOpenPost}>
+                  <DialogTrigger asChild>
+                    <Image
+                      src={post?.images[0]}
+                      alt="my post"
+                      width={230}
+                      height={230}
+                      className={style.postImage}
+                      onClick={() => setOpenPostId(post.id)}
+                    />
+                  </DialogTrigger>
+                  {editPost ? (
+                    <DialogWithConfirm
+                      onClose={setEditPost}
+                      title="Edit Post"
+                      confirmTitle="Close Post"
+                      confirmDescription={`Do you really want to close the edition of the publication? If you close changes won’t be saved`}
+                    >
+                      <EditPost setEditPost={setEditPost} post={post} />
+                    </DialogWithConfirm>
+                  ) : (
+                    <DialogContent description="description">
+                      <VisuallyHidden asChild>
+                        <DialogTitle>Post dialog</DialogTitle>
+                      </VisuallyHidden>
+                      <Post setEditPost={setEditPost} post={post} />
+                    </DialogContent>
+                  )}
+                </Dialog>
+              </div>
+            )
+          })}
         </div>
       </div>
-    </NavigationLayout>
+    </Layout>
   )
 }
 

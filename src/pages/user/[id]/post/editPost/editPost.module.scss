@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+}
+
+.postImage {
+  align-self: center;
+  width: 350px;
+  height: 350px;
+  object-fit: cover;
+}
+
+.descriptionEdit {
+  margin-top: 24px;
+
+  & span {
+    display: flex;
+    justify-content: flex-end;
+    line-height: 0%;
+  }
+
+  & .descriptionLength {
+    color: var(--color-light-900);
+  }
+
+  & label {
+    line-height: 0%;
+  }
+}
+
+.textArea {
+  width: 100%;
+  min-width: 430px;
+  min-height: 145px;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10%;
+
+  & button {
+    width: 100%;
+    max-width: 135px;
+  }
+}
