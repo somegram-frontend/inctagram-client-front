@@ -4,8 +4,8 @@ import { emailTemplateForgotPassword } from './emailTemplateForgotPassword'
 import { useRestorePasswordMutation } from '@/api/auth-api'
 import FormForgotPassword, {
   FormForgotPasswordType,
-} from '@/pages/auth/forgotPassword/formForgotPassword/formForgotPassword'
-import { Dialog, DialogClose, DialogContent, DialogTrigger } from '@/components/dialog/Dialog'
+} from '@/pages/auth/forgotPassword/formForgotPassword'
+import { Dialog, DialogClose, DialogContent, DialogTrigger } from '@/components/dialog'
 import { useState } from 'react'
 import { Button } from '@honor-ui/inctagram-ui-kit'
 import s from './forgotPassword.module.scss'

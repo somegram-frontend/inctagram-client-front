@@ -10,8 +10,8 @@ import { useConformationMutation, useReconformationMutation } from '@/api/auth-a
 import { emailTemplateConfirmEmail } from '../emailTemplateConfirmEmail'
 import { toast } from 'react-toastify'
 import { useEffect, useState } from 'react'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/dialog/Dialog'
-import { Loader } from '@/components/loader/Loader'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/dialog'
+import { Loader } from '@/components/loader'
 import { RegistrationResponse } from '@/api/auth-api.types'
 
 const EmailConfirm = () => {

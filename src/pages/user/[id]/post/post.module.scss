@@ -1,0 +1,240 @@
+.postContainer {
+  display: flex;
+  height: 100%;
+  border: 1px solid var(--color-dark-100);
+}
+
+.wrapper {
+  padding: 12px 24px;
+}
+
+.postImage {
+  width: 100%;
+  object-fit: cover;
+}
+
+.postDots {
+  position: absolute;
+  bottom: 12px;
+  left: 40%;
+
+  display: block;
+
+  width: 100%;
+  max-width: 104px;
+  margin: 0;
+  padding: 0;
+
+  text-align: center;
+  list-style: none;
+
+  opacity: 0.9;
+  background-color: var(--color-dark-300);
+  border-radius: 5%;
+
+  & li {
+    cursor: pointer;
+
+    position: relative;
+
+    display: inline-block;
+
+    width: 20px;
+    height: 20px;
+    margin: 0 5px;
+    padding: 0;
+
+    & button {
+      cursor: pointer;
+
+      display: block;
+
+      width: 20px;
+      height: 20px;
+      padding: 5px;
+
+      font-size: 0;
+      line-height: 0;
+      color: transparent;
+
+      background: transparent;
+      border: 0;
+      outline: none;
+
+      &::before {
+        content: '•';
+
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 20px;
+        height: 20px;
+
+        font-size: 32px;
+        -webkit-font-smoothing: antialiased;
+        line-height: 20px;
+        color: var(--color-light-100);
+        text-align: center;
+      }
+    }
+  }
+}
+
+.postDots :global(li.slick-active) button::before {
+  color: var(--color-accent-500);
+}
+
+.image {
+  min-width: 230px;
+  object-fit: cover;
+}
+
+.descriptionContainer {
+  border-left: 1px solid var(--color-dark-100);
+}
+
+.descriptionHeader {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-dark-100);
+}
+
+.descriptionHeaderProfile {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.descriptionAvatarImage {
+  object-fit: cover;
+  border-radius: 50px;
+}
+
+.descriptionHeaderButton {
+  cursor: pointer;
+  color: var(--color-accent-500);
+}
+
+.buttonMenu {
+  position: absolute;
+  top: 40px;
+  right: 25px;
+
+  width: 100%;
+  max-width: 150px;
+  padding: 12px;
+
+  visibility: hidden;
+  background-color: var(--color-dark-500);
+  border: 1px solid var(--color-dark-100);
+  border-radius: 2px;
+
+  & li {
+    cursor: pointer;
+    display: flex;
+    gap: 12px;
+
+    &:first-child {
+      margin-bottom: 12px;
+    }
+
+    &:hover {
+      color: var(--color-accent-500);
+    }
+  }
+
+  &.visible {
+    visibility: visible;
+  }
+}
+
+.descriptionCommentsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  border-bottom: 1px solid var(--color-dark-100);
+}
+
+.descriptionCommentContainer {
+  display: flex;
+  width: 100%;
+}
+
+.descriptionComment {
+  width: 100%;
+  min-width: 345px;
+  padding: 0 24px 0 12px;
+}
+
+.descriptionCommentIconContainer {
+  padding-top: 1em;
+}
+
+.descriptionCommentIcon {
+  cursor: pointer;
+
+  &.iconActive {
+    color: var(--color-danger-500);
+  }
+}
+
+.descriptionReactions {
+  border-bottom: 1px solid var(--color-dark-100);
+}
+
+.descriptionReactionsIconsContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.descriptionReactionsIcons {
+  display: flex;
+  gap: 25px;
+}
+
+.descriptionReactionsIcon {
+  width: 25px;
+  height: 25px;
+}
+
+.descriptionReactionsAvatarsContainer {
+  display: flex;
+  padding: 19px 10px 5px;
+
+  & span {
+    padding-left: 12px;
+  }
+}
+
+.descriptionReactionsAvatarImage {
+  width: 25px;
+  height: 25px;
+  margin-left: -10px;
+  border-radius: 50px;
+
+  &:hover {
+    z-index: 999;
+    transform: translateY(-5px);
+    transition: transform 0.5s ease-out;
+  }
+}
+
+.date {
+  color: var(--color-light-900);
+}
+
+.descriptionFooter {
+  display: flex;
+}
+
+.descriptionFooterBtn {
+  justify-content: start;
+  width: 100%;
+  padding: 6px 0;
+  color: var(--color-light-900);
+
+  &:hover {
+    color: var(--color-light-700);
+  }
+}

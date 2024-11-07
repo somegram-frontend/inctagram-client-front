@@ -1,10 +1,10 @@
-import { FormSignIn } from '@/pages/auth/signIn/formSignIn/FormSignIn'
+import { FormSignIn } from '@/pages/auth/signIn/formSignIn'
 import { useRouter } from 'next/router'
 import { useLoginMutation } from '@/api/auth-api'
 import { EnumTokens } from '@/shared/const/enums'
 import { Header } from '@/components/header'
 import { useAuthRedirect } from '@/pages/auth/authProviders/useAuthRedirect'
-import { Loader } from '@/components/loader/Loader'
+import { Loader } from '@/components/loader'
 import { RegistrationResponse } from '@/api/auth-api.types'
 import { toast } from 'react-toastify'
 
@@ -25,14 +25,14 @@ const SignIn = () => {
     const err = error as { data: RegistrationResponse }
     if (err.data?.details) {
       const errorMessage = `${err.data.details.email! || ''} ${err.data.details.username || ''}`
-      toast.error(errorMessage)
+      toast.error(errorMessage, { toastId: 'error-message-id-1' })
     } else if (err.data?.errors) {
       const errorMessages = err.data.errors
         .map(e => Object.values(e.constraints).join(', '))
         .join('; ')
-      toast.error(errorMessages)
+      toast.error(errorMessages, { toastId: 'error-message-id-2' })
     } else {
-      toast.error(err.data?.message || 'Registration failed')
+      toast.error(err.data?.message || 'Registration failed', { toastId: 'error-message-id-3' })
     }
   }
 
