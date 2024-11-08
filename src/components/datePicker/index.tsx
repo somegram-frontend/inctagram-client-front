@@ -25,16 +25,22 @@ export type DatePickerProps = {
 const RenderCustomInput = forwardRef<HTMLInputElement, InputProps>(
   ({ className, name, disabled, errorMessage, label, ...rest }: InputProps, ref) => {
     return (
-      <Input
-        ref={ref}
-        name={name}
-        className={clsx(s.dateInput, s.input, errorMessage && s.hasError, className)}
-        errorMessage={errorMessage}
-        icon={<CalendarOutline className={clsx(s.calendarIcon, errorMessage && s.hasError)} />}
-        label={label}
-        disabled={disabled}
-        {...rest}
-      />
+      <>
+        <Input
+          ref={ref}
+          name={name}
+          className={clsx(s.dateInput, s.input, errorMessage && s.hasError, className)}
+          icon={<CalendarOutline className={clsx(s.calendarIcon, errorMessage && s.hasError)} />}
+          label={label}
+          disabled={disabled}
+          {...rest}
+        />
+        {errorMessage
+          &&
+          <div
+            className={clsx(s.hasError)}
+            dangerouslySetInnerHTML={{ __html: errorMessage }} />}
+      </>
     )
   }
 )

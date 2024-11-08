@@ -16,6 +16,11 @@
     min-width: 100%;
   }
 
+  & span::after {
+    content: '*';
+    color: var(--color-danger-500);
+  }
+
   & input {
     margin-bottom: 24px;
     color: var(--color-light--700);
@@ -44,6 +49,10 @@
   width: 100%;
   margin-right: 24px;
   font-size: var(--font-size-s);
+
+  & button {
+    font-size: var(--font-size-m);
+  }
 }
 
 .select:last-child {
