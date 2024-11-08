@@ -39,7 +39,7 @@ export const postsApi = baseApi.injectEndpoints({
         },
         invalidatesTags: ['Posts'],
       }),
-      deleteUserPost: builder.mutation<ApiResponse, {postId: string}>({
+      deleteUserPost: builder.mutation<ApiResponse, { postId: string }>({
         query: ({ postId }) => {
           return {
             url: `v1/posts/${postId}`,
@@ -52,8 +52,9 @@ export const postsApi = baseApi.injectEndpoints({
   },
 })
 
-export const { 
-  useGetUserPostsQuery, 
-  useAddUserPostsMutation, 
-  useUpdateUserPostMutation, 
-  useDeleteUserPostMutation } = postsApi
+export const {
+  useGetUserPostsQuery,
+  useAddUserPostsMutation,
+  useUpdateUserPostMutation,
+  useDeleteUserPostMutation,
+} = postsApi

@@ -12,7 +12,12 @@ const PrivacyPolicy = () => {
 
   return (
     <Cards className={s.privacy}>
-      <Typography as={Link} href={`/user/${data?.userId}/profile`} variant={'regular_link'} className={s.link}>
+      <Typography
+        as={Link}
+        href={`/user/${data?.userId}/profile`}
+        variant={'regular_link'}
+        className={s.link}
+      >
         Back to Profile Setting {/*TODO add backArrow icon*/}
       </Typography>
       <Typography as={'h1'} variant={'h1'}>

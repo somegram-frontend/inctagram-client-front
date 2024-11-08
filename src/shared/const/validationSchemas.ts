@@ -84,7 +84,8 @@ export const changeProfileSchema = z.object({
         return new Date().getTime() - date.getTime() > 13 * 365 * 24 * 60 * 60 * 1000
       },
       {
-        message: 'A user under 13 cannot create a profile. <a href="./privacyPolicy">Privacy Policy</a>',
+        message:
+          'A user under 13 cannot create a profile. <a href="./privacyPolicy">Privacy Policy</a>',
       }
     )
   ),

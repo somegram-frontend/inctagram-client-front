@@ -35,11 +35,9 @@ const RenderCustomInput = forwardRef<HTMLInputElement, InputProps>(
           disabled={disabled}
           {...rest}
         />
-        {errorMessage
-          &&
-          <div
-            className={clsx(s.hasError)}
-            dangerouslySetInnerHTML={{ __html: errorMessage }} />}
+        {errorMessage && (
+          <div className={clsx(s.hasError)} dangerouslySetInnerHTML={{ __html: errorMessage }} />
+        )}
       </>
     )
   }
