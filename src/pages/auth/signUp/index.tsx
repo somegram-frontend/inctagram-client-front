@@ -1,13 +1,13 @@
 'use client'
 import { useRouter } from 'next/router'
 import { FormSignUp, SignUpForm } from './formSingUp'
-import { useRegistrationMutation } from '@/api/auth-api'
+import { useRegistrationMutation } from '@/api/auth/auth-api'
 import { emailTemplateConfirmEmail } from './emailTemplateConfirmEmail'
-import { RegistrationArgs, RegistrationResponse } from '@/api/auth-api.types'
+import { RegistrationArgs, RegistrationResponse } from '@/api/auth/auth-api.types'
 import { toast } from 'react-toastify'
-import { Header } from '@/components/header'
 import { useAuthRedirect } from '@/pages/auth/authProviders/useAuthRedirect'
 import { Loader } from '@/components/loader'
+import Layout from '@/layout'
 
 const SignUp = () => {
   const { onSignGit, onSignGoogle } = useAuthRedirect()
@@ -49,10 +49,9 @@ const SignUp = () => {
   }
 
   return (
-    <div>
-      <Header isAuth />
+    <Layout>
       <FormSignUp onSubmit={onSubmitSignUp} onSignGoogle={onSignGoogle} onSignGit={onSignGit} />
-    </div>
+    </Layout>
   )
 }
 

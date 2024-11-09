@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
-import { restorePasswordArgs } from '@/api/auth-api.types'
+import { restorePasswordArgs } from '@/api/auth/auth-api.types'
 import { emailTemplateForgotPassword } from './emailTemplateForgotPassword'
-import { useRestorePasswordMutation } from '@/api/auth-api'
+import { useRestorePasswordMutation } from '@/api/auth/auth-api'
 import FormForgotPassword, {
   FormForgotPasswordType,
 } from '@/pages/auth/forgotPassword/formForgotPassword'

@@ -1,12 +1,12 @@
 'use client'
 import ProfileForm from './profileForm'
-import { useGetProfileQuery, useProfileFillInfoMutation } from '@/api/users-api'
+import { useGetProfileQuery, useProfileFillInfoMutation } from '@/api/user/users-api'
 
 import s from './profile.module.scss'
 import UploadAvatar from './uploadProfileAvatar'
 import Layout from '@/layout'
 import { Loader } from '@/components/loader'
-import { ProfileResponse, UserProfile } from '@/api/users-api.types'
+import { ProfileResponse, UserProfile } from '@/api/user/users-api.types'
 import { format } from 'date-fns'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
@@ -48,7 +48,7 @@ const Profile = () => {
 
   if (isSuccess)
     return (
-      <Layout isAuth={true}>
+      <Layout>
         <div className={s.wrapper}>
           <UploadAvatar />
           <ProfileForm

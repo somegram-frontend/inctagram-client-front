@@ -1,12 +1,16 @@
 import s from './header.module.scss'
-import { Button, OutlineBell, Select } from '@honor-ui/inctagram-ui-kit'
+import { Button, Select } from '@honor-ui/inctagram-ui-kit'
 import { FlagRussia, FlagUnitedKingdom } from '@honor-ui/inctagram-ui-kit'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
-type HeaderProps = {
+type Props = {
   isAuth: boolean
 }
-export const Header = ({ isAuth }: HeaderProps) => {
+
+export const Header = ({ isAuth }: Props) => {
+  const router = useRouter()
+
   const options = [
     {
       label: (
@@ -28,23 +32,7 @@ export const Header = ({ isAuth }: HeaderProps) => {
     },
   ]
 
-  return isAuth ? (
-    <header className={s.header}>
-      <div className={s.logo}>Somegram</div>
-      <div className={s.register}>
-        <div className={s.bell}>{<OutlineBell />}</div>
-        <Select
-          className={s.select}
-          options={options}
-          placeholder={
-            <div className={s.flagContainer}>
-              <FlagUnitedKingdom /> &nbsp; <span> English</span>
-            </div>
-          }
-        />
-      </div>
-    </header>
-  ) : (
+  return (
     <header className={s.header}>
       <div className={s.logo}>Somegram</div>
       <div className={s.register}>
@@ -57,14 +45,16 @@ export const Header = ({ isAuth }: HeaderProps) => {
             </div>
           }
         />
-        <div className={s.buttons}>
-          <Link href="auth/signUp">
-            <Button variant={'primary'}>Sign up</Button>
-          </Link>
-          <Link href="auth/signIn">
-            <Button variant={'primary'}>Log In</Button>
-          </Link>
-        </div>
+        {!isAuth && !router.pathname.includes('/auth/') && (
+          <div className={s.buttons}>
+            <Link href="/auth/signUp">
+              <Button variant={'primary'}>Sign up</Button>
+            </Link>
+            <Link href="/auth/signIn">
+              <Button variant={'primary'}>Log In</Button>
+            </Link>
+          </div>
+        )}
       </div>
     </header>
   )

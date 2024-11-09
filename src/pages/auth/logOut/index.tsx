@@ -1,10 +1,10 @@
 'use client'
-import { useLogoutMutation } from '@/api/auth-api'
+import { useLogoutMutation } from '@/api/auth/auth-api'
 import { Button, LogOut as LogOutIcon } from '@honor-ui/inctagram-ui-kit'
 import s from './logOut.module.scss'
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from '@/components/dialog'
 import { Loader } from '@/components/loader'
-import { RegistrationResponse } from '@/api/auth-api.types'
+import { RegistrationResponse } from '@/api/auth/auth-api.types'
 import { toast } from 'react-toastify'
 
 type Props = {

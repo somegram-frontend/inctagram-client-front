@@ -2,7 +2,7 @@ import {
   useDeleteAvatarMutation,
   useGetProfileQuery,
   useUploadAvatarMutation,
-} from '@/api/users-api'
+} from '@/api/user/users-api'
 import s from './uploadProfileAvatar.module.scss'
 import style from '@/pages/auth/logOut/logOut.module.scss'
 import { ChangeEvent, FormEvent, useState } from 'react'

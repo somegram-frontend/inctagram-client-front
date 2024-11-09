@@ -6,13 +6,14 @@ import s from './emailConfirm.module.scss'
 import emailConfirm from '/public/emailConfirmImage.png'
 import linkExpired from '/public/linkExpiredImage.png'
 import Image from 'next/image'
-import { useConformationMutation, useReconformationMutation } from '@/api/auth-api'
+import { useConformationMutation, useReconformationMutation } from '@/api/auth/auth-api'
 import { emailTemplateConfirmEmail } from '../emailTemplateConfirmEmail'
 import { toast } from 'react-toastify'
 import { useEffect, useState } from 'react'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/dialog'
 import { Loader } from '@/components/loader'
-import { RegistrationResponse } from '@/api/auth-api.types'
+import { RegistrationResponse } from '@/api/auth/auth-api.types'
+import Layout from '@/layout'
 
 const EmailConfirm = () => {
   const router = useRouter()
@@ -53,18 +54,20 @@ const EmailConfirm = () => {
   const err = error as { data: RegistrationResponse }
   if (isSuccess) {
     return (
-      <div className={s.main}>
-        <Typography as="h1" variant="h1" className={s.title}>
-          Congratulations!
-        </Typography>
-        <Typography as="p" variant="regular_text16">
-          Your email has been confirmed
-        </Typography>
-        <Button onClick={signInHandler} className={s.button}>
-          Sign In
-        </Button>
-        <Image src={emailConfirm} alt="background image" width={432} height={300} />
-      </div>
+      <Layout>
+        <div className={s.main}>
+          <Typography as="h1" variant="h1" className={s.title}>
+            Congratulations!
+          </Typography>
+          <Typography as="p" variant="regular_text16">
+            Your email has been confirmed
+          </Typography>
+          <Button onClick={signInHandler} className={s.button}>
+            Sign In
+          </Button>
+          <Image src={emailConfirm} alt="background image" width={432} height={300} />
+        </div>
+      </Layout>
     )
   }
 
@@ -98,18 +101,20 @@ const EmailConfirm = () => {
   }
   if ((error as { data: RegistrationResponse })?.data?.statusCode === 400) {
     return (
-      <div className={s.main}>
-        <Typography as="h1" variant="h1" className={s.title}>
-          Email verification link expired
-        </Typography>
-        <Typography as="p" variant="regular_text16">
-          Looks like the verification link has expired. Not to worry, we can send the link again
-        </Typography>
-        <Button onClick={expiredLinkHandler} className={s.button} fullWidth>
-          Resend verification link
-        </Button>
-        <Image src={linkExpired} alt="background image" width={432} height={300} />
-      </div>
+      <Layout>
+        <div className={s.main}>
+          <Typography as="h1" variant="h1" className={s.title}>
+            Email verification link expired
+          </Typography>
+          <Typography as="p" variant="regular_text16">
+            Looks like the verification link has expired. Not to worry, we can send the link again
+          </Typography>
+          <Button onClick={expiredLinkHandler} className={s.button} fullWidth>
+            Resend verification link
+          </Button>
+          <Image src={linkExpired} alt="background image" width={432} height={300} />
+        </div>
+      </Layout>
     )
   }
 }

@@ -1,4 +1,4 @@
-import { baseApi } from '@/api/base-api'
+import { baseApi } from '@/api/_base/base-api'
 import { GetProfileSuccess, ProfileResponse, UserProfile } from './users-api.types'
 
 export const usersApi = baseApi.injectEndpoints({
