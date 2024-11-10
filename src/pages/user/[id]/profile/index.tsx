@@ -43,7 +43,7 @@ const Profile = () => {
     }
   }
 
-  if (success && !toast.isActive('toast-id'))
+  if (isSuccess && !toast.isActive('toast-id'))
     toast.success('Changes saved successfully.', { toastId: 'toast-id' })
 
   if (isSuccess)
