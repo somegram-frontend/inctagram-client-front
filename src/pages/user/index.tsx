@@ -1,5 +1,4 @@
-import Layout from '@/layout'
-import { useMeQuery } from '@/api/auth-api'
+import { useMeQuery } from '@/api/auth/auth-api'
 import { useRouter } from 'next/router'
 import { Loader } from '@/components/loader'
 
@@ -9,11 +8,11 @@ const Profile = () => {
 
   if (data && data.userId) {
     router.push(`/user/${data.userId}`)
+  } else {
+    router.push(`/`)
   }
 
   if (isLoading) return <Loader />
-
-  return <Layout isAuth={true}></Layout>
 }
 
 export default Profile

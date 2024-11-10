@@ -54,3 +54,10 @@ export type MeResponse = {
   userName: string
   userId: string
 }
+export type MeErrorResponse = {
+  status: number
+  data: {
+    message: string
+    statusCode: number
+  }
+}

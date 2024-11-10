@@ -1,12 +1,12 @@
-import { useGetUserPostsQuery } from '@/api/posts-api'
+import { useGetUserPostsQuery } from '@/api/post/posts-api'
 import { useRouter } from 'next/router'
 import Layout from '@/layout'
 import { useState } from 'react'
 import { DialogTrigger, Dialog, DialogContent, DialogTitle } from '@/components/dialog'
 import { Button, ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
 import { Post } from './post'
-import { useMeQuery } from '@/api/auth-api'
-import { useGetProfileQuery } from '@/api/users-api'
+import { useMeQuery } from '@/api/auth/auth-api'
+import { useGetProfileQuery } from '@/api/user/users-api'
 import Image from 'next/image'
 import s from './profile/uploadProfileAvatar/uploadProfileAvatar.module.scss'
 import style from './user.module.scss'
@@ -43,7 +43,7 @@ const Profile = () => {
   }
 
   return (
-    <Layout isAuth={true}>
+    <Layout>
       <div className={style.container}>
         <div className={style.profile}>
           {profile?.avatar?.url ? (

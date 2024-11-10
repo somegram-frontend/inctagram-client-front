@@ -3,7 +3,7 @@ import s from './publicationContent.module.scss'
 import PhotoSlider from '../../../../../../components/photoSlider'
 import Image from 'next/image'
 import { PinOutline, Select, TextArea, Typography } from '@honor-ui/inctagram-ui-kit'
-import { GetProfileSuccess } from '@/api/users-api.types'
+import { GetProfileSuccess } from '@/api/user/users-api.types'
 
 interface Country {
   label: string

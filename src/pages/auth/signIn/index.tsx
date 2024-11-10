@@ -1,12 +1,12 @@
 import { FormSignIn } from '@/pages/auth/signIn/formSignIn'
 import { useRouter } from 'next/router'
-import { useLoginMutation } from '@/api/auth-api'
+import { useLoginMutation } from '@/api/auth/auth-api'
 import { EnumTokens } from '@/shared/const/enums'
-import { Header } from '@/components/header'
 import { useAuthRedirect } from '@/pages/auth/authProviders/useAuthRedirect'
 import { Loader } from '@/components/loader'
-import { RegistrationResponse } from '@/api/auth-api.types'
+import { RegistrationResponse } from '@/api/auth/auth-api.types'
 import { toast } from 'react-toastify'
+import Layout from '@/layout'
 
 const SignIn = () => {
   const { onSignGit, onSignGoogle } = useAuthRedirect()
@@ -37,15 +37,14 @@ const SignIn = () => {
   }
 
   return (
-    <>
-      <Header isAuth={true} />
+    <Layout>
       <FormSignIn
         errorMessage={isError ? 'The email or password are incorrect. Try again please' : ''}
         onSubmit={signIn}
         onSignGit={onSignGit}
         onSignGoogle={onSignGoogle}
       />
-    </>
+    </Layout>
   )
 }
 
