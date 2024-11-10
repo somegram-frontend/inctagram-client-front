@@ -9,7 +9,9 @@ const Profile = () => {
   if (data && data.userId) {
     router.push(`/user/${data.userId}`)
   } else {
-    router.push(`/`)
+    if (typeof window !== 'undefined') {
+      router.push(`/`)
+    }
   }
 
   if (isLoading) return <Loader />

@@ -11,7 +11,7 @@ import { toast } from 'react-toastify'
 import { useForm } from 'react-hook-form'
 
 type Props = {
-  setEditPost: (value: boolean) => void
+  setEditPost?: (value: boolean) => void
   post: ItemsType
 }
 
@@ -45,12 +45,12 @@ export const EditPost = ({ setEditPost, post }: Props) => {
     if (err.data.message) {
       const errorMessage = err.data.message
       errorMessage && toast.error(errorMessage)
-      setEditPost(false)
+      setEditPost && setEditPost(false)
     }
   }
 
   if (isSuccess) {
-    setEditPost(false)
+    setEditPost && setEditPost(false)
     {
       postDescription !== description && toast.success('Description has been changed')
     }
