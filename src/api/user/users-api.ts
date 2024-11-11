@@ -1,5 +1,10 @@
 import { baseApi } from '@/api/_base/base-api'
-import { GetProfileSuccess, ProfileResponse, UserProfile } from './users-api.types'
+import {
+  GetProfileSuccess,
+  GetTotalCountResponse,
+  ProfileResponse,
+  UserProfile,
+} from './users-api.types'
 
 export const usersApi = baseApi.injectEndpoints({
   endpoints: builder => {
@@ -38,6 +43,9 @@ export const usersApi = baseApi.injectEndpoints({
         }),
         invalidatesTags: ['Profile'],
       }),
+      getTotalUsersCount: builder.query<GetTotalCountResponse, void>({
+        query: () => '/v1/public-users',
+      }),
     }
   },
 })
@@ -47,4 +55,8 @@ export const {
   useGetProfileQuery,
   useDeleteAvatarMutation,
   useProfileFillInfoMutation,
+  useGetTotalUsersCountQuery,
+  util: { getRunningQueriesThunk },
 } = usersApi
+
+export const { getTotalUsersCount } = usersApi.endpoints

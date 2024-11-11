@@ -1,0 +1,47 @@
+.publicPost {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    max-width: 235px;
+    height: 100%;
+    max-height: 390px;
+
+    border: 1px solid red;
+}
+
+.publicPostSliderImage {
+    width: 100%;
+    max-width: 235px;
+    height: 100%;
+    max-height: 240px;
+
+    object-fit: cover;
+}
+
+.publicPostArticle {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid green;
+}
+
+.publicPostArticleHeader {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin: 12px 0;
+}
+
+.publicPostUserAvatar {
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.publicPostArticleText {
+    display: flex;
+    flex-direction: column;
+
+    & span {
+        color: var(--color-light-900)
+    }
+}

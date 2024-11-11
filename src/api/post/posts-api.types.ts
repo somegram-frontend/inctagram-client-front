@@ -5,7 +5,6 @@ export type GetUserPostsArgs = {
 }
 
 export type GetUserPostsResponse = {
-  page: number
   pageSize: number
   totalCount: number
   pagesCount: number
@@ -61,3 +60,12 @@ export type AddUserPostsArgs = {
   files: File[]
   description: string
 }
+
+export type GetPublicPostsArgs = {
+  endCursorPostId?: string
+  pageSize?: number
+  sortBy?: string
+  sortDirection?: string
+}
+
+export type GetPublicPostsResponse = GetUserPostsResponse

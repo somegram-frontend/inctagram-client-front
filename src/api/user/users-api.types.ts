@@ -25,3 +25,7 @@ export type ProfileResponse = {
     }
   }[]
 }
+
+export type GetTotalCountResponse = {
+  totalCount: number
+}
