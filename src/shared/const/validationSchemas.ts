@@ -85,7 +85,7 @@ export const changeProfileSchema = z.object({
       },
       {
         message:
-          'A user under 13 cannot create a profile. <a href="./privacyPolicy">Privacy Policy</a>',
+          'A user under 13 cannot create a profile. ',
       }
     )
   ),

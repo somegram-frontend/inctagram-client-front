@@ -36,7 +36,9 @@ const RenderCustomInput = forwardRef<HTMLInputElement, InputProps>(
           {...rest}
         />
         {errorMessage && (
-          <div className={clsx(s.hasError)} dangerouslySetInnerHTML={{ __html: errorMessage }} />
+          <div className={s.hasError}>
+            {errorMessage} <a href='./privacyPolicy'>PrivacyPolicy</a>
+          </div>
         )}
       </>
     )
