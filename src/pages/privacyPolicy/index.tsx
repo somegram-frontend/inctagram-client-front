@@ -7,10 +7,17 @@ import s from './privacyPolicy.module.scss'
 
 const PrivacyPolicy = () => {
   const router = useRouter()
+  const href = Array.isArray(router.query.href)
+    ? router.query.href[0]
+    : router.query.href || '/auth/signUp'
+  const title = Array.isArray(router.query.title)
+    ? router.query.title[0]
+    : router.query.title || 'Back to Sign Up'
+
   return (
     <Cards className={s.privacy}>
-      <Typography as={Link} href={'/auth/signUp'} variant={'regular_link'} className={s.link}>
-        Back to Sign Up {/*TODO add backArrow icon*/}
+      <Typography as={Link} href={href} variant={'regular_link'} className={s.link}>
+        {title} {/*TODO add backArrow icon*/}
       </Typography>
       <Typography as={'h1'} variant={'h1'}>
         Privacy Policy

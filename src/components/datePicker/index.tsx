@@ -8,6 +8,8 @@ import CalendarOutline from '../../../public/CalendarOutline'
 import ChevronLeft from '../../../public/ChevronLeft'
 import ChevronRight from '../../../public/ChevronRight'
 import { Input, InputProps, Typography } from '@honor-ui/inctagram-ui-kit'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export type DatePickerProps = {
   disabled?: boolean
@@ -24,6 +26,9 @@ export type DatePickerProps = {
 
 const RenderCustomInput = forwardRef<HTMLInputElement, InputProps>(
   ({ className, name, disabled, errorMessage, label, ...rest }: InputProps, ref) => {
+    const router = useRouter()
+    const userId = router.query.id
+
     return (
       <>
         <Input
@@ -37,7 +42,17 @@ const RenderCustomInput = forwardRef<HTMLInputElement, InputProps>(
         />
         {errorMessage && (
           <div className={s.hasError}>
-            {errorMessage} <a href='./privacyPolicy'>PrivacyPolicy</a>
+            {errorMessage}
+            <Typography
+              as={Link}
+              href={{
+                pathname: '/privacyPolicy',
+                query: { href: `user/${userId}/profile`, title: 'Back to Profile Settings' },
+              }}
+              variant={'medium_text14'}
+            >
+              Privacy Policy
+            </Typography>
           </div>
         )}
       </>
