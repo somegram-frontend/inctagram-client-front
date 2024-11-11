@@ -1,4 +1,4 @@
-import { baseApi } from '@/api/base-api'
+import { baseApi } from '@/api/_base/base-api'
 import {
   AddUserPostsArgs,
   ApiResponse,

@@ -1,8 +1,9 @@
-import { baseApi } from '@/api/base-api'
+import { baseApi } from '@/api/_base/base-api'
 import {
   ConfirmationResponse,
   LoginArgs,
   LoginResponse,
+  MeErrorResponse,
   MeResponse,
   RegistrationArgs,
   RegistrationConformationArgs,
@@ -10,7 +11,7 @@ import {
   RegistrationResponse,
   restorePasswordArgs,
   RestorePasswordConfirmationArgs,
-} from '@/api/auth-api.types'
+} from '@/api/auth/auth-api.types'
 import Router from 'next/router'
 import { EnumTokens } from '@/shared/const/enums'
 
