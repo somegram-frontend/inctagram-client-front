@@ -20,19 +20,19 @@ export const PublicPost = ({item}:Props) => {
     }
 
     const defineTheDescription = (value: string) => {
-        if (item?.description && item?.description?.length < 70) {
+        if (item.description?.length < 70) {
             return <Typography variant='regular_text14'>{item.description}</Typography>
         }
-        if (item?.description && item?.description?.length > 70 && !expanded) {
+        if (item.description?.length > 70 && !expanded) {
             return (
             <Typography variant='regular_text14'>{item?.description?.slice(0, 70)}... 
                 <Typography variant='regular_link' onClick={onExpandedClick}>Show more</Typography>  
             </Typography>
         )
         }
-        if (item?.description && item?.description?.length > 230 && expanded) {
+        if (item.description?.length > 230 && expanded) {
             return (
-             <Typography variant='regular_text14'>{item?.description?.slice(0, 230)}...
+             <Typography variant='regular_text14'>{item?.description?.slice(0, 230)}..
                 <Typography variant='regular_link' onClick={onExpandedClick}>Hide</Typography>  
              </Typography>
         )
