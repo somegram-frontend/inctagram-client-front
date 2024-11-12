@@ -21,7 +21,7 @@ type DescriptionField = {
 
 export const EditPost = ({ setEditPost, post }: Props) => {
   const postImage = post.images[0]
-  const postDescription = post.description
+  const postDescription = post.description ? post.description : ''
   const userName = post.postOwnerInfo.username
   const userAvatar = post.postOwnerInfo.avatarUrl
   const postId = post.id
