@@ -1,7 +1,7 @@
 import { useGetUserPostsQuery } from '@/api/post/posts-api'
 import { useRouter } from 'next/router'
 import Layout from '@/layout'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { DialogTrigger, Dialog, DialogContent, DialogTitle } from '@/components/dialog'
 import { Button, ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
 import { Post } from './post'
@@ -17,7 +17,7 @@ import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
 const Profile = () => {
   const router = useRouter()
-  let id = router.query.id
+  const { id, postId } = router.query
   const { data: userPosts, isLoading: isPostsLoading } = useGetUserPostsQuery(
     {
       userId: id as string,
@@ -25,10 +25,22 @@ const Profile = () => {
     { skip: id === undefined }
   )
 
+  useEffect(() => {
+    if (Array.isArray(postId)) {
+      setOpenPostId(postId[0])
+    } else if (typeof postId === 'string') {
+      setOpenPostId(postId);
+    }
+
+    if (postId) {
+      setOpenPost(true)
+    }
+  }, [postId])
+
   const { data: me } = useMeQuery()
   const { data: profile } = useGetProfileQuery()
   const [openPost, setOpenPost] = useState(false)
-  const [openPostId, setOpenPostId] = useState('')
+  const [openPostId, setOpenPostId] = useState<string>('')
   const [editPost, setEditPost] = useState(false)
 
   const handleProfileSettingClick = () => {
@@ -37,6 +49,22 @@ const Profile = () => {
       query: { id: me?.userId },
     })
   }
+
+  const handlePostClick = (postId: string) => {
+    setOpenPostId(postId)
+    setOpenPost(true)
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, postId },
+    })
+  }
+
+  const handleClosePost = () => {
+    setOpenPost(false)
+    setOpenPostId('')
+    const { postId, ...restQuery } = router.query
+    router.push({ pathname: router.pathname, query: restQuery })
+  };
 
   if (isPostsLoading) {
     return <Loader />
@@ -96,7 +124,9 @@ const Profile = () => {
           {userPosts?.items.map(post => {
             return (
               <div key={post.id} className={style.postItem}>
-                <Dialog open={openPost && openPostId === post.id} onOpenChange={setOpenPost}>
+                <Dialog open={openPost && openPostId === post.id} onOpenChange={(isOpen) => {
+                  if (!isOpen) handleClosePost()
+                }}>
                   <DialogTrigger asChild>
                     <Image
                       src={post?.images[0]}
@@ -104,7 +134,7 @@ const Profile = () => {
                       width={230}
                       height={230}
                       className={style.postImage}
-                      onClick={() => setOpenPostId(post.id)}
+                      onClick={() => handlePostClick(post.id)}
                     />
                   </DialogTrigger>
                   {editPost ? (
