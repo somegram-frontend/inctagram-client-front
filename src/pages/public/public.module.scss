@@ -1,0 +1,16 @@
+.publicPage {
+    width: 100%;
+    max-width: 75%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+}
+
+.publicPosts {
+    display: flex;
+    border: 1px soid yellow;
+    flex-wrap: wrap;
+    gap: 10%;
+    margin-top: 35px;
+}

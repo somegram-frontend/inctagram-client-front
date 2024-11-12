@@ -1,4 +1,3 @@
-
 import { wrapper } from '@/store'
 import '@honor-ui/inctagram-ui-kit/css'
 import { GetStaticPropsResult } from 'next'
@@ -6,6 +5,8 @@ import { RegisteredUsersList } from './registeredUsersList/RegisteredUsersList'
 import { getRunningQueriesThunk, getTotalUsersCount, useGetTotalUsersCountQuery } from '@/api/user/users-api'
 import { useGetPublicPostsQuery } from '@/api/post/posts-api'
 import { PublicPost } from './publicPost/PublicPost'
+import s from './public.module.scss'
+
 
 type Props = {
   totalCount: number
@@ -28,13 +29,13 @@ export const getStaticProps = wrapper.getStaticProps(store => async (): Promise<
 
 export default function Public() {
   const {data: totalUsersCount} = useGetTotalUsersCountQuery()
-  const{data: publicPosts} = useGetPublicPostsQuery({pageSize: 8, sortBy: 'createdAt', sortDirection: 'desc'})
+  const{data: publicPosts} = useGetPublicPostsQuery({pageSize: 4, sortBy: 'createdAt', sortDirection: 'desc'})
   return (
-    <div>
-      PUBLIC PAGE
+    <div className={s.publicPage}>
       <RegisteredUsersList usersCount={totalUsersCount?.totalCount}/>
-      {publicPosts?.items.map(el => <PublicPost item={el}/>)}
-      
+      <div className={s.publicPosts}>
+      {publicPosts?.items.map(el => <PublicPost item={el} key={el.id}/>)}
+      </div>
     </div>
     )
 }

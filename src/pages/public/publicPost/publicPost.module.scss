@@ -6,23 +6,22 @@
     max-width: 235px;
     height: 100%;
     max-height: 390px;
-
-    border: 1px solid red;
 }
 
-.publicPostSliderImage {
+.publicPostSliderImage,
+.publicPostSliderImageExpanded {
     width: 100%;
-    max-width: 235px;
-    height: 100%;
-    max-height: 240px;
-
+    height: 240px;
     object-fit: cover;
+}
+
+.publicPostSliderImageExpanded {
+   height: 120px;
 }
 
 .publicPostArticle {
     display: flex;
     flex-direction: column;
-    border: 1px solid green;
 }
 
 .publicPostArticleHeader {
@@ -40,7 +39,10 @@
 .publicPostArticleText {
     display: flex;
     flex-direction: column;
+    height: 70px;
+}
 
+.publicPostTimeAgo {
     & span {
         color: var(--color-light-900)
     }

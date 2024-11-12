@@ -13,8 +13,8 @@ export const RegisteredUsersList = ({usersCount}:Props) => {
         <section className={s.usersList}>
             <Typography variant='h2'>Registered users:</Typography>
             <div className={s.usersCount}>
-                {countArray?.map(el => (
-                    <Typography variant='h2'>{el}</Typography>
+                {countArray?.map((el, index) => (
+                    <Typography variant='h2' key={index}>{el}</Typography>
                 ))}
             </div>
         </section>
