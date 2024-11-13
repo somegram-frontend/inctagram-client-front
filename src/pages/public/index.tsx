@@ -1,41 +1,43 @@
-import { wrapper } from '@/store'
 import '@honor-ui/inctagram-ui-kit/css'
-import { GetStaticPropsResult } from 'next'
 import { RegisteredUsersList } from './registeredUsersList/RegisteredUsersList'
-import { getRunningQueriesThunk, getTotalUsersCount, useGetTotalUsersCountQuery } from '@/api/user/users-api'
-import { useGetPublicPostsQuery } from '@/api/post/posts-api'
 import { PublicPost } from './publicPost/PublicPost'
 import s from './public.module.scss'
+import { GetTotalCountResponse } from '@/api/user/users-api.types'
+import Layout from '@/layout'
+import { GetPublicPostsResponse } from '@/api/post/posts-api.types'
 
 
 type Props = {
-  totalCount: number
+  totalUsersCount: GetTotalCountResponse
+  publicPosts: GetPublicPostsResponse
 }
 
-export const getStaticProps = wrapper.getStaticProps(store => async (): Promise<GetStaticPropsResult<Props>> => {
-  const usersCount = await store.dispatch(getTotalUsersCount.initiate(undefined));
+export const getStaticProps = async () => {
+  const totalUsersRes = await fetch('https://somegram.online/api/v1/public-users')
+  const totalUsersCount = await totalUsersRes.json()
 
-  await Promise.all(store.dispatch(getRunningQueriesThunk()));
+  const publicPostsRes = await fetch('https://somegram.online/api/v1/public-posts/all/{endCursorPostId}?pageSize=4&sortBy=createdAt&sortDirection=desc')
+  const publicPosts = await publicPostsRes.json()
 
   return {
     props: {
-      totalCount: usersCount.data ? usersCount.data.totalCount : 0,
+      totalUsersCount,
+      publicPosts
     },
-    revalidate: 60,
-  };
-});
+    revalidate: 60
+  }
+}
 
 
-
-export default function Public() {
-  const {data: totalUsersCount} = useGetTotalUsersCountQuery()
-  const{data: publicPosts} = useGetPublicPostsQuery({pageSize: 4, sortBy: 'createdAt', sortDirection: 'desc'})
+export default function Public({totalUsersCount, publicPosts}: Props) {
   return (
+    <Layout>
     <div className={s.publicPage}>
       <RegisteredUsersList usersCount={totalUsersCount?.totalCount}/>
       <div className={s.publicPosts}>
       {publicPosts?.items.map(el => <PublicPost item={el} key={el.id}/>)}
       </div>
     </div>
+    </Layout>
     )
 }

@@ -24,4 +24,4 @@ export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppState, unkn
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector
 
-export const wrapper = createWrapper<AppStore>(makeStore, { debug: true })
+export const wrapper = createWrapper<AppStore>(makeStore)

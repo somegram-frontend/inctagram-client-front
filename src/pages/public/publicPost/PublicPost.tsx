@@ -44,20 +44,20 @@ export const PublicPost = ({item}:Props) => {
         <div className={s.publicPost}>
             <PhotoSlider images={item.images} imgClass={clsx(expanded ? 
                 s.publicPostSliderImageExpanded : s.publicPostSliderImage )}/>
-            <article className={s.publicPostArticle}>
-                <header className={s.publicPostArticleHeader}>
+            <div className={s.publicPostArticle}>
+                <div className={s.publicPostArticleHeader}>
                     <Image src={item.postOwnerInfo.avatarUrl || defaultAva} width={35} height={35} alt='avatar image' className={s.publicPostUserAvatar}/>
                     <Typography variant='h3'>{item.postOwnerInfo.username}</Typography>
-                </header>
-                <p className={s.publicPostArticleText}>
+                </div>
+                <div className={s.publicPostArticleText}>
                     <div className={s.publicPostTimeAgo}>
                     <Typography variant='small_text'>
                         <TimeAgo date={item.createdAt} live={false}/>
                     </Typography>
                     </div>
                     {defineTheDescription(item?.description)}
-                </p>
-            </article>
+                </div>
+            </div>
         </div>
     )
 }

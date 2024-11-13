@@ -56,7 +56,4 @@ export const {
   useDeleteAvatarMutation,
   useProfileFillInfoMutation,
   useGetTotalUsersCountQuery,
-  util: { getRunningQueriesThunk },
 } = usersApi
-
-export const { getTotalUsersCount } = usersApi.endpoints
