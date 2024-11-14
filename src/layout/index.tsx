@@ -7,10 +7,11 @@ import { useMeQuery } from '@/api/auth/auth-api'
 import { MeErrorResponse } from '@/api/auth/auth-api.types'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
+import { Loader } from '@/components/loader'
 
 const Layout: NextPage<PropsWithChildren> = ({ children }) => {
   const router = useRouter()
-  const { data, error } = useMeQuery()
+  const { isLoading, data, error } = useMeQuery()
   const isAuth = !((error as MeErrorResponse)?.status === 401)
 
   useEffect(() => {
@@ -21,6 +22,8 @@ const Layout: NextPage<PropsWithChildren> = ({ children }) => {
       }
     }
   }, [error, router])
+
+  if (isLoading) return <Loader />
 
   return (
     <>

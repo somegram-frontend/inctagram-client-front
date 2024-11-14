@@ -1,5 +1,10 @@
 import { baseApi } from '@/api/_base/base-api'
-import { GetProfileSuccess, ProfileResponse, UserProfile } from './users-api.types'
+import {
+  GetProfileSuccess,
+  GetPublicProfileSuccess,
+  ProfileResponse,
+  UserProfile,
+} from './users-api.types'
 
 export const usersApi = baseApi.injectEndpoints({
   endpoints: builder => {
@@ -7,6 +12,10 @@ export const usersApi = baseApi.injectEndpoints({
       getProfile: builder.query<GetProfileSuccess, void>({
         query: () => `v1/users/profile-info`,
         providesTags: ['Profile'],
+      }),
+      getPublicProfile: builder.query<GetPublicProfileSuccess, { id: string }>({
+        query: ({ id }) => `v1/public-users/profile/${id}`,
+        providesTags: ['PublicProfile'],
       }),
       uploadAvatar: builder.mutation<ProfileResponse, { file: File }>({
         query: ({ file }) => {
@@ -43,8 +52,9 @@ export const usersApi = baseApi.injectEndpoints({
 })
 
 export const {
-  useUploadAvatarMutation,
   useGetProfileQuery,
+  useGetPublicProfileQuery,
+  useUploadAvatarMutation,
   useDeleteAvatarMutation,
   useProfileFillInfoMutation,
 } = usersApi

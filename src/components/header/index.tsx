@@ -34,7 +34,9 @@ export const Header = ({ isAuth }: Props) => {
 
   return (
     <header className={s.header}>
-      <div className={s.logo}>Somegram</div>
+      <Link href="/" className={s.logo}>
+        Somegram
+      </Link>
       <div className={s.register}>
         <Select
           className={s.select}

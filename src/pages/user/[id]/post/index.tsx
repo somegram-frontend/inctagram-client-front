@@ -18,15 +18,21 @@ import PhotoSlider from '@/components/photoSlider'
 import { useDeleteUserPostMutation } from '@/api/post/posts-api'
 import { useRouter } from 'next/router'
 import { Loader } from '@/components/loader'
+import { useMeQuery } from '@/api/auth/auth-api'
 
 type Props = {
-  setEditPost: (value: boolean) => void
+  setEditPost?: (value: boolean) => void
   post: ItemsType
 }
 
 export const Post = ({ setEditPost, post }: Props) => {
   const [editMenu, setEditMenu] = useState(false)
   const router = useRouter()
+  const { data: me } = useMeQuery()
+  const id = router.query.id as string
+
+  const isOwner = me?.userId === id
+
   const [deletePost, { isLoading, isSuccess }] = useDeleteUserPostMutation()
 
   const onEditClickHandler = () => {
@@ -43,7 +49,7 @@ export const Post = ({ setEditPost, post }: Props) => {
   }
 
   if (isSuccess) {
-    setEditPost(false)
+    setEditPost && setEditPost(false)
     router.push(`/user/${post.postOwnerInfo.userId}`)
   }
 
@@ -67,21 +73,25 @@ export const Post = ({ setEditPost, post }: Props) => {
             />
             <Typography variant="bold_text16">{post?.postOwnerInfo.username}</Typography>
           </div>
-          <button onClick={onEditClickHandler}>
-            <MoreHorizontalOutline className={s.descriptionHeaderButton} />
-          </button>
-          <div className={buttonMenuClass}>
-            <ul>
-              <li onClick={() => setEditPost(true)}>
-                <Edit2Outline />
-                Edit Post
-              </li>
-              <li onClick={() => deletePostHandler()}>
-                <TrashOutline />
-                Delete Post
-              </li>
-            </ul>
-          </div>
+          {isOwner && (
+            <>
+              <button onClick={onEditClickHandler}>
+                <MoreHorizontalOutline className={s.descriptionHeaderButton} />
+              </button>
+              <div className={buttonMenuClass}>
+                <ul>
+                  <li onClick={() => (setEditPost ? setEditPost(true) : {})}>
+                    <Edit2Outline />
+                    Edit Post
+                  </li>
+                  <li onClick={() => deletePostHandler()}>
+                    <TrashOutline />
+                    Delete Post
+                  </li>
+                </ul>
+              </div>
+            </>
+          )}
         </div>
         <div className={`${s.descriptionCommentsContainer} ${s.wrapper}`}>
           <PostComment
@@ -99,16 +109,6 @@ export const Post = ({ setEditPost, post }: Props) => {
             <BookmarkOutline className={s.descriptionReactionsIcon} />
           </div>
           <div className={s.descriptionReactionsAvatarsContainer}>
-            <Image
-              src={defaultAva}
-              alt="defaultAva"
-              className={s.descriptionReactionsAvatarImage}
-            />
-            <Image
-              src={defaultAva}
-              alt="defaultAva"
-              className={s.descriptionReactionsAvatarImage}
-            />
             <Image
               src={defaultAva}
               alt="defaultAva"
