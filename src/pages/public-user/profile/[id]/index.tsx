@@ -9,17 +9,22 @@ import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/
 import Image from 'next/image'
 import { useMeQuery } from '@/api/auth/auth-api'
 import { useGetUserPostsQuery } from '@/api/post/posts-api'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { Post } from '@/pages/user/[id]/post'
 import { ProfileResponse } from '@/api/user/users-api.types'
 
 const Profile = () => {
   const router = useRouter()
-  const id = router.query.id as string
+  const { id, postId } = router.query
   const [openPost, setOpenPost] = useState(false)
   const [openPostId, setOpenPostId] = useState('')
-  const { isLoading, error, isError, data: publicData } = useGetPublicProfileQuery({ id })
+  const {
+    isLoading,
+    error,
+    isError,
+    data: publicData,
+  } = useGetPublicProfileQuery({ id: id as string })
 
   const { isLoading: isLoadingMe, data: me } = useMeQuery()
   const { data: userPosts, isLoading: isPostsLoading } = useGetUserPostsQuery(
@@ -29,8 +34,22 @@ const Profile = () => {
     { skip: id === undefined }
   )
 
+  useEffect(() => {
+    if (!isLoading && publicData?.id === me?.userId) {
+      router.push(`/user/${me?.userId}`)
+    }
+  }, [isLoading, publicData, me, router])
+
+  useEffect(() => {
+    const postId = router.query.postId
+    if (postId) {
+      setOpenPostId(Array.isArray(postId) ? postId[0] : postId)
+      setOpenPost(true)
+    }
+  }, [router.query.postId])
+
   if (!isLoading && typeof window !== 'undefined' && publicData?.id === me?.userId) {
-    router.push(`/user/${me?.userId}`)
+    router.push(`/user/${me?.userId}?postId=${postId}`)
   }
   if (isLoading || isLoadingMe) return <Loader />
 
@@ -94,7 +113,10 @@ const Profile = () => {
                         width={230}
                         height={230}
                         className={style.postImage}
-                        onClick={() => setOpenPostId(post.id)}
+                        onClick={() => {
+                          setOpenPostId(post.id)
+                          setOpenPost(true)
+                        }}
                       />
                     </DialogTrigger>
                     <DialogContent description="description">

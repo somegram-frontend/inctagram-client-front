@@ -29,7 +29,7 @@ const Profile = () => {
     if (Array.isArray(postId)) {
       setOpenPostId(postId[0])
     } else if (typeof postId === 'string') {
-      setOpenPostId(postId);
+      setOpenPostId(postId)
     }
 
     if (postId) {
@@ -39,7 +39,7 @@ const Profile = () => {
 
   const { data: me } = useMeQuery()
   if (id !== me?.userId) {
-    router.push(`/public-user/profile/${id}`)
+    router.push(`/public-user/profile/${id}?postId=${postId}`)
   }
   const { data: profile } = useGetProfileQuery()
   const [openPost, setOpenPost] = useState(false)
@@ -67,7 +67,7 @@ const Profile = () => {
     setOpenPostId('')
     const { postId, ...restQuery } = router.query
     router.push({ pathname: router.pathname, query: restQuery })
-  };
+  }
 
   if (isPostsLoading) {
     return <Loader />
@@ -127,9 +127,12 @@ const Profile = () => {
             {userPosts?.items.map(post => {
               return (
                 <div key={post.id} className={style.postItem}>
-                  <Dialog open={openPost && openPostId === post.id} onOpenChange={(isOpen) => {
-                    if (!isOpen) handleClosePost()
-                  }}>
+                  <Dialog
+                    open={openPost && openPostId === post.id}
+                    onOpenChange={isOpen => {
+                      if (!isOpen) handleClosePost()
+                    }}
+                  >
                     <DialogTrigger asChild>
                       <Image
                         src={post?.images[0]}
