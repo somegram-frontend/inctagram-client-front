@@ -28,7 +28,7 @@ const Profile = () => {
     },
     { skip: id === undefined }
   )
-  console.log('userPosts', userPosts)
+
   if (!isLoading && typeof window !== 'undefined' && publicData?.id === me?.userId) {
     router.push(`/user/${me?.userId}`)
   }
