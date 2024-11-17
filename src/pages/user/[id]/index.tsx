@@ -39,7 +39,9 @@ const Profile = () => {
 
   const { data: me } = useMeQuery()
   if (id !== me?.userId) {
-    router.push(`/public-user/profile/${id}?postId=${postId}`)
+    router.push(
+      postId ? `/public-user/profile/${id}?postId=${postId}` : `/public-user/profile/${id}`
+    )
   }
   const { data: profile } = useGetProfileQuery()
   const [openPost, setOpenPost] = useState(false)

@@ -18,7 +18,7 @@ const Profile = () => {
   const router = useRouter()
   const { id, postId } = router.query
   const [openPost, setOpenPost] = useState(false)
-  const [openPostId, setOpenPostId] = useState('')
+  const [openPostId, setOpenPostId] = useState<string>('')
   const {
     isLoading,
     error,
@@ -35,21 +35,35 @@ const Profile = () => {
   )
 
   useEffect(() => {
-    if (!isLoading && publicData?.id === me?.userId) {
-      router.push(`/user/${me?.userId}`)
+    if (Array.isArray(postId)) {
+      setOpenPostId(postId[0])
+    } else if (typeof postId === 'string') {
+      setOpenPostId(postId)
     }
-  }, [isLoading, publicData, me, router])
 
-  useEffect(() => {
-    const postId = router.query.postId
     if (postId) {
-      setOpenPostId(Array.isArray(postId) ? postId[0] : postId)
       setOpenPost(true)
     }
-  }, [router.query.postId])
+  }, [postId])
+
+  const handlePostClick = (postId: string) => {
+    setOpenPostId(postId)
+    setOpenPost(true)
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, postId },
+    })
+  }
+
+  const handleClosePost = () => {
+    setOpenPost(false)
+    setOpenPostId('')
+    const { postId, ...restQuery } = router.query
+    router.push({ pathname: router.pathname, query: restQuery })
+  }
 
   if (!isLoading && typeof window !== 'undefined' && publicData?.id === me?.userId) {
-    router.push(`/user/${me?.userId}?postId=${postId}`)
+    router.push(postId ? `/user/${me?.userId}?postId=${postId}` : `/user/${me?.userId}`)
   }
   if (isLoading || isLoadingMe) return <Loader />
 
@@ -105,7 +119,12 @@ const Profile = () => {
             {userPosts?.items.map(post => {
               return (
                 <div key={post.id} className={style.postItem}>
-                  <Dialog open={openPost && openPostId === post.id} onOpenChange={setOpenPost}>
+                  <Dialog
+                    open={openPost && openPostId === post.id}
+                    onOpenChange={isOpen => {
+                      if (!isOpen) handleClosePost()
+                    }}
+                  >
                     <DialogTrigger asChild>
                       <Image
                         src={post?.images[0]}
@@ -113,10 +132,7 @@ const Profile = () => {
                         width={230}
                         height={230}
                         className={style.postImage}
-                        onClick={() => {
-                          setOpenPostId(post.id)
-                          setOpenPost(true)
-                        }}
+                        onClick={() => handlePostClick(post.id)}
                       />
                     </DialogTrigger>
                     <DialogContent description="description">
