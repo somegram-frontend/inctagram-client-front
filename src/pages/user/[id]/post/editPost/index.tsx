@@ -11,7 +11,7 @@ import { toast } from 'react-toastify'
 import { useForm } from 'react-hook-form'
 
 type Props = {
-  setEditPost: (value: boolean) => void
+  setEditPost?: (value: boolean) => void
   post: ItemsType
 }
 
@@ -21,7 +21,7 @@ type DescriptionField = {
 
 export const EditPost = ({ setEditPost, post }: Props) => {
   const postImage = post.images[0]
-  const postDescription = post.description
+  const postDescription = post.description ? post.description : ''
   const userName = post.postOwnerInfo.username
   const userAvatar = post.postOwnerInfo.avatarUrl
   const postId = post.id
@@ -45,12 +45,12 @@ export const EditPost = ({ setEditPost, post }: Props) => {
     if (err.data.message) {
       const errorMessage = err.data.message
       errorMessage && toast.error(errorMessage)
-      setEditPost(false)
+      setEditPost && setEditPost(false)
     }
   }
 
   if (isSuccess) {
-    setEditPost(false)
+    setEditPost && setEditPost(false)
     {
       postDescription !== description && toast.success('Description has been changed')
     }

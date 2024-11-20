@@ -82,7 +82,14 @@ export const FormSignUp = ({ onSubmit, onSignGit, onSignGoogle }: Props) => {
               Terms of Service
             </Typography>
             {' and '}
-            <Typography as={Link} href={'/auth/signUp/privacyPolicy'} variant={'small_link'}>
+            <Typography
+              as={Link}
+              href={{
+                pathname: '/privacyPolicy',
+                query: { href: '/auth/signUp', title: 'Back to Sign Up' },
+              }}
+              variant={'small_link'}
+            >
               Privacy Policy
             </Typography>
           </Typography>

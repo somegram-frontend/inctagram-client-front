@@ -14,7 +14,11 @@ import PublicationContent from './publicationContent'
 import CloseContent from './closeContent'
 import { Loader } from '@/components/loader'
 
-const DialogAddUserPost = () => {
+type Props = {
+  setIsActiveCreate: (isActiveCreate: boolean) => void
+}
+
+const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
   const [
     sendPost,
     { isLoading: isCreateLoading, isSuccess: isCreateSuccess, isError: isCreateError },
@@ -85,6 +89,7 @@ const DialogAddUserPost = () => {
     setPublicPost(false)
     setDescription('')
     setIsFirstModalOpen(false)
+    setIsActiveCreate(false)
   }
 
   const removeImage = (index: number) => {
@@ -98,6 +103,7 @@ const DialogAddUserPost = () => {
 
   const handleCloseFirstModal = () => {
     setIsFirstModalOpen(false)
+    setIsActiveCreate(false)
     setIsSecondModalOpen(false)
   }
 
@@ -111,6 +117,7 @@ const DialogAddUserPost = () => {
       return
     }
     setIsFirstModalOpen(isFirstModalOpen)
+    setIsActiveCreate(true)
   }
 
   const handleCustomBtnClickBack = () => {
@@ -118,9 +125,9 @@ const DialogAddUserPost = () => {
   }
 
   if (isCreateLoading) return <Loader />
-  // if (isCreateSuccess) {
-  //   toast.success('Successfully published')
-  // }
+  if (isCreateSuccess && !toast.isActive('toast-id')) {
+    toast.success('Successfully published', { toastId: 'toast-id' })
+  }
   if (isCreateError) {
     toast.error('Publish failed')
   }

@@ -1,6 +1,7 @@
 import { baseApi } from '@/api/_base/base-api'
 import {
   GetProfileSuccess,
+  GetPublicProfileSuccess,
   GetTotalCountResponse,
   ProfileResponse,
   UserProfile,
@@ -12,6 +13,10 @@ export const usersApi = baseApi.injectEndpoints({
       getProfile: builder.query<GetProfileSuccess, void>({
         query: () => `v1/users/profile-info`,
         providesTags: ['Profile'],
+      }),
+      getPublicProfile: builder.query<GetPublicProfileSuccess, { id: string }>({
+        query: ({ id }) => `v1/public-users/profile/${id}`,
+        providesTags: ['PublicProfile'],
       }),
       uploadAvatar: builder.mutation<ProfileResponse, { file: File }>({
         query: ({ file }) => {
@@ -51,8 +56,9 @@ export const usersApi = baseApi.injectEndpoints({
 })
 
 export const {
-  useUploadAvatarMutation,
   useGetProfileQuery,
+  useGetPublicProfileQuery,
+  useUploadAvatarMutation,
   useDeleteAvatarMutation,
   useProfileFillInfoMutation,
   useGetTotalUsersCountQuery,

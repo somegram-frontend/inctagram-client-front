@@ -4,7 +4,14 @@ export type GetProfileSuccess = UserProfile & {
     url: string
   }
 }
-
+export type GetPublicProfileSuccess = {
+  id: string
+  userName: string
+  about: string
+  avatar: {
+    url: string
+  }
+}
 export type UserProfile = {
   userName: string
   firstName: string

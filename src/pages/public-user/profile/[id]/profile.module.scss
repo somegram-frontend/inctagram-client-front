@@ -13,17 +13,16 @@
   margin-bottom: 50px;
 }
 
+.profileAvatar {
+  object-fit: cover;
+  border-radius: 10px;
+}
+
 .profileData {
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding-left: 40px;
-}
-
-.profileNameAndBtnContainer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .profileFollowersContainer {
