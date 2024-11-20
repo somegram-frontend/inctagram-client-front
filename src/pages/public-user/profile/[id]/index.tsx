@@ -9,17 +9,22 @@ import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/
 import Image from 'next/image'
 import { useMeQuery } from '@/api/auth/auth-api'
 import { useGetUserPostsQuery } from '@/api/post/posts-api'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { Post } from '@/pages/user/[id]/post'
 import { ProfileResponse } from '@/api/user/users-api.types'
 
 const Profile = () => {
   const router = useRouter()
-  const id = router.query.id as string
+  const { id, postId } = router.query
   const [openPost, setOpenPost] = useState(false)
-  const [openPostId, setOpenPostId] = useState('')
-  const { isLoading, error, isError, data: publicData } = useGetPublicProfileQuery({ id })
+  const [openPostId, setOpenPostId] = useState<string>('')
+  const {
+    isLoading,
+    error,
+    isError,
+    data: publicData,
+  } = useGetPublicProfileQuery({ id: id as string })
 
   const { isLoading: isLoadingMe, data: me } = useMeQuery()
   const { data: userPosts, isLoading: isPostsLoading } = useGetUserPostsQuery(
@@ -29,8 +34,36 @@ const Profile = () => {
     { skip: id === undefined }
   )
 
+  useEffect(() => {
+    if (Array.isArray(postId)) {
+      setOpenPostId(postId[0])
+    } else if (typeof postId === 'string') {
+      setOpenPostId(postId)
+    }
+
+    if (postId) {
+      setOpenPost(true)
+    }
+  }, [postId])
+
+  const handlePostClick = (postId: string) => {
+    setOpenPostId(postId)
+    setOpenPost(true)
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, postId },
+    })
+  }
+
+  const handleClosePost = () => {
+    setOpenPost(false)
+    setOpenPostId('')
+    const { postId, ...restQuery } = router.query
+    router.push({ pathname: router.pathname, query: restQuery })
+  }
+
   if (!isLoading && typeof window !== 'undefined' && publicData?.id === me?.userId) {
-    router.push(`/user/${me?.userId}`)
+    router.push(postId ? `/user/${me?.userId}?postId=${postId}` : `/user/${me?.userId}`)
   }
   if (isLoading || isLoadingMe) return <Loader />
 
@@ -86,7 +119,12 @@ const Profile = () => {
             {userPosts?.items.map(post => {
               return (
                 <div key={post.id} className={style.postItem}>
-                  <Dialog open={openPost && openPostId === post.id} onOpenChange={setOpenPost}>
+                  <Dialog
+                    open={openPost && openPostId === post.id}
+                    onOpenChange={isOpen => {
+                      if (!isOpen) handleClosePost()
+                    }}
+                  >
                     <DialogTrigger asChild>
                       <Image
                         src={post?.images[0]}
@@ -94,7 +132,7 @@ const Profile = () => {
                         width={230}
                         height={230}
                         className={style.postImage}
-                        onClick={() => setOpenPostId(post.id)}
+                        onClick={() => handlePostClick(post.id)}
                       />
                     </DialogTrigger>
                     <DialogContent description="description">
