@@ -11,19 +11,20 @@ import { Loader } from '@/components/loader'
 
 const Layout: NextPage<PropsWithChildren> = ({ children }) => {
   const router = useRouter()
+
   const { isLoading, data, error } = useMeQuery()
+
   const isAuth = !((error as MeErrorResponse)?.status === 401)
 
   useEffect(() => {
     if (error && (error as MeErrorResponse)?.status !== 401) {
       toast.error((error as MeErrorResponse)?.data.message)
+
       if (typeof window !== 'undefined') {
         router.push('/')
       }
     }
   }, [error, router])
-
-  if (isLoading) return <Loader />
 
   return (
     <>

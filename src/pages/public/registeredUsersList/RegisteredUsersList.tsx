@@ -7,16 +7,17 @@ type Props = {
 
 export const RegisteredUsersList = ({usersCount}:Props) => {
 
-    const countArray = JSON.stringify(usersCount)?.split(',')
+
+    const countArray = JSON.stringify(usersCount)?.padStart(6, '0').split('')
 
     return (
-        <section className={s.usersList}>
+        <div className={s.usersList}>
             <Typography variant='h2'>Registered users:</Typography>
-            <div className={s.usersCount}>
+                <div className={s.usersCount}>
                 {countArray?.map((el, index) => (
                     <Typography variant='h2' key={index}>{el}</Typography>
                 ))}
             </div>
-        </section>
+        </div>
     )
 }
