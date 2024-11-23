@@ -30,8 +30,11 @@ const SignUp = () => {
   if (isError) {
     const err = error as { data: RegistrationResponse }
     if (err.data?.details) {
-      const errorMessage = `${err.data.details.email! || ''} ${err.data.details.username || ''}`
-      toast.error(errorMessage)
+      const errorEmailMessage = 'User with this email is already registered'
+      const errorUserMessage = 'User with this username is already registered'
+
+      toast.error(errorEmailMessage)
+      toast.error(errorUserMessage)
     } else if (err.data?.errors) {
       const errorMessages = err.data.errors
         .map(e => Object.values(e.constraints).join(', '))
