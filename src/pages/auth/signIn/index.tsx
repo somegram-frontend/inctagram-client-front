@@ -32,7 +32,9 @@ const SignIn = () => {
         .join('; ')
       toast.error(errorMessages, { toastId: 'error-message-id-2' })
     } else {
-      toast.error(err.data?.message || 'Registration failed', { toastId: 'error-message-id-3' })
+      toast.error('The email or password are incorrect. Try again please', {
+        toastId: 'error-message-id-3',
+      })
     }
   }
 
