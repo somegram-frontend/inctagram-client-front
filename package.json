@@ -33,6 +33,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@it-incubator/eslint-config": "^1.0.3",
     "@it-incubator/prettier-config": "^0.1.2",
     "@it-incubator/stylelint-config": "^2.0.0",
     "@types/node": "^20",
