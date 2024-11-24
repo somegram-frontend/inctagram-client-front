@@ -135,7 +135,7 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
     <div>
       <Dialog open={isFirstModalOpen} onOpenChange={handleFirstModalOpenChange}>
         <DialogTrigger className={style.triggerButton}>
-          <PlusSquareOutline /> Create Post
+          <PlusSquareOutline /> Create
         </DialogTrigger>
         {images.length === 0 ? (
           <DialogContent title={'Add Photo'}>
