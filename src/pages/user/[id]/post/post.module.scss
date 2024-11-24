@@ -162,9 +162,10 @@
 }
 
 .descriptionComment {
-  width: 100%;
-  min-width: 345px;
+  width: 345px;
+  max-width: 100%;
   padding: 0 24px 0 12px;
+  overflow-wrap: break-word;
 }
 
 .descriptionCommentIconContainer {
