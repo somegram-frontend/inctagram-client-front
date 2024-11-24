@@ -10,6 +10,7 @@ import { Button, ImageOutline, CloseOutline } from '@honor-ui/inctagram-ui-kit'
 import { DialogTrigger, Dialog, DialogContent, DialogClose } from '@/components/dialog'
 import { Loader } from '@/components/loader'
 import Image from 'next/image'
+import { MAX_AVATAR_IMGE_SIZE_10MB } from '@/shared/const/sizes'
 
 const UploadAvatar = () => {
   const [uploadPhoto, { isLoading }] = useUploadAvatarMutation()
@@ -24,7 +25,7 @@ const UploadAvatar = () => {
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget.files && e.currentTarget.files.length) {
       const file = e.currentTarget.files[0]
-      if (file.size > 10000000) {
+      if (file.size > MAX_AVATAR_IMGE_SIZE_10MB) {
         setAva('')
         setError('Error! Photo size must be less than 10 MB!')
       } else if (file.type !== 'image/jpeg' && file.type !== 'image/png') {

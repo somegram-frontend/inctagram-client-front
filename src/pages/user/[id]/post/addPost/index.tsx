@@ -13,6 +13,7 @@ import CroppingContent from './croppingContent'
 import PublicationContent from './publicationContent'
 import CloseContent from './closeContent'
 import { Loader } from '@/components/loader'
+import { MAX_POST_IMGE_SIZE_20MB } from '@/shared/const/sizes'
 
 type Props = {
   setIsActiveCreate: (isActiveCreate: boolean) => void
@@ -57,7 +58,7 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
   const validateFiles = (uploadedFiles: File[]) => {
     const validFiles: File[] = []
     for (const file of uploadedFiles) {
-      if (file.size > 20000000) {
+      if (file.size > MAX_POST_IMGE_SIZE_20MB) {
         resetFile('The photo must be less than 20 Mb and have JPEG or PNG format')
         return
       } else if (!['image/jpeg', 'image/png'].includes(file.type)) {
