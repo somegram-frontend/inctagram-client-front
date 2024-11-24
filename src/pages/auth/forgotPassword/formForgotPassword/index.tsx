@@ -7,6 +7,7 @@ import { Button, Cards, Typography } from '@honor-ui/inctagram-ui-kit'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
 import s from './formForgotPassword.module.scss'
 import { useRecaptchaSiteKeyQuery } from '@/api/auth/auth-api'
+import Link from 'next/link'
 
 type Props = {
   onSubmit: (data: FormForgotPasswordType) => void
@@ -65,9 +66,11 @@ const FormForgotPassword = ({ onSubmit, errorMessage }: Props) => {
         <Button form={formId} fullWidth className={s.button} disabled={isButtonDisabled}>
           Send Link
         </Button>
-        <Button variant={'borderless'} fullWidth className={s.button}>
-          Back to Sign In
-        </Button>
+        <Link href="/auth/signIn" style={{ textDecoration: 'none' }}>
+          <Button variant={'borderless'} fullWidth className={s.button}>
+            Back to Sign In
+          </Button>
+        </Link>
         <div className={s.captcha}>
           {siteKey ? (
             <ReCAPTCHA
