@@ -1,3 +1,3 @@
 module.exports = {
-  extends: ['next/core-web-vitals', '@it-incubator/eslint-config'],
+  extends: 'next/core-web-vitals',
 }

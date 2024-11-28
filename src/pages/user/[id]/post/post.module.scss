@@ -16,7 +16,8 @@
 .postDots {
   position: absolute;
   bottom: 12px;
-  left: 40%;
+  left: 50%;
+  transform: translateX(-50%);
 
   display: block;
 

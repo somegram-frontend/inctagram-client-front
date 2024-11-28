@@ -26,11 +26,14 @@
 .publicPostDots {
     position: absolute;
     bottom: 12px;
-    left: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex !important;
+
     height: 12px;
-  
-    margin: 0;
-    padding: 0;
+
+
   
     text-align: center;
     list-style: none;
@@ -48,7 +51,6 @@
   
       width: 20px;
       height: 20px;
-      margin: 0 5px;
       padding: 0;
   
       & button {
