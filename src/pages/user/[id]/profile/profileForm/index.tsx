@@ -134,7 +134,7 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
             label={'Select your city'}
             name={'city'}
             options={optionsCity}
-            disabled={!selectedCountry}
+            disabled={citiesLoading || !selectedCountry}
             className={s.select}
           />
         </div>
