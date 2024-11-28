@@ -7,7 +7,6 @@ import { Button, Cards, Typography } from '@honor-ui/inctagram-ui-kit'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
 import s from './formForgotPassword.module.scss'
 import { useRecaptchaSiteKeyQuery } from '@/api/auth/auth-api'
-import Link from 'next/link'
 
 type Props = {
   onSubmit: (data: FormForgotPasswordType) => void
