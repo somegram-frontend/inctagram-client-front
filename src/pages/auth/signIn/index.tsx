@@ -18,7 +18,7 @@ const SignIn = () => {
   if (isSuccess && data.accessToken) {
     localStorage.setItem(EnumTokens.ACCESS_TOKEN, data.accessToken)
     toast.success('You are login successfully.')
-    router.push(`/user`)
+    router.push(`/`)
   }
 
   if (isError) {

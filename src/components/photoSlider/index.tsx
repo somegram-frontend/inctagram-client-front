@@ -8,14 +8,26 @@ type Props = {
   className?: string
   dotClass?: string
   imgClass?: string
+  clickCallback?: () => void | undefined
 }
 
-const PhotoSlider: React.FC<Props> = ({ images, className, dotClass, imgClass }) => {
-  const Arrow = ({ direction, onClick }: { direction: 'prev' | 'next'; onClick: () => void }) => (
-    <div className={direction === 'prev' ? s.customPrevArrow : s.customNextArrow} onClick={onClick}>
-      {direction === 'prev' ? <ArrowIosBack /> : <ArrowIosForward />}
-    </div>
-  )
+const PhotoSlider: React.FC<Props> = ({ images, className, dotClass, imgClass, clickCallback }) => {
+  const Arrow = ({ direction, onClick }: { direction: 'prev' | 'next'; onClick: () => void }) => {
+    return (
+      images.length > 1 && (
+        <div
+          className={direction === 'prev' ? s.customPrevArrow : s.customNextArrow}
+          onClick={onClick}
+        >
+          {direction === 'prev' ? <ArrowIosBack /> : <ArrowIosForward />}
+        </div>
+      )
+    )
+  }
+
+  const handleClick = () => {
+    clickCallback && clickCallback()
+  }
 
   const settings = {
     dots: true,
@@ -44,6 +56,7 @@ const PhotoSlider: React.FC<Props> = ({ images, className, dotClass, imgClass })
                 width={492}
                 height={504}
                 className={imgClass || ''}
+                onClick={handleClick}
               />
             </div>
           ))}
