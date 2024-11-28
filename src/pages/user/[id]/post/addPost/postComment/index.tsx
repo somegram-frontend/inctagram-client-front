@@ -24,9 +24,9 @@ export const PostComment = ({ description, userName, userAvatar }: CommentProps)
             height={40}
             className={s.descriptionAvatarImage}
           />
-          <span className={s.descriptionComment}>
+          <Typography variant="regular_text14" className={s.descriptionComment}>
             <b>{userName}</b> {description}
-          </span>
+          </Typography>
         </>
       ) : (
         <Typography variant="regular_text14">This post has no description...yet.</Typography>
