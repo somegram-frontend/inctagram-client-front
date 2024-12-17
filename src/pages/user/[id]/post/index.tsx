@@ -20,6 +20,7 @@ import {useRouter} from 'next/router'
 import {Loader} from '@/components/loader'
 import {useMeQuery} from '@/api/auth/auth-api'
 import {ConfirmDeletePost} from "@/pages/user/[id]/post/confirmDeletePost/ConfirmDeletePost";
+import {toast} from "react-toastify";
 
 type Props = {
   setEditPost?: (value: boolean) => void
@@ -41,7 +42,12 @@ export const Post = ({setEditPost, post}: Props) => {
     setEditMenu(editMenu => !editMenu)
   }
   const deletePostHandler = async () => {
-    await deletePost({postId: post.id})
+    try {
+      await deletePost({postId: post.id}).unwrap()
+      toast.success('Post deleted successfully')
+    } catch (error) {
+      toast.error('Failed to delete post')
+    }
   }
 
   const cancelDeleteHandler = () => {
