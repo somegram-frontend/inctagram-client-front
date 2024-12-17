@@ -1,15 +1,15 @@
-import React, { forwardRef } from 'react'
-import ReactDatePicker, { type ReactDatePickerCustomHeaderProps } from 'react-datepicker'
+import React, {forwardRef} from 'react'
+import ReactDatePicker, {type ReactDatePickerCustomHeaderProps} from 'react-datepicker'
 import clsx from 'clsx'
-import { format } from 'date-fns'
-import { enGB } from 'date-fns/locale'
+import {format} from 'date-fns'
+import {enGB} from 'date-fns/locale'
 import s from './datePicker.module.scss'
 import CalendarOutline from '../../../public/CalendarOutline'
 import ChevronLeft from '../../../public/ChevronLeft'
 import ChevronRight from '../../../public/ChevronRight'
-import { Input, InputProps, Typography } from '@honor-ui/inctagram-ui-kit'
+import {Input, InputProps, Typography} from '@honor-ui/inctagram-ui-kit'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import {useRouter} from 'next/router'
 
 export type DatePickerProps = {
   disabled?: boolean
@@ -25,7 +25,7 @@ export type DatePickerProps = {
 }
 
 const RenderCustomInput = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, name, disabled, errorMessage, label, ...rest }: InputProps, ref) => {
+  ({className, name, disabled, errorMessage, label, ...rest}: InputProps, ref) => {
     const router = useRouter()
     const userId = router.query.id
 
@@ -35,7 +35,7 @@ const RenderCustomInput = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           name={name}
           className={clsx(s.dateInput, s.input, errorMessage && s.hasError, className)}
-          icon={<CalendarOutline className={clsx(s.calendarIcon, errorMessage && s.hasError)} />}
+          icon={<CalendarOutline className={clsx(s.calendarIcon, errorMessage && s.hasError)}/>}
           label={label}
           disabled={disabled}
           {...rest}
@@ -47,7 +47,7 @@ const RenderCustomInput = forwardRef<HTMLInputElement, InputProps>(
               as={Link}
               href={{
                 pathname: '/privacyPolicy',
-                query: { href: `user/${userId}/profile`, title: 'Back to Profile Settings' },
+                query: {href: `user/${userId}/profile`, title: 'Back to Profile Settings'},
               }}
               variant={'medium_text14'}
             >
@@ -62,20 +62,20 @@ const RenderCustomInput = forwardRef<HTMLInputElement, InputProps>(
 RenderCustomInput.displayName = 'RenderCustomInput'
 
 const RenderCustomHeader = ({
-  date,
-  decreaseMonth,
-  increaseMonth,
-}: ReactDatePickerCustomHeaderProps) => {
+                              date,
+                              decreaseMonth,
+                              increaseMonth,
+                            }: ReactDatePickerCustomHeaderProps) => {
   return (
     <div className={s.headerContainer}>
       <div className={s.monthsYear}>
         <Typography variant={'bold_text16'}>{format(date, 'dd.MM.yyyy')}</Typography>{' '}
       </div>
       <button className={s.button} onClick={decreaseMonth} type={'button'}>
-        <ChevronLeft />
+        <ChevronLeft/>
       </button>
       <button className={s.button} onClick={increaseMonth} type={'button'}>
-        <ChevronRight />
+        <ChevronRight/>
       </button>
     </div>
   )
@@ -116,7 +116,7 @@ export const DatePicker = (props: DatePickerProps) => {
         className={s.datePicker}
         name={name}
         customInput={
-          <RenderCustomInput disabled={disabled} errorMessage={errorMessage} label={label} />
+          <RenderCustomInput disabled={disabled} errorMessage={errorMessage} label={label}/>
         }
         dateFormat={'dd.MM.yyyy'}
         dayClassName={() => s.dayDate}
