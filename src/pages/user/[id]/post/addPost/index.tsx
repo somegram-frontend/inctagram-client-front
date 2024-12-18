@@ -1,31 +1,32 @@
-import { PlusSquareOutline } from '@honor-ui/inctagram-ui-kit'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/dialog'
+import {PlusSquareOutline} from '@honor-ui/inctagram-ui-kit'
+import {Dialog, DialogContent, DialogTrigger} from '@/components/dialog'
 import style from '@/pages/auth/logOut/logOut.module.scss'
-import { ChangeEvent, useMemo, useState } from 'react'
-import { useAddUserPostsMutation } from '@/api/post/posts-api'
-import { useGetProfileQuery } from '@/api/user/users-api'
-import { useGetCountriesListQuery } from '@/api/countries/countries-api'
+import {ChangeEvent, useMemo, useState} from 'react'
+import {useAddUserPostsMutation} from '@/api/post/posts-api'
+import {useGetProfileQuery} from '@/api/user/users-api'
+import {useGetCountriesListQuery} from '@/api/countries/countries-api'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import { toast } from 'react-toastify'
+import {toast} from 'react-toastify'
 import AddPhotoContent from './addPhotoContent'
 import CroppingContent from './croppingContent'
 import PublicationContent from './publicationContent'
 import CloseContent from './closeContent'
-import { Loader } from '@/components/loader'
-import { MAX_POST_IMGE_SIZE_20MB } from '@/shared/const/sizes'
+import {Loader} from '@/components/loader'
+import {MAX_POST_IMGE_SIZE_20MB} from '@/shared/const/sizes'
+import {AddFilterContent} from "@/pages/user/[id]/post/addPost/addFilterContent";
 
 type Props = {
   setIsActiveCreate: (isActiveCreate: boolean) => void
 }
 
-const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
+const DialogAddUserPost = ({setIsActiveCreate}: Props) => {
   const [
     sendPost,
-    { isLoading: isCreateLoading, isSuccess: isCreateSuccess, isError: isCreateError },
+    {isLoading: isCreateLoading, isSuccess: isCreateSuccess, isError: isCreateError},
   ] = useAddUserPostsMutation()
-  const { data: profileInfo } = useGetProfileQuery()
-  const { data, error, isLoading } = useGetCountriesListQuery()
+  const {data: profileInfo} = useGetProfileQuery()
+  const {data, error, isLoading} = useGetCountriesListQuery()
 
   const [isFirstModalOpen, setIsFirstModalOpen] = useState(false)
   const [isSecondModalOpen, setIsSecondModalOpen] = useState(false)
@@ -34,6 +35,8 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
   const [publicPost, setPublicPost] = useState(false)
   const [description, setDescription] = useState('')
   const [images, setImages] = useState<string[]>([])
+  const [filter, setFilter] = useState('')
+  const [step, setStep] = useState(0)
 
   const MAX_CHARS = 500
 
@@ -49,10 +52,13 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
 
   const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const uploadedFiles = e.currentTarget.files
+    handleNextStep()
     if (uploadedFiles) {
       const newFiles = Array.from(uploadedFiles)
       validateFiles(newFiles)
+
     }
+
   }
 
   const validateFiles = (uploadedFiles: File[]) => {
@@ -79,7 +85,7 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
 
   const handlePublish = () => {
     if (files.length > 0) {
-      sendPost({ files, description })
+      sendPost({files, description})
       resetPostState()
     }
   }
@@ -91,6 +97,7 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
     setDescription('')
     setIsFirstModalOpen(false)
     setIsActiveCreate(false)
+    setStep(0)
   }
 
   const removeImage = (index: number) => {
@@ -106,6 +113,7 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
     setIsFirstModalOpen(false)
     setIsActiveCreate(false)
     setIsSecondModalOpen(false)
+    setStep(0)
   }
 
   const handleReturnToFirstModal = () => {
@@ -119,15 +127,36 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
     }
     setIsFirstModalOpen(isFirstModalOpen)
     setIsActiveCreate(true)
+    setStep(0)
   }
 
   const handleCustomBtnClickBack = () => {
-    setIsSecondModalOpen(true)
+    // setIsSecondModalOpen(true)
+    handlePrevStep()
   }
 
-  if (isCreateLoading) return <Loader />
+  const handleBtnPrevStep = () => {
+    setPublicPost(true)
+    handleNextStep()
+
+  }
+
+  const handleNextStep = () => {
+    setStep(prevStep => prevStep + 1)
+  }
+
+  const handlePrevStep = () => {
+    setStep(prevStep => prevStep - 1)
+  }
+
+  const handleSetFilter = (filter: string) => {
+    setFilter(filter)
+  }
+
+
+  if (isCreateLoading) return <Loader/>
   if (isCreateSuccess && !toast.isActive('toast-id')) {
-    toast.success('Successfully published', { toastId: 'toast-id' })
+    toast.success('Successfully published', {toastId: 'toast-id'})
   }
   if (isCreateError) {
     toast.error('Publish failed')
@@ -136,17 +165,18 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
     <div>
       <Dialog open={isFirstModalOpen} onOpenChange={handleFirstModalOpenChange}>
         <DialogTrigger className={style.triggerButton}>
-          <PlusSquareOutline /> Create
+          <PlusSquareOutline/> Create
         </DialogTrigger>
-        {images.length === 0 ? (
+        {step === 0 && (
           <DialogContent title={'Add Photo'}>
-            <AddPhotoContent errorUpload={errorUpload} handleUpload={handleUpload} />
+            <AddPhotoContent errorUpload={errorUpload} handleUpload={handleUpload}/>
           </DialogContent>
-        ) : (
+        )}
+        {step === 1 && images.length > 0 && (
           <DialogContent
             customTitle={'Cropping'}
             customBtn={'Next'}
-            onCustomBtnClickGo={() => setPublicPost(true)}
+            onCustomBtnClickGo={handleBtnPrevStep}
             onCustomBtnClickBack={handleCustomBtnClickBack}
           >
             <CroppingContent
@@ -156,12 +186,22 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
             />
           </DialogContent>
         )}
-        {publicPost && profileInfo && (
+        {step === 2 && images.length > 0 && (
+          <DialogContent
+            customTitle={'Filter'}
+            customBtn={'Next'}
+            onCustomBtnClickGo={handleBtnPrevStep}
+            onCustomBtnClickBack={handleCustomBtnClickBack}
+          >
+            <AddFilterContent images={images} handleSetFilter={handleSetFilter}/>
+          </DialogContent>
+        )}
+        {step === 3 && publicPost && profileInfo && (
           <DialogContent
             customTitle={'Publication'}
             customBtn={'Publish'}
             onCustomBtnClickGo={handlePublish}
-            onCustomBtnClickBack={() => setPublicPost(false)}
+            onCustomBtnClickBack={handleCustomBtnClickBack}
           >
             <PublicationContent
               MAX_CHARS={MAX_CHARS}
@@ -170,6 +210,7 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
               optionsCountry={optionsCountry}
               profileInfo={profileInfo}
               setDescription={setDescription}
+              filter={filter}
             />
           </DialogContent>
         )}

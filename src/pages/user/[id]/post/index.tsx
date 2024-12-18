@@ -11,41 +11,41 @@ import {
 import s from './post.module.scss'
 import Image from 'next/image'
 import defaultAva from '@/assets/images/Mask group.jpg'
-import { useState } from 'react'
-import { ItemsType } from '@/api/post/posts-api.types'
-import { PostComment } from './addPost/postComment'
+import {useState} from 'react'
+import {ItemsType} from '@/api/post/posts-api.types'
+import {PostComment} from './addPost/postComment'
 import PhotoSlider from '@/components/photoSlider'
-import { useDeleteUserPostMutation } from '@/api/post/posts-api'
-import { useRouter } from 'next/router'
-import { Loader } from '@/components/loader'
-import { useMeQuery } from '@/api/auth/auth-api'
+import {useDeleteUserPostMutation} from '@/api/post/posts-api'
+import {useRouter} from 'next/router'
+import {Loader} from '@/components/loader'
+import {useMeQuery} from '@/api/auth/auth-api'
 
 type Props = {
   setEditPost?: (value: boolean) => void
   post: ItemsType
 }
 
-export const Post = ({ setEditPost, post }: Props) => {
+export const Post = ({setEditPost, post}: Props) => {
   const [editMenu, setEditMenu] = useState(false)
   const router = useRouter()
-  const { data: me } = useMeQuery()
+  const {data: me} = useMeQuery()
   const id = router.query.id as string
 
   const isOwner = me?.userId === id
 
-  const [deletePost, { isLoading, isSuccess }] = useDeleteUserPostMutation()
+  const [deletePost, {isLoading, isSuccess}] = useDeleteUserPostMutation()
 
   const onEditClickHandler = () => {
     setEditMenu(editMenu => !editMenu)
   }
   const deletePostHandler = async () => {
-    await deletePost({ postId: post.id })
+    await deletePost({postId: post.id})
   }
 
   const buttonMenuClass = editMenu ? `${s.buttonMenu} ${s.visible}` : `${s.buttonMenu}`
 
   if (isLoading) {
-    return <Loader />
+    return <Loader/>
   }
 
   if (isSuccess) {
@@ -72,22 +72,23 @@ export const Post = ({ setEditPost, post }: Props) => {
               width={40}
               height={40}
               className={s.descriptionAvatarImage}
+
             />
             <Typography variant="bold_text16">{post?.postOwnerInfo.username}</Typography>
           </div>
           {isOwner && (
             <>
               <button onClick={onEditClickHandler}>
-                <MoreHorizontalOutline className={s.descriptionHeaderButton} />
+                <MoreHorizontalOutline className={s.descriptionHeaderButton}/>
               </button>
               <div className={buttonMenuClass}>
                 <ul>
                   <li onClick={() => (setEditPost ? setEditPost(true) : {})}>
-                    <Edit2Outline />
+                    <Edit2Outline/>
                     Edit Post
                   </li>
                   <li onClick={() => deletePostHandler()}>
-                    <TrashOutline />
+                    <TrashOutline/>
                     Delete Post
                   </li>
                 </ul>
@@ -105,16 +106,17 @@ export const Post = ({ setEditPost, post }: Props) => {
         <div className={`${s.descriptionReactions} ${s.wrapper}`}>
           <div className={`${s.descriptionReactionsIconsContainer}`}>
             <div className={s.descriptionReactionsIcons}>
-              <HeartOutline className={s.descriptionReactionsIcon} />
-              <PaperPlaneOutline className={s.descriptionReactionsIcon} />
+              <HeartOutline className={s.descriptionReactionsIcon}/>
+              <PaperPlaneOutline className={s.descriptionReactionsIcon}/>
             </div>
-            <BookmarkOutline className={s.descriptionReactionsIcon} />
+            <BookmarkOutline className={s.descriptionReactionsIcon}/>
           </div>
           <div className={s.descriptionReactionsAvatarsContainer}>
             <Image
               src={defaultAva}
               alt="defaultAva"
               className={s.descriptionReactionsAvatarImage}
+
             />
             <span>
               2 243 <b>&quot;Like&quot;</b>
