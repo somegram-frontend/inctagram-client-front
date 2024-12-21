@@ -19,7 +19,7 @@ import { useDeleteUserPostMutation } from '@/api/post/posts-api'
 import { useRouter } from 'next/router'
 import { Loader } from '@/components/loader'
 import { useMeQuery } from '@/api/auth/auth-api'
-import { ConfirmDeletePost } from '@/pages/user/[id]/post/confirmDeletePost/ConfirmDeletePost'
+import { Index } from '@/pages/user/[id]/post/confirmDeletePost'
 import { toast } from 'react-toastify'
 
 type Props = {
@@ -149,7 +149,7 @@ export const Post = ({ setEditPost, post }: Props) => {
         </div>
       </div>
       {showConfirmDelete && (
-        <ConfirmDeletePost onConfirm={confirmDeleteHandler} onCancel={cancelDeleteHandler} />
+        <Index onConfirm={confirmDeleteHandler} onCancel={cancelDeleteHandler} />
       )}
     </div>
   )
