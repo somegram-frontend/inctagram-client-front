@@ -7,7 +7,7 @@ type ConfirmDeletePostProps = {
   onCancel: () => void
 }
 
-export const Index: React.FC<ConfirmDeletePostProps> = ({ onConfirm, onCancel }) => {
+export const ConfirmDeletePost: React.FC<ConfirmDeletePostProps> = ({ onConfirm, onCancel }) => {
   return (
     <div className={s.modalOverlay}>
       <div className={s.modalContainer}>
