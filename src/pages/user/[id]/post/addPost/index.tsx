@@ -19,6 +19,16 @@ type Props = {
   setIsActiveCreate: (isActiveCreate: boolean) => void
 }
 
+export type Image = {
+  url: string
+  croppedUrl: string | undefined
+  filter: string | undefined
+}
+
+const getImageUrls = (images: Array<Image>) => {
+  return images.map(({ url, croppedUrl }) => croppedUrl ?? url)
+}
+
 const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
   const [
     sendPost,
@@ -29,11 +39,10 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
 
   const [isFirstModalOpen, setIsFirstModalOpen] = useState(false)
   const [isSecondModalOpen, setIsSecondModalOpen] = useState(false)
-  const [files, setFiles] = useState<File[]>([])
   const [errorUpload, setErrorUpload] = useState('')
   const [publicPost, setPublicPost] = useState(false)
   const [description, setDescription] = useState('')
-  const [images, setImages] = useState<string[]>([])
+  const [images, setImages] = useState<Array<Image>>([])
 
   const MAX_CHARS = 500
 
@@ -67,8 +76,12 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
       }
       validFiles.push(file)
     }
-    setFiles(prevFiles => [...prevFiles, ...validFiles])
-    setImages(prevImages => [...prevImages, ...validFiles.map(file => URL.createObjectURL(file))])
+    setImages(prevImages => [
+      ...prevImages,
+      ...validFiles.map(file => {
+        return { url: URL.createObjectURL(file), croppedUrl: undefined, filter: undefined }
+      }),
+    ])
     setErrorUpload('')
   }
 
@@ -77,15 +90,30 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
     setErrorUpload(errorMessage)
   }
 
-  const handlePublish = () => {
-    if (files.length > 0) {
-      sendPost({ files, description })
-      resetPostState()
+  const handlePublish = async () => {
+    if (images.length > 0 && description) {
+      const imagePromises = images.map(({ url, croppedUrl }, idx) => {
+        return fetch(croppedUrl ?? url)
+          .then(response => response.blob())
+          .then(blob => {
+            return new File([blob], `image${idx}`, { type: blob.type })
+          })
+      })
+      try {
+        const files = await Promise.all(imagePromises)
+        await sendPost({ files, description }).unwrap()
+        images.forEach(({ url, croppedUrl }) => {
+          URL.revokeObjectURL(url)
+          if (croppedUrl) {
+            URL.revokeObjectURL(croppedUrl)
+          }
+        })
+        resetPostState()
+      } catch (e) {}
     }
   }
 
   const resetPostState = () => {
-    setFiles([])
     setImages([])
     setPublicPost(false)
     setDescription('')
@@ -95,11 +123,12 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
 
   const removeImage = (index: number) => {
     const updatedImages = [...images]
-    const updatedFiles = [...files]
     updatedImages.splice(index, 1)
-    updatedFiles.splice(index, 1)
     setImages(updatedImages)
-    setFiles(updatedFiles)
+  }
+
+  const updateImage = (imageIdx: number, updatedImage: Image) => {
+    setImages(images.map((img, idx) => (imageIdx === idx ? updatedImage : img)))
   }
 
   const handleCloseFirstModal = () => {
@@ -124,6 +153,8 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
   const handleCustomBtnClickBack = () => {
     setIsSecondModalOpen(true)
   }
+
+  const imageUrls = getImageUrls(images)
 
   if (isCreateLoading) return <Loader />
   if (isCreateSuccess && !toast.isActive('toast-id')) {
@@ -150,9 +181,11 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
             onCustomBtnClickBack={handleCustomBtnClickBack}
           >
             <CroppingContent
-              handleUpload={handleUpload}
               images={images}
+              handleUpload={handleUpload}
               removeImage={removeImage}
+              onUpdateImage={updateImage}
+              getImageUrls={getImageUrls}
             />
           </DialogContent>
         )}
@@ -166,7 +199,7 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
             <PublicationContent
               MAX_CHARS={MAX_CHARS}
               description={description}
-              images={images}
+              images={imageUrls}
               optionsCountry={optionsCountry}
               profileInfo={profileInfo}
               setDescription={setDescription}

@@ -1,7 +1,7 @@
-import Slider from 'react-slick'
-import s from './photoSlider.module.scss'
 import { ArrowIosBack, ArrowIosForward } from '@honor-ui/inctagram-ui-kit'
 import Image from 'next/image'
+import Slider from 'react-slick'
+import s from './photoSlider.module.scss'
 
 type Props = {
   images: string[]
@@ -9,9 +9,19 @@ type Props = {
   dotClass?: string
   imgClass?: string
   clickCallback?: () => void | undefined
+  onSetActiveImageIdx?: (nextIdx: number) => void
+  activeImageIdx?: number
 }
 
-const PhotoSlider: React.FC<Props> = ({ images, className, dotClass, imgClass, clickCallback }) => {
+const PhotoSlider: React.FC<Props> = ({
+  images,
+  className,
+  dotClass,
+  imgClass,
+  clickCallback,
+  onSetActiveImageIdx,
+  activeImageIdx,
+}) => {
   const Arrow = ({ direction, onClick }: { direction: 'prev' | 'next'; onClick: () => void }) => {
     return (
       images.length > 1 && (
@@ -38,6 +48,9 @@ const PhotoSlider: React.FC<Props> = ({ images, className, dotClass, imgClass, c
     prevArrow: <Arrow direction="prev" onClick={() => {}} />,
     nextArrow: <Arrow direction="next" onClick={() => {}} />,
     adaptiveHeight: true,
+    afterChange: (idx: number) => {
+      onSetActiveImageIdx?.(idx)
+    },
   }
 
   return (
@@ -47,6 +60,9 @@ const PhotoSlider: React.FC<Props> = ({ images, className, dotClass, imgClass, c
           {...settings}
           className={className ? className : ''}
           dotsClass={dotClass ? dotClass : 'slick-dots'}
+          ref={slider => {
+            activeImageIdx && slider?.slickGoTo(activeImageIdx, true)
+          }}
         >
           {images?.map(imgSrc => (
             <div key={imgSrc} className={s.slide}>

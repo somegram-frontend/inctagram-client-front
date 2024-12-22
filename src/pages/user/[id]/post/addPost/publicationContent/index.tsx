@@ -1,9 +1,9 @@
-import React from 'react'
-import s from './publicationContent.module.scss'
-import PhotoSlider from '../../../../../../components/photoSlider'
-import Image from 'next/image'
-import { PinOutline, Select, TextArea, Typography } from '@honor-ui/inctagram-ui-kit'
 import { GetProfileSuccess } from '@/api/user/users-api.types'
+import { PinOutline, Select, TextArea, Typography } from '@honor-ui/inctagram-ui-kit'
+import Image from 'next/image'
+import React from 'react'
+import PhotoSlider from '../../../../../../components/photoSlider'
+import s from './publicationContent.module.scss'
 
 interface Country {
   label: string
