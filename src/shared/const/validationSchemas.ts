@@ -33,7 +33,7 @@ export const signUpSchema = z
     {
       message: 'Passwords must match!',
       path: ['confirmPassword'],
-    }
+    },
   )
 
 export const signInSchema = z.object({
@@ -85,8 +85,8 @@ export const changeProfileSchema = z.object({
       },
       {
         message: 'A user under 13 cannot create a profile. ',
-      }
-    )
+      },
+    ),
   ),
   country: z.string().min(1, { message: 'Country is required' }),
   city: z.string().min(1, { message: 'City is required' }),

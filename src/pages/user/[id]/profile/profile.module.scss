@@ -1,11 +1,16 @@
 .wrapper {
   display: flex;
-  flex-direction: row;
-  gap: 50px;
-
+  flex-direction: column;
   width: 100%;
   max-width: 972px;
   margin: 62px auto 0;
+}
+
+.avatarAndForm {
+  display: flex;
+  justify-content: center;
+
+  gap: 40px;
 }
 
 .loader {
@@ -13,4 +18,28 @@
   z-index: 99;
   inset: 0;
   background-color: var(--color-dark--800);
+}
+
+.tabsContent {
+  width: 100%;
+}
+
+.tabsClass {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  min-width: 100%;
+
+  gap: 50px;
+
+  > div[role='tablist'] {
+    display: flex;
+    justify-content: center;
+
+    > button {
+      text-align: center;
+      width: 25%;
+    }
+  }
 }

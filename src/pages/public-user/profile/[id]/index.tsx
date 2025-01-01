@@ -33,7 +33,7 @@ const Profile = () => {
     {
       userId: id as string,
     },
-    { skip: id === undefined }
+    { skip: id === undefined },
   )
 
   useEffect(() => {

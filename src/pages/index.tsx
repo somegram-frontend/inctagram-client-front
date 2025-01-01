@@ -18,7 +18,7 @@ export const getStaticProps = async () => {
   const totalUsersCount = await totalUsersRes.json()
 
   const publicPostsRes = await fetch(
-    'https://somegram.online/api/v1/public-posts/all/{endCursorPostId}?pageSize=4&sortBy=createdAt&sortDirection=desc'
+    'https://somegram.online/api/v1/public-posts/all/{endCursorPostId}?pageSize=4&sortBy=createdAt&sortDirection=desc',
   )
   const publicPosts = await publicPostsRes.json()
 

@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
-import { Button, TextArea } from '@honor-ui/inctagram-ui-kit'
+import { Button, Tabs, TextArea } from '@honor-ui/inctagram-ui-kit'
 import { useGetCitiesListMutation, useGetCountriesListQuery } from '@/api/countries/countries-api'
 import { useEffect, useId, useMemo, useState } from 'react'
 import { ControlledSelect } from '@/components/controlled/ControlledSelect'

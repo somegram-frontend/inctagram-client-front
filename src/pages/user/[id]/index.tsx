@@ -22,7 +22,7 @@ const Profile = () => {
     {
       userId: id as string,
     },
-    { skip: id === undefined }
+    { skip: id === undefined },
   )
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const Profile = () => {
   const { data: me } = useMeQuery()
   if (id !== me?.userId) {
     router.push(
-      postId ? `/public-user/profile/${id}?postId=${postId}` : `/public-user/profile/${id}`
+      postId ? `/public-user/profile/${id}?postId=${postId}` : `/public-user/profile/${id}`,
     )
   }
   const { data: profile } = useGetProfileQuery()

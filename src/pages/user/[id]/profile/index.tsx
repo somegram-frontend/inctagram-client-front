@@ -1,7 +1,5 @@
-'use client'
 import ProfileForm from './profileForm'
 import { useGetProfileQuery, useProfileFillInfoMutation } from '@/api/user/users-api'
-
 import s from './profile.module.scss'
 import UploadAvatar from './uploadProfileAvatar'
 import Layout from '@/layout'
@@ -10,8 +8,13 @@ import { ProfileResponse, UserProfile } from '@/api/user/users-api.types'
 import { format } from 'date-fns'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
+import { Tabs } from '@honor-ui/inctagram-ui-kit'
+import { useState } from 'react'
+import { AccountManagement } from '@/pages/user/[id]/profile/accountManagement'
 
 const Profile = () => {
+  const [activeTab, setActiveTab] = useState('General information')
+
   const router = useRouter()
   const [
     profileFillInfo,
@@ -21,6 +24,30 @@ const Profile = () => {
 
   const onSubmitProfileForm = async (formData: UserProfile) => {
     await profileFillInfo({ ...formData, dateOfBirth: format(formData.dateOfBirth, 'dd.MM.yyyy') })
+  }
+
+  const tabsName = [
+    {
+      text: 'General information',
+      value: 'General information',
+      content: (
+        <div className={s.avatarAndForm}>
+          <UploadAvatar />
+          <ProfileForm
+            dataValue={data}
+            onSubmit={onSubmitProfileForm}
+            isLoadingUpdate={isLoadingUpdate}
+          />
+        </div>
+      ),
+    },
+    { text: 'Devices', value: 'Devices', content: <div>Devices content</div> },
+    { text: 'Account Management', value: 'Account Management', content: <AccountManagement /> },
+    { text: 'My payments', value: 'My payments', content: <div>My payments content</div> },
+  ]
+
+  const handleValueChange = (value: string) => {
+    setActiveTab(value)
   }
 
   if (isLoading)
@@ -50,12 +77,14 @@ const Profile = () => {
     return (
       <Layout>
         <div className={s.wrapper}>
-          <UploadAvatar />
-          <ProfileForm
-            dataValue={data}
-            onSubmit={onSubmitProfileForm}
-            isLoadingUpdate={isLoadingUpdate}
-          />
+          <div className={s.tabsContent}>
+            <Tabs
+              className={s.tabsClass}
+              tabs={tabsName}
+              onValueChange={handleValueChange}
+              value={activeTab}
+            />
+          </div>
         </div>
       </Layout>
     )
