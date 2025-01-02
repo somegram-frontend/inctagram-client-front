@@ -3,7 +3,7 @@ import s from './accountSubsCosts.module.scss'
 import { Typography } from '@honor-ui/inctagram-ui-kit'
 import { PaymentsPayPalOrStripe } from '@/pages/user/[id]/profile/accountManagement/paymentsPayPalOrStripe'
 
-type AccountSubsType = '$10 per 1 Day' | '$50 per 7 Day' | '$100 per month'
+export type AccountSubsType = '$10 per 1 Day' | '$50 per 7 Day' | '$100 per month'
 
 export const AccountSubsCosts = () => {
   const [subCosts, setSubsCosts] = useState<AccountSubsType>('$10 per 1 Day')
@@ -52,7 +52,7 @@ export const AccountSubsCosts = () => {
           <div>$100 per month</div>
         </div>
       </div>
-      <PaymentsPayPalOrStripe />
+      <PaymentsPayPalOrStripe subCosts={subCosts} />
     </div>
   )
 }
