@@ -72,29 +72,19 @@ export const changeProfileSchema = z.object({
     .refine(value => /^[A-Za-zА-Яа-я]+$/.test(value), {
       message: 'Allowed characters: A-Z, a-z, А-Я, а-я',
     }),
-  dateOfBirth: z.preprocess(
-    arg => {
-      if (typeof arg === 'string' || arg instanceof String) {
-        return new Date(arg as string)
-      }
-      return arg
-    },
-    z.date().refine(
-      date => {
-        return new Date().getTime() - date.getTime() > 13 * 365 * 24 * 60 * 60 * 1000
-      },
-      {
-        message: 'A user under 13 cannot create a profile. ',
-      }
-    )
-  ),
-  country: z.string().min(1, { message: 'Country is required' }),
-  city: z.string().min(1, { message: 'City is required' }),
+  dateOfBirth: z
+    .union([z.date(), z.null()])
+    .refine((date) => {
+      if (!date) return true
+      return new Date().getTime() - date.getTime() > 13 * 365 * 24 * 60 * 60 * 1000
+    }, {
+      message: 'A user under 13 cannot create a profile.',
+    })
+    .optional(),
   about: z
     .string()
-    .min(1, { message: 'Field is required' })
     .max(200, { message: 'Maximum 200 characters' })
     .refine(value => /^[0-9A-Za-zА-Яа-я\s\-_.'":,!]*$/.test(value), {
       message: 'Allowed characters: 0-9, A-Z, a-z, А-Я, а-я, and special characters',
-    }),
+    }).optional(),
 })
