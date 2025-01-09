@@ -20,7 +20,7 @@ const Profile = () => {
   const { data, isLoading, isSuccess, isError: isErrorGet } = useGetProfileQuery()
 
   const onSubmitProfileForm = async (formData: UserProfile) => {
-    let formattedDateOfBirth: string | undefined;
+    let formattedDateOfBirth: string | undefined
     if (formData.dateOfBirth) {
       try {
         formattedDateOfBirth = format(new Date(formData.dateOfBirth), 'dd.MM.yyyy')

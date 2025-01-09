@@ -26,8 +26,8 @@ export type DatePickerProps = {
 
 const RenderCustomInput = forwardRef<HTMLInputElement, InputProps & { startDate?: Date }>(
   ({ className, name, disabled, errorMessage, label, startDate, ...rest }, ref) => {
-    const router = useRouter();
-    const userId = router.query.id;
+    const router = useRouter()
+    const userId = router.query.id
 
     return (
       <>
@@ -94,7 +94,7 @@ export const DatePicker = (props: DatePickerProps) => {
     onChange,
   } = props
 
-  const [validationError, setValidationError] = useState<string | undefined>(undefined);
+  const [validationError, setValidationError] = useState<string | undefined>(undefined)
 
   const onChangeHandler = (dates: [Date | null, Date | null] | Date | null) => {
     if (!dates) return
@@ -138,7 +138,8 @@ export const DatePicker = (props: DatePickerProps) => {
             disabled={disabled}
             errorMessage={errorMessage || errorMessage}
             label={label}
-            startDate={startDate} />
+            startDate={startDate}
+          />
         }
         dateFormat={'dd.MM.yyyy'}
         dayClassName={() => s.dayDate}
