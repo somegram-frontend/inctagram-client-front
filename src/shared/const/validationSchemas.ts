@@ -73,7 +73,16 @@ export const changeProfileSchema = z.object({
       message: 'Allowed characters: A-Z, a-z, А-Я, а-я',
     }),
   dateOfBirth: z
-    .union([z.date(), z.null()])
+    .preprocess(
+      value => {
+        if (typeof value === 'string') {
+          const parsedDate = new Date(value)
+          return isNaN(parsedDate.getTime()) ? null : parsedDate
+        }
+        return value
+      },
+      z.union([z.date(), z.null()])
+    )
     .refine(
       date => {
         if (!date) return true
