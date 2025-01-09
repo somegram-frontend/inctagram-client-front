@@ -1,0 +1,124 @@
+.publicPost {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    max-width: 235px;
+    height: 100%;
+    max-height: 390px;
+}
+
+.publicPostSliderImage,
+.publicPostSliderImageExpanded {
+    cursor: pointer;
+
+    width: 100%;
+    height: 240px;
+    
+    object-fit: cover;
+    border-radius: 1%;
+}
+
+.publicPostSliderImageExpanded {
+   height: 120px;
+}
+
+.publicPostDots {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex !important;
+
+    height: 12px;
+
+
+  
+    text-align: center;
+    list-style: none;
+  
+    opacity: 0.9;
+    background-color: var(--color-dark-300);
+    border-radius: 8%;
+  
+    & li {
+      cursor: pointer;
+  
+      position: relative;
+  
+      display: inline-block;
+  
+      width: 20px;
+      height: 20px;
+      padding: 0;
+  
+      & button {
+        cursor: pointer;
+  
+        width: 20px;
+        height: 20px;
+        padding: 5px;
+  
+        font-size: 0;
+        line-height: 0;
+        color: transparent;
+  
+        background: transparent;
+        border: 0;
+        outline: none;
+  
+        &::before {
+          content: '•';
+  
+          position: absolute;
+          bottom: 5px;
+          left: 0;
+  
+          width: 20px;
+          height: 20px;
+  
+          font-size: 18px;
+          -webkit-font-smoothing: antialiased;
+          line-height: 20px;
+          color: var(--color-light-100);
+          text-align: center;
+        }
+      }
+    }
+  }
+  
+  .publicPostDots :global(li.slick-active) button::before {
+    color: var(--color-accent-500);
+  }
+
+
+
+.publicPostArticle {
+    display: flex;
+    flex-direction: column;
+}
+
+.publicPostArticleHeader {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin: 12px 0;
+}
+
+.publicPostUserAvatar {
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.publicPostArticleText {
+    display: flex;
+    flex-direction: column;
+    height: 70px;
+}
+
+.publicPostTimeAgo {
+    & span {
+        color: var(--color-light-900)
+    }
+}

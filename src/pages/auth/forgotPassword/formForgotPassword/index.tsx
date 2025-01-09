@@ -65,7 +65,7 @@ const FormForgotPassword = ({ onSubmit, errorMessage }: Props) => {
         <Button form={formId} fullWidth className={s.button} disabled={isButtonDisabled}>
           Send Link
         </Button>
-        <Button variant={'borderless'} fullWidth className={s.button}>
+        <Button variant={'borderless'} as="a" className={s.linkButton} href="/auth/signIn">
           Back to Sign In
         </Button>
         <div className={s.captcha}>

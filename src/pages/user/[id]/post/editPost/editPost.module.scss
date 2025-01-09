@@ -1,11 +1,20 @@
 .container {
   display: flex;
+
+  width: 900px;
+  max-width: 100%;
+  height: 450px;
+  max-height: 100%;
 }
 
 .postImage {
   align-self: center;
-  width: 350px;
-  height: 350px;
+
+  width: 400px;
+  max-width: 100%;
+  height: 450px;
+  max-height: 100%;
+
   object-fit: cover;
 }
 
@@ -36,7 +45,7 @@
 .button {
   display: flex;
   justify-content: flex-end;
-  margin-top: 10%;
+  margin-top: 30%;
 
   & button {
     width: 100%;

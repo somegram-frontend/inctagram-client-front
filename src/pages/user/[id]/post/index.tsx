@@ -53,12 +53,14 @@ export const Post = ({ setEditPost, post }: Props) => {
     router.push(`/user/${post.postOwnerInfo.userId}`)
   }
 
+  const dotsClass = post.images.length > 1 ? s.postDots : ''
+
   return (
     <div className={s.postContainer}>
       <PhotoSlider
         images={post.images}
         className={s.postImage}
-        dotClass={s.postDots}
+        dotClass={dotsClass}
         imgClass={s.image}
       />
       <div className={s.descriptionContainer}>

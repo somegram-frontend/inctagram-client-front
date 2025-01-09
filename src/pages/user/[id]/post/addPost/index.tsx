@@ -13,6 +13,7 @@ import CroppingContent from './croppingContent'
 import PublicationContent from './publicationContent'
 import CloseContent from './closeContent'
 import { Loader } from '@/components/loader'
+import { MAX_POST_IMGE_SIZE_20MB } from '@/shared/const/sizes'
 
 type Props = {
   setIsActiveCreate: (isActiveCreate: boolean) => void
@@ -21,7 +22,7 @@ type Props = {
 const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
   const [
     sendPost,
-    { isLoading: isCreateLoading, isSuccess: isCreateSuccess, isError: isCreateError },
+    { isLoading: isCreateLoading, isSuccess: isCreateSuccess, isError: isCreateError, reset },
   ] = useAddUserPostsMutation()
   const { data: profileInfo } = useGetProfileQuery()
   const { data, error, isLoading } = useGetCountriesListQuery()
@@ -57,7 +58,7 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
   const validateFiles = (uploadedFiles: File[]) => {
     const validFiles: File[] = []
     for (const file of uploadedFiles) {
-      if (file.size > 20000000) {
+      if (file.size > MAX_POST_IMGE_SIZE_20MB) {
         resetFile('The photo must be less than 20 Mb and have JPEG or PNG format')
         return
       } else if (!['image/jpeg', 'image/png'].includes(file.type)) {
@@ -127,6 +128,7 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
   if (isCreateLoading) return <Loader />
   if (isCreateSuccess && !toast.isActive('toast-id')) {
     toast.success('Successfully published', { toastId: 'toast-id' })
+    reset()
   }
   if (isCreateError) {
     toast.error('Publish failed')
@@ -135,7 +137,7 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
     <div>
       <Dialog open={isFirstModalOpen} onOpenChange={handleFirstModalOpenChange}>
         <DialogTrigger className={style.triggerButton}>
-          <PlusSquareOutline /> Create Post
+          <PlusSquareOutline /> Create
         </DialogTrigger>
         {images.length === 0 ? (
           <DialogContent title={'Add Photo'}>

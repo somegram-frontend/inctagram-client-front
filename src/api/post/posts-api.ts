@@ -2,6 +2,8 @@ import { baseApi } from '@/api/_base/base-api'
 import {
   AddUserPostsArgs,
   ApiResponse,
+  GetPublicPostsArgs,
+  GetPublicPostsResponse,
   GetUserPostsArgs,
   GetUserPostsResponse,
   UpdateUserPostArgs,
@@ -48,6 +50,10 @@ export const postsApi = baseApi.injectEndpoints({
         },
         invalidatesTags: ['Posts'],
       }),
+      getPublicPosts: builder.query<GetPublicPostsResponse, GetPublicPostsArgs>({
+        query: ({ endCursorPostId, pageSize, sortBy, sortDirection }) =>
+          `v1/public-posts/all/${endCursorPostId}?pageSize=${pageSize}&sortBy=${sortBy}&sortDirection=${sortDirection}`,
+      }),
     }
   },
 })
@@ -57,4 +63,5 @@ export const {
   useAddUserPostsMutation,
   useUpdateUserPostMutation,
   useDeleteUserPostMutation,
+  useGetPublicPostsQuery,
 } = postsApi
