@@ -1,7 +1,6 @@
+import { ImageOutline } from '@honor-ui/inctagram-ui-kit'
 import type { Image } from '../../..'
 import s from './aspectRatioMenu.module.scss'
-import originalSizeIcon from '../../../../../../../../assets/images/cropMenuIcons.svg'
-import { SvgIcon } from '@/components/svgIcon/svgIcon'
 
 type AspectRatioMenuProps = {
   onUpdateImage: (updatedImage: Image) => void
@@ -14,13 +13,7 @@ export const AspectRatioMenu = (props: AspectRatioMenuProps) => {
   const JSXbuttons = [
     <button key={'default'} onClick={() => resize(onUpdateImage, activeImage, 'default')}>
       Оригинал
-      <SvgIcon
-        width={originalSizeIcon.width}
-        height={originalSizeIcon.height}
-        spriteSrc={originalSizeIcon.src}
-        iconId={'cropMenuOriginalSizeIcon'}
-        fill="currentColor"
-      />
+      <ImageOutline />
     </button>,
   ].concat(
     dimentions.map(dimention => {

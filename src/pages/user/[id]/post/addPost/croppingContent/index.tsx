@@ -1,4 +1,12 @@
-import { Button, Close, PlusCircleOutline } from '@honor-ui/inctagram-ui-kit'
+import {
+  Button,
+  Close,
+  ExpandOutline,
+  Image as FilledImg,
+  ImageOutline,
+  MaximizeOutline,
+  PlusCircleOutline,
+} from '@honor-ui/inctagram-ui-kit'
 import Img from 'next/image'
 import { useState } from 'react'
 import type { Image } from '..'
@@ -6,8 +14,6 @@ import PhotoSlider from '../../../../../../components/photoSlider'
 import style from '../addPost.module.scss'
 import { AspectRatioMenu } from './CropMenus/AspectRatioMenu/AspectRatioMenu'
 import s from './croppingContent.module.scss'
-import imageModificationMenuButtonsIcons from '../../../../../../assets/images/cropMenuIcons.svg'
-import { SvgIcon } from '@/components/svgIcon/svgIcon'
 
 type Props = {
   images: Array<Image>
@@ -24,7 +30,11 @@ enum Status {
   selectingMoreImgs = 'selectingMoreImgs',
 }
 
-const { src, width, height } = imageModificationMenuButtonsIcons
+const statusIconMap = {
+  [Status.resizing]: <ExpandOutline />,
+  [Status.scaling]: <MaximizeOutline />,
+  [Status.selectingMoreImgs]: <ImageOutline />,
+}
 
 const CroppingContent: React.FC<Props> = ({
   images,
@@ -132,19 +142,18 @@ const CroppingContent: React.FC<Props> = ({
   let JSXbuttons: Array<JSX.Element> = []
   Object.values(Status).forEach(enumStatus => {
     if (enumStatus !== 'idle') {
+      const activeButton = status === enumStatus
       JSXbuttons.push(
         <button
           key={enumStatus}
-          className={status === enumStatus ? s.activeButton : ''}
+          className={activeButton ? s.activeButton : ''}
           onClick={() => handleStatusChange(enumStatus)}
         >
-          <SvgIcon
-            width={width}
-            height={height}
-            spriteSrc={src}
-            iconId={enumStatus}
-            fill={'currentColor'}
-          />
+          {status === Status.selectingMoreImgs && activeButton ? (
+            <FilledImg />
+          ) : (
+            statusIconMap[enumStatus]
+          )}
         </button>
       )
     }
