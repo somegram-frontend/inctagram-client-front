@@ -32,7 +32,7 @@ const getImageUrls = (images: Array<Image>) => {
 const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
   const [
     sendPost,
-    { isLoading: isCreateLoading, isSuccess: isCreateSuccess, isError: isCreateError },
+    { isLoading: isCreateLoading, isSuccess: isCreateSuccess, isError: isCreateError, reset },
   ] = useAddUserPostsMutation()
   const { data: profileInfo } = useGetProfileQuery()
   const { data, error, isLoading } = useGetCountriesListQuery()
@@ -159,6 +159,7 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
   if (isCreateLoading) return <Loader />
   if (isCreateSuccess && !toast.isActive('toast-id')) {
     toast.success('Successfully published', { toastId: 'toast-id' })
+    reset()
   }
   if (isCreateError) {
     toast.error('Publish failed')
