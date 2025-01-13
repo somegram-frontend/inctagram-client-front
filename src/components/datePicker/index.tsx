@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useState } from 'react'
 import ReactDatePicker, { type ReactDatePickerCustomHeaderProps } from 'react-datepicker'
 import clsx from 'clsx'
 import { format } from 'date-fns'
@@ -24,8 +24,8 @@ export type DatePickerProps = {
   onChange: (date: Date | null) => void
 }
 
-const RenderCustomInput = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, name, disabled, errorMessage, label, ...rest }: InputProps, ref) => {
+const RenderCustomInput = forwardRef<HTMLInputElement, InputProps & { startDate?: Date }>(
+  ({ className, name, disabled, errorMessage, label, startDate, ...rest }, ref) => {
     const router = useRouter()
     const userId = router.query.id
 
@@ -40,7 +40,7 @@ const RenderCustomInput = forwardRef<HTMLInputElement, InputProps>(
           disabled={disabled}
           {...rest}
         />
-        {errorMessage && (
+        {errorMessage && startDate && (
           <div className={s.hasError}>
             {errorMessage}
             <Typography
@@ -94,6 +94,8 @@ export const DatePicker = (props: DatePickerProps) => {
     onChange,
   } = props
 
+  const [validationError, setValidationError] = useState<string | undefined>(undefined)
+
   const onChangeHandler = (dates: [Date | null, Date | null] | Date | null) => {
     if (!dates) return
 
@@ -108,6 +110,22 @@ export const DatePicker = (props: DatePickerProps) => {
     }
   }
 
+  const handleDateChange = (date: Date | null) => {
+    if (date) {
+      const age = new Date().getFullYear() - date.getFullYear()
+      if (age < 13) {
+        setValidationError('A user under 13 cannot create a profile.')
+      } else {
+        setValidationError(undefined)
+      }
+    } else {
+      setValidationError(undefined)
+    }
+
+    onChange(date)
+    onChangeHandler(date)
+  }
+
   return (
     <div className={s.box}>
       <ReactDatePicker
@@ -116,17 +134,19 @@ export const DatePicker = (props: DatePickerProps) => {
         className={s.datePicker}
         name={name}
         customInput={
-          <RenderCustomInput disabled={disabled} errorMessage={errorMessage} label={label} />
+          <RenderCustomInput
+            disabled={disabled}
+            errorMessage={errorMessage || errorMessage}
+            label={label}
+            startDate={startDate}
+          />
         }
         dateFormat={'dd.MM.yyyy'}
         dayClassName={() => s.dayDate}
         disabled={disabled}
         endDate={endDate}
         locale={enGB}
-        onChange={date => {
-          onChange(date)
-          onChangeHandler(date)
-        }}
+        onChange={handleDateChange}
         popperPlacement={'bottom-start'}
         renderCustomHeader={RenderCustomHeader}
         selected={startDate}
