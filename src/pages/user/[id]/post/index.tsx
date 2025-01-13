@@ -19,6 +19,8 @@ import { useDeleteUserPostMutation } from '@/api/post/posts-api'
 import { useRouter } from 'next/router'
 import { Loader } from '@/components/loader'
 import { useMeQuery } from '@/api/auth/auth-api'
+import { ConfirmDeletePost } from '@/pages/user/[id]/post/confirmDeletePost'
+import { toast } from 'react-toastify'
 
 type Props = {
   setEditPost?: (value: boolean) => void
@@ -27,6 +29,7 @@ type Props = {
 
 export const Post = ({ setEditPost, post }: Props) => {
   const [editMenu, setEditMenu] = useState(false)
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false)
   const router = useRouter()
   const { data: me } = useMeQuery()
   const id = router.query.id as string
@@ -39,7 +42,21 @@ export const Post = ({ setEditPost, post }: Props) => {
     setEditMenu(editMenu => !editMenu)
   }
   const deletePostHandler = async () => {
-    await deletePost({ postId: post.id })
+    try {
+      await deletePost({ postId: post.id }).unwrap()
+      toast.success('Post deleted successfully')
+    } catch (error) {
+      toast.error('Failed to delete post')
+    }
+  }
+
+  const cancelDeleteHandler = () => {
+    setShowConfirmDelete(false)
+  }
+
+  const confirmDeleteHandler = () => {
+    deletePostHandler()
+    setShowConfirmDelete(false)
   }
 
   const buttonMenuClass = editMenu ? `${s.buttonMenu} ${s.visible}` : `${s.buttonMenu}`
@@ -86,7 +103,7 @@ export const Post = ({ setEditPost, post }: Props) => {
                     <Edit2Outline />
                     Edit Post
                   </li>
-                  <li onClick={() => deletePostHandler()}>
+                  <li onClick={() => setShowConfirmDelete(true)}>
                     <TrashOutline />
                     Delete Post
                   </li>
@@ -131,6 +148,9 @@ export const Post = ({ setEditPost, post }: Props) => {
           </Button>
         </div>
       </div>
+      {showConfirmDelete && (
+        <ConfirmDeletePost onConfirm={confirmDeleteHandler} onCancel={cancelDeleteHandler} />
+      )}
     </div>
   )
 }
