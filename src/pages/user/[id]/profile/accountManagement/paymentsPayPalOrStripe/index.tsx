@@ -1,9 +1,9 @@
 import React from 'react'
-import {PaypalSvgrepoCom4, StripeSvgrepoCom4, Typography} from '@honor-ui/inctagram-ui-kit'
+import { PaypalSvgrepoCom4, StripeSvgrepoCom4, Typography } from '@honor-ui/inctagram-ui-kit'
 import s from './paymentsPayPalOrStripe.module.scss'
-import {useCreatePaymentMutation} from '@/api/payments/payments-api'
-import {useRouter} from 'next/router'
-import {toast} from 'react-toastify'
+import { useCreatePaymentMutation } from '@/api/payments/payments-api'
+import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
 
 type SubscriptionType = 'MONTHLY' | 'DAY' | 'WEEKLY'
 
@@ -24,8 +24,8 @@ type Props = {
   subCosts: string
 }
 
-export const PaymentsPayPalOrStripe = ({subCosts}: Props) => {
-  const [createPayment, {isLoading, error}] = useCreatePaymentMutation()
+export const PaymentsPayPalOrStripe = ({ subCosts }: Props) => {
+  const [createPayment, { isLoading, error }] = useCreatePaymentMutation()
 
   const getSubscriptionType = (cost: string): SubscriptionType => {
     if (cost === '$10 per 1 Day') return 'DAY'
@@ -37,7 +37,7 @@ export const PaymentsPayPalOrStripe = ({subCosts}: Props) => {
   const handlePayment = async (paymentSystem: 'PAYPAL' | 'STRIPE') => {
     try {
       const subscriptionType = getSubscriptionType(subCosts)
-      const response = await createPayment({subscriptionType, paymentSystem}).unwrap()
+      const response = await createPayment({ subscriptionType, paymentSystem }).unwrap()
       console.log('Payment response:', response)
       if (response?.url) {
         window.location.href = response.url
@@ -53,7 +53,7 @@ export const PaymentsPayPalOrStripe = ({subCosts}: Props) => {
 
   return (
     <div className={s.wrapper}>
-      <button style={{cursor: isLoading ? 'not-allowed' : 'pointer'}} disabled={isLoading}>
+      <button style={{ cursor: isLoading ? 'not-allowed' : 'pointer' }} disabled={isLoading}>
         <PaypalSvgrepoCom4
           width={96}
           height={64}
@@ -62,7 +62,7 @@ export const PaymentsPayPalOrStripe = ({subCosts}: Props) => {
         />
       </button>
       <Typography variant={'h2'}>Or</Typography>
-      <button style={{cursor: isLoading ? 'not-allowed' : 'pointer'}} disabled={isLoading}>
+      <button style={{ cursor: isLoading ? 'not-allowed' : 'pointer' }} disabled={isLoading}>
         <StripeSvgrepoCom4
           width={96}
           height={64}
