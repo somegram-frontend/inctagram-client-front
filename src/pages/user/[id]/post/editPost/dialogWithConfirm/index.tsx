@@ -25,26 +25,25 @@ const DialogWithConfirm = forwardRef<ElementRef<typeof DialogPrimitive.Content>,
     }
 
     return (
-      <DialogContent title={title} onInteractOutside={outsideHandler} withoutCloseIcon>
-        <Dialog>
+      <Dialog>
+        <DialogContent title={title} onInteractOutside={outsideHandler} withoutCloseIcon>
           <DialogTrigger asChild className={s.triggerBtn}>
-            <CloseOutline />
+            <CloseOutline onClick={() => onClose(false)} />
           </DialogTrigger>
           <DialogConfirmContent
             title={confirmTitle}
             description={confirmDescription}
             onClose={onClose}
           />
-        </Dialog>
-        {children}
-        <Dialog open={confirm} onOpenChange={setConfirm}>
-          <DialogConfirmContent
-            title={confirmTitle}
-            description={confirmDescription}
-            onClose={onClose}
-          />
-        </Dialog>
-      </DialogContent>
+          {children}
+          {/* <Dialog open={confirm} onOpenChange={setConfirm}>
+            <DialogConfirmContent
+              title={confirmTitle}
+              description={confirmDescription}
+              onClose={onClose}
+            /> */}
+        </DialogContent>
+      </Dialog>
     )
   }
 )

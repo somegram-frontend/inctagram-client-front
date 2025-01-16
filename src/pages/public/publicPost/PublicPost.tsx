@@ -56,14 +56,14 @@ const PublicPost = ({post, setOpenPost, setOpenPostId}: Props) => {
     router.push(`/public-user/profile/${id}?postId=${postId}`);
   };
 
-  const dotsClass = post.images?.length > 1 ? s.publicPostDots : '';
+  const dotsClass = post?.images?.length > 1 ? s.publicPostDots : '';
 
   return (
     <Dialog>
       <div className={s.publicPost}>
         <DialogTrigger asChild>
           <PhotoSlider
-            images={post.images || []}
+            images={post?.images || []}
             dotClass={dotsClass}
             imgClass={clsx(expanded ? s.publicPostSliderImageExpanded : s.publicPostSliderImage)}
             clickCallback={() => handlePostClick(post.postOwnerInfo.userId, post.id)}
@@ -83,7 +83,7 @@ const PublicPost = ({post, setOpenPost, setOpenPostId}: Props) => {
           <div className={s.publicPostArticleText}>
             <div className={s.publicPostTimeAgo}>
               <Typography variant='small_text'>
-                <TimeAgo date={post.createdAt} live={false}/>
+                <TimeAgo date={post?.createdAt} live={false}/>
               </Typography>
             </div>
             <Typography variant='regular_text14'>

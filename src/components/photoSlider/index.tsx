@@ -36,8 +36,8 @@ const PhotoSlider: React.FC<Props> = ({ images, className, dotClass, imgClass, c
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    prevArrow: <Arrow direction="prev" onClick={() => { }} />,
-    nextArrow: <Arrow direction="next" onClick={() => { }} />,
+    prevArrow: <Arrow direction="prev" onClick={() => {}} />,
+    nextArrow: <Arrow direction="next" onClick={() => {}} />,
     adaptiveHeight: true,
   }
 

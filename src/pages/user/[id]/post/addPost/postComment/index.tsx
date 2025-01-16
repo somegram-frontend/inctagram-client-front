@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { Heart, HeartOutline, Typography } from '@honor-ui/inctagram-ui-kit'
-import s from '../../post.module.scss'
+import s from '../../../../../../components/post/post.module.scss'
 
 type CommentProps = {
   description?: string | null

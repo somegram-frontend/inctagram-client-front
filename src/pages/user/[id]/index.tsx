@@ -1,28 +1,28 @@
-import {useGetUserPostsQuery} from '@/api/post/posts-api'
-import {useRouter} from 'next/router'
+import { useGetUserPostsQuery } from '@/api/post/posts-api'
+import { useRouter } from 'next/router'
 import Layout from '@/layout'
-import {useEffect, useState} from 'react'
-import {DialogTrigger, Dialog, DialogContent, DialogTitle} from '@/components/dialog'
-import {Button, ImageOutline, Typography} from '@honor-ui/inctagram-ui-kit'
-import {useMeQuery} from '@/api/auth/auth-api'
-import {useGetProfileQuery} from '@/api/user/users-api'
+import { useEffect, useState } from 'react'
+import { DialogTrigger, Dialog, DialogContent, DialogTitle } from '@/components/dialog'
+import { Button, CloseOutline, ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
+import { useMeQuery } from '@/api/auth/auth-api'
+import { useGetProfileQuery } from '@/api/user/users-api'
 import Image from 'next/image'
 import s from './profile/uploadProfileAvatar/uploadProfileAvatar.module.scss'
 import style from './user.module.scss'
-import {Loader} from '@/components/loader'
-import {VisuallyHidden} from '@radix-ui/react-visually-hidden'
+import { Loader } from '@/components/loader'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import DialogWithConfirm from './post/editPost/dialogWithConfirm'
+import { Post } from '@/components/post/Post'
 import EditPost from './post/editPost'
-import {Post} from "@/components/post/Post";
 
 const Profile = () => {
   const router = useRouter()
-  const {id, postId} = router.query
-  const {data: userPosts, isLoading: isPostsLoading} = useGetUserPostsQuery(
+  const { id, postId } = router.query
+  const { data: userPosts, isLoading: isPostsLoading } = useGetUserPostsQuery(
     {
       userId: id as string,
     },
-    {skip: id === undefined}
+    { skip: id === undefined }
   )
 
   useEffect(() => {
@@ -37,13 +37,13 @@ const Profile = () => {
     }
   }, [postId])
 
-  const {data: me} = useMeQuery()
+  const { data: me } = useMeQuery()
   if (id !== me?.userId) {
     router.push(
       postId ? `/public-user/profile/${id}?postId=${postId}` : `/public-user/profile/${id}`
     )
   }
-  const {data: profile} = useGetProfileQuery()
+  const { data: profile } = useGetProfileQuery()
   const [openPost, setOpenPost] = useState(false)
   const [openPostId, setOpenPostId] = useState<string>('')
   const [editPost, setEditPost] = useState(false)
@@ -51,7 +51,7 @@ const Profile = () => {
   const handleProfileSettingClick = () => {
     router.push({
       pathname: '/user/[id]/profile',
-      query: {id: me?.userId},
+      query: { id: me?.userId },
     })
   }
 
@@ -60,19 +60,19 @@ const Profile = () => {
     setOpenPost(true)
     router.push({
       pathname: router.pathname,
-      query: {...router.query, postId},
+      query: { ...router.query, postId },
     })
   }
 
   const handleClosePost = () => {
     setOpenPost(false)
     setOpenPostId('')
-    const {postId, ...restQuery} = router.query
-    router.push({pathname: router.pathname, query: restQuery})
+    const { postId, ...restQuery } = router.query
+    router.push({ pathname: router.pathname, query: restQuery })
   }
 
   if (isPostsLoading) {
-    return <Loader/>
+    return <Loader />
   }
   if (me?.userId && id === me?.userId) {
     return (
@@ -91,7 +91,7 @@ const Profile = () => {
               </div>
             ) : (
               <div className={s.defaultAvaContainer}>
-                <ImageOutline/>
+                <ImageOutline />
               </div>
             )}
             <div className={style.profileData}>
@@ -103,15 +103,15 @@ const Profile = () => {
               </div>
               <div className={style.profileFollowersContainer}>
                 <span>
-                  2 218 <br/>
+                  2 218 <br />
                   Following
                 </span>
                 <span>
-                  2 358 <br/>
+                  2 358 <br />
                   Followers
                 </span>
                 <span>
-                  2 764 <br/>
+                  2 764 <br />
                   Publications
                 </span>
               </div>
@@ -146,20 +146,18 @@ const Profile = () => {
                       />
                     </DialogTrigger>
                     {editPost ? (
-                      <DialogWithConfirm
-                        onClose={setEditPost}
-                        title="Edit Post"
-                        confirmTitle="Close Post"
-                        confirmDescription={`Do you really want to close the edition of the publication? If you close changes won’t be saved`}
-                      >
-                        <EditPost setEditPost={setEditPost} post={post}/>
-                      </DialogWithConfirm>
+                      <DialogContent title={'123'} withoutCloseIcon>
+                        <DialogTrigger asChild className={s.triggerBtn}>
+                          <CloseOutline onClick={() => setEditPost(false)} />
+                        </DialogTrigger>
+                        <EditPost setEditPost={setEditPost} post={post} />
+                      </DialogContent>
                     ) : (
                       <DialogContent description="description">
                         <VisuallyHidden asChild>
                           <DialogTitle>Post dialog</DialogTitle>
                         </VisuallyHidden>
-                        <Post setEditPost={setEditPost} post={post}/>
+                        <Post setEditPost={setEditPost} post={post} />
                       </DialogContent>
                     )}
                   </Dialog>

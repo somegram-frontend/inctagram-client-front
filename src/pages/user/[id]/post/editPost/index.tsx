@@ -1,4 +1,4 @@
-import postStyle from '../../post/post.module.scss'
+import postStyle from './editPost.module.scss'
 import s from './editPost.module.scss'
 import Image from 'next/image'
 import { Button, TextArea, Typography } from '@honor-ui/inctagram-ui-kit'
@@ -21,7 +21,7 @@ type DescriptionField = {
 const EditPost = ({ setEditPost, post }: Props) => {
   const defaultAva = '/MaskGroup.jpg'
   const postImage = post?.images?.[0] || defaultAva
-  const postDescription = post?.description || '';
+  const postDescription = post?.description || ''
   const userName = post?.postOwnerInfo.username || ''
   const userAvatar = post?.postOwnerInfo.avatarUrl || ''
   const postId = post?.id || ''
@@ -63,7 +63,13 @@ const EditPost = ({ setEditPost, post }: Props) => {
 
   return (
     <div className={s.container}>
-      <Image src={postImage || defaultAva} alt="post image" width={490} height={560} className={s.postImage} />
+      <Image
+        src={postImage || defaultAva}
+        alt="post image"
+        width={490}
+        height={560}
+        className={s.postImage}
+      />
       <div className={postStyle.descriptionContainer}>
         <div className={postStyle.wrapper}>
           <div className={postStyle.descriptionHeaderProfile}>

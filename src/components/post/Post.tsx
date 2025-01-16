@@ -1,24 +1,25 @@
-import {ItemsType} from "@/api/post/posts-api.types";
-import {useState} from "react";
-import {useRouter} from "next/router";
-import {useMeQuery} from "@/api/auth/auth-api";
-import {useDeleteUserPostMutation} from "@/api/post/posts-api";
-import {toast} from "react-toastify";
-import s from "@/pages/user/[id]/post/post.module.scss";
-import {Loader} from "@/components/loader";
-import PhotoSlider from "@/components/photoSlider";
-import Image from "next/image";
+import { ItemsType } from '@/api/post/posts-api.types'
+import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useMeQuery } from '@/api/auth/auth-api'
+import { useDeleteUserPostMutation } from '@/api/post/posts-api'
+import { toast } from 'react-toastify'
+import s from './post.module.scss'
+import { Loader } from '@/components/loader'
+import PhotoSlider from '@/components/photoSlider'
+import Image from 'next/image'
 import {
-  BookmarkOutline, Button,
+  BookmarkOutline,
+  Button,
   Edit2Outline,
   HeartOutline,
   MoreHorizontalOutline,
   PaperPlaneOutline,
   TrashOutline,
-  Typography
-} from "@honor-ui/inctagram-ui-kit";
-import PostComment from "@/pages/user/[id]/post/addPost/postComment";
-import ConfirmDeletePost from "@/pages/user/[id]/post/confirmDeletePost";
+  Typography,
+} from '@honor-ui/inctagram-ui-kit'
+import PostComment from '@/pages/user/[id]/post/addPost/postComment'
+import ConfirmDeletePost from '@/pages/user/[id]/post/confirmDeletePost'
 
 type Props = {
   setEditPost?: (value: boolean) => void
@@ -69,12 +70,12 @@ export const Post = ({ setEditPost, post }: Props) => {
     router.push(`/user/${post.postOwnerInfo.userId}`)
   }
 
-  const dotsClass = post.images.length > 1 ? s.postDots : ''
+  const dotsClass = post?.images.length > 1 ? s.postDots : ''
 
   return (
     <div className={s.postContainer}>
       <PhotoSlider
-        images={post.images}
+        images={post?.images || []}
         className={s.postImage}
         dotClass={dotsClass}
         imgClass={s.image}
@@ -83,7 +84,7 @@ export const Post = ({ setEditPost, post }: Props) => {
         <div className={`${s.descriptionHeader} ${s.wrapper}`}>
           <div className={s.descriptionHeaderProfile}>
             <Image
-              src={post?.postOwnerInfo.avatarUrl || defaultAva}
+              src={post?.postOwnerInfo?.avatarUrl || defaultAva}
               alt="my avatar"
               width={40}
               height={40}
