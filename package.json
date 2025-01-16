@@ -8,7 +8,6 @@
     "dev": "next dev",
     "build": "next build",
     "build:production": "next build",
-    "test": "jest",
     "start": "next start",
     "lint": "next lint"
   },
