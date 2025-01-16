@@ -3,7 +3,6 @@ import { Typography } from '@honor-ui/inctagram-ui-kit'
 import Image from 'next/image'
 import s from './publicPost.module.scss'
 import { ItemsType } from '@/api/post/posts-api.types'
-import defaultAva from '@/assets/images/Mask group.jpg'
 import TimeAgo from 'react-timeago'
 import { Dispatch, SetStateAction, useState } from 'react'
 import clsx from 'clsx'
@@ -19,6 +18,7 @@ type Props = {
 }
 
 const PublicPost = ({ post, setOpenPost, setOpenPostId }: Props) => {
+    const defaultAva = '/MaskGroup.jpg'
     const router = useRouter()
     const [expanded, setExpanded] = useState(false)
 

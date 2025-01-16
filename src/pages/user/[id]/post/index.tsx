@@ -10,7 +10,6 @@ import {
 } from '@honor-ui/inctagram-ui-kit'
 import s from './post.module.scss'
 import Image from 'next/image'
-import defaultAva from '@/assets/images/Mask group.jpg'
 import { useState } from 'react'
 import { ItemsType } from '@/api/post/posts-api.types'
 import PhotoSlider from '@/components/photoSlider'
@@ -28,6 +27,7 @@ type Props = {
 }
 
 const Post = ({ setEditPost, post }: Props) => {
+  const defaultAva = '/MaskGroup.jpg'
   const [editMenu, setEditMenu] = useState(false)
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
   const router = useRouter()

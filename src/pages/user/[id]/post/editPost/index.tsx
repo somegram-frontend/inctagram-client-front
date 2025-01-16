@@ -2,7 +2,6 @@ import postStyle from '../../post/post.module.scss'
 import s from './editPost.module.scss'
 import Image from 'next/image'
 import { Button, TextArea, Typography } from '@honor-ui/inctagram-ui-kit'
-import defaultAva from '@/assets/images/Mask group.jpg'
 import { useUpdateUserPostMutation } from '@/api/post/posts-api'
 import { useState } from 'react'
 import { ItemsType, UpdateUserPostResponse } from '@/api/post/posts-api.types'
@@ -20,6 +19,7 @@ type DescriptionField = {
 }
 
 const EditPost = ({ setEditPost, post }: Props) => {
+  const defaultAva = '/MaskGroup.jpg'
   const postImage = post.images[0]
   const postDescription = post.description ? post.description : ''
   const userName = post.postOwnerInfo.username
