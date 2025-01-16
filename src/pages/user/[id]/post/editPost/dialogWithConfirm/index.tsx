@@ -2,8 +2,8 @@ import { DialogTrigger, Dialog, DialogContent, DialogTitle } from '@/components/
 import { ElementRef, forwardRef, ComponentPropsWithoutRef, useState } from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { CloseOutline } from '@honor-ui/inctagram-ui-kit'
-import { DialogConfirmContent } from './dialogConfirmContent'
 import s from './dialogWithConfirm.module.scss'
+import DialogConfirmContent from './dialogConfirmContent'
 
 type Props = {
   title: string
@@ -15,7 +15,7 @@ type Props = {
 type PointerDownOutsideEvent = CustomEvent<{ originalEvent: PointerEvent }>
 type FocusOutsideEvent = CustomEvent<{ originalEvent: FocusEvent }>
 
-export const DialogWithConfirm = forwardRef<ElementRef<typeof DialogPrimitive.Content>, Props>(
+const DialogWithConfirm = forwardRef<ElementRef<typeof DialogPrimitive.Content>, Props>(
   ({ children, title, confirmTitle, confirmDescription, onClose, ...props }: Props, ref) => {
     const [confirm, setConfirm] = useState(false)
 
@@ -50,3 +50,5 @@ export const DialogWithConfirm = forwardRef<ElementRef<typeof DialogPrimitive.Co
 )
 
 DialogWithConfirm.displayName = 'DialogWithConfirm'
+
+export default DialogWithConfirm

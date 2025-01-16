@@ -10,7 +10,7 @@ type Props = {
   onClose: (value: boolean) => void
 } & ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 
-export const DialogConfirmContent = ({ title, description, onClose }: Props) => {
+const DialogConfirmContent = ({ title, description, onClose }: Props) => {
   const onCloseDialogHandler = () => {
     onClose(false)
   }
@@ -28,3 +28,5 @@ export const DialogConfirmContent = ({ title, description, onClose }: Props) => 
     </DialogContent>
   )
 }
+
+export default DialogConfirmContent

@@ -10,7 +10,7 @@ type CommentProps = {
   userAvatar: string
 }
 
-export const PostComment = ({ description, userName, userAvatar }: CommentProps) => {
+const PostComment = ({ description, userName, userAvatar }: CommentProps) => {
   const [click, setClick] = useState(false)
 
   return (
@@ -46,3 +46,5 @@ export const PostComment = ({ description, userName, userAvatar }: CommentProps)
     </div>
   )
 }
+
+export default PostComment

@@ -13,21 +13,21 @@ import Image from 'next/image'
 import defaultAva from '@/assets/images/Mask group.jpg'
 import { useState } from 'react'
 import { ItemsType } from '@/api/post/posts-api.types'
-import { PostComment } from './addPost/postComment'
 import PhotoSlider from '@/components/photoSlider'
 import { useDeleteUserPostMutation } from '@/api/post/posts-api'
 import { useRouter } from 'next/router'
 import { Loader } from '@/components/loader'
 import { useMeQuery } from '@/api/auth/auth-api'
-import { ConfirmDeletePost } from '@/pages/user/[id]/post/confirmDeletePost'
 import { toast } from 'react-toastify'
+import PostComment from './addPost/postComment'
+import ConfirmDeletePost from './confirmDeletePost'
 
 type Props = {
   setEditPost?: (value: boolean) => void
   post: ItemsType
 }
 
-export const Post = ({ setEditPost, post }: Props) => {
+const Post = ({ setEditPost, post }: Props) => {
   const [editMenu, setEditMenu] = useState(false)
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
   const router = useRouter()
@@ -154,3 +154,5 @@ export const Post = ({ setEditPost, post }: Props) => {
     </div>
   )
 }
+
+export default Post

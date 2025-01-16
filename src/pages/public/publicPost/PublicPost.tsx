@@ -9,8 +9,8 @@ import { Dispatch, SetStateAction, useState } from 'react'
 import clsx from 'clsx'
 import { DialogContent, DialogTitle, DialogTrigger } from '@/components/dialog'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
-import { Post } from '@/pages/user/[id]/post'
 import { useRouter } from 'next/router'
+import Post from '@/pages/user/[id]/post'
 
 type Props = {
     post: ItemsType
@@ -18,7 +18,7 @@ type Props = {
     setOpenPostId: Dispatch<SetStateAction<string>>
 }
 
-export const PublicPost = ({post, setOpenPost, setOpenPostId}:Props) => {
+const PublicPost = ({ post, setOpenPost, setOpenPostId }: Props) => {
     const router = useRouter()
     const [expanded, setExpanded] = useState(false)
 
@@ -32,19 +32,19 @@ export const PublicPost = ({post, setOpenPost, setOpenPostId}:Props) => {
         }
         if (description?.length > 70 && !expanded) {
             return (
-            <>
-                {description.slice(0, 70)}... 
-                <Typography variant='regular_link' onClick={onExpandedClick}>Show more</Typography>
-            </>
-        )
+                <>
+                    {description.slice(0, 70)}...
+                    <Typography variant='regular_link' onClick={onExpandedClick}>Show more</Typography>
+                </>
+            )
         }
         if (description?.length > 230 && expanded) {
             return (
-             <>
-                {description.slice(0, 230)}..
-                <Typography variant='regular_link' onClick={onExpandedClick}>Hide</Typography>
-             </>
-        )
+                <>
+                    {description.slice(0, 230)}..
+                    <Typography variant='regular_link' onClick={onExpandedClick}>Hide</Typography>
+                </>
+            )
         }
         return ''
     }
@@ -53,40 +53,42 @@ export const PublicPost = ({post, setOpenPost, setOpenPostId}:Props) => {
         setOpenPostId(postId)
         setOpenPost(true)
         router.push(`/public-user/profile/${id}?postId=${postId}`)
-      }
+    }
 
     const dotsClass = post.images.length > 1 ? s.publicPostDots : ''
 
     return (
         <>
-        <div className={s.publicPost}>
-            <DialogTrigger asChild>
-                <PhotoSlider images={post.images} dotClass={dotsClass} imgClass={clsx(expanded ? 
-                s.publicPostSliderImageExpanded : s.publicPostSliderImage )} clickCallback={() => handlePostClick(post.postOwnerInfo.userId, post.id)}/>
+            <div className={s.publicPost}>
+                <DialogTrigger asChild>
+                    <PhotoSlider images={post.images} dotClass={dotsClass} imgClass={clsx(expanded ?
+                        s.publicPostSliderImageExpanded : s.publicPostSliderImage)} clickCallback={() => handlePostClick(post.postOwnerInfo.userId, post.id)} />
                 </DialogTrigger>
-            <div className={s.publicPostArticle}>
-                <div className={s.publicPostArticleHeader}>
-                    <Image src={post.postOwnerInfo.avatarUrl || defaultAva} width={35} height={35} alt='avatar image' className={s.publicPostUserAvatar}/>
-                    <Typography variant='h3'>{post.postOwnerInfo.username}</Typography>
-                </div>
-                <div className={s.publicPostArticleText}>
-                    <div className={s.publicPostTimeAgo}>
-                    <Typography variant='small_text'>
-                        <TimeAgo date={post.createdAt} live={false}/>
-                    </Typography>
+                <div className={s.publicPostArticle}>
+                    <div className={s.publicPostArticleHeader}>
+                        <Image src={post.postOwnerInfo.avatarUrl || defaultAva} width={35} height={35} alt='avatar image' className={s.publicPostUserAvatar} />
+                        <Typography variant='h3'>{post.postOwnerInfo.username}</Typography>
                     </div>
-                    <Typography variant='regular_text14'>
-                    {defineTheDescription(post?.description)}
-                    </Typography>
+                    <div className={s.publicPostArticleText}>
+                        <div className={s.publicPostTimeAgo}>
+                            <Typography variant='small_text'>
+                                <TimeAgo date={post.createdAt} live={false} />
+                            </Typography>
+                        </div>
+                        <Typography variant='regular_text14'>
+                            {defineTheDescription(post?.description)}
+                        </Typography>
+                    </div>
                 </div>
             </div>
-        </div>
-        <DialogContent description="description">
-            <VisuallyHidden asChild>
-                <DialogTitle>Post dialog</DialogTitle>
-            </VisuallyHidden>
+            <DialogContent description="description">
+                <VisuallyHidden asChild>
+                    <DialogTitle>Post dialog</DialogTitle>
+                </VisuallyHidden>
                 <Post post={post} />
-        </DialogContent>
+            </DialogContent>
         </>
     )
 }
+
+export default PublicPost

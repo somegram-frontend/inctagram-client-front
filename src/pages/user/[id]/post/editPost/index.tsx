@@ -19,7 +19,7 @@ type DescriptionField = {
   description: string
 }
 
-export const EditPost = ({ setEditPost, post }: Props) => {
+const EditPost = ({ setEditPost, post }: Props) => {
   const postImage = post.images[0]
   const postDescription = post.description ? post.description : ''
   const userName = post.postOwnerInfo.username
@@ -106,3 +106,5 @@ export const EditPost = ({ setEditPost, post }: Props) => {
     </div>
   )
 }
+
+export default EditPost
