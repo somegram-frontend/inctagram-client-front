@@ -33,6 +33,11 @@
   width: 80px;
   height: 92px;
   margin-right: 12px;
+  transition: transform 0.3s;
+}
+
+.activeImage {
+  transform: scale(1.07);
 }
 
 .minPhoto {

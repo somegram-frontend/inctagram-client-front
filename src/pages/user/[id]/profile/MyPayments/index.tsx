@@ -28,7 +28,7 @@ export const MyPayments = () => {
         <Pagination totalCount={totalCount} searchParams={params} setNewParams={setNewParams} />
       </div>
     ) : (
-      <Typography variant="regular_text16">You don't have any payments yet.</Typography>
+      <Typography variant="regular_text16">You don&apos;t have any payments yet.</Typography>
     )
   } else if (error) {
     toast.error(getErrorMessage(error))

@@ -62,9 +62,9 @@ const TBody = (props: Props) => {
               <PaymentDate timestamp={endDateOfSubscription} />
             </td>
             <td className={s.table__td + ' ' + s.table__td_leftAligned}>${price}</td>
-            {/* в тестовом api пока нету этого поля, забыли добавить */}
-            {/* <td>{subscriptionType.toLowerCase()}</td> */}
-            <td className={s.table__td + ' ' + s.table__td_subscrType}>{'DAILY'}</td>
+            <td className={s.table__td + ' ' + s.table__td_subscrType}>
+              {subscriptionType.toLowerCase()}
+            </td>
             <td className={s.table__td}>{paymentSystem}</td>
           </tr>
         )

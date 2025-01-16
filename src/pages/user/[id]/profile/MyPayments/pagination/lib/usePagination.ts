@@ -2,8 +2,6 @@ import type { PaginationOption, PaginationProps } from '../Pagination'
 
 import { useMemo } from 'react'
 
-// original code: https://www.freecodecamp.org/news/build-a-custom-pagination-component-in-react/
-
 const DOTS = '...'
 
 export type PaginationRange = (number | string)[]

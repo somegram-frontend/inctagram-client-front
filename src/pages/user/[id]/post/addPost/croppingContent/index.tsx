@@ -94,8 +94,9 @@ const CroppingContent: React.FC<Props> = ({
         {images.map((image, index) => (
           <div
             key={index}
-            className={s.imageWrapper}
-            style={{ border: index === activeImgIdx ? '3px solid red' : 'none' }}
+            className={
+              index === activeImgIdx ? s.imageWrapper + ' ' + s.activeImage : s.imageWrapper
+            }
           >
             <Img
               src={image.url}

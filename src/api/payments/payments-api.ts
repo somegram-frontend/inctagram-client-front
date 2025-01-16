@@ -21,8 +21,7 @@ export const paymentsApi = baseApi.injectEndpoints({
       getMyPayments: builder.query<MyPaymentsResponse, MyPaymentsSearchParams>({
         query: params => {
           return {
-            // url: '/v1/subscriptions/my-payments',
-            url: '/v1/subscriptions/testing/my-payments',
+            url: '/v1/subscriptions/my-payments',
             params,
           }
         },

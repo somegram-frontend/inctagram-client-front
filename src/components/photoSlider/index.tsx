@@ -61,7 +61,7 @@ const PhotoSlider: React.FC<Props> = ({
           className={className ? className : ''}
           dotsClass={dotClass ? dotClass : 'slick-dots'}
           ref={slider => {
-            activeImageIdx && slider?.slickGoTo(activeImageIdx, true)
+            activeImageIdx !== undefined && slider?.slickGoTo(activeImageIdx)
           }}
         >
           {images?.map(imgSrc => (
