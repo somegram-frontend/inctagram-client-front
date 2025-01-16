@@ -20,11 +20,11 @@ type DescriptionField = {
 
 const EditPost = ({ setEditPost, post }: Props) => {
   const defaultAva = '/MaskGroup.jpg'
-  const postImage = post.images[0]
-  const postDescription = post.description ? post.description : ''
-  const userName = post.postOwnerInfo.username
-  const userAvatar = post.postOwnerInfo.avatarUrl
-  const postId = post.id
+  const postImage = post?.images?.[0] || defaultAva
+  const postDescription = post?.description || '';
+  const userName = post?.postOwnerInfo.username || ''
+  const userAvatar = post?.postOwnerInfo.avatarUrl || ''
+  const postId = post?.id || ''
 
   const [updatePost, { isLoading, isSuccess, isError, error }] = useUpdateUserPostMutation()
   const [description, setDescription] = useState(postDescription)
@@ -63,7 +63,7 @@ const EditPost = ({ setEditPost, post }: Props) => {
 
   return (
     <div className={s.container}>
-      <Image src={postImage} alt="post image" width={490} height={560} className={s.postImage} />
+      <Image src={postImage || defaultAva} alt="post image" width={490} height={560} className={s.postImage} />
       <div className={postStyle.descriptionContainer}>
         <div className={postStyle.wrapper}>
           <div className={postStyle.descriptionHeaderProfile}>
