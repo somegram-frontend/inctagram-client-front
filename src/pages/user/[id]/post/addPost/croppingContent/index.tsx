@@ -16,10 +16,10 @@ const CroppingContent: React.FC<Props> = ({ images, handleUpload, removeImage })
       <div className={s.wrapperCropping}>
         <PhotoSlider images={images} />
         <div className={s.photoContainer}>
-          {images.map((image, index) => (
+          {Array.isArray(images) && images.map((image, index) => (
             <div key={index} className={s.imageWrapper}>
               <Image
-                src={image}
+                src={image || '/MaskGroup.jpg'}
                 className={s.minPhoto}
                 alt={`Image ${index}`}
                 width={80}

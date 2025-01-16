@@ -1,24 +1,24 @@
-import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import {useEffect, useState} from 'react'
+import {toast} from 'react-toastify'
 
-import { useMeQuery } from '@/api/auth/auth-api'
-import { useGetUserPostsQuery } from '@/api/post/posts-api'
-import { useGetPublicProfileQuery } from '@/api/user/users-api'
-import { ProfileResponse } from '@/api/user/users-api.types'
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/dialog'
-import { Loader } from '@/components/loader'
+import {useMeQuery} from '@/api/auth/auth-api'
+import {useGetUserPostsQuery} from '@/api/post/posts-api'
+import {useGetPublicProfileQuery} from '@/api/user/users-api'
+import {ProfileResponse} from '@/api/user/users-api.types'
+import {Dialog, DialogContent, DialogTitle, DialogTrigger} from '@/components/dialog'
+import {Loader} from '@/components/loader'
 import Layout from '@/layout'
-import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
+import {VisuallyHidden} from '@radix-ui/react-visually-hidden'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
+import {useRouter} from 'next/router'
 
 import style from './profile.module.scss'
-import Post from '@/pages/user/[id]/post'
-import { ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
+import {ImageOutline, Typography} from '@honor-ui/inctagram-ui-kit'
+import {Post} from "@/components/post/Post";
 
 const Profile = () => {
   const router = useRouter()
-  const { id, postId } = router.query
+  const {id, postId} = router.query
   const [openPost, setOpenPost] = useState(false)
   const [openPostId, setOpenPostId] = useState<string>('')
   const {
@@ -26,14 +26,14 @@ const Profile = () => {
     error,
     isError,
     isLoading,
-  } = useGetPublicProfileQuery({ id: id as string })
+  } = useGetPublicProfileQuery({id: id as string})
 
-  const { data: me, isLoading: isLoadingMe } = useMeQuery()
-  const { data: userPosts, isLoading: isPostsLoading } = useGetUserPostsQuery(
+  const {data: me, isLoading: isLoadingMe} = useMeQuery()
+  const {data: userPosts, isLoading: isPostsLoading} = useGetUserPostsQuery(
     {
       userId: id as string,
     },
-    { skip: id === undefined }
+    {skip: id === undefined}
   )
 
   useEffect(() => {
@@ -53,23 +53,23 @@ const Profile = () => {
     setOpenPost(true)
     router.push({
       pathname: router.pathname,
-      query: { ...router.query, postId },
+      query: {...router.query, postId},
     })
   }
 
   const handleClosePost = () => {
     setOpenPost(false)
     setOpenPostId('')
-    const { postId, ...restQuery } = router.query
+    const {postId, ...restQuery} = router.query
 
-    router.push({ pathname: router.pathname, query: restQuery })
+    router.push({pathname: router.pathname, query: restQuery})
   }
 
   if (!isLoading && typeof window !== 'undefined' && publicData?.id === me?.userId) {
     router.push(postId ? `/user/${me?.userId}?postId=${postId}` : `/user/${me?.userId}`)
   }
   if (isLoading || isLoadingMe) {
-    return <Loader />
+    return <Loader/>
   }
 
   if (isError) {
@@ -97,7 +97,7 @@ const Profile = () => {
                 width={190}
               />
             ) : (
-              <ImageOutline height={190} viewBox={'0 0 25 25'} width={190} />
+              <ImageOutline height={190} viewBox={'0 0 25 25'} width={190}/>
             )}
             <div className={style.profileData}>
               <div className={style.profileNameAndBtnContainer}>
@@ -105,15 +105,15 @@ const Profile = () => {
               </div>
               <div className={style.profileFollowersContainer}>
                 <span>
-                  2 218 <br />
+                  2 218 <br/>
                   Following
                 </span>
                 <span>
-                  2 358 <br />
+                  2 358 <br/>
                   Followers
                 </span>
                 <span>
-                  2 764 <br />
+                  2 764 <br/>
                   Publications
                 </span>
               </div>
@@ -148,7 +148,7 @@ const Profile = () => {
                       <VisuallyHidden asChild>
                         <DialogTitle>Post dialog</DialogTitle>
                       </VisuallyHidden>
-                      <Post post={post} />
+                      <Post post={post}/>
                     </DialogContent>
                   </Dialog>
                 </div>
