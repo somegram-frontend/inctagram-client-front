@@ -11,6 +11,8 @@ type Props = {
 }
 
 const CroppingContent: React.FC<Props> = ({ images, handleUpload, removeImage }) => {
+  const defaultAva = '/MaskGroup.jpg'
+
   return (
     <>
       <div className={s.wrapperCropping}>
@@ -19,7 +21,7 @@ const CroppingContent: React.FC<Props> = ({ images, handleUpload, removeImage })
           {Array.isArray(images) && images.map((image, index) => (
             <div key={index} className={s.imageWrapper}>
               <Image
-                src={image || '/MaskGroup.jpg'}
+                src={image || defaultAva}
                 className={s.minPhoto}
                 alt={`Image ${index}`}
                 width={80}
