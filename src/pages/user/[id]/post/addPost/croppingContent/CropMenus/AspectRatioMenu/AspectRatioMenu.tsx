@@ -63,6 +63,9 @@ const resize = (
   const { width, height } = getAspectRatio(ratio)
 
   if (!width && !height) {
+    if (activeImage.croppedUrl) {
+      URL.revokeObjectURL(activeImage.croppedUrl)
+    }
     onUpdateImage({ ...activeImage, croppedUrl: undefined })
     return
   }
