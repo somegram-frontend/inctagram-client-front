@@ -26,7 +26,7 @@ const AspectRatioMenu = (props: AspectRatioMenuProps) => {
           {dimention}
         </button>
       )
-    })
+    }),
   )
 
   return <div className={s.aspectRatioMenuContainer}>{JSXbuttons}</div>
@@ -41,7 +41,7 @@ const dimentionsMap = dimentions.reduce(
     acc[dimention] = { width, height }
     return acc
   },
-  {} as { [key: string]: { width: number; height: number } }
+  {} as { [key: string]: { width: number; height: number } },
 )
 
 const dimentionClassNamesMap = {
@@ -57,7 +57,7 @@ const getAspectRatio = (ratio: string) => {
 const resize = (
   onUpdateImage: (updatedImage: Image) => void,
   activeImage: Image,
-  ratio: string
+  ratio: string,
 ) => {
   const { url } = activeImage
   const { width, height } = getAspectRatio(ratio)

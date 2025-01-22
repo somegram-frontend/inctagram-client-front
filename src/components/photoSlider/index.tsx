@@ -1,5 +1,6 @@
 import { ArrowIosBack, ArrowIosForward } from '@honor-ui/inctagram-ui-kit'
 import Image from 'next/image'
+import { useState } from 'react'
 import Slider from 'react-slick'
 import s from './photoSlider.module.scss'
 
@@ -22,8 +23,8 @@ const PhotoSlider: React.FC<Props> = ({
   onSetActiveImageIdx,
   activeImageIdx,
 }) => {
+  const [zoomImage, setZoomImage] = useState<string | null>(null)
   const defaultAva = '/MaskGroup.jpg'
-
   const Arrow = ({ direction, onClick }: { direction: 'prev' | 'next'; onClick: () => void }) => {
     return (
       images.length > 1 && (
@@ -37,8 +38,12 @@ const PhotoSlider: React.FC<Props> = ({
     )
   }
 
-  const handleClick = () => {
+  const handleClick = (imgSrc: string) => {
+    setZoomImage(imgSrc)
     clickCallback && clickCallback()
+  }
+  const handleCloseZoomImage = () => {
+    setZoomImage(null)
   }
 
   const settings = {
@@ -57,7 +62,7 @@ const PhotoSlider: React.FC<Props> = ({
 
   return (
     <div>
-      <div className={s.sliderWrapper}>
+      <div className={!zoomImage ? s.sliderWrapper : s.slideWrapperOpacity}>
         <Slider
           {...settings}
           className={className ? className : ''}
@@ -74,12 +79,17 @@ const PhotoSlider: React.FC<Props> = ({
                 width={492}
                 height={504}
                 className={imgClass || ''}
-                onClick={handleClick}
+                onClick={() => handleClick(imgSrc)}
               />
             </div>
           ))}
         </Slider>
       </div>
+      {zoomImage && (
+        <div className={s.zoomedImageOverlay} onClick={handleCloseZoomImage}>
+          <Image src={zoomImage} alt="zoomed image" layout="fill" objectFit="contain" />
+        </div>
+      )}
     </div>
   )
 }

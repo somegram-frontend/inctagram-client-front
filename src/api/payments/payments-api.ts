@@ -18,6 +18,14 @@ export const paymentsApi = baseApi.injectEndpoints({
           }
         },
       }),
+      deleteSub: builder.mutation<void, void>({
+        query: () => {
+          return {
+            url: `/v1/subscriptions/testing/cancel-subscription`,
+            method: 'DELETE',
+          }
+        },
+      }),
       getMyPayments: builder.query<MyPaymentsResponse, MyPaymentsSearchParams>({
         query: params => {
           return {
@@ -30,4 +38,4 @@ export const paymentsApi = baseApi.injectEndpoints({
   },
 })
 
-export const { useCreatePaymentMutation, useGetMyPaymentsQuery } = paymentsApi
+export const { useCreatePaymentMutation, useDeleteSubMutation, useGetMyPaymentsQuery } = paymentsApi

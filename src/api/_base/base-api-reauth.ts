@@ -35,7 +35,7 @@ export const baseQueryWithReauth: BaseQueryFn<
             credentials: 'include',
           },
           api,
-          extraOptions
+          extraOptions,
         )) as QueryReturnValue<UpdateAccessTokenResponse, FetchBaseQueryError, FetchBaseQueryMeta>
 
         if (refreshResult.data) {

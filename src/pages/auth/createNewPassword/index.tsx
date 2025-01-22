@@ -18,7 +18,7 @@ const createNewPasswordSchema = z
         {
           message:
             'Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.',
-        }
+        },
       )
       .max(20, { message: 'The field must not contain more than 20 characters' }),
     confirmPassword: z.string(),

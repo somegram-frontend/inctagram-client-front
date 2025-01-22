@@ -45,7 +45,7 @@ const DialogWithConfirm = forwardRef<ElementRef<typeof DialogPrimitive.Content>,
         </DialogContent>
       </Dialog>
     )
-  }
+  },
 )
 
 DialogWithConfirm.displayName = 'DialogWithConfirm'

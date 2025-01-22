@@ -57,7 +57,7 @@ const RenderCustomInput = forwardRef<HTMLInputElement, InputProps & { startDate?
         )}
       </>
     )
-  }
+  },
 )
 RenderCustomInput.displayName = 'RenderCustomInput'
 

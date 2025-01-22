@@ -27,7 +27,7 @@ export const DialogContent = forwardRef<ElementRef<typeof DialogPrimitive.Conten
       onCustomBtnClickBack,
       ...props
     }: Props,
-    ref
+    ref,
   ) => (
     <DialogPrimitive.Portal>
       <DialogPrimitive.Overlay className={s.overlay} />
@@ -70,7 +70,7 @@ export const DialogContent = forwardRef<ElementRef<typeof DialogPrimitive.Conten
         {children}
       </DialogPrimitive.Content>
     </DialogPrimitive.Portal>
-  )
+  ),
 )
 
 export const Dialog = DialogPrimitive.Root

@@ -1,26 +1,36 @@
 'use client'
-import { useGetProfileQuery, useProfileFillInfoMutation } from '@/api/user/users-api'
 import ProfileForm from './profileForm'
-
-import { ProfileResponse, UserProfile } from '@/api/user/users-api.types'
-import { Loader } from '@/components/loader'
-import Layout from '@/layout'
-import { Tabs } from '@honor-ui/inctagram-ui-kit'
-import { format } from 'date-fns'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
-import { toast } from 'react-toastify'
+import { useGetProfileQuery, useProfileFillInfoMutation } from '@/api/user/users-api'
 import s from './profile.module.scss'
 import UploadAvatar from './uploadProfileAvatar'
-import { usePathname, useSearchParams } from 'next/navigation'
+import Layout from '@/layout'
+import { Loader } from '@/components/loader'
+import { ProfileResponse, UserProfile } from '@/api/user/users-api.types'
+import { format } from 'date-fns'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/router'
+import { Tabs } from '@honor-ui/inctagram-ui-kit'
+import { useEffect, useState } from 'react'
+import AccountManagement from './accountManagement'
 import MyPayments from './MyPayments'
+import { useSearchParams, usePathname } from 'next/navigation'
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState('General information')
   const searchParams = useSearchParams()
   const pathname = usePathname()
-
   const router = useRouter()
+
+  useEffect(() => {
+    const savedTab = localStorage.getItem('activeTab')
+    if (savedTab) {
+      setActiveTab(savedTab)
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('activeTab', activeTab)
+  }, [activeTab])
   const [
     profileFillInfo,
     { isLoading: isLoadingUpdate, isSuccess: success, error, isError: isErrorUpdate },
@@ -56,19 +66,12 @@ const Profile = () => {
       ),
     },
     { text: 'Devices', value: 'Devices', content: <div>Devices content</div> },
-    {
-      text: 'Account Management',
-      value: 'Account Management',
-      content: <div>Account management</div>,
-    },
+    { text: 'Account Management', value: 'Account Management', content: <AccountManagement /> },
     { text: 'My payments', value: 'My payments', content: <MyPayments /> },
   ]
 
   const handleValueChange = (value: string) => {
     setActiveTab(value)
-    if (activeTab === 'My payments' && searchParams.size) {
-      router.replace(pathname)
-    }
   }
 
   if (isLoading)

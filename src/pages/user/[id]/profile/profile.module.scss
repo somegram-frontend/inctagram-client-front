@@ -9,9 +9,8 @@
 
 .avatarAndForm {
   display: flex;
-  justify-content: center;
-
   gap: 40px;
+  justify-content: center;
 }
 
 .loader {
@@ -28,19 +27,18 @@
 .tabsClass {
   display: flex;
   flex-direction: column;
+  gap: 50px;
   justify-content: center;
 
   min-width: 100%;
-
-  gap: 50px;
 
   > div[role='tablist'] {
     display: flex;
     justify-content: center;
 
     > button {
-      text-align: center;
       width: 25%;
+      text-align: center;
     }
   }
 }

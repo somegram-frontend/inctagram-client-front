@@ -1,9 +1,9 @@
-import { useGetMyPaymentsQuery } from '@/api/payments/payments-api'
 import { SerializedError } from '@reduxjs/toolkit'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { useSearchParams, usePathname } from 'next/navigation'
 import { useRouter } from 'next/router'
 import type { MyPaymentsSearchParams } from '@/api/payments/payments-api.types'
+import { useGetMyPaymentsQuery } from '@/api/payments/payments-api'
 
 export const getErrorMessage = (error: FetchBaseQueryError | SerializedError) => {
   let errorMessage

@@ -169,7 +169,7 @@ const CroppingContent: React.FC<Props> = ({
           ) : (
             statusIconMap[enumStatus]
           )}
-        </button>
+        </button>,
       )
     }
   })

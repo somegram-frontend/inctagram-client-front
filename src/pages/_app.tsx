@@ -43,6 +43,6 @@ export default function MyApp({ Component, ...rest }: AppPropsWithLayout) {
           transition={Slide}
         />
       </main>
-    </Provider>
+    </Provider>,
   )
 }
