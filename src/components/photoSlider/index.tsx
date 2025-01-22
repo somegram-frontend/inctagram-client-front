@@ -13,6 +13,7 @@ type Props = {
   activeImageIdx?: number
 }
 
+
 const PhotoSlider: React.FC<Props> = ({
   images,
   className,
@@ -22,6 +23,9 @@ const PhotoSlider: React.FC<Props> = ({
   onSetActiveImageIdx,
   activeImageIdx,
 }) => {
+
+  const defaultAva = '/MaskGroup.jpg'
+
   const Arrow = ({ direction, onClick }: { direction: 'prev' | 'next'; onClick: () => void }) => {
     return (
       images.length > 1 && (
@@ -67,7 +71,7 @@ const PhotoSlider: React.FC<Props> = ({
           {images?.map(imgSrc => (
             <div key={imgSrc} className={s.slide}>
               <Image
-                src={imgSrc}
+                src={imgSrc || defaultAva}
                 alt="post images"
                 width={492}
                 height={504}

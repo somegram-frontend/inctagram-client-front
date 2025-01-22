@@ -9,7 +9,7 @@ type Props = {
   onSignGit: () => void
 }
 
-export const AuthProviders = ({ onSignGoogle, onSignGit }: Props) => {
+const AuthProviders = ({ onSignGoogle, onSignGit }: Props) => {
   return (
     <div className={s.iconsBlock}>
       <button onClick={onSignGoogle}>
@@ -21,3 +21,5 @@ export const AuthProviders = ({ onSignGoogle, onSignGit }: Props) => {
     </div>
   )
 }
+
+export default AuthProviders

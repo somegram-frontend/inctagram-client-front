@@ -46,6 +46,7 @@ const CroppingContent: React.FC<Props> = ({
   const [status, setStatus] = useState<Status>(Status.idle)
   const [prevImages, setPrevImages] = useState<Array<Image>>(images)
   const [activeImgIdx, setActiveImgIdx] = useState(0)
+  const defaultAva = '/MaskGroup.jpg'
 
   if (images.length > prevImages.length) {
     setPrevImages(images)
@@ -166,10 +167,8 @@ const CroppingContent: React.FC<Props> = ({
     <>
       <div className={s.wrapperCropping}>
         <PhotoSlider
-          images={imageUrls}
-          onSetActiveImageIdx={onSetActiveImageIdx}
-          activeImageIdx={activeImgIdx}
-        />
+          images={imageUrls || []}
+          onSetActiveImageIdx={onSetActiveImageIdx} />
         {content}
         <div className={s.imageModificationMenuButtonsContainer}>{JSXbuttons}</div>
       </div>

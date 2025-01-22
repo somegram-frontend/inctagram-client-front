@@ -8,13 +8,13 @@ import { ProfileResponse } from '@/api/user/users-api.types'
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/dialog'
 import { Loader } from '@/components/loader'
 import Layout from '@/layout'
-import { Post } from '@/pages/user/[id]/post'
-import { ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
 import style from './profile.module.scss'
+import { ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
+import { Post } from '@/components/post/Post'
 
 const Profile = () => {
   const router = useRouter()
