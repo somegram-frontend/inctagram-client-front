@@ -9,7 +9,7 @@ import { signUpSchema } from '@/shared/const/validationSchemas'
 import s from './formSignUp.module.scss'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
 import { ControlledCheckbox } from '@/components/controlled/ControlledCheckbox'
-import { AuthProviders } from '@/pages/auth/authProviders'
+import AuthProviders from '../../authProviders'
 
 type Props = {
   onSubmit: (data: SignUpForm) => void
@@ -19,7 +19,7 @@ type Props = {
 
 export type SignUpForm = z.infer<typeof signUpSchema>
 
-export const FormSignUp = ({ onSubmit, onSignGit, onSignGoogle }: Props) => {
+const FormSignUp = ({ onSubmit, onSignGit, onSignGoogle }: Props) => {
   const {
     control,
     handleSubmit,
@@ -114,3 +114,5 @@ export const FormSignUp = ({ onSubmit, onSignGit, onSignGoogle }: Props) => {
 }
 
 FormSignUp.displayName = 'FormSignUp'
+
+export default FormSignUp

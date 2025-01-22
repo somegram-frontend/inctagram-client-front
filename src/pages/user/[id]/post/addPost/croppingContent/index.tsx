@@ -11,25 +11,28 @@ type Props = {
 }
 
 const CroppingContent: React.FC<Props> = ({ images, handleUpload, removeImage }) => {
+  const defaultAva = '/MaskGroup.jpg'
+
   return (
     <>
       <div className={s.wrapperCropping}>
-        <PhotoSlider images={images} />
+        <PhotoSlider images={images || []} />
         <div className={s.photoContainer}>
-          {images.map((image, index) => (
-            <div key={index} className={s.imageWrapper}>
-              <Image
-                src={image}
-                className={s.minPhoto}
-                alt={`Image ${index}`}
-                width={80}
-                height={82}
-              />
-              <button className={s.removeButton} onClick={() => removeImage(index)}>
-                <Close />
-              </button>
-            </div>
-          ))}
+          {Array.isArray(images) &&
+            images.map((image, index) => (
+              <div key={index} className={s.imageWrapper}>
+                <Image
+                  src={image || defaultAva}
+                  className={s.minPhoto}
+                  alt={`Image ${index}`}
+                  width={80}
+                  height={82}
+                />
+                <button className={s.removeButton} onClick={() => removeImage(index)}>
+                  <Close />
+                </button>
+              </div>
+            ))}
           <div>
             <label className={style.inputFile}>
               <input
@@ -40,7 +43,7 @@ const CroppingContent: React.FC<Props> = ({ images, handleUpload, removeImage })
                 multiple
               />
               <div className={style.btnWrapper}>
-                {images.length < 10 && (
+                {images?.length < 10 && (
                   <Button as="span" className={s.circleBtn} variant="borderless">
                     <PlusCircleOutline />
                   </Button>

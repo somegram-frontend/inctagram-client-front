@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
-import defaultAva from '@/assets/images/Mask group.jpg'
 import { Heart, HeartOutline, Typography } from '@honor-ui/inctagram-ui-kit'
-import s from '../../post.module.scss'
+import s from '../../../../../../components/post/post.module.scss'
 
 type CommentProps = {
   description?: string | null
@@ -10,7 +9,8 @@ type CommentProps = {
   userAvatar: string
 }
 
-export const PostComment = ({ description, userName, userAvatar }: CommentProps) => {
+const PostComment = ({ description, userName, userAvatar }: CommentProps) => {
+  const defaultAva = '/MaskGroup.jpg'
   const [click, setClick] = useState(false)
 
   return (
@@ -46,3 +46,5 @@ export const PostComment = ({ description, userName, userAvatar }: CommentProps)
     </div>
   )
 }
+
+export default PostComment

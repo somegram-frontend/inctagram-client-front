@@ -1,8 +1,7 @@
-import postStyle from '../../post/post.module.scss'
+import postStyle from './editPost.module.scss'
 import s from './editPost.module.scss'
 import Image from 'next/image'
 import { Button, TextArea, Typography } from '@honor-ui/inctagram-ui-kit'
-import defaultAva from '@/assets/images/Mask group.jpg'
 import { useUpdateUserPostMutation } from '@/api/post/posts-api'
 import { useState } from 'react'
 import { ItemsType, UpdateUserPostResponse } from '@/api/post/posts-api.types'
@@ -19,12 +18,13 @@ type DescriptionField = {
   description: string
 }
 
-export const EditPost = ({ setEditPost, post }: Props) => {
-  const postImage = post.images[0]
-  const postDescription = post.description ? post.description : ''
-  const userName = post.postOwnerInfo.username
-  const userAvatar = post.postOwnerInfo.avatarUrl
-  const postId = post.id
+const EditPost = ({ setEditPost, post }: Props) => {
+  const defaultAva = '/MaskGroup.jpg'
+  const postImage = post?.images?.[0] || defaultAva
+  const postDescription = post?.description || ''
+  const userName = post?.postOwnerInfo.username || ''
+  const userAvatar = post?.postOwnerInfo.avatarUrl || ''
+  const postId = post?.id || ''
 
   const [updatePost, { isLoading, isSuccess, isError, error }] = useUpdateUserPostMutation()
   const [description, setDescription] = useState(postDescription)
@@ -63,7 +63,13 @@ export const EditPost = ({ setEditPost, post }: Props) => {
 
   return (
     <div className={s.container}>
-      <Image src={postImage} alt="post image" width={490} height={560} className={s.postImage} />
+      <Image
+        src={postImage || defaultAva}
+        alt="post image"
+        width={490}
+        height={560}
+        className={s.postImage}
+      />
       <div className={postStyle.descriptionContainer}>
         <div className={postStyle.wrapper}>
           <div className={postStyle.descriptionHeaderProfile}>
@@ -106,3 +112,5 @@ export const EditPost = ({ setEditPost, post }: Props) => {
     </div>
   )
 }
+
+export default EditPost
