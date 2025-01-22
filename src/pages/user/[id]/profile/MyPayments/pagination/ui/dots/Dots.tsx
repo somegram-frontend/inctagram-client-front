@@ -2,7 +2,7 @@ import { forwardRef } from 'react'
 
 import s from './dots.module.scss'
 
-export const Dots = forwardRef<HTMLSpanElement>((_, ref) => {
+const Dots = forwardRef<HTMLSpanElement>((_, ref) => {
   return (
     <span className={s.dots} ref={ref}>
       &#8230;
@@ -11,3 +11,5 @@ export const Dots = forwardRef<HTMLSpanElement>((_, ref) => {
 })
 
 Dots.displayName = 'Dots'
+
+export default Dots

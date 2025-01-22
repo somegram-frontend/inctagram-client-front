@@ -109,7 +109,7 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
           }
         })
         resetPostState()
-      } catch (e) { }
+      } catch (e) {}
     }
   }
 

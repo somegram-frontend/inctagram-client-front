@@ -12,8 +12,8 @@ import { useState } from 'react'
 import { toast } from 'react-toastify'
 import s from './profile.module.scss'
 import UploadAvatar from './uploadProfileAvatar'
-import { MyPayments } from './MyPayments'
 import { usePathname, useSearchParams } from 'next/navigation'
+import MyPayments from './MyPayments'
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState('General information')

@@ -8,12 +8,12 @@ import {
   PlusCircleOutline,
 } from '@honor-ui/inctagram-ui-kit'
 import Img from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Image } from '..'
 import PhotoSlider from '../../../../../../components/photoSlider'
 import style from '../addPost.module.scss'
-import { AspectRatioMenu } from './CropMenus/AspectRatioMenu/AspectRatioMenu'
 import s from './croppingContent.module.scss'
+import AspectRatioMenu from './CropMenus/AspectRatioMenu/AspectRatioMenu'
 
 type Props = {
   images: Array<Image>
@@ -48,12 +48,22 @@ const CroppingContent: React.FC<Props> = ({
   const [activeImgIdx, setActiveImgIdx] = useState(0)
   const defaultAva = '/MaskGroup.jpg'
 
-  if (images.length > prevImages.length) {
+  useEffect(() => {
+    if (images) {
+      setPrevImages(images)
+    }
+  }, [images])
+
+  if (!images || images.length === 0) {
+    return <div>No images to display</div>
+  }
+
+  if (images.length > prevImages.length && images) {
     setPrevImages(images)
     return null
   }
 
-  if (images.length < prevImages.length) {
+  if (images.length < prevImages.length && images) {
     setPrevImages(images)
 
     let deletedImgIdx!: number
@@ -92,7 +102,7 @@ const CroppingContent: React.FC<Props> = ({
   if (status === Status.selectingMoreImgs) {
     content = (
       <div className={s.photoContainer}>
-        {images.map((image, index) => (
+        {images?.map((image, index) => (
           <div
             key={index}
             className={
@@ -100,7 +110,7 @@ const CroppingContent: React.FC<Props> = ({
             }
           >
             <Img
-              src={image.url}
+              src={image.url || defaultAva}
               className={s.minPhoto}
               alt={`Image ${index}`}
               width={80}
@@ -121,7 +131,7 @@ const CroppingContent: React.FC<Props> = ({
               multiple
             />
             <div className={style.btnWrapper}>
-              {images.length < 10 && (
+              {images?.length < 10 && (
                 <Button as="span" className={s.circleBtn} variant="borderless">
                   <PlusCircleOutline />
                 </Button>
@@ -133,7 +143,10 @@ const CroppingContent: React.FC<Props> = ({
     )
   } else if (status === Status.resizing) {
     content = (
-      <AspectRatioMenu onUpdateImage={updateImageCallback} activeImage={images[activeImgIdx]} />
+      <AspectRatioMenu
+        onUpdateImage={updateImageCallback}
+        activeImage={images[activeImgIdx] || []}
+      />
     )
   } else if (status === Status.scaling) {
     content = null
@@ -166,9 +179,7 @@ const CroppingContent: React.FC<Props> = ({
   return (
     <>
       <div className={s.wrapperCropping}>
-        <PhotoSlider
-          images={imageUrls || []}
-          onSetActiveImageIdx={onSetActiveImageIdx} />
+        <PhotoSlider images={imageUrls || []} onSetActiveImageIdx={onSetActiveImageIdx} />
         {content}
         <div className={s.imageModificationMenuButtonsContainer}>{JSXbuttons}</div>
       </div>

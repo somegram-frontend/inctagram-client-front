@@ -1,12 +1,12 @@
 import { Loader } from '@/components/loader'
 import { Typography } from '@honor-ui/inctagram-ui-kit'
 import { toast } from 'react-toastify'
-import { getErrorMessage, useMyPayments } from './hooks/useMyPayments'
+import { getErrorMessage, useMyPayments } from '../../../../../shared/hooks/useMyPayments'
 import s from './myPayments.module.scss'
-import { Pagination } from './pagination/Pagination'
-import { PaymentsTable } from './PaymentsTable'
+import Pagination from './pagination/Pagination'
+import PaymentsTable from './PaymentsTable'
 
-export const MyPayments = () => {
+const MyPayments = () => {
   const { data, isLoading, isFetching, isSuccess, setNewParams, params, error } = useMyPayments()
 
   if (isLoading || isFetching) {
@@ -38,3 +38,5 @@ export const MyPayments = () => {
   }
   return content
 }
+
+export default MyPayments

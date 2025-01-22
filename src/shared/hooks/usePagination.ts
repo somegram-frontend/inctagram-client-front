@@ -1,4 +1,8 @@
-import type { PaginationOption, PaginationProps } from '../Pagination'
+import { error } from 'console'
+import type {
+  PaginationOption,
+  PaginationProps,
+} from '../../pages/user/[id]/profile/MyPayments/pagination/Pagination'
 
 import { useMemo } from 'react'
 
@@ -25,8 +29,7 @@ export const usePagination = ({
   searchParams,
   setNewParams,
 }: PaginationProps) => {
-  const { pageSize: itemsPerPage, pageNumber: currentPage } = searchParams
-
+  const { pageSize: itemsPerPage = 1, pageNumber: currentPage = 1 } = searchParams || {}
   const itemsPerPageChangeHandler = (itemsPerPage: string) => {
     setNewParams({ pageNumber: currentPage, pageSize: +itemsPerPage })
   }

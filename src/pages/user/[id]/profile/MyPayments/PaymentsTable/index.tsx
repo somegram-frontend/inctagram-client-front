@@ -44,7 +44,7 @@ const TBody = (props: Props) => {
   const { items } = props
   return (
     <tbody>
-      {items.map(attr => {
+      {items?.map(attr => {
         const {
           subscriptionType,
           price,
@@ -73,7 +73,7 @@ const TBody = (props: Props) => {
   )
 }
 
-export const PaymentsTable = (props: Props) => {
+const PaymentsTable = (props: Props) => {
   const { items } = props
 
   return (
@@ -83,3 +83,5 @@ export const PaymentsTable = (props: Props) => {
     </table>
   )
 }
+
+export default PaymentsTable

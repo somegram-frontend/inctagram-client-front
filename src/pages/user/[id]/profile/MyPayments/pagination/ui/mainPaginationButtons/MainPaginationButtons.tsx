@@ -1,9 +1,8 @@
-import type { PaginationRange } from '../../lib/usePagination'
+import type { PaginationRange } from '../../../../../../../../shared/hooks/usePagination'
 
 import { type ElementRef, forwardRef } from 'react'
-
-import { Dots } from '../dots/Dots'
-import { PageButton } from '../pageButton/PageButton'
+import Dots from '../dots/Dots'
+import PageButton from '../pageButton/PageButton'
 
 type Props = {
   currentPage: number
@@ -11,10 +10,10 @@ type Props = {
   paginationRange: PaginationRange
 }
 
-export const MainPaginationButtons = forwardRef<ElementRef<'button'> & ElementRef<'span'>, Props>(
+const MainPaginationButtons = forwardRef<ElementRef<'button'> & ElementRef<'span'>, Props>(
   (props, ref) => {
     const { currentPage, onCurrentPageChange, paginationRange } = props
-    const paginationButtons = paginationRange.map((page, index) => {
+    const paginationButtons = paginationRange?.map((page, index) => {
       if (typeof page === 'string') {
         return <Dots key={index} ref={ref} />
       }
@@ -35,3 +34,5 @@ export const MainPaginationButtons = forwardRef<ElementRef<'button'> & ElementRe
 )
 
 MainPaginationButtons.displayName = 'MainPaginationButtons'
+
+export default MainPaginationButtons

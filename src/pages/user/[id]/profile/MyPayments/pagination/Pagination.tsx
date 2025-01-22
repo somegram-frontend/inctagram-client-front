@@ -5,10 +5,10 @@ import s from './pagination.module.scss'
 import { Select, Typography } from '@honor-ui/inctagram-ui-kit'
 import ArrowBack from './ArrowBack'
 import ArrowForward from './ArrowForward'
-import { usePagination } from './lib/usePagination'
-import { ButtonArrow } from './ui/buttonArrow/ButtonArrow'
-import { MainPaginationButtons } from './ui/mainPaginationButtons/MainPaginationButtons'
-import type { SearchParams } from '../hooks/useMyPayments'
+import { MyPaymentsSearchParams } from '@/api/payments/payments-api.types'
+import ButtonArrow from './ui/buttonArrow/ButtonArrow'
+import MainPaginationButtons from './ui/mainPaginationButtons/MainPaginationButtons'
+import { usePagination } from '@/shared/hooks/usePagination'
 
 export type PaginationOption = {
   label: string
@@ -17,11 +17,11 @@ export type PaginationOption = {
 export type PaginationProps = {
   siblingCount?: number
   totalCount: number
-  searchParams: SearchParams
-  setNewParams: (newParams: SearchParams) => void
+  searchParams: MyPaymentsSearchParams
+  setNewParams: (newParams: MyPaymentsSearchParams) => void
 }
 
-export const Pagination = forwardRef<ElementRef<'div'>, PaginationProps>(
+const Pagination = forwardRef<ElementRef<'div'>, PaginationProps>(
   ({ siblingCount, totalCount, searchParams, setNewParams }, ref) => {
     const {
       currentPage,
@@ -35,7 +35,6 @@ export const Pagination = forwardRef<ElementRef<'div'>, PaginationProps>(
       options,
       paginationRange,
     } = usePagination({ siblingCount, totalCount, searchParams, setNewParams })
-
     return (
       <div className={s.container} ref={ref}>
         <ButtonArrow disabled={isFirstPage} onClick={onPreviousPage}>
@@ -65,3 +64,5 @@ export const Pagination = forwardRef<ElementRef<'div'>, PaginationProps>(
 )
 
 Pagination.displayName = 'Pagination'
+
+export default Pagination

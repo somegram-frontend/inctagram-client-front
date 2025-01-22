@@ -7,7 +7,7 @@ type AspectRatioMenuProps = {
   activeImage: Image
 }
 
-export const AspectRatioMenu = (props: AspectRatioMenuProps) => {
+const AspectRatioMenu = (props: AspectRatioMenuProps) => {
   const { onUpdateImage, activeImage } = props
 
   const JSXbuttons = [
@@ -95,3 +95,5 @@ const resize = (
     }, 'image/jpeg')
   }
 }
+
+export default AspectRatioMenu

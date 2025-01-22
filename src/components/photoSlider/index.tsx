@@ -13,7 +13,6 @@ type Props = {
   activeImageIdx?: number
 }
 
-
 const PhotoSlider: React.FC<Props> = ({
   images,
   className,
@@ -23,7 +22,6 @@ const PhotoSlider: React.FC<Props> = ({
   onSetActiveImageIdx,
   activeImageIdx,
 }) => {
-
   const defaultAva = '/MaskGroup.jpg'
 
   const Arrow = ({ direction, onClick }: { direction: 'prev' | 'next'; onClick: () => void }) => {
