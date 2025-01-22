@@ -25,23 +25,23 @@ const PublicationContent: React.FC<Props> = ({
   description,
   setDescription,
   MAX_CHARS,
-  optionsCountry,
+  optionsCountry = [],
 }) => {
   return (
     <>
       <div className={s.publicWrapper}>
-        <PhotoSlider images={images} />
+        <PhotoSlider images={images || []} />
         <div className={s.descriptionContainer}>
           <div className={s.userWrapper}>
             <Image
-              src={profileInfo.avatar.url || ''}
+              src={profileInfo?.avatar.url || ''}
               className={s.avatar}
               alt=""
               width={36}
               height={36}
             />
             <Typography as={'p'} variant={'bold_text16'} className={s.username}>
-              {profileInfo.userName}
+              {profileInfo?.userName}
             </Typography>
           </div>
           <div className={s.textAreaWrapper}>
@@ -52,9 +52,6 @@ const PublicationContent: React.FC<Props> = ({
               onChange={e => setDescription(e.target.value)}
               maxLength={MAX_CHARS}
             />
-            <Typography variant={'small_text'} className={s.counter}>
-              {description.length}/{MAX_CHARS}
-            </Typography>
           </div>
           <hr className={s.line} />
           <div className={s.selectWrapper}>

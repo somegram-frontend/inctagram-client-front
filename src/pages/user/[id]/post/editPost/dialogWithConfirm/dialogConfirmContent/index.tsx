@@ -1,4 +1,4 @@
-import { DialogContent, DialogClose } from '@/components/dialog'
+import { DialogContent, DialogClose, Dialog } from '@/components/dialog'
 import { ComponentPropsWithoutRef } from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { Button } from '@honor-ui/inctagram-ui-kit'
@@ -10,21 +10,25 @@ type Props = {
   onClose: (value: boolean) => void
 } & ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 
-export const DialogConfirmContent = ({ title, description, onClose }: Props) => {
+const DialogConfirmContent = ({ title, description, onClose }: Props) => {
   const onCloseDialogHandler = () => {
     onClose(false)
   }
   return (
-    <DialogContent title={title}>
-      <div className={s.contentContainer}>
-        <p>{description}</p>
-        <div className={s.buttonsContainer}>
-          <Button onClick={onCloseDialogHandler}>Yes</Button>
-          <DialogClose>
-            <Button>No</Button>
-          </DialogClose>
+    <Dialog>
+      <DialogContent title={title}>
+        <div className={s.contentContainer}>
+          <p>{description}</p>
+          <div className={s.buttonsContainer}>
+            <Button onClick={onCloseDialogHandler}>Yes</Button>
+            <DialogClose>
+              <Button>No</Button>
+            </DialogClose>
+          </div>
         </div>
-      </div>
-    </DialogContent>
+      </DialogContent>
+    </Dialog>
   )
 }
+
+export default DialogConfirmContent

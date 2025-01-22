@@ -8,7 +8,7 @@ import { z } from 'zod'
 import { signInSchema } from '@/shared/const/validationSchemas'
 import s from './formSignIn.module.scss'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
-import { AuthProviders } from '@/pages/auth/authProviders'
+import AuthProviders from '../../authProviders'
 
 type Props = {
   onSubmit: (data: SignInForm) => void
@@ -19,7 +19,7 @@ type Props = {
 
 export type SignInForm = z.infer<typeof signInSchema>
 
-export const FormSignIn = ({ onSubmit, errorMessage, onSignGit, onSignGoogle }: Props) => {
+const FormSignIn = ({ onSubmit, errorMessage, onSignGit, onSignGoogle }: Props) => {
   const {
     control,
     handleSubmit,
@@ -83,3 +83,5 @@ export const FormSignIn = ({ onSubmit, errorMessage, onSignGit, onSignGoogle }: 
 }
 
 FormSignIn.displayName = 'FormSignIn'
+
+export default FormSignIn

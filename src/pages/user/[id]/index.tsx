@@ -3,17 +3,17 @@ import { useRouter } from 'next/router'
 import Layout from '@/layout'
 import { useEffect, useState } from 'react'
 import { DialogTrigger, Dialog, DialogContent, DialogTitle } from '@/components/dialog'
-import { Button, ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
-import { Post } from './post'
+import { Button, CloseOutline, ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
 import { useMeQuery } from '@/api/auth/auth-api'
 import { useGetProfileQuery } from '@/api/user/users-api'
 import Image from 'next/image'
 import s from './profile/uploadProfileAvatar/uploadProfileAvatar.module.scss'
 import style from './user.module.scss'
-import { EditPost } from './post/editPost'
-import { DialogWithConfirm } from './post/editPost/dialogWithConfirm'
 import { Loader } from '@/components/loader'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
+import DialogWithConfirm from './post/editPost/dialogWithConfirm'
+import { Post } from '@/components/post/Post'
+import EditPost from './post/editPost'
 
 const Profile = () => {
   const router = useRouter()
@@ -146,14 +146,12 @@ const Profile = () => {
                       />
                     </DialogTrigger>
                     {editPost ? (
-                      <DialogWithConfirm
-                        onClose={setEditPost}
-                        title="Edit Post"
-                        confirmTitle="Close Post"
-                        confirmDescription={`Do you really want to close the edition of the publication? If you close changes won’t be saved`}
-                      >
+                      <DialogContent title={'123'} withoutCloseIcon>
+                        <DialogTrigger asChild className={s.triggerBtn}>
+                          <CloseOutline onClick={() => setEditPost(false)} />
+                        </DialogTrigger>
                         <EditPost setEditPost={setEditPost} post={post} />
-                      </DialogWithConfirm>
+                      </DialogContent>
                     ) : (
                       <DialogContent description="description">
                         <VisuallyHidden asChild>

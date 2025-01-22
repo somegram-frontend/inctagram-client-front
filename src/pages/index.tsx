@@ -5,8 +5,9 @@ import Layout from '@/layout'
 import { GetPublicPostsResponse } from '@/api/post/posts-api.types'
 import { useState } from 'react'
 import { Dialog } from '@/components/dialog'
-import { RegisteredUsersList } from './public/registeredUsersList/RegisteredUsersList'
-import { PublicPost } from './public/publicPost/PublicPost'
+import PublicPost from './public/publicPost/PublicPost'
+import RegisteredUsersList from './public/registeredUsersList/RegisteredUsersList'
+import Image from 'next/image'
 
 type Props = {
   totalUsersCount: GetTotalCountResponse

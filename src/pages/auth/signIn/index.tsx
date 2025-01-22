@@ -1,12 +1,12 @@
-import { FormSignIn } from '@/pages/auth/signIn/formSignIn'
 import { useRouter } from 'next/router'
 import { useLoginMutation } from '@/api/auth/auth-api'
 import { EnumTokens } from '@/shared/const/enums'
-import { useAuthRedirect } from '@/pages/auth/authProviders/useAuthRedirect'
+import { useAuthRedirect } from '@/shared/hooks/useAuthRedirect'
 import { Loader } from '@/components/loader'
 import { RegistrationResponse } from '@/api/auth/auth-api.types'
 import { toast } from 'react-toastify'
 import Layout from '@/layout'
+import FormSignIn from './formSignIn'
 
 const SignIn = () => {
   const { onSignGit, onSignGoogle } = useAuthRedirect()
