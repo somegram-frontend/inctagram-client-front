@@ -60,7 +60,7 @@ const Pagination = forwardRef<ElementRef<'div'>, PaginationProps>(
         </div>
       </div>
     )
-  }
+  },
 )
 
 Pagination.displayName = 'Pagination'

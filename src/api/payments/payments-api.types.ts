@@ -28,4 +28,3 @@ export type MyPaymentsSearchParams = {
   pageSize: number
   pageNumber: number
 }
-

@@ -23,8 +23,7 @@ const PhotoSlider: React.FC<Props> = ({
   onSetActiveImageIdx,
   activeImageIdx,
 }) => {
-
-const [zoomImage, setZoomImage] = useState<string | null>(null)
+  const [zoomImage, setZoomImage] = useState<string | null>(null)
   const defaultAva = '/MaskGroup.jpg'
   const Arrow = ({ direction, onClick }: { direction: 'prev' | 'next'; onClick: () => void }) => {
     return (

@@ -30,7 +30,7 @@ const MainPaginationButtons = forwardRef<ElementRef<'button'> & ElementRef<'span
     })
 
     return <>{paginationButtons}</>
-  }
+  },
 )
 
 MainPaginationButtons.displayName = 'MainPaginationButtons'
