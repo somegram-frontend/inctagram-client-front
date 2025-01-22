@@ -91,7 +91,7 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
   }
 
   const handlePublish = async () => {
-    if (images.length > 0 && description) {
+    if (images.length > 0) {
       const imagePromises = images.map(({ url, croppedUrl }, idx) => {
         return fetch(croppedUrl ?? url)
           .then(response => response.blob())
@@ -109,7 +109,7 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
           }
         })
         resetPostState()
-      } catch (e) {}
+      } catch (e) { }
     }
   }
 
