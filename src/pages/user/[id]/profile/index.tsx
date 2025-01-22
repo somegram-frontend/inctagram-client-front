@@ -1,3 +1,4 @@
+'use client'
 import ProfileForm from './profileForm'
 import { useGetProfileQuery, useProfileFillInfoMutation } from '@/api/user/users-api'
 import s from './profile.module.scss'
@@ -11,9 +12,13 @@ import { useRouter } from 'next/router'
 import { Tabs } from '@honor-ui/inctagram-ui-kit'
 import { useEffect, useState } from 'react'
 import AccountManagement from './accountManagement'
+import MyPayments from './MyPayments'
+import { useSearchParams, usePathname } from 'next/navigation'
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState('General information')
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
   const router = useRouter()
 
   useEffect(() => {
@@ -62,7 +67,7 @@ const Profile = () => {
     },
     { text: 'Devices', value: 'Devices', content: <div>Devices content</div> },
     { text: 'Account Management', value: 'Account Management', content: <AccountManagement /> },
-    { text: 'My payments', value: 'My payments', content: <div>My payments content</div> },
+    { text: 'My payments', value: 'My payments', content: <MyPayments /> },
   ]
 
   const handleValueChange = (value: string) => {

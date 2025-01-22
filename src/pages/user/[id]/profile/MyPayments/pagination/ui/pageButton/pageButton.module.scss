@@ -1,0 +1,33 @@
+.default {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 24px;
+  height: 24px;
+
+  font-size: var(--font-size-s);
+  line-height: var(--line-height-m);
+  color: var(--color-light-100);
+
+  border-radius: 2px;
+
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--color-dark-500);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent-900);
+  }
+}
+
+.selected {
+  color: var(--color-dark-800);
+}
+
+.selected,
+.selected:hover {
+  background-color: var(--color-light-100);
+}

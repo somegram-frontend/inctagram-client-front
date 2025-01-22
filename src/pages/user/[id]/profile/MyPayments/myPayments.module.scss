@@ -1,0 +1,13 @@
+.tableScrollContainer {
+  border-radius: 2px;
+  max-height: 431px;
+  overflow-y: auto;
+  outline: 1px solid var(--color-dark-500);
+  margin-bottom: 36px;
+}
+
+.loaderContainer > div {
+  width: 100%;
+  max-width: 972px;
+  height: 492px;
+}
