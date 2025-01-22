@@ -42,7 +42,7 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
   const { data, error, isLoading } = useGetCountriesListQuery()
   const [getCities, { data: citiesData, isLoading: citiesLoading }] = useGetCitiesListMutation()
   const [startDate, setStartDate] = useState<Date | undefined>(
-    dataValue?.dateOfBirth ? new Date(dataValue.dateOfBirth) : undefined
+    dataValue?.dateOfBirth ? new Date(dataValue.dateOfBirth) : undefined,
   )
   const setDatePicker = (d: Date | undefined) => {
     setStartDate(d || new Date())

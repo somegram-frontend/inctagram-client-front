@@ -10,8 +10,7 @@ import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
 import { Tabs } from '@honor-ui/inctagram-ui-kit'
 import { useEffect, useState } from 'react'
-import { AccountManagement } from '@/pages/user/[id]/profile/accountManagement'
-import { useMeQuery } from '@/api/auth/auth-api'
+import AccountManagement from './accountManagement'
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState('General information')

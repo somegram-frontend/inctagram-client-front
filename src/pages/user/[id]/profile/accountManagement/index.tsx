@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { AccountTypeCheckBox } from './accountTypeCheckBox'
-import { AccountSubsCosts } from '@/pages/user/[id]/profile/accountManagement/accountSubsCosts'
+import AccountTypeCheckBox from './accountTypeCheckBox'
+import AccountSubsCosts from './accountSubsCosts'
 
 export type AccountType = 'Personal' | 'Business'
 
-export const AccountManagement = () => {
+const AccountManagement = () => {
   const [accountType, setAccountType] = useState<AccountType>('Personal')
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,3 +18,5 @@ export const AccountManagement = () => {
     </>
   )
 }
+
+export default AccountManagement

@@ -8,7 +8,7 @@ type Props = {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export const AccountTypeCheckBox = ({ accountType, handleChange }: Props) => {
+const AccountTypeCheckBox = ({ accountType, handleChange }: Props) => {
   return (
     <div className={s.accountType}>
       <Typography variant={'h2'}>Account type:</Typography>
@@ -40,3 +40,5 @@ export const AccountTypeCheckBox = ({ accountType, handleChange }: Props) => {
     </div>
   )
 }
+
+export default AccountTypeCheckBox

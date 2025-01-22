@@ -8,7 +8,7 @@ type Props = {
   subValue: string
 }
 
-export const CheckBoxTitle = ({ handleChange, subValue, isChecked }: Props) => {
+const CheckBoxTitle = ({ handleChange, subValue, isChecked }: Props) => {
   return (
     <div className={s.checkBoxTitle}>
       <input
@@ -23,3 +23,5 @@ export const CheckBoxTitle = ({ handleChange, subValue, isChecked }: Props) => {
     </div>
   )
 }
+
+export default CheckBoxTitle

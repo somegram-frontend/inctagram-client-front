@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import s from './accountSubsCosts.module.scss'
 import { Button, Typography } from '@honor-ui/inctagram-ui-kit'
-import { PaymentsPayPalOrStripe } from '@/pages/user/[id]/profile/accountManagement/paymentsPayPalOrStripe'
 import { useDeleteSubMutation } from '@/api/payments/payments-api'
-import { CheckBoxTitle } from '@/pages/user/[id]/profile/accountManagement/accountSubsCosts/checkBoxTitle/checkBoxTitle'
+import CheckBoxTitle from './checkBoxTitle/checkBoxTitle'
+import PaymentsPayPalOrStripe from '../paymentsPayPalOrStripe'
 
 export type AccountSubsType = '$10 per 1 Day' | '$50 per 7 Day' | '$100 per month'
 
-export const AccountSubsCosts = () => {
+const AccountSubsCosts = () => {
   const [subCosts, setSubsCosts] = useState<AccountSubsType>('$10 per 1 Day')
   const [deleteSub] = useDeleteSubMutation()
 
@@ -39,3 +39,5 @@ export const AccountSubsCosts = () => {
     </div>
   )
 }
+
+export default AccountSubsCosts

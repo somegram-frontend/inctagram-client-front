@@ -81,7 +81,7 @@ export const changeProfileSchema = z.object({
         }
         return value
       },
-      z.union([z.date(), z.null()])
+      z.union([z.date(), z.null()]),
     )
     .refine(
       date => {
@@ -90,7 +90,7 @@ export const changeProfileSchema = z.object({
       },
       {
         message: 'A user under 13 cannot create a profile.',
-      }
+      },
     )
     .optional(),
   about: z

@@ -24,7 +24,7 @@ type Props = {
   subCosts: string
 }
 
-export const PaymentsPayPalOrStripe = ({ subCosts }: Props) => {
+const PaymentsPayPalOrStripe = ({ subCosts }: Props) => {
   const [createPayment, { isLoading, error }] = useCreatePaymentMutation()
 
   const getSubscriptionType = (cost: string): SubscriptionType => {
@@ -73,3 +73,5 @@ export const PaymentsPayPalOrStripe = ({ subCosts }: Props) => {
     </div>
   )
 }
+
+export default PaymentsPayPalOrStripe
