@@ -3,15 +3,15 @@
   flex-direction: column;
   gap: 12px;
 
+  margin-top: 25px;
   margin-bottom: 42px;
 }
 
 .wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-
   gap: 22px;
+  justify-content: center;
 
   width: 971px;
   height: 95px;
@@ -23,7 +23,6 @@
 .checkBoxTitle {
   display: flex;
   gap: 10px;
-
   margin-left: 12px;
 }
 
