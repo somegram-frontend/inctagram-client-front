@@ -28,3 +28,13 @@ export type MyPaymentsSearchParams = {
   pageSize: number
   pageNumber: number
 }
+
+export type PaymentsInfoResponse = {
+  status: string
+  dateOfPayment: string
+  endDateOfSubscription: string
+  subscriptionId: string
+  userId: string
+  subscriptionType: string
+  autoRenewal: boolean
+}
