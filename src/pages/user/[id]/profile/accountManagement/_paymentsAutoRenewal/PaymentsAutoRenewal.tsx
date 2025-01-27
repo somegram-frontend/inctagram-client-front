@@ -21,7 +21,7 @@ const SUBSCRIPTION: Subscription[] = [
   {label: 'Next payment', key: 'endDateOfSubscription'}
 ]
 
-export const PaymentsAutoRenewal = () => {
+const PaymentsAutoRenewal = () => {
   const [enableAutoRenewal, {isLoading: isEnabling}] = useEnableAutoRenewalMutation()
   const [disableAutoRenewal, {isLoading: isDisabling}] = useDisableAutoRenewalMutation()
   const {
@@ -74,3 +74,5 @@ export const PaymentsAutoRenewal = () => {
     </>
   );
 };
+
+export default PaymentsAutoRenewal
