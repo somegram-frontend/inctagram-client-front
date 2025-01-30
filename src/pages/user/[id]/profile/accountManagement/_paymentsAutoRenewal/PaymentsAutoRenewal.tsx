@@ -53,6 +53,7 @@ const PaymentsAutoRenewal = () => {
       {paymentsInfo?.status === 'Active' &&
 
         <div className={s.paymentsAutoRenewal}>
+          <Typography variant={'h3'}>Current Subscription:</Typography>
           <Cards className={s.block}>
             {SUBSCRIPTION.map(({label, key}) => (
               <Typography className={s.blockItem} key={label} variant={'regular_text14'}>
