@@ -1,9 +1,10 @@
 import { baseApi } from '@/api/_base/base-api'
-import type {
+import {
   MyPaymentsResponse,
   MyPaymentsSearchParams,
   PaymentRequest,
   PaymentResponse,
+  PaymentsInfoResponse,
 } from './payments-api.types'
 
 export const paymentsApi = baseApi.injectEndpoints({
@@ -34,8 +35,34 @@ export const paymentsApi = baseApi.injectEndpoints({
           }
         },
       }),
+      enableAutoRenewal: builder.mutation<void, void>({
+        query: () => {
+          return {
+            url: '/v1/subscriptions/enable-auto-renewal',
+            method: 'POST',
+          }
+        },
+      }),
+      disableAutoRenewal: builder.mutation<void, void>({
+        query: () => {
+          return {
+            url: '/v1/subscriptions/disable-auto-renewal',
+            method: 'POST',
+          }
+        },
+      }),
+      getPaymentsInfo: builder.query<PaymentsInfoResponse, void>({
+        query: () => ({ url: '/v1/subscriptions/info' }),
+      }),
     }
   },
 })
 
-export const { useCreatePaymentMutation, useDeleteSubMutation, useGetMyPaymentsQuery } = paymentsApi
+export const {
+  useCreatePaymentMutation,
+  useDeleteSubMutation,
+  useGetMyPaymentsQuery,
+  useEnableAutoRenewalMutation,
+  useDisableAutoRenewalMutation,
+  useGetPaymentsInfoQuery,
+} = paymentsApi
