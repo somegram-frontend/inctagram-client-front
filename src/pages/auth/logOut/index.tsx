@@ -1,18 +1,20 @@
 'use client'
-import { useLogoutMutation } from '@/api/auth/auth-api'
-import { Button, LogOut as LogOutIcon } from '@honor-ui/inctagram-ui-kit'
+import {useLogoutMutation} from '@/api/auth/auth-api'
+import {Button, LogOut as LogOutIcon} from '@honor-ui/inctagram-ui-kit'
 import s from './logOut.module.scss'
-import { Dialog, DialogClose, DialogContent, DialogTrigger } from '@/components/dialog'
-import { Loader } from '@/components/loader'
-import { RegistrationResponse } from '@/api/auth/auth-api.types'
-import { toast } from 'react-toastify'
+import {Dialog, DialogClose, DialogContent, DialogTrigger} from '@/components/dialog'
+import {Loader} from '@/components/loader'
+import {RegistrationResponse} from '@/api/auth/auth-api.types'
+import {toast} from 'react-toastify'
+import {useTranslation} from "@/shared/hooks";
 
 type Props = {
   email: string | undefined
 }
 
-const LogOut = ({ email }: Props) => {
-  const [logout, { isLoading, isSuccess, isError, error }] = useLogoutMutation()
+const LogOut = ({email}: Props) => {
+  const [logout, {isLoading, isSuccess, isError, error}] = useLogoutMutation()
+  const t = useTranslation()
 
   const onClickHandler = () => {
     logout()
@@ -21,7 +23,7 @@ const LogOut = ({ email }: Props) => {
   if (isLoading)
     return (
       <div className={s.loader}>
-        <Loader />
+        <Loader/>
       </div>
     )
 
@@ -47,7 +49,7 @@ const LogOut = ({ email }: Props) => {
   return (
     <Dialog>
       <DialogTrigger className={s.triggerButton}>
-        <LogOutIcon /> Log Out
+        <LogOutIcon/> {t.logout}
       </DialogTrigger>
       <DialogContent title={'Log Out'}>
         <div className={s.main}>
