@@ -1,14 +1,16 @@
-import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit'
-import { createWrapper } from 'next-redux-wrapper'
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { baseApi } from '@/api/_base/base-api'
-import { countriesApi } from './api/countries/countries-api'
+import {Action, configureStore, ThunkAction} from '@reduxjs/toolkit'
+import {createWrapper} from 'next-redux-wrapper'
+import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux'
+import {baseApi} from '@/api/_base/base-api'
+import {countriesApi} from './api/countries/countries-api'
+import {appReducer} from "@/appRoot/app/appSlice";
 
 const makeStore = () =>
   configureStore({
     reducer: {
       [baseApi.reducerPath]: baseApi.reducer,
       [countriesApi.reducerPath]: countriesApi.reducer,
+      app: appReducer
     },
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware().concat(baseApi.middleware, countriesApi.middleware),
