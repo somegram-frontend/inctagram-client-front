@@ -65,7 +65,7 @@ export const Sidebars = ({isAuth, data}: Props) => {
               onClick={handleProfileClick}
               className={router.pathname.includes('/user/') && !isActiveCreate ? s.active : ''}
             >
-              <PersonOutline/> {t.profile}
+              <PersonOutline/> {t.profile.title}
             </Typography>
             <Typography as={'li'} variant={'medium_text14'}>
               <MessageCircleOutline/> {t.messenger}

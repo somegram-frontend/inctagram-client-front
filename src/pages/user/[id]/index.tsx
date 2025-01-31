@@ -1,28 +1,29 @@
-import { useGetUserPostsQuery } from '@/api/post/posts-api'
-import { useRouter } from 'next/router'
+import {useGetUserPostsQuery} from '@/api/post/posts-api'
+import {useRouter} from 'next/router'
 import Layout from '@/layout'
-import { useEffect, useState } from 'react'
-import { DialogTrigger, Dialog, DialogContent, DialogTitle } from '@/components/dialog'
-import { Button, CloseOutline, ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
-import { useMeQuery } from '@/api/auth/auth-api'
-import { useGetProfileQuery } from '@/api/user/users-api'
+import {useEffect, useState} from 'react'
+import {Dialog, DialogContent, DialogTitle, DialogTrigger} from '@/components/dialog'
+import {Button, CloseOutline, ImageOutline, Typography} from '@honor-ui/inctagram-ui-kit'
+import {useMeQuery} from '@/api/auth/auth-api'
+import {useGetProfileQuery} from '@/api/user/users-api'
 import Image from 'next/image'
 import s from './profile/uploadProfileAvatar/uploadProfileAvatar.module.scss'
 import style from './user.module.scss'
-import { Loader } from '@/components/loader'
-import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
-import DialogWithConfirm from './post/editPost/dialogWithConfirm'
-import { Post } from '@/components/post/Post'
+import {Loader} from '@/components/loader'
+import {VisuallyHidden} from '@radix-ui/react-visually-hidden'
+import {Post} from '@/components/post/Post'
 import EditPost from './post/editPost'
+import {useTranslation} from "@/shared/hooks";
 
 const Profile = () => {
   const router = useRouter()
-  const { id, postId } = router.query
-  const { data: userPosts, isLoading: isPostsLoading } = useGetUserPostsQuery(
+  const {id, postId} = router.query
+  const t = useTranslation()
+  const {data: userPosts, isLoading: isPostsLoading} = useGetUserPostsQuery(
     {
       userId: id as string,
     },
-    { skip: id === undefined },
+    {skip: id === undefined},
   )
 
   useEffect(() => {
@@ -37,13 +38,13 @@ const Profile = () => {
     }
   }, [postId])
 
-  const { data: me } = useMeQuery()
+  const {data: me} = useMeQuery()
   if (id !== me?.userId) {
     router.push(
       postId ? `/public-user/profile/${id}?postId=${postId}` : `/public-user/profile/${id}`,
     )
   }
-  const { data: profile } = useGetProfileQuery()
+  const {data: profile} = useGetProfileQuery()
   const [openPost, setOpenPost] = useState(false)
   const [openPostId, setOpenPostId] = useState<string>('')
   const [editPost, setEditPost] = useState(false)
@@ -51,7 +52,7 @@ const Profile = () => {
   const handleProfileSettingClick = () => {
     router.push({
       pathname: '/user/[id]/profile',
-      query: { id: me?.userId },
+      query: {id: me?.userId},
     })
   }
 
@@ -60,19 +61,19 @@ const Profile = () => {
     setOpenPost(true)
     router.push({
       pathname: router.pathname,
-      query: { ...router.query, postId },
+      query: {...router.query, postId},
     })
   }
 
   const handleClosePost = () => {
     setOpenPost(false)
     setOpenPostId('')
-    const { postId, ...restQuery } = router.query
-    router.push({ pathname: router.pathname, query: restQuery })
+    const {postId, ...restQuery} = router.query
+    router.push({pathname: router.pathname, query: restQuery})
   }
 
   if (isPostsLoading) {
-    return <Loader />
+    return <Loader/>
   }
   if (me?.userId && id === me?.userId) {
     return (
@@ -91,28 +92,28 @@ const Profile = () => {
               </div>
             ) : (
               <div className={s.defaultAvaContainer}>
-                <ImageOutline />
+                <ImageOutline/>
               </div>
             )}
             <div className={style.profileData}>
               <div className={style.profileNameAndBtnContainer}>
                 <Typography variant="h1">{me?.userName}</Typography>
                 <Button variant="secondary" onClick={handleProfileSettingClick}>
-                  Profile Settings
+                  {t.profile.profileSettings.title}
                 </Button>
               </div>
               <div className={style.profileFollowersContainer}>
                 <span>
-                  2 218 <br />
-                  Following
+                  2 218 <br/>
+                  {t.profile.following}
                 </span>
                 <span>
-                  2 358 <br />
-                  Followers
+                  2 358 <br/>
+                  {t.profile.followers}
                 </span>
                 <span>
-                  2 764 <br />
-                  Publications
+                  2 764 <br/>
+                  {t.profile.publications}
                 </span>
               </div>
               <Typography variant="regular_text16">
@@ -148,16 +149,16 @@ const Profile = () => {
                     {editPost ? (
                       <DialogContent title={'123'} withoutCloseIcon>
                         <DialogTrigger asChild className={s.triggerBtn}>
-                          <CloseOutline onClick={() => setEditPost(false)} />
+                          <CloseOutline onClick={() => setEditPost(false)}/>
                         </DialogTrigger>
-                        <EditPost setEditPost={setEditPost} post={post} />
+                        <EditPost setEditPost={setEditPost} post={post}/>
                       </DialogContent>
                     ) : (
                       <DialogContent description="description">
                         <VisuallyHidden asChild>
                           <DialogTitle>Post dialog</DialogTitle>
                         </VisuallyHidden>
-                        <Post setEditPost={setEditPost} post={post} />
+                        <Post setEditPost={setEditPost} post={post}/>
                       </DialogContent>
                     )}
                   </Dialog>
