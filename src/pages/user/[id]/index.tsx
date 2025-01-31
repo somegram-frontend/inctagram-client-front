@@ -99,7 +99,7 @@ const Profile = () => {
               <div className={style.profileNameAndBtnContainer}>
                 <Typography variant="h1">{me?.userName}</Typography>
                 <Button variant="secondary" onClick={handleProfileSettingClick}>
-                  {t.profile.profileSettings.title}
+                  {t.profileSettings}
                 </Button>
               </div>
               <div className={style.profileFollowersContainer}>
