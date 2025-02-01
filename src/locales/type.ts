@@ -1,3 +1,5 @@
+export type Language = 'ru' | 'en'
+
 type GeneralInformation = {
   title: string,
   username: string;
