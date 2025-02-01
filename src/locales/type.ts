@@ -1,12 +1,23 @@
 export type Language = 'ru' | 'en'
-
+type MyPayments = {
+  title: string;
+  dateOfPayment: string;
+  endDateOfSubscription: string;
+  price: string;
+  subscriptionType: string;
+  paymentType: string;
+  day: string,
+  weekly: string,
+  month: string,
+  monthly: string,
+}
 type AccountManagement = {
   title: string,
   subscription: string;
   expireAt: string;
   nextPayment: string;
   autoRenewal: string;
-  updating:string,
+  updating: string,
   deleteSubscription: string;
   accountType: string;
   personal: string;
@@ -43,6 +54,10 @@ type Common = {
   no: string;
   save: string;
 };
+type Pagination={
+  show: string;
+  onPage: string;
+}
 export type Translation = {
   home: string;
   create: string;
@@ -51,6 +66,7 @@ export type Translation = {
   generalInformation: GeneralInformation,
   devices: Devices,
   accountManagement: AccountManagement,
+  myPayments: MyPayments,
   messenger: string;
   search: string;
   statistics: string;
@@ -65,4 +81,5 @@ export type Translation = {
     confirmationMessage: string;
   };
   common: Common;
+  pagination:Pagination
 }

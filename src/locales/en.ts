@@ -40,6 +40,18 @@ export const en: Translation = {
     subscription: "Current Subscription",
     or: 'or'
   },
+  myPayments: {
+    title: "My Payments",
+    dateOfPayment: "Date of Payment",
+    endDateOfSubscription: "End date of subscription",
+    price: "Price",
+    subscriptionType: "Subscription Type",
+    paymentType: "Payment Type",
+    day: 'day',
+    weekly: 'weekly',
+    month: 'month',
+    monthly: 'monthly',
+  },
   messenger: "Messenger",
   search: "Search",
   statistics: "Statistics",
@@ -49,6 +61,10 @@ export const en: Translation = {
     yes: "Yes",
     no: "No",
     save: "Save",
+  },
+  pagination: {
+    show: "Show",
+    onPage: "on the page",
   },
   uploadAvatar: {
     title: "Upload avatar",

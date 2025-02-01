@@ -28,7 +28,7 @@ export const ru: Translation = {
     expireAt: "Действует до",
     nextPayment: "Следующий платеж",
     autoRenewal: "Автопродление",
-    updating:'Обновление',
+    updating: 'Обновление',
     deleteSubscription: "Удалить подписку",
     accountType: "Тип аккаунта",
     personal: "Личный",
@@ -39,6 +39,18 @@ export const ru: Translation = {
     month: "$100 за месяц",
     subscription: "Текущая подписка",
     or: "или",
+  },
+  myPayments: {
+    title: "Мои платежи",
+    dateOfPayment: "Дата платежа",
+    endDateOfSubscription: "Дата окончания подписки",
+    price: "Цена",
+    subscriptionType: "Тип подписки",
+    paymentType: "Способ оплаты",
+    day: "День",
+    weekly: "Неделя",
+    month: "Месяц",
+    monthly: "Ежемесячная",
   },
   messenger: "Мессенджер",
   search: "Поиск",
@@ -57,6 +69,11 @@ export const ru: Translation = {
     save: 'сохранить',
     yes: 'да',
     no: 'нет'
+  },
+  pagination: {
+    show: "Показать",
+    onPage: "на странице",
+
   }
 };
 
