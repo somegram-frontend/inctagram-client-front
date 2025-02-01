@@ -45,7 +45,7 @@ const ProfileForm = ({onSubmit, dataValue, isLoadingUpdate}: Props) => {
   const [startDate, setStartDate] = useState<Date | undefined>(
     dataValue?.dateOfBirth ? new Date(dataValue.dateOfBirth) : undefined,
   )
-  const t = useTranslation()
+  const t = useTranslation('generalInformation')
 
   const setDatePicker = (d: Date | undefined) => {
     setStartDate(d || new Date())
@@ -97,21 +97,21 @@ const ProfileForm = ({onSubmit, dataValue, isLoadingUpdate}: Props) => {
         <div className={s.inputWrapper}>
           <ControlledInput
             control={control}
-            label={t.generalInformation.username}
+            label={t.username}
             name={'userName'}
             trigger={trigger}
             className={s.input}
           />
           <ControlledInput
             control={control}
-            label={t.generalInformation.firstName}
+            label={t.firstName}
             name={'firstName'}
             trigger={trigger}
             className={s.input}
           />
           <ControlledInput
             control={control}
-            label={t.generalInformation.lastName}
+            label={t.lastName}
             name={'lastName'}
             trigger={trigger}
             className={s.input}
@@ -119,7 +119,7 @@ const ProfileForm = ({onSubmit, dataValue, isLoadingUpdate}: Props) => {
         </div>
         <ControlledDatePicker
           control={control}
-          label={t.generalInformation.dateOfBirth}
+          label={t.dateOfBirth}
           name={'dateOfBirth'}
           trigger={trigger}
           className={s.datePicker}
@@ -129,24 +129,24 @@ const ProfileForm = ({onSubmit, dataValue, isLoadingUpdate}: Props) => {
         <div className={s.wrapperSelect}>
           <ControlledSelect
             control={control}
-            label={t.generalInformation.selectYourCountry}
+            label={t.selectYourCountry}
             name={'country'}
             options={optionsCountry}
             className={s.select}
           />
           <ControlledSelect
             control={control}
-            label={t.generalInformation.selectYourCity}
+            label={t.selectYourCity}
             name={'city'}
             options={optionsCity}
             disabled={citiesLoading || !selectedCountry}
             className={s.select}
           />
         </div>
-        <TextArea label={t.generalInformation.aboutMe} {...register('about')} className={s.textArea} name={'about'}/>
+        <TextArea label={t.aboutMe} {...register('about')} className={s.textArea} name={'about'}/>
         <span className={s.textAreaError}>{errors.about?.message}</span>
         <div className={s.buttonContainer}>
-          <Button disabled={!!Object.keys(errors).length}>{t.generalInformation.saveChanges}</Button>
+          <Button disabled={!!Object.keys(errors).length}>{t.saveChanges}</Button>
         </div>
       </form>
     </div>

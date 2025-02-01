@@ -17,8 +17,8 @@ import {useSearchParams, usePathname} from 'next/navigation'
 import {useTranslation} from "@/shared/hooks";
 
 const Profile = () => {
-  const t = useTranslation()
-  const [activeTab, setActiveTab] = useState(t.generalInformation.title)
+  const t = useTranslation('generalInformation')
+  const [activeTab, setActiveTab] = useState(t.title)
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const router = useRouter()
@@ -54,7 +54,7 @@ const Profile = () => {
 
   const tabsName = [
     {
-      text: t.generalInformation.title,
+      text: t.title,
       value: 'General information',
       content: (
         <div className={s.avatarAndForm}>
