@@ -1,4 +1,3 @@
-import {en} from "./en";
-import {ru} from "./ru";
+export {en} from "./en";
+export {ru} from "./ru";
 
-export const translations = {ru, en}
