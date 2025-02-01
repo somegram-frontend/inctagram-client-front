@@ -69,7 +69,7 @@ const Profile = () => {
     },
     {text: t.devices.title, value: 'Devices', content: <div>Devices content</div>},
     {text: t.accountManagement.title, value: 'Account Management', content: <AccountManagement/>},
-    {text: 'My payments', value: 'My payments', content: <MyPayments/>},
+    {text: t.myPayments.title, value: 'My payments', content: <MyPayments/>},
   ]
 
   const handleValueChange = (value: string) => {

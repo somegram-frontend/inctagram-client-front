@@ -1,14 +1,15 @@
-import { type ElementRef, forwardRef } from 'react'
+import {type ElementRef, forwardRef} from 'react'
 
 import s from './pagination.module.scss'
 
-import { Select, Typography } from '@honor-ui/inctagram-ui-kit'
+import {Select, Typography} from '@honor-ui/inctagram-ui-kit'
 import ArrowBack from './ArrowBack'
 import ArrowForward from './ArrowForward'
-import { MyPaymentsSearchParams } from '@/api/payments/payments-api.types'
+import {MyPaymentsSearchParams} from '@/api/payments/payments-api.types'
 import ButtonArrow from './ui/buttonArrow/ButtonArrow'
 import MainPaginationButtons from './ui/mainPaginationButtons/MainPaginationButtons'
-import { usePagination } from '@/shared/hooks/usePagination'
+import {usePagination} from '@/shared/hooks/usePagination'
+import {useTranslation} from "@/shared/hooks";
 
 export type PaginationOption = {
   label: string
@@ -22,7 +23,7 @@ export type PaginationProps = {
 }
 
 const Pagination = forwardRef<ElementRef<'div'>, PaginationProps>(
-  ({ siblingCount, totalCount, searchParams, setNewParams }, ref) => {
+  ({siblingCount, totalCount, searchParams, setNewParams}, ref) => {
     const {
       currentPage,
       isFirstPage,
@@ -34,11 +35,12 @@ const Pagination = forwardRef<ElementRef<'div'>, PaginationProps>(
       onPreviousPage,
       options,
       paginationRange,
-    } = usePagination({ siblingCount, totalCount, searchParams, setNewParams })
+    } = usePagination({siblingCount, totalCount, searchParams, setNewParams})
+    const t = useTranslation('pagination')
     return (
       <div className={s.container} ref={ref}>
         <ButtonArrow disabled={isFirstPage} onClick={onPreviousPage}>
-          <ArrowBack />
+          <ArrowBack/>
         </ButtonArrow>
         <MainPaginationButtons
           currentPage={currentPage}
@@ -46,17 +48,17 @@ const Pagination = forwardRef<ElementRef<'div'>, PaginationProps>(
           paginationRange={paginationRange}
         />
         <ButtonArrow disabled={isLastPage} onClick={onNextPage}>
-          <ArrowForward />
+          <ArrowForward/>
         </ButtonArrow>
         <div className={s.selectBlock}>
-          <Typography variant={'regular_text14'}>Show&nbsp;</Typography>
+          <Typography variant={'regular_text14'}>{t.show}&nbsp;</Typography>
           <Select
             onValueChange={itemsPerPageChangeHandler}
             options={options}
             small
             value={String(itemsPerPage)}
           />
-          <Typography variant={'regular_text14'}>on the page</Typography>
+          <Typography variant={'regular_text14'}>{t.onPage}</Typography>
         </div>
       </div>
     )
