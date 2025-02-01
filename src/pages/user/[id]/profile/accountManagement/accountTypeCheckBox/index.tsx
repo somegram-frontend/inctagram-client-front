@@ -1,17 +1,19 @@
 import React from 'react'
 import s from './accountTypeCheckBox.module.scss'
-import { Typography } from '@honor-ui/inctagram-ui-kit'
-import { AccountType } from '@/pages/user/[id]/profile/accountManagement'
+import {Typography} from '@honor-ui/inctagram-ui-kit'
+import {AccountType} from '@/pages/user/[id]/profile/accountManagement'
+import {useTranslation} from "@/shared/hooks";
 
 type Props = {
   accountType: AccountType
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const AccountTypeCheckBox = ({ accountType, handleChange }: Props) => {
+const AccountTypeCheckBox = ({accountType, handleChange}: Props) => {
+  const t = useTranslation('accountManagement')
   return (
     <div className={s.accountType}>
-      <Typography variant={'h2'}>Account type:</Typography>
+      <Typography variant={'h2'}>{t.accountType}:</Typography>
       <div className={s.wrapper}>
         <div className={s.checkBoxTitle}>
           <input
@@ -22,7 +24,7 @@ const AccountTypeCheckBox = ({ accountType, handleChange }: Props) => {
             checked={accountType === 'Personal'}
             onChange={handleChange}
           />
-          <div>Personal</div>
+          <div>{t.personal}</div>
         </div>
 
         <div className={s.checkBoxTitle}>
@@ -34,7 +36,7 @@ const AccountTypeCheckBox = ({ accountType, handleChange }: Props) => {
             checked={accountType === 'Business'}
             onChange={handleChange}
           />
-          <div>Business</div>
+          <div>{t.business}</div>
         </div>
       </div>
     </div>
