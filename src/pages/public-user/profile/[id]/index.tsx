@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 import { useMeQuery } from '@/api/auth/auth-api'
-import { useGetUserPostsQuery } from '@/api/post/posts-api'
+import { selectAll, useGetUserPostsQuery } from '@/api/post/posts-api'
 import { useGetPublicProfileQuery } from '@/api/user/users-api'
 import { ProfileResponse } from '@/api/user/users-api.types'
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/dialog'
@@ -33,7 +33,25 @@ const Profile = () => {
     {
       userId: id as string,
     },
-    { skip: id === undefined },
+    {
+      skip: id === undefined,
+      selectFromResult: ({ data, ...rest }) => {
+        if (!data) {
+          return {
+            data: undefined,
+            ...rest,
+          }
+        }
+        const { state, ...args } = data
+        return {
+          data: {
+            items: selectAll(state),
+            ...args,
+          },
+          ...rest,
+        }
+      },
+    },
   )
 
   useEffect(() => {

@@ -2,6 +2,7 @@ export type GetUserPostsArgs = {
   userId: string
   pageNumber?: number
   pageSize?: number
+  endCursorPostId?: string
 }
 
 export type GetUserPostsResponse = {

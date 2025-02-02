@@ -28,9 +28,11 @@ const Layout: NextPage<PropsWithChildren> = ({ children }) => {
   return (
     <>
       <Header isAuth={isAuth} />
-      <div className={s.authContent}>
-        {isAuth && <Sidebars isAuth={isAuth} data={data} />}
-        {children}
+      <div id="scroll-container" className={s.scrollContainer}>
+        <div className={s.authContent}>
+          {isAuth && <Sidebars isAuth={isAuth} data={data} />}
+          {children}
+        </div>
       </div>
     </>
   )

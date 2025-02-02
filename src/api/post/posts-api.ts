@@ -6,17 +6,49 @@ import {
   GetPublicPostsResponse,
   GetUserPostsArgs,
   GetUserPostsResponse,
+  ItemsType,
   UpdateUserPostArgs,
   UpdateUserPostResponse,
 } from './posts-api.types'
+import { createEntityAdapter } from '@reduxjs/toolkit'
+
+const adapter = createEntityAdapter<ItemsType>()
+const state = adapter.getInitialState()
+
+export const { selectAll } = adapter.getSelectors()
+
+type NewReturn = {
+  state: ReturnType<typeof adapter.getInitialState>
+  pageSize: number
+  totalCount: number
+  pagesCount: number
+}
 
 export const postsApi = baseApi.injectEndpoints({
   endpoints: builder => {
     return {
-      getUserPosts: builder.query<GetUserPostsResponse, GetUserPostsArgs>({
-        query: ({ userId, pageNumber, pageSize }) =>
-          `v1/posts/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+      getUserPosts: builder.query<NewReturn, GetUserPostsArgs>({
+        query: ({ userId, endCursorPostId, pageNumber, pageSize }) => ({
+          url: `v1/posts/${userId}${endCursorPostId ? `/${endCursorPostId}` : ''}`,
+          params: { pageNumber, pageSize },
+        }),
         providesTags: ['Posts'],
+        transformResponse: (response: GetUserPostsResponse) => {
+          const { items, ...rest } = response
+          return {
+            state: adapter.addMany(state, response.items),
+            ...rest,
+          }
+        },
+        serializeQueryArgs: ({ endpointName, queryArgs }) => {
+          return `${endpointName}-${queryArgs.userId}`
+        },
+        merge: (currentCache, newItems) => {
+          adapter.addMany(currentCache.state, newItems.state.entities)
+        },
+        forceRefetch({ currentArg, previousArg }) {
+          return currentArg?.endCursorPostId !== previousArg?.endCursorPostId
+        },
       }),
       addUserPosts: builder.mutation<ApiResponse, AddUserPostsArgs>({
         query: ({ files, description }) => {
