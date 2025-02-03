@@ -1,16 +1,16 @@
-import {useForm} from 'react-hook-form'
-import {zodResolver} from '@hookform/resolvers/zod'
-import {ControlledInput} from '@/components/controlled/ControlledInput'
-import {Button, TextArea} from '@honor-ui/inctagram-ui-kit'
-import {useGetCitiesListMutation, useGetCountriesListQuery} from '@/api/countries/countries-api'
-import {useEffect, useId, useMemo, useState} from 'react'
-import {ControlledSelect} from '@/components/controlled/ControlledSelect'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ControlledInput } from '@/components/controlled/ControlledInput'
+import { Button, TextArea } from '@honor-ui/inctagram-ui-kit'
+import { useGetCitiesListMutation, useGetCountriesListQuery } from '@/api/countries/countries-api'
+import { useEffect, useId, useMemo, useState } from 'react'
+import { ControlledSelect } from '@/components/controlled/ControlledSelect'
 import s from './profileForm.module.scss'
-import {changeProfileSchema} from '@/shared/const/validationSchemas'
-import {UserProfile} from '@/api/user/users-api.types'
-import {ControlledDatePicker} from '@/components/controlled/ControlledDatePicker'
-import {Loader} from '@/components/loader'
-import {useTranslation} from "@/shared/hooks";
+import { changeProfileSchema } from '@/shared/const/validationSchemas'
+import { UserProfile } from '@/api/user/users-api.types'
+import { ControlledDatePicker } from '@/components/controlled/ControlledDatePicker'
+import { Loader } from '@/components/loader'
+import { useTranslation } from '@/shared/hooks'
 
 type Props = {
   isLoadingUpdate: boolean
@@ -18,7 +18,7 @@ type Props = {
   dataValue?: UserProfile
 }
 
-const ProfileForm = ({onSubmit, dataValue, isLoadingUpdate}: Props) => {
+const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
   const {
     control,
     register,
@@ -26,7 +26,7 @@ const ProfileForm = ({onSubmit, dataValue, isLoadingUpdate}: Props) => {
     handleSubmit,
     watch,
     setValue,
-    formState: {errors},
+    formState: { errors },
   } = useForm<UserProfile>({
     resolver: zodResolver(changeProfileSchema),
     defaultValues: {
@@ -40,8 +40,8 @@ const ProfileForm = ({onSubmit, dataValue, isLoadingUpdate}: Props) => {
     },
   })
 
-  const {data, error, isLoading} = useGetCountriesListQuery()
-  const [getCities, {data: citiesData, isLoading: citiesLoading}] = useGetCitiesListMutation()
+  const { data, error, isLoading } = useGetCountriesListQuery()
+  const [getCities, { data: citiesData, isLoading: citiesLoading }] = useGetCitiesListMutation()
   const [startDate, setStartDate] = useState<Date | undefined>(
     dataValue?.dateOfBirth ? new Date(dataValue.dateOfBirth) : undefined,
   )
@@ -56,7 +56,7 @@ const ProfileForm = ({onSubmit, dataValue, isLoadingUpdate}: Props) => {
 
   useEffect(() => {
     if (selectedCountry) {
-      getCities({country: selectedCountry}).then(() => {
+      getCities({ country: selectedCountry }).then(() => {
         if (dataValue && dataValue.city) {
           setValue('city', dataValue.city)
         }
@@ -87,7 +87,7 @@ const ProfileForm = ({onSubmit, dataValue, isLoadingUpdate}: Props) => {
   if (isLoadingUpdate)
     return (
       <div className={s.loader}>
-        <Loader/>
+        <Loader />
       </div>
     )
 
@@ -143,7 +143,7 @@ const ProfileForm = ({onSubmit, dataValue, isLoadingUpdate}: Props) => {
             className={s.select}
           />
         </div>
-        <TextArea label={t.aboutMe} {...register('about')} className={s.textArea} name={'about'}/>
+        <TextArea label={t.aboutMe} {...register('about')} className={s.textArea} name={'about'} />
         <span className={s.textAreaError}>{errors.about?.message}</span>
         <div className={s.buttonContainer}>
           <Button disabled={!!Object.keys(errors).length}>{t.saveChanges}</Button>

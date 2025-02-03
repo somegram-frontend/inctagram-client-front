@@ -5,18 +5,18 @@ import {
 } from '@/api/user/users-api'
 import s from './uploadProfileAvatar.module.scss'
 import style from '@/pages/auth/logOut/logOut.module.scss'
-import {ChangeEvent, FormEvent, useState} from 'react'
-import {Button, ImageOutline, CloseOutline} from '@honor-ui/inctagram-ui-kit'
-import {DialogTrigger, Dialog, DialogContent, DialogClose} from '@/components/dialog'
-import {Loader} from '@/components/loader'
+import { ChangeEvent, FormEvent, useState } from 'react'
+import { Button, ImageOutline, CloseOutline } from '@honor-ui/inctagram-ui-kit'
+import { DialogTrigger, Dialog, DialogContent, DialogClose } from '@/components/dialog'
+import { Loader } from '@/components/loader'
 import Image from 'next/image'
-import {MAX_AVATAR_IMGE_SIZE_10MB} from '@/shared/const/sizes'
-import {useTranslation} from "@/shared/hooks";
+import { MAX_AVATAR_IMGE_SIZE_10MB } from '@/shared/const/sizes'
+import { useTranslation } from '@/shared/hooks'
 
 const UploadAvatar = () => {
-  const [uploadPhoto, {isLoading}] = useUploadAvatarMutation()
+  const [uploadPhoto, { isLoading }] = useUploadAvatarMutation()
   const [deletePhoto] = useDeleteAvatarMutation()
-  const {data} = useGetProfileQuery()
+  const { data } = useGetProfileQuery()
   const [photo, setPhoto] = useState<File | null>(null)
   const [ava, setAva] = useState('')
   const [open, setOpen] = useState(false)
@@ -36,7 +36,7 @@ const UploadAvatar = () => {
       } else {
         setPhoto(file)
         setError('')
-        const blob = new Blob([file], {type: 'image/jpeg'})
+        const blob = new Blob([file], { type: 'image/jpeg' })
         const downloadUrl = window.URL.createObjectURL(blob)
         setAva(downloadUrl)
       }
@@ -48,7 +48,7 @@ const UploadAvatar = () => {
     if (!photo) {
       return
     }
-    uploadPhoto({file: photo})
+    uploadPhoto({ file: photo })
     setOpen(false)
   }
 
@@ -60,7 +60,7 @@ const UploadAvatar = () => {
   if (isLoading)
     return (
       <div className={s.loader}>
-        <Loader/>
+        <Loader />
       </div>
     )
 
@@ -79,14 +79,14 @@ const UploadAvatar = () => {
           </div>
         ) : (
           <div className={s.defaultAvaContainer}>
-            <ImageOutline/>
+            <ImageOutline />
           </div>
         )}
         <Dialog open={openDelete} onOpenChange={setOpenDelete}>
           <DialogTrigger asChild className={style.triggerButton}>
             {data?.avatar?.url && (
               <button className={s.deleteAvaBtn}>
-                <CloseOutline/>
+                <CloseOutline />
               </button>
             )}
           </DialogTrigger>
@@ -117,16 +117,16 @@ const UploadAvatar = () => {
           <div className={s.wrapper}>
             {ava ? (
               <div className={s.avatarContainer}>
-                <Image src={ava} className={s.avatar} alt="" width={190} height={190}/>
+                <Image src={ava} className={s.avatar} alt="" width={190} height={190} />
               </div>
             ) : (
               <div className={s.defaultImageContainer}>
-                <ImageOutline/>
+                <ImageOutline />
               </div>
             )}
             <form onSubmit={submitHandler}>
               <label className={s.inputFile}>
-                <input type="file" name="avatar_upload" accept="image/*" onChange={uploadHandler}/>
+                <input type="file" name="avatar_upload" accept="image/*" onChange={uploadHandler} />
                 {!ava && (
                   <Button as="span" className={s.selectAvaBtn}>
                     {t.uploadAvatar.selectFromComputer}

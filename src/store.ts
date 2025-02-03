@@ -1,8 +1,8 @@
-import {Action, configureStore, ThunkAction} from '@reduxjs/toolkit'
-import {createWrapper} from 'next-redux-wrapper'
-import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux'
-import {baseApi} from '@/api/_base/base-api'
-import {countriesApi} from './api/countries/countries-api'
+import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit'
+import { createWrapper } from 'next-redux-wrapper'
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { baseApi } from '@/api/_base/base-api'
+import { countriesApi } from './api/countries/countries-api'
 
 const makeStore = () =>
   configureStore({

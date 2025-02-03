@@ -1,10 +1,10 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import s from './accountSubsCosts.module.scss'
-import {Button, Typography} from '@honor-ui/inctagram-ui-kit'
-import {useDeleteSubMutation} from '@/api/payments/payments-api'
+import { Button, Typography } from '@honor-ui/inctagram-ui-kit'
+import { useDeleteSubMutation } from '@/api/payments/payments-api'
 import CheckBoxTitle from './checkBoxTitle/checkBoxTitle'
 import PaymentsPayPalOrStripe from '../paymentsPayPalOrStripe'
-import {useTranslation} from "@/shared/hooks";
+import { useTranslation } from '@/shared/hooks'
 
 export type AccountSubsType = '$10 per 1 Day' | '$50 per 7 Day' | '$100 per month'
 
@@ -18,9 +18,9 @@ const AccountSubsCosts = () => {
   }
 
   const subs = [
-    {id: 1, handle: handleChange, subValue: t.day},
-    {id: 2, handle: handleChange, subValue: t.week},
-    {id: 3, handle: handleChange, subValue: t.month},
+    { id: 1, handle: handleChange, subValue: t.day },
+    { id: 2, handle: handleChange, subValue: t.week },
+    { id: 3, handle: handleChange, subValue: t.month },
   ]
 
   return (
@@ -37,7 +37,7 @@ const AccountSubsCosts = () => {
           />
         ))}
       </div>
-      <PaymentsPayPalOrStripe subCosts={subCosts}/>
+      <PaymentsPayPalOrStripe subCosts={subCosts} />
     </div>
   )
 }

@@ -1,15 +1,15 @@
 import React from 'react'
 import s from './accountTypeCheckBox.module.scss'
-import {Typography} from '@honor-ui/inctagram-ui-kit'
-import {AccountType} from '@/pages/user/[id]/profile/accountManagement'
-import {useTranslation} from "@/shared/hooks";
+import { Typography } from '@honor-ui/inctagram-ui-kit'
+import { AccountType } from '@/pages/user/[id]/profile/accountManagement'
+import { useTranslation } from '@/shared/hooks'
 
 type Props = {
   accountType: AccountType
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const AccountTypeCheckBox = ({accountType, handleChange}: Props) => {
+const AccountTypeCheckBox = ({ accountType, handleChange }: Props) => {
   const t = useTranslation('accountManagement')
   return (
     <div className={s.accountType}>

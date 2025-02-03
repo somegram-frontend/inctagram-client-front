@@ -1,11 +1,11 @@
-import {en, ru} from "@/locales";
-import {Translation} from "@/locales/type";
-import {useRouter} from "next/router";
+import { en, ru } from '@/locales'
+import { Translation } from '@/locales/type'
+import { useRouter } from 'next/router'
 
 // Перегрузка для случая, когда ключ не передан: возвращаем весь объект перевода
-export function useTranslation(): Translation;
+export function useTranslation(): Translation
 // Перегрузка для случая, когда ключ передан: возвращаем значение перевода по этому ключу
-export function useTranslation<K extends keyof Translation>(key: K): Translation[K];
+export function useTranslation<K extends keyof Translation>(key: K): Translation[K]
 /**
  * Хук для получения переводов.
  *
@@ -28,10 +28,8 @@ export function useTranslation<K extends keyof Translation>(key: K): Translation
  * @returns {K extends keyof Translation ? Translation[K] : Translation} Если ключ указан, возвращает значение перевода по этому ключу, иначе – полный объект переводов.
  */
 export function useTranslation<K extends keyof Translation>(key?: K): Translation | Translation[K] {
+  const router = useRouter()
+  const t = router.locale === 'en' ? en : ru
 
-  const router = useRouter();
-  const t = router.locale === 'en' ? en : ru;
-
-
-  return key ? t[key] : t;
+  return key ? t[key] : t
 }

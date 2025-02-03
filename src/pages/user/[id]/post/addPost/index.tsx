@@ -1,20 +1,20 @@
-import {PlusSquareOutline} from '@honor-ui/inctagram-ui-kit'
-import {Dialog, DialogContent, DialogTrigger} from '@/components/dialog'
+import { PlusSquareOutline } from '@honor-ui/inctagram-ui-kit'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/dialog'
 import style from '@/pages/auth/logOut/logOut.module.scss'
-import {ChangeEvent, useMemo, useState} from 'react'
-import {useAddUserPostsMutation} from '@/api/post/posts-api'
-import {useGetProfileQuery} from '@/api/user/users-api'
-import {useGetCountriesListQuery} from '@/api/countries/countries-api'
+import { ChangeEvent, useMemo, useState } from 'react'
+import { useAddUserPostsMutation } from '@/api/post/posts-api'
+import { useGetProfileQuery } from '@/api/user/users-api'
+import { useGetCountriesListQuery } from '@/api/countries/countries-api'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 import AddPhotoContent from './addPhotoContent'
 import CroppingContent from './croppingContent'
 import PublicationContent from './publicationContent'
 import CloseContent from './closeContent'
-import {Loader} from '@/components/loader'
-import {MAX_POST_IMGE_SIZE_20MB} from '@/shared/const/sizes'
-import {useTranslation} from "@/shared/hooks";
+import { Loader } from '@/components/loader'
+import { MAX_POST_IMGE_SIZE_20MB } from '@/shared/const/sizes'
+import { useTranslation } from '@/shared/hooks'
 
 type Props = {
   setIsActiveCreate: (isActiveCreate: boolean) => void
@@ -27,16 +27,16 @@ export type Image = {
 }
 
 const getImageUrls = (images: Array<Image>) => {
-  return images.map(({url, croppedUrl}) => croppedUrl ?? url)
+  return images.map(({ url, croppedUrl }) => croppedUrl ?? url)
 }
 
-const DialogAddUserPost = ({setIsActiveCreate}: Props) => {
+const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
   const [
     sendPost,
-    {isLoading: isCreateLoading, isSuccess: isCreateSuccess, isError: isCreateError, reset},
+    { isLoading: isCreateLoading, isSuccess: isCreateSuccess, isError: isCreateError, reset },
   ] = useAddUserPostsMutation()
-  const {data: profileInfo} = useGetProfileQuery()
-  const {data, error, isLoading} = useGetCountriesListQuery()
+  const { data: profileInfo } = useGetProfileQuery()
+  const { data, error, isLoading } = useGetCountriesListQuery()
 
   const [isFirstModalOpen, setIsFirstModalOpen] = useState(false)
   const [isSecondModalOpen, setIsSecondModalOpen] = useState(false)
@@ -81,7 +81,7 @@ const DialogAddUserPost = ({setIsActiveCreate}: Props) => {
     setImages(prevImages => [
       ...prevImages,
       ...validFiles.map(file => {
-        return {url: URL.createObjectURL(file), croppedUrl: undefined, filter: undefined}
+        return { url: URL.createObjectURL(file), croppedUrl: undefined, filter: undefined }
       }),
     ])
     setErrorUpload('')
@@ -94,25 +94,24 @@ const DialogAddUserPost = ({setIsActiveCreate}: Props) => {
 
   const handlePublish = async () => {
     if (images.length > 0) {
-      const imagePromises = images.map(({url, croppedUrl}, idx) => {
+      const imagePromises = images.map(({ url, croppedUrl }, idx) => {
         return fetch(croppedUrl ?? url)
           .then(response => response.blob())
           .then(blob => {
-            return new File([blob], `image${idx}`, {type: blob.type})
+            return new File([blob], `image${idx}`, { type: blob.type })
           })
       })
       try {
         const files = await Promise.all(imagePromises)
-        await sendPost({files, description}).unwrap()
-        images.forEach(({url, croppedUrl}) => {
+        await sendPost({ files, description }).unwrap()
+        images.forEach(({ url, croppedUrl }) => {
           URL.revokeObjectURL(url)
           if (croppedUrl) {
             URL.revokeObjectURL(croppedUrl)
           }
         })
         resetPostState()
-      } catch (e) {
-      }
+      } catch (e) {}
     }
   }
 
@@ -159,9 +158,9 @@ const DialogAddUserPost = ({setIsActiveCreate}: Props) => {
 
   const imageUrls = getImageUrls(images)
 
-  if (isCreateLoading) return <Loader/>
+  if (isCreateLoading) return <Loader />
   if (isCreateSuccess && !toast.isActive('toast-id')) {
-    toast.success('Successfully published', {toastId: 'toast-id'})
+    toast.success('Successfully published', { toastId: 'toast-id' })
     reset()
   }
   if (isCreateError) {
@@ -171,11 +170,11 @@ const DialogAddUserPost = ({setIsActiveCreate}: Props) => {
     <div>
       <Dialog open={isFirstModalOpen} onOpenChange={handleFirstModalOpenChange}>
         <DialogTrigger className={style.triggerButton}>
-          <PlusSquareOutline/> {t.create}
+          <PlusSquareOutline /> {t.create}
         </DialogTrigger>
         {images.length === 0 ? (
           <DialogContent title={'Add Photo'}>
-            <AddPhotoContent errorUpload={errorUpload} handleUpload={handleUpload}/>
+            <AddPhotoContent errorUpload={errorUpload} handleUpload={handleUpload} />
           </DialogContent>
         ) : (
           <DialogContent

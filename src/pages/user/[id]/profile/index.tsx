@@ -1,20 +1,20 @@
 'use client'
 import ProfileForm from './profileForm'
-import {useGetProfileQuery, useProfileFillInfoMutation} from '@/api/user/users-api'
+import { useGetProfileQuery, useProfileFillInfoMutation } from '@/api/user/users-api'
 import s from './profile.module.scss'
 import UploadAvatar from './uploadProfileAvatar'
 import Layout from '@/layout'
-import {Loader} from '@/components/loader'
-import {ProfileResponse, UserProfile} from '@/api/user/users-api.types'
-import {format} from 'date-fns'
-import {toast} from 'react-toastify'
-import {useRouter} from 'next/router'
-import {Tabs} from '@honor-ui/inctagram-ui-kit'
-import {useEffect, useState} from 'react'
+import { Loader } from '@/components/loader'
+import { ProfileResponse, UserProfile } from '@/api/user/users-api.types'
+import { format } from 'date-fns'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/router'
+import { Tabs } from '@honor-ui/inctagram-ui-kit'
+import { useEffect, useState } from 'react'
 import AccountManagement from './accountManagement'
 import MyPayments from './MyPayments'
-import {useSearchParams, usePathname} from 'next/navigation'
-import {useTranslation} from "@/shared/hooks";
+import { useSearchParams, usePathname } from 'next/navigation'
+import { useTranslation } from '@/shared/hooks'
 
 const Profile = () => {
   const t = useTranslation()
@@ -35,9 +35,9 @@ const Profile = () => {
   }, [activeTab])
   const [
     profileFillInfo,
-    {isLoading: isLoadingUpdate, isSuccess: success, error, isError: isErrorUpdate},
+    { isLoading: isLoadingUpdate, isSuccess: success, error, isError: isErrorUpdate },
   ] = useProfileFillInfoMutation()
-  const {data, isLoading, isSuccess, isError: isErrorGet} = useGetProfileQuery()
+  const { data, isLoading, isSuccess, isError: isErrorGet } = useGetProfileQuery()
 
   const onSubmitProfileForm = async (formData: UserProfile) => {
     let formattedDateOfBirth: string | undefined
@@ -49,7 +49,7 @@ const Profile = () => {
         return
       }
     }
-    await profileFillInfo({...formData, dateOfBirth: formattedDateOfBirth || ''})
+    await profileFillInfo({ ...formData, dateOfBirth: formattedDateOfBirth || '' })
   }
 
   const tabsName = [
@@ -58,7 +58,7 @@ const Profile = () => {
       value: 'General information',
       content: (
         <div className={s.avatarAndForm}>
-          <UploadAvatar/>
+          <UploadAvatar />
           <ProfileForm
             dataValue={data}
             onSubmit={onSubmitProfileForm}
@@ -67,9 +67,13 @@ const Profile = () => {
         </div>
       ),
     },
-    {text: t.devices.title, value: 'Devices', content: <div>Devices content</div>},
-    {text: t.accountManagement.title, value: 'Account Management', content: <AccountManagement/>},
-    {text: t.myPayments.title, value: 'My payments', content: <MyPayments/>},
+    { text: t.devices.title, value: 'Devices', content: <div>Devices content</div> },
+    {
+      text: t.accountManagement.title,
+      value: 'Account Management',
+      content: <AccountManagement />,
+    },
+    { text: t.myPayments.title, value: 'My payments', content: <MyPayments /> },
   ]
 
   const handleValueChange = (value: string) => {
@@ -79,7 +83,7 @@ const Profile = () => {
   if (isLoading)
     return (
       <div className={s.loader}>
-        <Loader/>
+        <Loader />
       </div>
     )
 
@@ -97,7 +101,7 @@ const Profile = () => {
   }
 
   if (success && !toast.isActive('toast-id'))
-    toast.success('Your settings are saved!', {toastId: 'toast-id'})
+    toast.success('Your settings are saved!', { toastId: 'toast-id' })
 
   if (isSuccess)
     return (
