@@ -9,6 +9,7 @@ import { MyPaymentsSearchParams } from '@/api/payments/payments-api.types'
 import ButtonArrow from './ui/buttonArrow/ButtonArrow'
 import MainPaginationButtons from './ui/mainPaginationButtons/MainPaginationButtons'
 import { usePagination } from '@/shared/hooks/usePagination'
+import { useTranslation } from '@/shared/hooks'
 
 export type PaginationOption = {
   label: string
@@ -35,6 +36,7 @@ const Pagination = forwardRef<ElementRef<'div'>, PaginationProps>(
       options,
       paginationRange,
     } = usePagination({ siblingCount, totalCount, searchParams, setNewParams })
+    const t = useTranslation('pagination')
     return (
       <div className={s.container} ref={ref}>
         <ButtonArrow disabled={isFirstPage} onClick={onPreviousPage}>
@@ -49,14 +51,14 @@ const Pagination = forwardRef<ElementRef<'div'>, PaginationProps>(
           <ArrowForward />
         </ButtonArrow>
         <div className={s.selectBlock}>
-          <Typography variant={'regular_text14'}>Show&nbsp;</Typography>
+          <Typography variant={'regular_text14'}>{t.show}&nbsp;</Typography>
           <Select
             onValueChange={itemsPerPageChangeHandler}
             options={options}
             small
             value={String(itemsPerPage)}
           />
-          <Typography variant={'regular_text14'}>on the page</Typography>
+          <Typography variant={'regular_text14'}>{t.onPage}</Typography>
         </div>
       </div>
     )

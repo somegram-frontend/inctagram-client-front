@@ -1,8 +1,8 @@
 import s from './header.module.scss'
-import { Button, Select } from '@honor-ui/inctagram-ui-kit'
-import { FlagRussia, FlagUnitedKingdom } from '@honor-ui/inctagram-ui-kit'
+import { Button, FlagRussia, FlagUnitedKingdom, Select } from '@honor-ui/inctagram-ui-kit'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { Language } from '@/locales/type'
 
 type Props = {
   isAuth: boolean
@@ -18,7 +18,7 @@ export const Header = ({ isAuth }: Props) => {
           <FlagUnitedKingdom /> &nbsp; <span> English</span>
         </div>
       ),
-      value: 'value1',
+      value: 'en',
     },
     {
       label: (
@@ -28,9 +28,14 @@ export const Header = ({ isAuth }: Props) => {
           <span>Russian</span>
         </div>
       ),
-      value: 'value2',
+      value: 'ru',
     },
   ]
+
+  const handleChangeLanguage = (locale: Language) => {
+    const { asPath, pathname, query, push } = router
+    void push({ pathname, query }, asPath, { locale })
+  }
 
   return (
     <header className={s.header}>
@@ -41,11 +46,13 @@ export const Header = ({ isAuth }: Props) => {
         <Select
           className={s.select}
           options={options}
+          value={router.locale}
           placeholder={
             <div className={s.flagContainer}>
               <FlagUnitedKingdom /> &nbsp; <span> English</span>
             </div>
           }
+          onValueChange={value => handleChangeLanguage(value as Language)}
         />
         {!isAuth && !router.pathname.includes('/auth/') && (
           <div className={s.buttons}>

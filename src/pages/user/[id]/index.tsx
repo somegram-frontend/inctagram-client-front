@@ -2,7 +2,7 @@ import { useGetUserPostsQuery } from '@/api/post/posts-api'
 import { useRouter } from 'next/router'
 import Layout from '@/layout'
 import { useEffect, useState } from 'react'
-import { DialogTrigger, Dialog, DialogContent, DialogTitle } from '@/components/dialog'
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/dialog'
 import { Button, CloseOutline, ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
 import { useMeQuery } from '@/api/auth/auth-api'
 import { useGetProfileQuery } from '@/api/user/users-api'
@@ -11,13 +11,14 @@ import s from './profile/uploadProfileAvatar/uploadProfileAvatar.module.scss'
 import style from './user.module.scss'
 import { Loader } from '@/components/loader'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
-import DialogWithConfirm from './post/editPost/dialogWithConfirm'
 import { Post } from '@/components/post/Post'
 import EditPost from './post/editPost'
+import { useTranslation } from '@/shared/hooks'
 
 const Profile = () => {
   const router = useRouter()
   const { id, postId } = router.query
+  const t = useTranslation()
   const { data: userPosts, isLoading: isPostsLoading } = useGetUserPostsQuery(
     {
       userId: id as string,
@@ -98,21 +99,21 @@ const Profile = () => {
               <div className={style.profileNameAndBtnContainer}>
                 <Typography variant="h1">{me?.userName}</Typography>
                 <Button variant="secondary" onClick={handleProfileSettingClick}>
-                  Profile Settings
+                  {t.profileSettings}
                 </Button>
               </div>
               <div className={style.profileFollowersContainer}>
                 <span>
                   2 218 <br />
-                  Following
+                  {t.profile.following}
                 </span>
                 <span>
                   2 358 <br />
-                  Followers
+                  {t.profile.followers}
                 </span>
                 <span>
                   2 764 <br />
-                  Publications
+                  {t.profile.publications}
                 </span>
               </div>
               <Typography variant="regular_text16">

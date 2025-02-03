@@ -11,6 +11,7 @@ import { DialogTrigger, Dialog, DialogContent, DialogClose } from '@/components/
 import { Loader } from '@/components/loader'
 import Image from 'next/image'
 import { MAX_AVATAR_IMGE_SIZE_10MB } from '@/shared/const/sizes'
+import { useTranslation } from '@/shared/hooks'
 
 const UploadAvatar = () => {
   const [uploadPhoto, { isLoading }] = useUploadAvatarMutation()
@@ -21,6 +22,7 @@ const UploadAvatar = () => {
   const [open, setOpen] = useState(false)
   const [openDelete, setOpenDelete] = useState(false)
   const [error, setError] = useState('')
+  const t = useTranslation()
 
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget.files && e.currentTarget.files.length) {
@@ -88,15 +90,15 @@ const UploadAvatar = () => {
               </button>
             )}
           </DialogTrigger>
-          <DialogContent title={'Delete Photo'}>
+          <DialogContent title={t.deletePhoto.title}>
             <div className={style.main}>
-              <span className={style.text}>Are you sure you want to delete the photo?</span>
+              <span className={style.text}>{t.deletePhoto.confirmationMessage}</span>
               <div className={style.buttonContainer}>
                 <Button onClick={onClickHandler} variant={'outlined'} className={style.button}>
-                  Yes
+                  {t.common.yes}
                 </Button>
                 <DialogClose>
-                  <Button className={style.button}>No</Button>
+                  <Button className={style.button}>{t.common.no}</Button>
                 </DialogClose>
               </div>
             </div>
@@ -106,9 +108,9 @@ const UploadAvatar = () => {
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild className={s.triggerButton}>
-          <Button variant="outlined">Add a Profile photo</Button>
+          <Button variant="outlined">{t.generalInformation.addProfilePhoto}</Button>
         </DialogTrigger>
-        <DialogContent title={'Upload avatar'}>
+        <DialogContent title={t.uploadAvatar.title}>
           <div className={s.uploadPhotoErrorContainer}>
             {error && <span className={s.uploadPhotoError}>{error}</span>}
           </div>
@@ -127,13 +129,13 @@ const UploadAvatar = () => {
                 <input type="file" name="avatar_upload" accept="image/*" onChange={uploadHandler} />
                 {!ava && (
                   <Button as="span" className={s.selectAvaBtn}>
-                    Select from Computer
+                    {t.uploadAvatar.selectFromComputer}
                   </Button>
                 )}
               </label>
               {ava && (
                 <Button type="submit" className={s.saveAvaBtn}>
-                  Save
+                  {t.common.save}
                 </Button>
               )}
             </form>

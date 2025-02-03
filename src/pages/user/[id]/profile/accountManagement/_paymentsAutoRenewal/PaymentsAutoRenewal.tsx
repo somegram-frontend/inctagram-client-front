@@ -11,17 +11,19 @@ import { useDelayedRefetch } from '@/shared/hooks/useDelayedRefetch'
 import { tryCatch } from '@/shared/utils/tryCatch'
 import { Loader } from '@/components/loader'
 import { PaymentsInfoResponse } from '@/api/payments/payments-api.types'
+import { useTranslation } from '@/shared/hooks'
 
 type Subscription = {
-  label: 'Expire at' | 'Next payment'
+  label: 'expireAt' | 'nextPayment'
   key: keyof Pick<PaymentsInfoResponse, 'dateOfPayment' | 'endDateOfSubscription'>
 }
 const SUBSCRIPTION: Subscription[] = [
-  { label: 'Expire at', key: 'dateOfPayment' },
-  { label: 'Next payment', key: 'endDateOfSubscription' },
+  { label: 'expireAt', key: 'dateOfPayment' },
+  { label: 'nextPayment', key: 'endDateOfSubscription' },
 ]
 
 const PaymentsAutoRenewal = () => {
+  const t = useTranslation('accountManagement')
   const [enableAutoRenewal, { isLoading: isEnabling }] = useEnableAutoRenewalMutation()
   const [disableAutoRenewal, { isLoading: isDisabling }] = useDisableAutoRenewalMutation()
   const {
@@ -52,18 +54,18 @@ const PaymentsAutoRenewal = () => {
     <>
       {paymentsInfo?.status === 'Active' && (
         <div className={s.paymentsAutoRenewal}>
-          <Typography variant={'h3'}>Current Subscription:</Typography>
+          <Typography variant={'h3'}>{t.subscription}:</Typography>
           <Cards className={s.block}>
             {SUBSCRIPTION.map(({ label, key }) => (
               <Typography className={s.blockItem} key={label} variant={'regular_text14'}>
-                <span>{label}</span>
+                <span>{t[label]}</span>
                 {safeFormatDate(paymentsInfo?.[key])}
               </Typography>
             ))}
           </Cards>
 
           <Checkbox
-            label={isRefetching ? 'Updating...' : 'Auto-Renewal'}
+            label={isRefetching ? t.updating + '...' : t.autoRenewal}
             checked={paymentsInfo?.autoRenewal ?? false}
             onCheckedChange={toggleAutoRenewal}
             disabled={isDisabled}

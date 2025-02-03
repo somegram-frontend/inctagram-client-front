@@ -1,5 +1,6 @@
 import { Payment } from '@/api/payments/payments-api.types'
 import s from './payments.module.scss'
+import { useTranslation } from '@/shared/hooks'
 
 type PaymentDateProps = {
   timestamp: string
@@ -17,23 +18,25 @@ type Props = {
 }
 
 const THead = () => {
+  const t = useTranslation('myPayments')
+
   return (
     <thead className={s.table__thead}>
       <tr>
         <th className={s.table__th} scope="col">
-          Date of Payment
+          {t.dateOfPayment}
         </th>
         <th className={s.table__th} scope="col">
-          End date of subscription
+          {t.endDateOfSubscription}
         </th>
         <th className={s.table__th_leftAligned} scope="col">
-          Price
+          {t.price}
         </th>
         <th className={s.table__th_subscrType} scope="col">
-          Subscription Type
+          {t.subscriptionType}
         </th>
         <th className={s.table__th} scope="col">
-          Payment Type
+          {t.paymentType}
         </th>
       </tr>
     </thead>
@@ -41,6 +44,8 @@ const THead = () => {
 }
 
 const TBody = (props: Props) => {
+  const t = useTranslation('myPayments')
+
   const { items } = props
   return (
     <tbody>
@@ -63,7 +68,7 @@ const TBody = (props: Props) => {
             </td>
             <td className={s.table__td + ' ' + s.table__td_leftAligned}>${price}</td>
             <td className={s.table__td + ' ' + s.table__td_subscrType}>
-              {subscriptionType.toLowerCase()}
+              {t[subscriptionType.toLowerCase() as keyof typeof t]}
             </td>
             <td className={s.table__td}>{paymentSystem}</td>
           </tr>

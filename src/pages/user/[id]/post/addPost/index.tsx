@@ -14,6 +14,7 @@ import PublicationContent from './publicationContent'
 import CloseContent from './closeContent'
 import { Loader } from '@/components/loader'
 import { MAX_POST_IMGE_SIZE_20MB } from '@/shared/const/sizes'
+import { useTranslation } from '@/shared/hooks'
 
 type Props = {
   setIsActiveCreate: (isActiveCreate: boolean) => void
@@ -43,6 +44,7 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
   const [publicPost, setPublicPost] = useState(false)
   const [description, setDescription] = useState('')
   const [images, setImages] = useState<Array<Image>>([])
+  const t = useTranslation()
 
   const MAX_CHARS = 500
 
@@ -168,7 +170,7 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
     <div>
       <Dialog open={isFirstModalOpen} onOpenChange={handleFirstModalOpenChange}>
         <DialogTrigger className={style.triggerButton}>
-          <PlusSquareOutline /> Create
+          <PlusSquareOutline /> {t.create}
         </DialogTrigger>
         {images.length === 0 ? (
           <DialogContent title={'Add Photo'}>

@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
-import { Button, Tabs, TextArea } from '@honor-ui/inctagram-ui-kit'
+import { Button, TextArea } from '@honor-ui/inctagram-ui-kit'
 import { useGetCitiesListMutation, useGetCountriesListQuery } from '@/api/countries/countries-api'
 import { useEffect, useId, useMemo, useState } from 'react'
 import { ControlledSelect } from '@/components/controlled/ControlledSelect'
@@ -10,6 +10,7 @@ import { changeProfileSchema } from '@/shared/const/validationSchemas'
 import { UserProfile } from '@/api/user/users-api.types'
 import { ControlledDatePicker } from '@/components/controlled/ControlledDatePicker'
 import { Loader } from '@/components/loader'
+import { useTranslation } from '@/shared/hooks'
 
 type Props = {
   isLoadingUpdate: boolean
@@ -44,6 +45,8 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
   const [startDate, setStartDate] = useState<Date | undefined>(
     dataValue?.dateOfBirth ? new Date(dataValue.dateOfBirth) : undefined,
   )
+  const t = useTranslation('generalInformation')
+
   const setDatePicker = (d: Date | undefined) => {
     setStartDate(d || new Date())
   }
@@ -94,21 +97,21 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
         <div className={s.inputWrapper}>
           <ControlledInput
             control={control}
-            label={'Username'}
+            label={t.username}
             name={'userName'}
             trigger={trigger}
             className={s.input}
           />
           <ControlledInput
             control={control}
-            label={'First Name'}
+            label={t.firstName}
             name={'firstName'}
             trigger={trigger}
             className={s.input}
           />
           <ControlledInput
             control={control}
-            label={'Last Name'}
+            label={t.lastName}
             name={'lastName'}
             trigger={trigger}
             className={s.input}
@@ -116,7 +119,7 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
         </div>
         <ControlledDatePicker
           control={control}
-          label={'Date of birth'}
+          label={t.dateOfBirth}
           name={'dateOfBirth'}
           trigger={trigger}
           className={s.datePicker}
@@ -126,24 +129,24 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
         <div className={s.wrapperSelect}>
           <ControlledSelect
             control={control}
-            label={'Select your country'}
+            label={t.selectYourCountry}
             name={'country'}
             options={optionsCountry}
             className={s.select}
           />
           <ControlledSelect
             control={control}
-            label={'Select your city'}
+            label={t.selectYourCity}
             name={'city'}
             options={optionsCity}
             disabled={citiesLoading || !selectedCountry}
             className={s.select}
           />
         </div>
-        <TextArea label={'About Me'} {...register('about')} className={s.textArea} name={'about'} />
+        <TextArea label={t.aboutMe} {...register('about')} className={s.textArea} name={'about'} />
         <span className={s.textAreaError}>{errors.about?.message}</span>
         <div className={s.buttonContainer}>
-          <Button disabled={!!Object.keys(errors).length}>Save Change</Button>
+          <Button disabled={!!Object.keys(errors).length}>{t.saveChanges}</Button>
         </div>
       </form>
     </div>
