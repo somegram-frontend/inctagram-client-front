@@ -1,0 +1,12 @@
+.avatarAndForm {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+}
+
+.loader {
+  position: absolute;
+  z-index: 99;
+  inset: 0;
+  background-color: var(--color-dark--800);
+}

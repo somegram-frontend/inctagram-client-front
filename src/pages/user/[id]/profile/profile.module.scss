@@ -7,19 +7,6 @@
   margin: 62px auto 0;
 }
 
-.avatarAndForm {
-  display: flex;
-  gap: 40px;
-  justify-content: center;
-}
-
-.loader {
-  position: absolute;
-  z-index: 99;
-  inset: 0;
-  background-color: var(--color-dark--800);
-}
-
 .tabsContent {
   width: 100%;
 }
