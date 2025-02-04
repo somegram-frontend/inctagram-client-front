@@ -16,7 +16,7 @@ const CloseContent: React.FC<Props> = ({ handleReturnToFirstModal, handleCloseFi
           If you close everything will be delete
         </Typography>
         <div className={s.modalBtnWrapper}>
-          <Button onClick={handleReturnToFirstModal} variant="outlined">
+          <Button onClick={handleReturnToFirstModal} variant="outlined" className={s.btnOutline}>
             Discard
           </Button>
           <Button onClick={handleCloseFirstModal}>Save draft</Button>

@@ -29,7 +29,9 @@ const AddPhotoContent: React.FC<Props> = ({ errorUpload, handleUpload }) => {
             <Button as="span" className={s.btn}>
               Select from Computer
             </Button>
-            <Button variant="outlined">Open Draft</Button>
+            <Button variant="outlined" className={s.btnOutline}>
+              Open Draft
+            </Button>
           </div>
         </label>
       </div>
