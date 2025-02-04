@@ -1,4 +1,4 @@
-import postStyle from './editPost.module.scss'
+import postStyle from '../../../../../components/post/post.module.scss'
 import s from './editPost.module.scss'
 import Image from 'next/image'
 import { Button, TextArea, Typography } from '@honor-ui/inctagram-ui-kit'
