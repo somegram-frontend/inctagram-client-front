@@ -7,7 +7,8 @@ import { Button, CloseOutline, ImageOutline, Typography } from '@honor-ui/inctag
 import { useMeQuery } from '@/api/auth/auth-api'
 import { useGetProfileQuery } from '@/api/user/users-api'
 import Image from 'next/image'
-import s from './profile/uploadProfileAvatar/uploadProfileAvatar.module.scss'
+// import s from './profile/uploadProfileAvatar/uploadProfileAvatar.module.scss'
+import s from './post/editPost/dialogWithConfirm/dialogWithConfirm.module.scss'
 import style from './user.module.scss'
 import { Loader } from '@/components/loader'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
@@ -147,7 +148,7 @@ const Profile = () => {
                       />
                     </DialogTrigger>
                     {editPost ? (
-                      <DialogContent title={'123'} withoutCloseIcon>
+                      <DialogContent title={'Edit'}>
                         <DialogTrigger asChild className={s.triggerBtn}>
                           <CloseOutline onClick={() => setEditPost(false)} />
                         </DialogTrigger>
