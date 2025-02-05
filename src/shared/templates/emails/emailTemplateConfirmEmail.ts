@@ -1,6 +1,6 @@
 //Шаблон письма подтверждения email
 
-const appDeploy = `http://localhost:3000/auth/signUp/emailConfirm?token=##token##` //TODO  change to deploy-app-path, when finish develop
+const appDeploy = `${process.env.NEXT_PUBLIC_MAIL_URL}?token=##token##` //TODO  change to deploy-app-path, when finish develop
 // const appDeploy = `https:// ... .app/auth/signUp/emailConfirm?token=##token##`
 
 export const emailTemplateConfirmEmail = `
