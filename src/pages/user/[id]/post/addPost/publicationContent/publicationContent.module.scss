@@ -42,6 +42,20 @@
   border: 1px solid var(--color-dark-100);
 }
 
+.customArrow {
+  pointer-events: none;
+
+  position: absolute;
+  top: 69%;
+  right: 6px;
+  transform: translateY(-50%);
+
+  display: flex;
+  align-items: center;
+
+  background-color: var(--color-dark-300);
+}
+
 .selectWrapper {
   position: relative;
 
@@ -58,16 +72,8 @@
       display: none;
     }
   }
-}
 
-.customArrow {
-  pointer-events: none;
-
-  position: absolute;
-  top: 70%;
-  right: 10px;
-  transform: translateY(-50%);
-
-  display: flex;
-  align-items: center;
+  &:hover .customArrow {
+    background-color: var(--color-dark-500);
+  }
 }

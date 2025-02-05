@@ -4,6 +4,8 @@ import Image from 'next/image'
 import React from 'react'
 import PhotoSlider from '../../../../../../components/photoSlider'
 import s from './publicationContent.module.scss'
+import { ControlledSelect } from '@/components/controlled/ControlledSelect'
+import { useForm } from 'react-hook-form'
 
 interface Country {
   label: string
@@ -27,6 +29,7 @@ const PublicationContent: React.FC<Props> = ({
   MAX_CHARS,
   optionsCountry = [],
 }) => {
+  const { control } = useForm<any>({})
   return (
     <>
       <div className={s.publicWrapper}>
@@ -55,7 +58,13 @@ const PublicationContent: React.FC<Props> = ({
           </div>
           <hr className={s.line} />
           <div className={s.selectWrapper}>
-            <Select label={'Add location'} name={'location'} options={optionsCountry} />
+            <ControlledSelect
+              control={control}
+              label={'Add location'}
+              name={'location'}
+              options={optionsCountry}
+              className={s.select}
+            />
             <span className={s.customArrow}>
               <PinOutline />
             </span>
