@@ -1,6 +1,6 @@
 //Шаблон письма восстановления пароля
 
-const appDeploy = 'http://localhost:3000/auth/createNewPassword?code=##code##' //TODO change to deploy-app-path, when finish develop
+const appDeploy = `${process.env.NEXT_PUBLIC_MAIL_URL}auth/createNewPassword?code=##code##` //TODO change to deploy-app-path, when finish develop
 
 export const emailTemplateForgotPassword = `
 <!DOCTYPE html >
