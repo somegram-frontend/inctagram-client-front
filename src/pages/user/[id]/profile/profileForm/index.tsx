@@ -2,7 +2,6 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
 import { Button, TextArea } from '@honor-ui/inctagram-ui-kit'
-import { useGetCitiesListMutation, useGetCountriesListQuery } from '@/api/countries/countries-api'
 import { useEffect, useId, useMemo, useState } from 'react'
 import { ControlledSelect } from '@/components/controlled/ControlledSelect'
 import s from './profileForm.module.scss'
@@ -11,6 +10,8 @@ import { UserProfile } from '@/api/user/users-api.types'
 import { ControlledDatePicker } from '@/components/controlled/ControlledDatePicker'
 import { Loader } from '@/components/loader'
 import { useTranslation } from '@/shared/hooks'
+import { useGetCitiesListQuery, useGetCountriesListQuery } from '@/api/countries/countries-api'
+import { City } from '@/api/countries/countries-api.type'
 
 type Props = {
   isLoadingUpdate: boolean
@@ -40,12 +41,21 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
     },
   })
 
-  const { data, error, isLoading } = useGetCountriesListQuery()
-  const [getCities, { data: citiesData, isLoading: citiesLoading }] = useGetCitiesListMutation()
   const [startDate, setStartDate] = useState<Date | undefined>(
     dataValue?.dateOfBirth ? new Date(dataValue.dateOfBirth) : undefined,
   )
+  const [countryId, setCountryId] = useState('')
+
   const t = useTranslation('generalInformation')
+
+  const { data: countries, error, isLoading } = useGetCountriesListQuery()
+  const {
+    data: cities,
+    error: citiesError,
+    isLoading: citiesLoading,
+  } = useGetCitiesListQuery(countryId, {
+    skip: !countryId,
+  })
 
   const setDatePicker = (d: Date | undefined) => {
     setStartDate(d || new Date())
@@ -55,34 +65,30 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
   const formId = useId()
 
   useEffect(() => {
-    if (selectedCountry) {
-      getCities({ country: selectedCountry }).then(() => {
-        if (dataValue && dataValue.city) {
-          setValue('city', dataValue.city)
-        }
-      })
-    }
-  }, [selectedCountry, getCities, dataValue, setValue])
+    setCountryId(selectedCountry)
+  }, [selectedCountry])
+
+  console.log(selectedCountry)
 
   const optionsCountry = useMemo(() => {
-    if (data && !isLoading && !error) {
-      return data.data.map(country => ({
-        label: country.country,
-        value: country.country,
+    if (Array.isArray(countries) && !isLoading && !error) {
+      return countries.map((country: any) => ({
+        label: country.name,
+        value: country.id,
       }))
     }
     return []
-  }, [data, isLoading, error])
+  }, [countries, isLoading, error])
 
   const optionsCity = useMemo(() => {
-    if (citiesData && !citiesLoading) {
-      return citiesData.data.map(city => ({
-        label: city,
-        value: city,
+    if (cities && !citiesLoading) {
+      return cities.map((city: City) => ({
+        label: city.name.toString(),
+        value: city.name.toString(),
       }))
     }
     return []
-  }, [citiesData, citiesLoading])
+  }, [cities, citiesLoading])
 
   if (isLoadingUpdate)
     return (

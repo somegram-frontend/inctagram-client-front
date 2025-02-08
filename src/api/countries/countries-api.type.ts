@@ -1,20 +1,15 @@
-type CountryData = {
-  country: string
-  cities: string[]
+export type Country = {
+  id: string
+  countryCode: string
+  name: string
 }
 
-export type ApiResponse = {
-  error: boolean
-  msg: string
-  data: CountryData[]
+export type CountryResponse = Country[]
+
+export type City = {
+  id: string
+  countryId: string
+  name: StringConstructor
 }
 
-export type CitiesApiResponse = {
-  error: boolean
-  msg: string
-  data: string[]
-}
-
-export type GetCitiesRequest = {
-  country: string
-}
+export type CityResponse = City[]

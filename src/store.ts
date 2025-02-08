@@ -8,7 +8,6 @@ const makeStore = () =>
   configureStore({
     reducer: {
       [baseApi.reducerPath]: baseApi.reducer,
-      [countriesApi.reducerPath]: countriesApi.reducer,
     },
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware().concat(baseApi.middleware, countriesApi.middleware),

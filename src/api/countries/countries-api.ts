@@ -1,23 +1,19 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { ApiResponse, CitiesApiResponse, GetCitiesRequest } from './countries-api.type'
+import { baseApi } from '../_base/base-api'
+import { CityResponse, CountryResponse } from './countries-api.type'
 
-export const countriesApi = createApi({
-  reducerPath: 'countriesApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://countriesnow.space/api/v0.1/' }),
-  endpoints: builder => ({
-    getCountriesList: builder.query<ApiResponse, void>({
-      query: () => 'countries',
-    }),
-    getCitiesList: builder.mutation<CitiesApiResponse, GetCitiesRequest>({
-      query: body => {
-        return {
-          url: 'countries/cities',
-          method: 'POST',
-          body,
-        }
-      },
-    }),
-  }),
+export const countriesApi = baseApi.injectEndpoints({
+  endpoints: builder => {
+    return {
+      getCountriesList: builder.query<CountryResponse, void>({
+        query: () => '/v1/country-catalog/country',
+        providesTags: ['CountryCatalog'],
+      }),
+      getCitiesList: builder.query<CityResponse, string>({
+        query: countryId => `/v1/country-catalog/${countryId}/city`,
+        providesTags: ['CountryCatalog'],
+      }),
+    }
+  },
 })
 
-export const { useGetCountriesListQuery, useGetCitiesListMutation } = countriesApi
+export const { useGetCitiesListQuery, useGetCountriesListQuery } = countriesApi

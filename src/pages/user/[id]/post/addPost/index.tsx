@@ -4,7 +4,6 @@ import style from '@/pages/auth/logOut/logOut.module.scss'
 import { ChangeEvent, useMemo, useState } from 'react'
 import { useAddUserPostsMutation } from '@/api/post/posts-api'
 import { useGetProfileQuery } from '@/api/user/users-api'
-import { useGetCountriesListQuery } from '@/api/countries/countries-api'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { toast } from 'react-toastify'
@@ -15,6 +14,7 @@ import CloseContent from './closeContent'
 import { Loader } from '@/components/loader'
 import { MAX_POST_IMGE_SIZE_20MB } from '@/shared/const/sizes'
 import { useTranslation } from '@/shared/hooks'
+import { useGetCountriesListQuery } from '@/api/countries/countries-api'
 
 type Props = {
   setIsActiveCreate: (isActiveCreate: boolean) => void
@@ -36,7 +36,7 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
     { isLoading: isCreateLoading, isSuccess: isCreateSuccess, isError: isCreateError, reset },
   ] = useAddUserPostsMutation()
   const { data: profileInfo } = useGetProfileQuery()
-  const { data, error, isLoading } = useGetCountriesListQuery()
+  const { data: countries, error, isLoading } = useGetCountriesListQuery()
 
   const [isFirstModalOpen, setIsFirstModalOpen] = useState(false)
   const [isSecondModalOpen, setIsSecondModalOpen] = useState(false)
@@ -49,14 +49,14 @@ const DialogAddUserPost = ({ setIsActiveCreate }: Props) => {
   const MAX_CHARS = 500
 
   const optionsCountry = useMemo(() => {
-    if (data && !isLoading && !error) {
-      return data.data.map(country => ({
-        label: country.country,
-        value: country.country,
+    if (countries && !isLoading && !error) {
+      return countries.map(country => ({
+        label: country.name,
+        value: country.id,
       }))
     }
     return []
-  }, [data, isLoading, error])
+  }, [countries, isLoading, error])
 
   const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const uploadedFiles = e.currentTarget.files
