@@ -13,4 +13,9 @@
   flex-wrap: wrap;
   justify-content: space-between;
   margin-top: 35px;
+
+  @media (width <= 750px) {
+    justify-content: space-around;
+  }
+
 }
