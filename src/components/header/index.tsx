@@ -62,12 +62,11 @@ export const Header = ({isAuth}: Props) => {
               </Link>
               <Link href="/auth/signIn">
                 <Button variant={'primary'}>Log In</Button>
-                <PersonOutline className={s.loginInIcon}/>
               </Link>
             </div>
 
             <Link href="/auth/signIn" className={s.buttonForMobile}>
-              <PersonOutline />
+              <PersonOutline/>
             </Link>
 
           </>

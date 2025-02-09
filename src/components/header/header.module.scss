@@ -69,7 +69,12 @@
 }
 
 .buttonForMobile {
-  display: flex;
+  display: none;
+
+  @media (max-width: $tablet) {
+    display: flex;
+
+  }
 }
 
 .bell {
