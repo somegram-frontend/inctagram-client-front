@@ -15,7 +15,8 @@ export const Header = ({ isAuth }: Props) => {
     {
       label: (
         <div className={s.flagContainer}>
-          <FlagUnitedKingdom /> &nbsp; <span> English</span>
+          <FlagUnitedKingdom />
+          <span className={s.language}> English</span>
         </div>
       ),
       value: 'en',
@@ -24,8 +25,7 @@ export const Header = ({ isAuth }: Props) => {
       label: (
         <div className={s.flagContainer}>
           <FlagRussia />
-          &nbsp;
-          <span>Russian</span>
+          <span className={s.language}>Russian</span>
         </div>
       ),
       value: 'ru',
