@@ -1,57 +1,56 @@
 .usersList {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-    width: 100%;
-    min-width: 972px;
-    padding: 12px 24px;
+  width: 100%;
+  padding: 12px 24px;
 
-    background-color: var(--color-dark-500);
-    border: 1px solid var(--color-dark-300);
-    border-radius: 2px;
+  background-color: var(--color-dark-500);
+  border: 1px solid var(--color-dark-300);
+  border-radius: 2px;
 }
 
 .usersCount {
+  display: flex;
+
+  width: 100%;
+  max-width: 205px;
+  padding: 12px;
+
+
+  background-color: var(--color-dark-700);
+  border: 1px solid var(--color-dark-300);
+  border-radius: 2px;
+
+  & span {
+    position: relative;
+
     display: flex;
+    justify-content: center;
 
     width: 100%;
-    max-width: 205px;
-    padding: 12px;
+    max-width: 24px;
+    height: 100%;
+    max-height: 24px;
 
 
-    background-color: var(--color-dark-700);
-    border: 1px solid var(--color-dark-300);
-    border-radius: 2px;
+    &:not(:last-child) {
+      margin-right: 7px;
 
-    & span {
-        position: relative;
+      &::before {
+        content: '';
 
-        display: flex;
-        justify-content: center;
+        position: absolute;
+        bottom: -3px;
+        left: 110%;
 
-        width: 100%;
-        max-width: 24px;
-        height: 100%;
-        max-height: 24px;
+        width: 1px;
+        height: 30px;
 
-
-        &:not(:last-child) {
-            margin-right: 7px;   
-
-            &::before{
-                content: '';
-
-                position: absolute;
-                bottom: -3px;
-                left: 110%;
-
-                width: 1px;
-                height: 30px;
-                
-                background-color: var(--color-dark-300);
-            }
-        }  
+        background-color: var(--color-dark-300);
+      }
     }
+  }
 
 }
