@@ -1,16 +1,12 @@
-/* reset */
-button {
-  all: unset;
-}
-
 .DropdownMenuContent {
   will-change: transform, opacity;
 
   min-width: 220px;
-  padding: 5px;
+  padding: 12px;
 
-  background-color: white;
-  border-radius: 6px;
+  background-color: var(--color-dark-500);
+  border: 1px solid var(--color-dark-100);
+  border-radius: 1px;
   box-shadow:
     0 10px 38px -10px rgb(22 23 24 / 35%),
     0 10px 20px -15px rgb(22 23 24 / 20%);
@@ -36,61 +32,33 @@ button {
 }
 
 .DropdownMenuItem {
-  user-select: none;
+  overflow-y: auto;
+  max-height: 300px;
+  padding: 0 12px 0 0;
 
-  position: relative;
+  &::-webkit-scrollbar {
+    width: 4px; // Ширина вертикального скроллбара
+    padding: 0 0 0 8px;
+  }
 
-  display: flex;
-  align-items: center;
+  &::-webkit-scrollbar-track {
+    background: var(--color-dark-300); // Фон полосы прокрутки
+    border-radius: 10px;
+  }
 
-  height: 25px;
-  padding: 0 5px;
-  padding-left: 25px;
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-dark-100);
+    border-radius: 10px;
+  }
 
-  font-size: 13px;
-  line-height: 1;
-  color: var(--violet-11);
-
-  border-radius: 3px;
-  outline: none;
-}
-
-.DropdownMenuItem[data-disabled] {
-  pointer-events: none;
-  color: red;
-}
-
-.DropdownMenuItem[data-highlighted] {
-  color: red;
-  background-color: red;
-}
-
-.DropdownMenuLabel {
-  padding-left: 25px;
-  font-size: 12px;
-  line-height: 25px;
-  color: red;
-}
-
-.DropdownMenuSeparator {
-  height: 1px;
-  margin: 5px;
-  background-color: red;
-}
-
-.DropdownMenuItemIndicator {
-  position: absolute;
-  left: 0;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 25px;
+  &:focus-visible {
+    outline: none;
+  }
 }
 
 .DropdownMenuArrow {
-  fill: white;
+  filter: drop-shadow(0 1px 0 var(--color-dark-100));
+  fill: var(--color-dark-500);
 }
 
 @keyframes slide-up-and-fade {
