@@ -13,7 +13,7 @@ export const notificationsApi = baseApi.injectEndpoints({
           }
         },
       }),
-      getNotifications: builder.query<ResNotifications, void>({
+      getNotifications: builder.query<ResNotifications[], void>({
         query: () => ({url: '/v1/notifications'}),
       }),
     }

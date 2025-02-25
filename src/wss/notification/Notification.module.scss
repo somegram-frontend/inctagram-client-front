@@ -1,0 +1,31 @@
+.containerNotification {
+  display: flex;
+  align-items: center;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  max-width: 355px;
+}
+
+.label {
+  padding: 0 0 12px;
+}
+
+.item {
+  padding: 12px 0;
+}
+
+.bell path:last-child,
+.bell circle {
+  display: none;
+}
+
+.separator {
+  height: 1px;
+  background-color: var(--color-dark-100);
+}
