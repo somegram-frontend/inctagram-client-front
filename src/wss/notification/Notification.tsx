@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/dropDown'
-import { OutlineBell } from '@honor-ui/inctagram-ui-kit'
+import { OutlineBell, Typography } from '@honor-ui/inctagram-ui-kit'
 import s from './Notification.module.scss'
 import { useGetNotificationsQuery } from '@/api/notifications/notifications-api'
 import TimeAgo from 'react-timeago'
@@ -69,8 +69,15 @@ export const Notification = () => {
                 <DropdownMenuSeparator className={s.separator} />
 
                 <section className={s.item}>
-                  {story.message}
-                  <TimeAgo date={story.createdAt} live={false} />
+                  <Typography variant={'bold_text14'} as={'h2'}>
+                    Новое уведомление!
+                  </Typography>
+                  <Typography variant={'small_text'}>
+                    {story.message}
+                    <span className={s.data}>
+                      <TimeAgo date={story.createdAt} live={false} />
+                    </span>
+                  </Typography>
                 </section>
               </section>
             ))}

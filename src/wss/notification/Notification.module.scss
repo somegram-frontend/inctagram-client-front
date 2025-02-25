@@ -17,7 +17,18 @@
 }
 
 .item {
+  display: flex;
+  flex-direction: column;
   padding: 12px 0;
+
+  > h2 {
+    margin: 0 0 12px;
+  }
+
+  .data {
+    display: flex;
+    color: var(--color-light-900);
+  }
 }
 
 .bell path:last-child,
