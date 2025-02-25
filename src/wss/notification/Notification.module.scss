@@ -9,11 +9,33 @@
 }
 
 .content {
+  z-index: 1;
   max-width: 355px;
 }
 
 .label {
   padding: 0 0 12px;
+}
+
+.blockItem {
+  all: unset;
+
+  cursor: pointer;
+
+  width: 100%;
+
+  background: transparent;
+
+  transition: background 0.3s ease-in-out;
+
+  &:hover {
+    background: unset;
+  }
+}
+
+.itemHover:hover {
+  background: var(--color-dark-100);
+  transition: background 0.3s ease-in-out;
 }
 
 .item {
@@ -23,6 +45,11 @@
 
   > h2 {
     margin: 0 0 12px;
+
+    > span {
+      margin: 0 0 0 5px;
+      color: var(--color-accent-500);
+    }
   }
 
   .data {

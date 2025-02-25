@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { io } from 'socket.io-client'
 import {
   DropdownMenu,
@@ -8,10 +8,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/dropDown'
-import { OutlineBell, Typography } from '@honor-ui/inctagram-ui-kit'
+import { Button, OutlineBell, Typography } from '@honor-ui/inctagram-ui-kit'
 import s from './Notification.module.scss'
-import { useGetNotificationsQuery } from '@/api/notifications/notifications-api'
+import {
+  useGetNotificationsQuery,
+  useReedNotificationsMutation,
+} from '@/api/notifications/notifications-api'
 import TimeAgo from 'react-timeago'
+import { ResNotifications } from '@/api/notifications/notifications-api.types'
+import clsx from 'clsx'
+import { tryCatch } from '@/shared/utils/tryCatch'
 
 export const Notification = () => {
   const [notifications, setNotifications] = useState([])
@@ -21,7 +27,20 @@ export const Notification = () => {
     isError: isErrorStory,
     error: errStory,
   } = useGetNotificationsQuery()
-  console.log(notificationsStory)
+
+  const [reedNotification, { isLoading: isLodReed, isError: isErrReed, error: errReed }] =
+    useReedNotificationsMutation()
+  const saveIdNotification = useRef<null | string>(null)
+
+  const handlerReedNotification = async (notificationId: string, isRead: boolean) => {
+    return tryCatch(async () => {
+      if (!isRead) {
+        saveIdNotification.current = notificationId
+        await reedNotification({ notificationId }).unwrap()
+      }
+    }).finally(() => (saveIdNotification.current = null))
+  }
+
   useEffect(() => {
     const token = localStorage.getItem('accessToken')
     if (!token) return
@@ -63,24 +82,33 @@ export const Notification = () => {
         <DropdownMenuContent className={s.content}>
           <DropdownMenuLabel className={s.label}>Уведомление</DropdownMenuLabel>
 
-          <DropdownMenuItem>
-            {notificationsStory?.map(story => (
-              <section key={story.id}>
-                <DropdownMenuSeparator className={s.separator} />
+          <DropdownMenuItem onSelect={e => e.preventDefault()}>
+            {notificationsStory
+              ?.map((story: ResNotifications) => (
+                <Button
+                  key={story.id}
+                  className={clsx(s.blockItem, !story.isRead && s.itemHover)}
+                  variant={'secondary'}
+                  onClick={() => handlerReedNotification(story.id, story.isRead)}
+                  disabled={saveIdNotification.current === story.id}
+                >
+                  <DropdownMenuSeparator className={s.separator} />
 
-                <section className={s.item}>
-                  <Typography variant={'bold_text14'} as={'h2'}>
-                    Новое уведомление!
-                  </Typography>
-                  <Typography variant={'small_text'}>
-                    {story.message}
-                    <span className={s.data}>
-                      <TimeAgo date={story.createdAt} live={false} />
-                    </span>
-                  </Typography>
-                </section>
-              </section>
-            ))}
+                  <section className={clsx(s.item)}>
+                    <Typography variant={'bold_text14'} as={'h2'}>
+                      Новое уведомление!
+                      {!story.isRead && <span>Новое</span>}
+                    </Typography>
+                    <Typography variant={'small_text'}>
+                      {story.message}
+                      <span className={s.data}>
+                        <TimeAgo date={story.createdAt} live={false} />
+                      </span>
+                    </Typography>
+                  </section>
+                </Button>
+              ))
+              .reverse()}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
