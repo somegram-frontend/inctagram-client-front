@@ -1,4 +1,10 @@
 export type Language = 'ru' | 'en'
+type Notification = {
+  title: string,
+  newNotification: string,
+  new: string,
+}
+
 type MyPayments = {
   title: string
   dateOfPayment: string
@@ -82,4 +88,5 @@ export type Translation = {
   }
   common: Common
   pagination: Pagination
+  notifications: Notification
 }

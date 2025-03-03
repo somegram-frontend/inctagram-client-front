@@ -74,4 +74,9 @@ export const ru: Translation = {
     show: 'Показать',
     onPage: 'на странице',
   },
+  notifications: {
+    title: "Уведомления",
+    newNotification: "Новое уведомление!",
+    new: "Новое",
+  }
 }
