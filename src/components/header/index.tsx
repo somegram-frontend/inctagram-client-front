@@ -1,5 +1,11 @@
 import s from './header.module.scss'
-import { Button, FlagRussia, FlagUnitedKingdom, Select } from '@honor-ui/inctagram-ui-kit'
+import {
+  Button,
+  FlagRussia,
+  FlagUnitedKingdom,
+  PersonOutline,
+  Select,
+} from '@honor-ui/inctagram-ui-kit'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Language } from '@/locales/type'
@@ -16,7 +22,8 @@ export const Header = ({ isAuth }: Props) => {
     {
       label: (
         <div className={s.flagContainer}>
-          <FlagUnitedKingdom /> &nbsp; <span> English</span>
+          <FlagUnitedKingdom />
+          <span className={s.language}> English</span>
         </div>
       ),
       value: 'en',
@@ -25,8 +32,7 @@ export const Header = ({ isAuth }: Props) => {
       label: (
         <div className={s.flagContainer}>
           <FlagRussia />
-          &nbsp;
-          <span>Russian</span>
+          <span className={s.language}>Russian</span>
         </div>
       ),
       value: 'ru',
@@ -57,14 +63,20 @@ export const Header = ({ isAuth }: Props) => {
           onValueChange={value => handleChangeLanguage(value as Language)}
         />
         {!isAuth && !router.pathname.includes('/auth/') && (
-          <div className={s.buttons}>
-            <Link href="/auth/signUp">
-              <Button variant={'primary'}>Sign up</Button>
+          <>
+            <div className={s.buttons}>
+              <Link href="/auth/signUp">
+                <Button variant={'primary'}>Sign up</Button>
+              </Link>
+              <Link href="/auth/signIn">
+                <Button variant={'primary'}>Log In</Button>
+              </Link>
+            </div>
+
+            <Link href="/auth/signIn" className={s.buttonForMobile}>
+              <PersonOutline />
             </Link>
-            <Link href="/auth/signIn">
-              <Button variant={'primary'}>Log In</Button>
-            </Link>
-          </div>
+          </>
         )}
       </div>
     </header>

@@ -3,7 +3,7 @@
   flex-direction: column;
 
   width: 100%;
-  max-width: 75%;
+  max-width: 95%;
   margin: 0 auto;
   margin-top: 25px;
 }
@@ -13,4 +13,8 @@
   flex-wrap: wrap;
   justify-content: space-between;
   margin-top: 35px;
+
+  @media (width <= 750px) {
+    justify-content: space-around;
+  }
 }

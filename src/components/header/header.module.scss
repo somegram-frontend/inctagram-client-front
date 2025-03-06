@@ -27,21 +27,57 @@
 .register {
   display: flex;
   gap: 35px;
+  align-items: center;
 }
 
 .select {
   width: 165px;
+
+  @media (max-width: $tablet) {
+    width: 100%;
+
+    > button[role='combobox'] {
+      column-gap: unset;
+      padding: 0;
+      border: none;
+    }
+  }
 }
 
 .flagContainer {
   display: flex;
   gap: 5px;
   align-items: center;
+
+  .language {
+    margin: 0 0 0 12px;
+
+    @media (max-width: $tablet) {
+      display: none;
+    }
+  }
+
+  @media (max-width: $tablet) {
+    gap: unset;
+    width: 35px;
+  }
 }
 
 .buttons {
   display: flex;
   gap: 25px;
+
+  @media (max-width: $tablet) {
+    display: none;
+  }
+}
+
+.buttonForMobile {
+  display: none;
+
+  @media (max-width: $tablet) {
+    display: flex;
+  }
 }
 
 .bell {

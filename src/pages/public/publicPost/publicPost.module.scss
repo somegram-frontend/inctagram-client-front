@@ -6,6 +6,10 @@
     max-width: 235px;
     height: 100%;
     max-height: 390px;
+
+  @media (width <= 750px) {
+    max-width: 100%;
+  }
 }
 
 .publicPostSliderImage,
