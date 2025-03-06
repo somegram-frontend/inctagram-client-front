@@ -1,11 +1,11 @@
-import {useEffect, useState} from "react";
-import {ResNotifications} from "@/api/notifications/notifications-api.types";
-import {io} from "socket.io-client";
+import { useEffect, useState } from 'react'
+import { ResNotifications } from '@/api/notifications/notifications-api.types'
+import { io } from 'socket.io-client'
 
 type Params = {
   notificationsStory?: ResNotifications[]
 }
-export const useNotification = ({notificationsStory}: Params) => {
+export const useNotification = ({ notificationsStory }: Params) => {
   const [notifications, setNotifications] = useState<ResNotifications[]>([])
 
   useEffect(() => {
@@ -31,7 +31,6 @@ export const useNotification = ({notificationsStory}: Params) => {
       console.log('New notification received:', data)
 
       setNotifications(prev => [data, ...prev])
-
     })
 
     newSocket.on('connect_error', error => {
@@ -43,5 +42,5 @@ export const useNotification = ({notificationsStory}: Params) => {
     }
   }, [])
 
-  return {notifications}
-};
+  return { notifications }
+}

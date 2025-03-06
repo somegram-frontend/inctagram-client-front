@@ -22,7 +22,7 @@ import clsx from 'clsx'
  *   </DropdownMenu>
  * )
  */
-export const DropdownMenu = DropdownMenuPrimitive.Root //Главная обертка всех компонент (container)!!!
+export const DropdownMenu = DropdownMenuPrimitive.Root
 export const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
 
 export const DropdownMenuContent = forwardRef<

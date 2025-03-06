@@ -75,8 +75,8 @@ export const en: Translation = {
     confirmationMessage: 'Are you sure you want to delete the photo?',
   },
   notifications: {
-    title: "Notifications",
-    newNotification: "New notification!",
-    new: "New",
+    title: 'Notifications',
+    newNotification: 'New notification!',
+    new: 'New',
   },
 }

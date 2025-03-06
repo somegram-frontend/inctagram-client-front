@@ -1,8 +1,8 @@
 export type Language = 'ru' | 'en'
 type Notification = {
-  title: string,
-  newNotification: string,
-  new: string,
+  title: string
+  newNotification: string
+  new: string
 }
 
 type MyPayments = {

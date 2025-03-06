@@ -1,4 +1,4 @@
-import {useEffect, useRef} from 'react'
+import { useEffect, useRef } from 'react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,23 +7,26 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/dropDown'
-import {Button, Typography} from '@honor-ui/inctagram-ui-kit'
+import { Button, Typography } from '@honor-ui/inctagram-ui-kit'
 import s from './Notification.module.scss'
-import {useGetNotificationsQuery, useReedNotificationsMutation,} from '@/api/notifications/notifications-api'
+import {
+  useGetNotificationsQuery,
+  useReedNotificationsMutation,
+} from '@/api/notifications/notifications-api'
 import TimeAgo from 'react-timeago'
-import {ResNotifications} from '@/api/notifications/notifications-api.types'
+import { ResNotifications } from '@/api/notifications/notifications-api.types'
 import clsx from 'clsx'
-import {tryCatch} from '@/shared/utils/tryCatch'
-import {BellNotifications} from '@/components/bellNotifications'
-import {Loader} from '@/components/loader'
-import {toast} from 'react-toastify'
-import {useTranslation} from "@/shared/hooks";
-import {useNotification} from "@/wss/notification/lib/useNotification";
+import { tryCatch } from '@/shared/utils/tryCatch'
+import { BellNotifications } from '@/components/bellNotifications'
+import { Loader } from '@/components/loader'
+import { toast } from 'react-toastify'
+import { useTranslation } from '@/shared/hooks'
+import { useNotification } from '@/wss/notification/lib/useNotification'
 
 type Props = {
   className?: string
 }
-export const Notification = ({className}: Props) => {
+export const Notification = ({ className }: Props) => {
   const notification = useTranslation('notifications')
 
   const {
@@ -33,8 +36,8 @@ export const Notification = ({className}: Props) => {
     error: errStory,
   } = useGetNotificationsQuery()
 
-  const [reedNotification, {isError: isErrReed, error: errReed}] = useReedNotificationsMutation()
-  const {notifications} = useNotification({notificationsStory})
+  const [reedNotification, { isError: isErrReed, error: errReed }] = useReedNotificationsMutation()
+  const { notifications } = useNotification({ notificationsStory })
 
   const saveIdNotification = useRef<null | string>(null)
 
@@ -42,11 +45,10 @@ export const Notification = ({className}: Props) => {
     return tryCatch(async () => {
       if (!isRead) {
         saveIdNotification.current = notificationId
-        await reedNotification({notificationId}).unwrap()
+        await reedNotification({ notificationId }).unwrap()
       }
     }).finally(() => (saveIdNotification.current = null))
   }
-
 
   // Обработка ошибок запроса
   useEffect(() => {
@@ -73,7 +75,7 @@ export const Notification = ({className}: Props) => {
 
           <DropdownMenuItem onSelect={e => e.preventDefault()}>
             {isLodStory ? (
-              <Loader/>
+              <Loader />
             ) : (
               notifications
                 ?.map((story: ResNotifications) => (
@@ -84,8 +86,7 @@ export const Notification = ({className}: Props) => {
                     onClick={() => handlerReedNotification(story.id, story.isRead)}
                     disabled={saveIdNotification.current === story.id}
                   >
-                    <DropdownMenuSeparator className={s.separator}/>
-
+                    <DropdownMenuSeparator className={s.separator} />
                     <section className={clsx(s.item)}>
                       <Typography variant={'bold_text14'} as={'h2'}>
                         {notification.newNotification}
@@ -94,7 +95,7 @@ export const Notification = ({className}: Props) => {
                       <Typography variant={'small_text'}>
                         {story.message}
                         <span className={s.data}>
-                          <TimeAgo date={story.createdAt} live={false}/>
+                          <TimeAgo date={story.createdAt} live={false} />
                         </span>
                       </Typography>
                     </section>

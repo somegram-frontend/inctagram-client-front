@@ -37,12 +37,12 @@
   padding: 0 12px 0 0;
 
   &::-webkit-scrollbar {
-    width: 4px; // Ширина вертикального скроллбара
+    width: 4px;
     padding: 0 0 0 8px;
   }
 
   &::-webkit-scrollbar-track {
-    background: var(--color-dark-300); // Фон полосы прокрутки
+    background: var(--color-dark-300);
     border-radius: 10px;
   }
 

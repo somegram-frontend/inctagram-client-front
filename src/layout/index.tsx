@@ -1,17 +1,16 @@
-import {Header} from '@/components/header'
-import {Sidebars} from '@/components/sidebar'
-import {NextPage} from 'next'
-import {PropsWithChildren, useEffect} from 'react'
+import { Header } from '@/components/header'
+import { Sidebars } from '@/components/sidebar'
+import { NextPage } from 'next'
+import { PropsWithChildren, useEffect } from 'react'
 import s from './layout.module.scss'
-import {useMeQuery} from '@/api/auth/auth-api'
-import {MeErrorResponse} from '@/api/auth/auth-api.types'
-import {toast} from 'react-toastify'
-import {useRouter} from 'next/router'
+import { useMeQuery } from '@/api/auth/auth-api'
+import { MeErrorResponse } from '@/api/auth/auth-api.types'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/router'
 
-
-const Layout: NextPage<PropsWithChildren> = ({children}) => {
+const Layout: NextPage<PropsWithChildren> = ({ children }) => {
   const router = useRouter()
-  const {data, error} = useMeQuery()
+  const { data, error } = useMeQuery()
 
   const isAuth = !((error as MeErrorResponse)?.status === 401)
 
@@ -25,14 +24,11 @@ const Layout: NextPage<PropsWithChildren> = ({children}) => {
     }
   }, [error, router])
 
-
-
-
   return (
     <>
-      <Header isAuth={isAuth}/>
+      <Header isAuth={isAuth} />
       <div className={s.authContent}>
-        {isAuth && <Sidebars isAuth={isAuth} data={data}/>}
+        {isAuth && <Sidebars isAuth={isAuth} data={data} />}
         {children}
       </div>
     </>
