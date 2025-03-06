@@ -10,7 +10,6 @@ import { useRouter } from 'next/router'
 
 const Layout: NextPage<PropsWithChildren> = ({ children }) => {
   const router = useRouter()
-
   const { data, error } = useMeQuery()
 
   const isAuth = !((error as MeErrorResponse)?.status === 401)

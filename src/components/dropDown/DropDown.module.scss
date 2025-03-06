@@ -1,0 +1,110 @@
+.DropdownMenuContent {
+  will-change: transform, opacity;
+
+  min-width: 220px;
+  padding: 12px;
+
+  background-color: var(--color-dark-500);
+  border: 1px solid var(--color-dark-100);
+  border-radius: 1px;
+  box-shadow:
+    0 10px 38px -10px rgb(22 23 24 / 35%),
+    0 10px 20px -15px rgb(22 23 24 / 20%);
+
+  animation-duration: 400ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.DropdownMenuContent[data-side='top'] {
+  animation-name: slide-down-and-fade;
+}
+
+.DropdownMenuContent[data-side='right'] {
+  animation-name: slide-left-and-fade;
+}
+
+.DropdownMenuContent[data-side='bottom'] {
+  animation-name: slide-up-and-fade;
+}
+
+.DropdownMenuContent[data-side='left'] {
+  animation-name: slide-right-and-fade;
+}
+
+.DropdownMenuItem {
+  overflow-y: auto;
+  max-height: 424px;
+  padding: 0 12px 0 0;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    padding: 0 0 0 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--color-dark-300);
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-dark-100);
+    border-radius: 10px;
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.DropdownMenuArrow {
+  filter: drop-shadow(0 1px 0 var(--color-dark-100));
+  fill: var(--color-dark-500);
+}
+
+@keyframes slide-up-and-fade {
+  from {
+    transform: translateY(2px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-right-and-fade {
+  from {
+    transform: translateX(-2px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-down-and-fade {
+  from {
+    transform: translateY(-2px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-left-and-fade {
+  from {
+    transform: translateX(2px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

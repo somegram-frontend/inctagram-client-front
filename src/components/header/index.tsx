@@ -3,6 +3,7 @@ import { Button, FlagRussia, FlagUnitedKingdom, Select } from '@honor-ui/inctagr
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Language } from '@/locales/type'
+import { Notification } from '@/wss/notification'
 
 type Props = {
   isAuth: boolean
@@ -42,6 +43,7 @@ export const Header = ({ isAuth }: Props) => {
       <Link href="/" className={s.logo}>
         Somegram
       </Link>
+      <Notification className={s.notification} />
       <div className={s.register}>
         <Select
           className={s.select}
