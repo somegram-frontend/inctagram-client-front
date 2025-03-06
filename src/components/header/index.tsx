@@ -1,21 +1,27 @@
 import s from './header.module.scss'
-import {Button, FlagRussia, FlagUnitedKingdom, PersonOutline, Select} from '@honor-ui/inctagram-ui-kit'
+import {
+  Button,
+  FlagRussia,
+  FlagUnitedKingdom,
+  PersonOutline,
+  Select,
+} from '@honor-ui/inctagram-ui-kit'
 import Link from 'next/link'
-import {useRouter} from 'next/router'
-import {Language} from '@/locales/type'
+import { useRouter } from 'next/router'
+import { Language } from '@/locales/type'
 
 type Props = {
   isAuth: boolean
 }
 
-export const Header = ({isAuth}: Props) => {
+export const Header = ({ isAuth }: Props) => {
   const router = useRouter()
 
   const options = [
     {
       label: (
         <div className={s.flagContainer}>
-          <FlagUnitedKingdom/>
+          <FlagUnitedKingdom />
           <span className={s.language}> English</span>
         </div>
       ),
@@ -24,7 +30,7 @@ export const Header = ({isAuth}: Props) => {
     {
       label: (
         <div className={s.flagContainer}>
-          <FlagRussia/>
+          <FlagRussia />
           <span className={s.language}>Russian</span>
         </div>
       ),
@@ -33,8 +39,8 @@ export const Header = ({isAuth}: Props) => {
   ]
 
   const handleChangeLanguage = (locale: Language) => {
-    const {asPath, pathname, query, push} = router
-    void push({pathname, query}, asPath, {locale})
+    const { asPath, pathname, query, push } = router
+    void push({ pathname, query }, asPath, { locale })
   }
 
   return (
@@ -49,7 +55,7 @@ export const Header = ({isAuth}: Props) => {
           value={router.locale}
           placeholder={
             <div className={s.flagContainer}>
-              <FlagUnitedKingdom/> &nbsp; <span> English</span>
+              <FlagUnitedKingdom /> &nbsp; <span> English</span>
             </div>
           }
           onValueChange={value => handleChangeLanguage(value as Language)}
@@ -66,9 +72,8 @@ export const Header = ({isAuth}: Props) => {
             </div>
 
             <Link href="/auth/signIn" className={s.buttonForMobile}>
-              <PersonOutline/>
+              <PersonOutline />
             </Link>
-
           </>
         )}
       </div>
