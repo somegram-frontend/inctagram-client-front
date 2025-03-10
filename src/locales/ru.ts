@@ -24,7 +24,7 @@ export const ru: Translation = {
   },
   devices: { title: 'Устройства' },
   accountManagement: {
-    title: 'Текущая подписка',
+    title: 'Управление аккаунтом',
     expireAt: 'Действует до',
     nextPayment: 'Следующий платеж',
     autoRenewal: 'Автопродление',
