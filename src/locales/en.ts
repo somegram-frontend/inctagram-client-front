@@ -22,9 +22,9 @@ export const en: Translation = {
     addProfilePhoto: 'Add a Profile photo',
     saveChanges: 'Save Changes',
   },
-  devices: { title: 'devices' },
+  devices: { title: 'Devices' },
   accountManagement: {
-    title: 'Current Subscription',
+    title: 'Account Management',
     expireAt: 'Expire at',
     nextPayment: 'Next payment',
     autoRenewal: 'Auto-Renewal',
