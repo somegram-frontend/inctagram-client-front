@@ -121,6 +121,11 @@
     height: 70px;
 }
 
+.publicPostDesc {
+  width: 235px;
+  word-break: break-word;
+}
+
 .publicPostTimeAgo {
     & span {
         color: var(--color-light-900)
