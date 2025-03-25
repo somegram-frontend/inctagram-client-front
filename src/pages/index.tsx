@@ -7,7 +7,6 @@ import { useState } from 'react'
 import { Dialog } from '@/components/dialog'
 import PublicPost from './public/publicPost/PublicPost'
 import RegisteredUsersList from './public/registeredUsersList/RegisteredUsersList'
-import Image from 'next/image'
 
 type Props = {
   totalUsersCount: GetTotalCountResponse
@@ -46,7 +45,7 @@ export default function Public({ totalUsersCount, publicPosts }: Props) {
       <div className={s.publicPage}>
         <RegisteredUsersList usersCount={totalUsersCount?.totalCount} />
         <div className={s.publicPosts}>
-          {publicPosts?.items.map(post => {
+          {publicPosts?.items?.map(post => {
             return (
               <Dialog
                 key={post.id}
