@@ -65,10 +65,10 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
 
   useEffect(() => {
     const countryId = countries?.find((c: any) => c.name === selectedCountry)?.id
-    if(countryId){
+    if (countryId) {
       setCountryId(countryId)
     }
-  }, [selectedCountry]);
+  }, [selectedCountry])
 
   const optionsCountry = useMemo(() => {
     if (Array.isArray(countries) && !isLoading && !error) {
