@@ -1,8 +1,13 @@
 import s from './loader.module.scss'
+import clsx from "clsx";
 
-export const Loader = () => {
+type Props = {
+  fullHeight?: boolean
+}
+
+export const Loader = ({fullHeight}: Props) => {
   return (
-    <div className={s.spinnerContainer}>
+    <div className={clsx(s.spinnerContainer,fullHeight && s.fullHeight)}>
       <div className={s.loader}></div>
     </div>
   )

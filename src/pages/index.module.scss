@@ -1,17 +1,22 @@
 .publicPage {
+  overflow: hidden;
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   width: 100%;
-  max-width: 95%;
-  margin: 0 auto;
-  margin-top: 25px;
+  max-width: 1280px;
+  margin: 25px auto;
+  padding: 16px; // TODO: in future this padding will be removed
 }
 
 .publicPosts {
   display: flex;
   flex-wrap: wrap;
+  gap: 16px;
   justify-content: space-between;
+
+  width: 100%;
   margin-top: 35px;
 
   @media (width <= 750px) {

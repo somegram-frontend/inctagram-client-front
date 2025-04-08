@@ -73,7 +73,7 @@ const Profile = () => {
   }
 
   if (isPostsLoading) {
-    return <Loader />
+    return <Loader fullHeight /> // TODO: Two loaders are developing on the My Profile page
   }
   if (me?.userId && id === me?.userId) {
     return (
