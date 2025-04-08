@@ -27,7 +27,7 @@ const Layout: NextPage<PropsWithChildren> = ({ children }) => {
   return (
     <>
       <Header isAuth={isAuth} />
-      <div className={s.authContent}>
+      <div className={s.content}>
         {isAuth && <Sidebars isAuth={isAuth} data={data} />}
         {children}
       </div>
