@@ -56,9 +56,6 @@ export const Notification = ({ className }: Props) => {
         (errStory && (errStory as Error).message) ||
         (errReed instanceof Error && errReed.message) ||
         'Произошла ошибка'
-      console.log(errorMessage);
-      // toast.error(errorMessage) // TODO: Если не авторизирован пользователь выдает ошибку на
-      //  PublicPage
     }
   }, [isErrorStory, isErrReed, errStory, errReed])
 
