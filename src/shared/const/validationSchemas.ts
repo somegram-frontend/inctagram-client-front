@@ -93,6 +93,8 @@ export const changeProfileSchema = z.object({
       },
     )
     .optional(),
+  city: z.string().optional(),
+  country: z.string().optional(),
   about: z
     .string()
     .max(200, { message: 'Maximum 200 characters' })
