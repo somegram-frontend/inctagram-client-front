@@ -69,7 +69,7 @@ const Profile = () => {
     router.push(postId ? `/user/${me?.userId}?postId=${postId}` : `/user/${me?.userId}`)
   }
   if (isLoading || isLoadingMe) {
-    return <Loader />
+    return <Loader fullHeight /> // TODO: Two loaders are developing on the My Profile page (this loader is called when you go to the My Profile page Although it should not be called in fact)
   }
 
   if (isError) {
@@ -117,7 +117,7 @@ const Profile = () => {
                   Publications
                 </span>
               </div>
-              <Typography variant={'regular_text16'}>
+              <Typography variant={'regular_text16'} className={style.profileAbout}>
                 {publicData?.about || 'User did not write anything about himself'}
               </Typography>
             </div>
