@@ -25,6 +25,7 @@ import { useTranslation } from '@/shared/hooks'
 import { useAppSelector } from '@/store'
 import { fetchIsAuth } from '@/api/auth/auth.selectors'
 import clsx from 'clsx'
+import { formatNumberWithSpaces } from '@/shared/utils/formatNumberWithSpaces'
 
 const Profile = () => {
   const router = useRouter()
@@ -39,6 +40,8 @@ const Profile = () => {
     isError,
     isLoading,
   } = useGetPublicProfileQuery({ id: id as string })
+
+  console.log(publicData)
 
   const { data: me, isLoading: isLoadingMe } = useMeQuery()
   const { data: userPosts, isLoading: isPostsLoading } = useGetUserPostsQuery(
@@ -150,11 +153,13 @@ const Profile = () => {
               </div>
               <div className={style.profileFollowersContainer}>
                 <span>
-                  2 218 <br />
+                  {profileData ? formatNumberWithSpaces(profileData.followingCount) : '2 218'}
+                  <br />
                   Following
                 </span>
                 <span>
-                  2 358 <br />
+                  {profileData ? formatNumberWithSpaces(profileData.followersCount) : '2 358'}
+                  <br />
                   Followers
                 </span>
                 <span>
