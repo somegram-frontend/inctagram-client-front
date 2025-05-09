@@ -39,11 +39,15 @@ const Profile = () => {
   }, [postId])
 
   const { data: me } = useMeQuery()
-  if (id !== me?.userId) {
-    router.push(
-      postId ? `/public-user/profile/${id}?postId=${postId}` : `/public-user/profile/${id}`,
-    )
-  }
+
+  useEffect(() => {
+    if (me?.userId && id !== me.userId) {
+      router.push(
+        postId ? `/public-user/profile/${id}?postId=${postId}` : `/public-user/profile/${id}`,
+      )
+    }
+  }, [me, id, postId, router])
+
   const { data: profile } = useGetProfileQuery()
   const [openPost, setOpenPost] = useState(false)
   const [openPostId, setOpenPostId] = useState<string>('')
