@@ -6,6 +6,8 @@ import {
   GetPublicPostsResponse,
   GetUserPostsArgs,
   GetUserPostsResponse,
+  PostsFollowingParams,
+  ResPostsFollowing,
   UpdateUserPostArgs,
   UpdateUserPostResponse,
 } from './posts-api.types'
@@ -16,6 +18,14 @@ export const postsApi = baseApi.injectEndpoints({
       getUserPosts: builder.query<GetUserPostsResponse, GetUserPostsArgs>({
         query: ({ userId, pageNumber, pageSize }) =>
           `v1/posts/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+        providesTags: ['Posts'],
+      }),
+      getPostsFollowing: builder.query<ResPostsFollowing, PostsFollowingParams>({
+        query: ({ endCursorPostId, ...params }) => ({
+          url: `v1/following/posts/${endCursorPostId}`,
+          params,
+        }),
+
         providesTags: ['Posts'],
       }),
       addUserPosts: builder.mutation<ApiResponse, AddUserPostsArgs>({
@@ -63,5 +73,6 @@ export const {
   useAddUserPostsMutation,
   useUpdateUserPostMutation,
   useDeleteUserPostMutation,
+  useGetPostsFollowingQuery,
   useGetPublicPostsQuery,
 } = postsApi
