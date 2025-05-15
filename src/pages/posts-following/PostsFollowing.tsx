@@ -25,7 +25,7 @@ const PostsFollowing = () => {
 
   const { data: followingPosts, isFetching } = useGetPostsFollowingQuery({
     endCursorPostId: endCursorPostId || '',
-    pageSize: 3,
+    pageSize: 8,
   })
 
   const { control, trigger } = useForm({
