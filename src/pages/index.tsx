@@ -9,6 +9,7 @@ import PublicPost from './public/publicPost/PublicPost'
 import RegisteredUsersList from './public/registeredUsersList/RegisteredUsersList'
 import { useMeQuery } from '@/api/auth/auth-api'
 import PostsFollowing from '@/pages/posts-following/PostsFollowing'
+import { Loader } from '@/components/loader'
 
 type Props = {
   totalUsersCount: GetTotalCountResponse
@@ -36,18 +37,23 @@ export const getStaticProps = async () => {
 export default function Public({ totalUsersCount, publicPosts }: Props) {
   const [openPost, setOpenPost] = useState(false)
   const [openPostId, setOpenPostId] = useState<string>('')
-  const { data: me } = useMeQuery()
+  const { data: me, isLoading } = useMeQuery()
 
   const handleClosePost = () => {
     setOpenPost(false)
     setOpenPostId('')
   }
 
+  const loading = (me: boolean) => {
+    return Boolean(me) && !isLoading
+  }
+
   return (
     <Layout>
       <div className={s.publicPage}>
-        {Boolean(!me) && <RegisteredUsersList usersCount={totalUsersCount?.totalCount} />}
-        {Boolean(!me) && (
+        {isLoading && <Loader />}
+        {loading(!me) && <RegisteredUsersList usersCount={totalUsersCount?.totalCount} />}
+        {loading(!me) && (
           <div className={s.publicPosts}>
             {publicPosts?.items?.map(post => {
               return (
@@ -69,7 +75,7 @@ export default function Public({ totalUsersCount, publicPosts }: Props) {
             })}
           </div>
         )}
-        <PostsFollowing />
+        {loading(!!me) && <PostsFollowing />}
       </div>
     </Layout>
   )
