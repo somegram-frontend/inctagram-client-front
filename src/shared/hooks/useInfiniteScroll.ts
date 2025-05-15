@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-export const useInfiniteScrollCursor = ({
+export const useInfiniteScroll = ({
   fetchNext,
   isFetching,
   hasNext,

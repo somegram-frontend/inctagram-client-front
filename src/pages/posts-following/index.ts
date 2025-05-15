@@ -1,1 +1,1 @@
-export * from './PostsFollowing'
+export { default } from './PostsFollowing'

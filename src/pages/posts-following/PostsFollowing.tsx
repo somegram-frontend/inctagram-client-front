@@ -16,8 +16,8 @@ import PhotoSlider from '@/components/photoSlider'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
 import { useForm } from 'react-hook-form'
 import { Items } from '@/api/post/posts-api.types'
-import { useInfiniteScrollCursor } from '@/pages/posts-following/lib/useInfiniteScroll'
 import { Loader } from '@/components/loader'
+import { useInfiniteScroll } from '@/shared/hooks'
 
 const PostsFollowing = () => {
   const [posts, setPosts] = useState<Items[]>([])
@@ -34,7 +34,7 @@ const PostsFollowing = () => {
     },
   })
 
-  const { lastElementRef } = useInfiniteScrollCursor({
+  const { lastElementRef } = useInfiniteScroll({
     isFetching,
     hasNext: Boolean(followingPosts?.items.length),
     fetchNext: () => {
