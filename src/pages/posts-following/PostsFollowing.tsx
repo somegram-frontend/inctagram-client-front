@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useGetPostsFollowingQuery } from '@/api/post/posts-api'
 import s from './PostsFollowing.module.scss'
 import Image from 'next/image'
@@ -15,10 +15,17 @@ import TimeAgo from 'react-timeago'
 import PhotoSlider from '@/components/photoSlider'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
 import { useForm } from 'react-hook-form'
+import { Items } from '@/api/post/posts-api.types'
+import { useInfiniteScrollCursor } from '@/pages/posts-following/lib/useInfiniteScroll'
+import { Loader } from '@/components/loader'
 
 const PostsFollowing = () => {
-  const { data: followingPosts } = useGetPostsFollowingQuery({
-    endCursorPostId: '123',
+  const [posts, setPosts] = useState<Items[]>([])
+  const [endCursorPostId, setEndCursorPostId] = useState('')
+
+  const { data: followingPosts, isFetching } = useGetPostsFollowingQuery({
+    endCursorPostId: endCursorPostId || '',
+    pageSize: 3,
   })
 
   const { control, trigger } = useForm({
@@ -27,9 +34,20 @@ const PostsFollowing = () => {
     },
   })
 
+  const { lastElementRef } = useInfiniteScrollCursor({
+    isFetching,
+    hasNext: Boolean(followingPosts?.items.length),
+    fetchNext: () => {
+      if (followingPosts?.items) {
+        setPosts(prev => [...prev, ...followingPosts?.items])
+        setEndCursorPostId(followingPosts?.items.at(-1)?.id || '')
+      }
+    },
+  })
+
   return (
     <section className={s.containerPostsFollowing}>
-      {followingPosts?.items.map(post => (
+      {posts.map(post => (
         <section className={s.post} key={post.id}>
           <section className={s.postHeader}>
             <Image
@@ -49,7 +67,8 @@ const PostsFollowing = () => {
               <MoreHorizontal />
             </div>
           </section>
-          <section>
+          <section className={s.photoSlider}>
+            {isFetching && <Loader className={s.loader} />}
             <PhotoSlider
               imgClass={s.imagesPosts}
               images={post.images}
@@ -112,6 +131,7 @@ const PostsFollowing = () => {
           </form>
         </section>
       ))}
+      <div className={s.cursor} ref={lastElementRef} />
     </section>
   )
 }
