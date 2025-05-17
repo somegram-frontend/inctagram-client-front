@@ -18,6 +18,7 @@ import { useForm } from 'react-hook-form'
 import { Items } from '@/api/post/posts-api.types'
 import { Loader } from '@/components/loader'
 import { useInfiniteScroll } from '@/shared/hooks'
+import { Avatar } from '@/components/avatar'
 
 const PostsFollowing = () => {
   const [posts, setPosts] = useState<Items[]>([])
@@ -50,14 +51,17 @@ const PostsFollowing = () => {
       {posts.map(post => (
         <section className={s.post} key={post.id}>
           <section className={s.postHeader}>
-            <Image
-              className={s.postHeaderImage}
-              src={post.postOwnerInfo.avatarUrl}
-              alt={'avatar'}
+            <Avatar
+              alt="avatar"
+              className={s.avatar}
+              imgSrc={post.postOwnerInfo.avatarUrl}
+              userName={post.postOwnerInfo.username}
               width={36}
               height={36}
             />
-            <Typography variant={'h3'}>{post.postOwnerInfo.username}</Typography>
+            <Typography variant={'h3'} className={s.userName}>
+              {post.postOwnerInfo.username}
+            </Typography>
             <div className={s.dot} />
             <Typography className={s.timeAgo} as={'p'} variant={'small_text'}>
               <TimeAgo date={post.createdAt} live={false} />
@@ -82,10 +86,11 @@ const PostsFollowing = () => {
             <BookmarkOutline className={s.book} />
           </section>
           <section className={s.description}>
-            <Image
-              className={s.postHeaderImage}
-              src={post.postOwnerInfo.avatarUrl}
-              alt={'avatar'}
+            <Avatar
+              alt="avatar"
+              imgSrc={post.postOwnerInfo.avatarUrl}
+              userName={post.postOwnerInfo.username}
+              className={s.avatar}
               width={36}
               height={36}
             />
@@ -99,7 +104,13 @@ const PostsFollowing = () => {
           <section className={s.like}>
             <div className={s.likeUsersImages}>
               {post.like.lastLikeUser.map(likeUser => (
-                <Image src={likeUser.avatarUrl} alt={'user like'} key={likeUser.userId} />
+                <Avatar
+                  alt="avatar"
+                  imgSrc={likeUser.avatarUrl}
+                  className={s.avatar}
+                  width={36}
+                  height={36}
+                />
               ))}
             </div>
 
