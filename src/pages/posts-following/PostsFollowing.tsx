@@ -105,6 +105,7 @@ const PostsFollowing = () => {
             <div className={s.likeUsersImages}>
               {post.like.lastLikeUser.map(likeUser => (
                 <Avatar
+                  key={likeUser.userId}
                   alt="avatar"
                   imgSrc={likeUser.avatarUrl}
                   className={s.avatar}
