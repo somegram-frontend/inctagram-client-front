@@ -3,7 +3,7 @@ import { useGetPostsFollowingQuery } from '@/api/post/posts-api'
 import s from './PostsFollowing.module.scss'
 import { Items } from '@/api/post/posts-api.types'
 import { useInfiniteScroll } from '@/shared/hooks'
-import { PostFollowing } from './PostFollowing'
+import { PostFollowing } from '@/features/post-following/PostFollowing'
 
 const PostsFollowing = () => {
   const [posts, setPosts] = useState<Items[]>([])

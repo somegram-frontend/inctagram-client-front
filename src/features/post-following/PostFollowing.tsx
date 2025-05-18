@@ -1,5 +1,5 @@
 import { Items } from '@/api/post/posts-api.types'
-import s from './PostsFollowing.module.scss'
+import s from './post-following.module.scss'
 import { Avatar } from '@/components/avatar'
 import TimeAgo from 'react-timeago'
 
@@ -43,9 +43,11 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
   const { data: commentsData } = useFetchCommentsQuery({ postId: post.id })
 
   const handlePostComment = (data: { comment: string }) => {
-    sendComment({ comment: data.comment, postId: post.id }).then(() => {
-      toast.success('Comment is sent')
-    }).catch(() => toast.error('Comment is not sent'))
+    sendComment({ comment: data.comment, postId: post.id })
+      .then(() => {
+        toast.success('Comment is sent')
+      })
+      .catch(() => toast.error('Comment is not sent'))
     reset({ comment: '' })
   }
 
