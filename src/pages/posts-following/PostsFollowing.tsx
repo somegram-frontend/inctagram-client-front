@@ -28,7 +28,7 @@ const PostsFollowing = () => {
   return (
     <section className={s.containerPostsFollowing}>
       {posts.map(post => (
-        <PostFollowing post={post} isFetching={isFetching} />
+        <PostFollowing key={post.id} post={post} isFetching={isFetching} />
       ))}
       <div className={s.cursor} ref={lastElementRef} />
     </section>
