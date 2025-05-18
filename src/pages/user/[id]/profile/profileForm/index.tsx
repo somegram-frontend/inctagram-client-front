@@ -54,7 +54,7 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
     isLoading: citiesLoading,
   } = useGetCitiesListQuery(countryId, {
     skip: !countryId,
-  })
+  })  
 
   const setDatePicker = (d: Date | undefined) => {
     setStartDate(d || new Date())

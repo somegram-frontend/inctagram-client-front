@@ -10,7 +10,7 @@ import { Input, InputProps } from '@honor-ui/inctagram-ui-kit'
 
 type Props<T extends FieldValues> = {
   control: Control<T>
-  trigger: (name: keyof T) => void
+  trigger?: (name: keyof T) => void
 } & Omit<InputProps, 'name' | 'onBlur' | 'onChange' | 'value'> &
   Omit<UseControllerProps<T>, 'control'>
 
@@ -23,7 +23,7 @@ export const ControlledInput = <T extends FieldValues>({
   ...rest
 }: Props<T>) => {
   const {
-    field: { onChange, value },
+    field: { onChange, value = '' },
   } = useController({
     control,
     name,
@@ -37,9 +37,9 @@ export const ControlledInput = <T extends FieldValues>({
       {...rest}
       onChange={e => {
         onChange(e)
-        trigger(name)
+        trigger && trigger(name)
       }}
-      onBlur={() => trigger(name)}
+      onBlur={() => trigger && trigger(name)}
       value={value}
       type={name.match(/password/i) ? 'password' : name === 'email' ? name : 'text'}
       errorMessage={error}
