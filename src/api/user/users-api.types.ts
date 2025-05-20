@@ -36,3 +36,33 @@ export type ProfileResponse = {
 export type GetTotalCountResponse = {
   totalCount: number
 }
+
+export type UserItem = {
+  id: string
+  userName: string
+  avatar: {
+    url: string
+  }
+  about: string
+}
+
+export type GetUsersResponse = {
+  pageNumber: number
+  pagesCount: number
+  pageSize: number
+  totalCount: number
+  items: UserItem[]
+}
+
+export type GetUserProfileSuccess = {
+  id: string
+  userName: string
+  avatar: {
+    url: string
+  }
+  isFollowing: boolean
+  isFollowedBy: boolean
+  followingCount: number
+  followersCount: number
+  publicationsCount: number
+}

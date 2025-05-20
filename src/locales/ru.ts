@@ -8,6 +8,11 @@ export const ru: Translation = {
     following: 'Подписки',
     followers: 'Подписчики',
     publications: 'Публикации',
+    btns: {
+      follow: 'Подписаться',
+      unfollow: 'Отриматься',
+      send: 'Отправить сообщение',
+    },
   },
   profileSettings: 'Настройка профиля',
   generalInformation: {
@@ -78,5 +83,16 @@ export const ru: Translation = {
     title: 'Уведомления',
     newNotification: 'Новое уведомление!',
     new: 'Новое',
+  },
+  searchPage: {
+    title: 'Поиск',
+    searchPlaceholder: 'Поиск',
+    usersNotFound: {
+      title: 'Последние запросы',
+      info: {
+        message: 'Упс! Это место выглядит пустым!',
+        detail: 'Нет недавних запросов',
+      },
+    },
   },
 }
