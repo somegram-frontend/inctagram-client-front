@@ -49,7 +49,7 @@ export const Post = ({ setEditPost, post }: Props) => {
   const id = router.query.id as string
   const isOwner = me?.userId === id
 
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit, reset, watch } = useForm({
     resolver: zodResolver(
       z.object({
         comment: z.string().min(1, 'Min 1 symbol').max(300, 'Max 300 symbols'),
@@ -248,7 +248,11 @@ export const Post = ({ setEditPost, post }: Props) => {
               name="comment"
               placeholder={selectedComment ? 'Add answer for comment' : 'Add a Comment...'}
               inputRef={inputRef}
-              onBlurCapture={() => setSelectedComment(null)}
+              onBlurCapture={() => {
+                if (!watch('comment').trim()) {
+                  setSelectedComment(null)
+                }
+              }}
               width="100%"
             />
             <Button

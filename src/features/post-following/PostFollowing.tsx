@@ -15,7 +15,7 @@ import {
 import PhotoSlider from '@/components/photoSlider'
 import { Loader } from '@/components/loader'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
-import { useCreateCommentMutation, useFetchCommentsQuery } from '@/api/comments/comments-api'
+import { useCreateCommentMutation } from '@/api/comments/comments-api'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -43,7 +43,6 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
   })
 
   const [sendComment, { isLoading }] = useCreateCommentMutation()
-  const { data: commentsData } = useFetchCommentsQuery({ postId: post.id })
 
   const handlePostComment = (data: { comment: string }) => {
     sendComment({ comment: data.comment, postId: post.id })
@@ -126,12 +125,7 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
         </Typography>
       </section>
       <section className={s.viewComments}>
-        <ViewPostComment
-          post={post}
-          opened={openedPost}
-          setOpenedPost={setOpenedPost}
-          commentsCount={commentsData?.totalCount}
-        />
+        <ViewPostComment post={post} opened={openedPost} setOpenedPost={setOpenedPost} />
       </section>
       <form
         onSubmit={e => {
