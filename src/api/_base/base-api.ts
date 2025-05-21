@@ -12,6 +12,7 @@ export const baseApi = createApi({
     'CountryCatalog',
     'Notifications',
     'Comments',
+    'Answers',
   ],
   endpoints: builder => ({}),
 })

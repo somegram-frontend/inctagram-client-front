@@ -17,6 +17,7 @@ const SearchPage = () => {
   const [users, setUsers] = useState<UserItem[]>([])
   const [searchValue, setSearchValue] = useState('')
   const [isSearchedOnce, setIsSearchedOnce] = useState(false)
+  const [endCursorPostId, setEndCursorPostId] = useState('')
   const t = useTranslation()
 
   const queryArgs = useMemo(
@@ -24,6 +25,7 @@ const SearchPage = () => {
       pageNumber,
       pageSize: 8,
       search: searchValue,
+      endCursorPostId: endCursorPostId,
     }),
     [pageNumber, searchValue],
   )
@@ -57,12 +59,26 @@ const SearchPage = () => {
     }
   }, [data, pageNumber, searchValue])
 
-  const { observerRef } = useInfiniteScroll({
-    hasMore: !!data?.items.length && data.pageNumber < data.pagesCount,
-    isLoading: isFetching,
-    onLoadMore: () => {
+  // const { observerRef } = useInfiniteScroll({
+  //   hasMore: !!data?.items.length && data.pageNumber < data.pagesCount,
+  //   isLoading: isFetching,
+  //   onLoadMore: () => {
+  //     if (!isFetching && data && data.pageNumber < data.pagesCount) {
+  //       setPageNumber(prev => prev + 1)
+  //     }
+  //   },
+  // })
+
+  const { lastElementRef } = useInfiniteScroll({
+    isFetching,
+    hasNext: Boolean(data?.items.length),
+    fetchNext: () => {
       if (!isFetching && data && data.pageNumber < data.pagesCount) {
         setPageNumber(prev => prev + 1)
+      }
+      if (data?.items) {
+        setUsers(prev => [...prev, ...data?.items])
+        setEndCursorPostId(data?.items.at(-1)?.id || '')
       }
     },
   })
@@ -154,7 +170,7 @@ const SearchPage = () => {
           ))}
 
         {isFetching && <Loader />}
-        {users.length > 0 && <div ref={observerRef} style={{ height: '1px' }} />}
+        {users.length > 0 && <div ref={lastElementRef} style={{ height: '1px' }} />}
       </>
     )
   }

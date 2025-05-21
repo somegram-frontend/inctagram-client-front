@@ -18,6 +18,7 @@ export type ItemsType = {
   updatedAt: string
   images: string[]
   postOwnerInfo: PostOwnerInfoType
+  like: Like
 }
 
 type PostOwnerInfoType = {

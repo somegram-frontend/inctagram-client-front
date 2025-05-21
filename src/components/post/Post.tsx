@@ -1,5 +1,5 @@
 import { ItemsType } from '@/api/post/posts-api.types'
-import { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useMeQuery } from '@/api/auth/auth-api'
 import { useDeleteUserPostMutation } from '@/api/post/posts-api'
@@ -20,6 +20,17 @@ import {
 } from '@honor-ui/inctagram-ui-kit'
 import PostComment from '@/pages/user/[id]/post/addPost/postComment'
 import ConfirmDeletePost from '@/pages/user/[id]/post/confirmDeletePost'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import {
+  useCreateAnswerCommentMutation,
+  useCreateCommentMutation,
+  useFetchCommentsQuery,
+} from '@/api/comments/comments-api'
+import { ControlledInput } from '../controlled/ControlledInput'
+import { formatNumberWithSpaces } from '@/shared/utils/formatNumberWithSpaces'
+import { useInfiniteScroll } from '@/shared/hooks'
 
 type Props = {
   setEditPost?: (value: boolean) => void
@@ -27,14 +38,52 @@ type Props = {
 }
 
 export const Post = ({ setEditPost, post }: Props) => {
+  const inputRef = useRef<HTMLInputElement>(null)
   const defaultAva = '/MaskGroup.jpg'
   const [editMenu, setEditMenu] = useState(false)
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
+  const [selectedComment, setSelectedComment] = useState<null | string>(null)
+  const [page, setPage] = useState<number>(1)
   const router = useRouter()
   const { data: me } = useMeQuery()
   const id = router.query.id as string
-
   const isOwner = me?.userId === id
+
+  const { control, handleSubmit, reset } = useForm({
+    resolver: zodResolver(
+      z.object({
+        comment: z.string().min(1, 'Min 1 symbol').max(300, 'Max 300 symbols'),
+      }),
+    ),
+    defaultValues: { comment: '' },
+    mode: 'onSubmit',
+  })
+
+  const [sendComment, { isLoading: isLoadingCreateComment }] = useCreateCommentMutation()
+  const [sendAnswer, { isLoading: isLoadingCreateAnswer }] = useCreateAnswerCommentMutation()
+  const { data, isFetching } = useFetchCommentsQuery({
+    postId: post.id,
+    pageNumber: page,
+  })
+
+  const totalItems = data?.items?.length || 0
+  const totalCount = data?.totalCount || 0
+
+  const loadedItemsCount = (page - 1) * 10 + totalItems
+  const hasMoreItems = totalCount > loadedItemsCount
+
+  const loadMore = () => {
+    if (!isFetching && hasMoreItems) {
+      console.log('Loading more items, increasing page to:', page + 1)
+      setPage(prev => prev + 1)
+    }
+  }
+
+  const { lastElementRef } = useInfiniteScroll({
+    isFetching,
+    hasNext: hasMoreItems,
+    fetchNext: loadMore,
+  })
 
   const [deletePost, { isLoading, isSuccess }] = useDeleteUserPostMutation()
 
@@ -70,7 +119,32 @@ export const Post = ({ setEditPost, post }: Props) => {
     router.push(`/user/${post.postOwnerInfo.userId}`)
   }
 
+  const handlePostComment = (data: { comment: string }) => {
+    if (selectedComment) {
+      sendAnswer({ comment: data.comment, commentId: selectedComment })
+        .then(() => {
+          toast.success('Answer is sent')
+        })
+        .catch(() => toast.error('Answer is not sent'))
+    } else {
+      sendComment({ comment: data.comment, postId: post.id })
+        .then(() => {
+          toast.success('Comment is sent')
+        })
+        .catch(() => toast.error('Comment is not sent'))
+    }
+
+    reset({ comment: '' })
+  }
+
   const dotsClass = post?.images.length > 1 ? s.postDots : ''
+
+  const selectedCommentHandler = (commentId: string) => {
+    setSelectedComment(commentId)
+    setTimeout(() => {
+      inputRef.current?.focus()
+    }, 0)
+  }
 
   return (
     <div className={s.postContainer}>
@@ -113,11 +187,31 @@ export const Post = ({ setEditPost, post }: Props) => {
           )}
         </div>
         <div className={`${s.descriptionCommentsContainer} ${s.wrapper}`}>
-          <PostComment
-            description={post?.description}
-            userName={post?.postOwnerInfo.username}
-            userAvatar={post?.postOwnerInfo.avatarUrl}
-          />
+          {post.description && (
+            <PostComment
+              commentId={post.id}
+              description={post?.description}
+              userName={post?.postOwnerInfo.username}
+              userAvatar={post?.postOwnerInfo.avatarUrl}
+              createdAt={post.createdAt}
+              isDescription
+            />
+          )}
+          {data?.items.map(comment => {
+            return (
+              <PostComment
+                key={comment.id}
+                commentId={comment.id}
+                createdAt={comment.createdAt}
+                description={comment.body}
+                userName={comment.user.username}
+                userAvatar={comment.user.avatarUrl}
+                likeCount={comment.like.likesCount}
+                setCommentId={selectedCommentHandler}
+              />
+            )
+          })}
+          <div className={s.cursor} ref={lastElementRef} />
         </div>
         <div className={`${s.descriptionReactions} ${s.wrapper}`}>
           <div className={`${s.descriptionReactionsIconsContainer}`}>
@@ -136,18 +230,36 @@ export const Post = ({ setEditPost, post }: Props) => {
               height={100}
             />
             <span>
-              2 243 <b>&quot;Like&quot;</b>
+              {formatNumberWithSpaces(post.like.likeCount)} <b>&quot;Like&quot;</b>
             </span>
           </div>
           <span className={s.date}>July 3, 2021</span>
         </div>
         <div className={`${s.descriptionFooter} ${s.wrapper}`}>
-          <Button variant="borderless" as="span" className={s.descriptionFooterBtn}>
-            Add a Comment...
-          </Button>
-          <Button variant="borderless" as="span">
-            Publish
-          </Button>
+          <form
+            onSubmit={e => {
+              e.preventDefault()
+              handleSubmit(handlePostComment)(e)
+            }}
+            className={s.form}
+          >
+            <ControlledInput
+              control={control}
+              name="comment"
+              placeholder={selectedComment ? 'Add answer for comment' : 'Add a Comment...'}
+              inputRef={inputRef}
+              onBlurCapture={() => setSelectedComment(null)}
+              width="100%"
+            />
+            <Button
+              type="submit"
+              variant="borderless"
+              className={s.btnForm}
+              disabled={isLoadingCreateComment || isLoadingCreateAnswer}
+            >
+              <Typography variant="h3">Publish</Typography>
+            </Button>
+          </form>
         </div>
       </div>
       {showConfirmDelete && (

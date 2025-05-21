@@ -20,6 +20,8 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { toast } from 'react-toastify'
+import { ViewPostComment } from './view-post-comments/ViewPostComment'
+import { useState } from 'react'
 
 type Props = {
   post: Items
@@ -28,6 +30,7 @@ type Props = {
 
 export const PostFollowing = ({ post, isFetching }: Props) => {
   const { id, postOwnerInfo, createdAt } = post
+  const [openedPost, setOpenedPost] = useState<boolean>(false)
 
   const { control, handleSubmit, reset } = useForm({
     resolver: zodResolver(
@@ -123,9 +126,12 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
         </Typography>
       </section>
       <section className={s.viewComments}>
-        <Typography as={'p'} variant={'bold_text14'}>
-          View All Comments ({commentsData && commentsData.items.length})
-        </Typography>
+        <ViewPostComment
+          post={post}
+          opened={openedPost}
+          setOpenedPost={setOpenedPost}
+          commentsCount={commentsData?.totalCount}
+        />
       </section>
       <form
         onSubmit={e => {

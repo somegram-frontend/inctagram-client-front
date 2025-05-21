@@ -28,7 +28,7 @@ export const Avatar = ({ imgSrc, userName, width, height, alt, className }: Prop
       <div
         className={clsx(className, s.fallback)}
         style={{
-          width: `${width}px`,
+          minWidth: `${width}px`,
           height: `${height}px`,
         }}
       >
