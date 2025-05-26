@@ -3,10 +3,12 @@ import { createWrapper } from 'next-redux-wrapper'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { baseApi } from '@/api/_base/base-api'
 import { countriesApi } from './api/countries/countries-api'
+import authReducer from '@/api/auth/auth.slice'
 
 const makeStore = () =>
   configureStore({
     reducer: {
+      auth: authReducer,
       [baseApi.reducerPath]: baseApi.reducer,
     },
     middleware: getDefaultMiddleware =>

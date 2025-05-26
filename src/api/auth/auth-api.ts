@@ -3,7 +3,6 @@ import {
   ConfirmationResponse,
   LoginArgs,
   LoginResponse,
-  MeErrorResponse,
   MeResponse,
   RegistrationArgs,
   RegistrationConformationArgs,
@@ -14,6 +13,7 @@ import {
 } from '@/api/auth/auth-api.types'
 import Router from 'next/router'
 import { EnumTokens } from '@/shared/const/enums'
+import { authActions } from '@/api/auth/auth.slice'
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: builder => {
@@ -92,13 +92,20 @@ export const authApi = baseApi.injectEndpoints({
           }
         },
         async onQueryStarted(_, { dispatch, queryFulfilled, getState }) {
+          dispatch(authActions.setIsLogoutLoading(true))
+
           try {
             await queryFulfilled
+            await Router.push('/auth/signIn')
+
             localStorage.removeItem(EnumTokens.ACCESS_TOKEN)
             dispatch(authApi.util.invalidateTags(['Me']))
             dispatch(authApi.util.resetApiState())
-            void Router.push('/auth/signIn')
-          } catch {}
+            dispatch(authActions.setAuth(false))
+          } catch {
+          } finally {
+            dispatch(authActions.setIsLogoutLoading(false))
+          }
         },
       }),
       refreshToken: builder.mutation<void, void>({

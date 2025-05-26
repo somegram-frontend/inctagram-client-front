@@ -33,4 +33,5 @@ export const useInfiniteScroll = ({
   }, [enabled, isFetching, hasNext])
 
   return { lastElementRef }
+
 }

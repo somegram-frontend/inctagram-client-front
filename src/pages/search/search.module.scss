@@ -1,0 +1,74 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  width: 100%;
+  height: 100%;
+  padding: 36px 64px 36px 24px;
+}
+
+.usersList {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  width: 100%;
+}
+
+.notFound {
+  &Content {
+    display: flex;
+    flex-direction: column;
+    gap: 84px;
+  }
+
+  &Title {
+    align-self: start;
+  }
+
+  &Info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+
+    color: var(--color-light-900);
+  }
+}
+
+.card {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  max-width: 200px;
+
+  &Avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 48px;
+    min-height: 48px;
+
+    color: var(--color-light-300);
+
+    object-fit: cover;
+    background-color: var(--color-dark-300);
+    border-radius: 50%;
+  }
+
+  &Info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .name {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .about {
+      color: var(--color-light-900);
+    }
+  }
+}
