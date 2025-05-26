@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-
+  max-width: 1300px;
   width: 100%;
   height: 100%;
   padding: 50px;
@@ -17,6 +17,7 @@
   flex-direction: column;
   gap: 20px;
   padding-left: 40px;
+  width: 100%;
 }
 
 .profileNameAndBtnContainer {
@@ -43,7 +44,7 @@
 
 .postsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 300px);
+  grid-template-columns: repeat(auto-fit, 250px);
   gap: 1rem;
 }
 

@@ -17,9 +17,15 @@ import {
 export const postsApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     getUserPosts: builder.query<GetUserPostsResponse, GetUserPostsArgs>({
-      query: ({ userId, pageNumber, pageSize }) =>
+      query: ({ userId, pageNumber = 1, pageSize = 8 }) =>
         `v1/posts/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
-      providesTags: ['Posts'],
+      providesTags: result =>
+        result
+          ? [
+              { type: 'Posts', id: 'LIST_FOLLOWING' },
+              ...result.items.map(({ id }) => ({ type: 'Posts' as const, id })),
+            ]
+          : [{ type: 'Posts', id: 'LIST_FOLLOWING' }],
     }),
 
     getPostsFollowing: builder.query<ResPostsFollowing, PostsFollowingParams>({

@@ -37,7 +37,7 @@ const PostAnswerComment = (props: CommentProps) => {
           <Typography className={s.timeAgo} as={'p'} variant={'small_text'}>
             <TimeAgo date={answer.createdAt} live={false} />
           </Typography>
-          <Typography className={s.timeAgo} variant={'semi_bold_small_text'}>
+          <Typography className={s.like} variant={'semi_bold_small_text'}>
             {!!answer.like.likesCount && <span>{'Like: ' + answer.like.likesCount}</span>}
           </Typography>
           {isAuth && setCommentId && (
