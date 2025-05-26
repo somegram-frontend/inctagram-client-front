@@ -23,10 +23,35 @@ export const postsApi = baseApi.injectEndpoints({
     }),
 
     getPostsFollowing: builder.query<ResPostsFollowing, PostsFollowingParams>({
-      query: ({ endCursorPostId, ...params }) => ({
+      query: ({ endCursorPostId = '', pageSize = 8, sortBy, sortDirection }) => ({
         url: `v1/following/posts/${endCursorPostId}`,
-        params,
+        params: { pageSize, sortBy, sortDirection },
       }),
+
+      serializeQueryArgs: () => 'LIST_FOLLOWING',
+
+      merge: (currentCache, newItems, { arg }) => {
+        if (!arg.endCursorPostId || arg.endCursorPostId === '') {
+          return newItems
+        }
+
+        const existingIds = new Set(currentCache.items.map(item => item.id))
+        const uniqueNewItems = newItems.items.filter(item => !existingIds.has(item.id))
+
+        return {
+          ...newItems,
+          items: [...currentCache.items, ...uniqueNewItems],
+          totalCount: newItems.totalCount,
+          pageNumber: newItems.pageNumber,
+          pagesCount: newItems.pagesCount,
+          pageSize: newItems.pageSize,
+        }
+      },
+
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg?.endCursorPostId !== previousArg?.endCursorPostId
+      },
+
       providesTags: result =>
         result
           ? [

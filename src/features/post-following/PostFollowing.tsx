@@ -34,9 +34,8 @@ type Props = {
 export const PostFollowing = ({ post, isFetching }: Props) => {
   const { id, postOwnerInfo, createdAt } = post
   const [openedPost, setOpenedPost] = useState<boolean>(false)
-  const [isLiked, setIsLiked] = useState<boolean>(post.like.myStatus === 'like')
-  const [likeCount, setLikeCount] = useState<number>(post.like.likeCount)
   const isAuth = useAppSelector(state => state.auth.isAuth)
+  const defaultAva = '/MaskGroup.jpg'
 
   const { control, handleSubmit, reset } = useForm({
     resolver: zodResolver(
@@ -59,16 +58,6 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
     reset({ comment: '' })
   }
   const [toggleIsLiked, { isLoading: isLoadingLiked }] = useToggleLikePostMutation()
-
-  const toggleLikePostHandler = () => {
-    if (post.like.myStatus === 'like' && isLiked) {
-      setIsLiked(false)
-      setLikeCount(likeCount - 1)
-    } else {
-      setIsLiked(true)
-      setLikeCount(likeCount + 1)
-    }
-  }
 
   return (
     <section className={s.post} key={id}>
@@ -100,7 +89,7 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
       <section className={s.postActions}>
         {isAuth && (
           <div className={s.descriptionCommentIconContainer}>
-            {isLiked ? (
+            {post.like.myStatus === 'like' ? (
               <Heart
                 className={` ${s.descriptionCommentIcon} ${s.iconActive} ${
                   isLoadingLiked ? s.disabledIcon : ''
@@ -108,8 +97,6 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
                 onClick={() => {
                   if (!isLoadingLiked) {
                     toggleIsLiked({ postId: post.id, status: 'none' })
-                      .unwrap()
-                      .then(() => toggleLikePostHandler())
                   }
                 }}
               />
@@ -120,8 +107,6 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
                 onClick={() => {
                   if (!isLoadingLiked) {
                     toggleIsLiked({ postId: post.id, status: 'like' })
-                      .unwrap()
-                      .then(() => toggleLikePostHandler())
                   }
                 }}
               />
@@ -132,30 +117,32 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
         <PaperPlaneOutline />
         <BookmarkOutline className={s.book} />
       </section>
-      <section className={s.description}>
-        <Avatar
-          alt="avatar"
-          imgSrc={post.postOwnerInfo.avatarUrl}
-          userName={post.postOwnerInfo.username}
-          className={s.avatar}
-          width={36}
-          height={36}
-        />
-        <Typography variant={'bold_text14'}>
-          {post.postOwnerInfo.username}{' '}
-          <Typography as={'span'} variant={'regular_text14'}>
-            bla bla
+      {!!post.description && (
+        <section className={s.description}>
+          <Avatar
+            alt="avatar"
+            imgSrc={post.postOwnerInfo.avatarUrl}
+            userName={post.postOwnerInfo.username}
+            className={s.avatar}
+            width={36}
+            height={36}
+          />
+          <Typography variant={'bold_text14'}>
+            {post.postOwnerInfo.username}{' '}
+            <Typography as={'span'} variant={'regular_text14'}>
+              {post.description}
+            </Typography>
           </Typography>
-        </Typography>
-      </section>
+        </section>
+      )}
       <section className={s.like}>
         <div className={s.likeUsersImages}>
           {post.like.lastLikeUser.map(likeUser => (
             <Avatar
               key={likeUser.userId}
               alt="avatar"
-              imgSrc={likeUser.avatarUrl}
-              className={s.avatar}
+              imgSrc={likeUser.avatarUrl || defaultAva}
+              className={s.avatarImage}
               width={36}
               height={36}
             />
@@ -163,7 +150,7 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
         </div>
 
         <Typography variant={'regular_text14'}>
-          {likeCount}
+          {post.like.likeCount}
           <Typography as={'span'} variant={'bold_text14'}>
             {' '}
             &quot;Like&quot;

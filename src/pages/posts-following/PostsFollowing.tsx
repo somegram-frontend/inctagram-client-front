@@ -1,35 +1,38 @@
 import React, { useState } from 'react'
 import { useGetPostsFollowingQuery } from '@/api/post/posts-api'
 import s from './PostsFollowing.module.scss'
-import { Items } from '@/api/post/posts-api.types'
 import { useInfiniteScroll } from '@/shared/hooks'
 import { PostFollowing } from '@/features/post-following/PostFollowing'
 
 const PostsFollowing = () => {
-  const [posts, setPosts] = useState<Items[]>([])
-  const [endCursorPostId, setEndCursorPostId] = useState('')
+  const [pageNumber, setPageNumber] = useState(1)
 
-  const { data: followingPosts, isFetching } = useGetPostsFollowingQuery({
-    endCursorPostId: endCursorPostId || '',
+  const { data, isFetching } = useGetPostsFollowingQuery({
+    endCursorPostId: '',
     pageSize: 8,
   })
 
+  const totalItems = data?.items?.length || 0
+  const totalCount = data?.totalCount || 0
+
+  const loadedItemsCount = (pageNumber - 1) * 10 + totalItems
+  const hasMoreItems = totalCount > loadedItemsCount
+
+  const loadMore = () => {
+    if (!isFetching && hasMoreItems) {
+      setPageNumber(prev => prev + 1)
+    }
+  }
+
   const { lastElementRef } = useInfiniteScroll({
     isFetching,
-    hasNext: Boolean(followingPosts?.items.length),
-    fetchNext: () => {
-      if (followingPosts?.items) {
-        setPosts(prev => [...prev, ...followingPosts?.items])
-        setEndCursorPostId(followingPosts?.items.at(-1)?.id || '')
-      }
-    },
+    hasNext: hasMoreItems,
+    fetchNext: loadMore,
   })
 
   return (
     <section className={s.containerPostsFollowing}>
-      {posts.map(post => (
-        <PostFollowing key={post.id} post={post} isFetching={isFetching} />
-      ))}
+      {data?.items.map(post => <PostFollowing key={post.id} post={post} isFetching={isFetching} />)}
       <div className={s.cursor} ref={lastElementRef} />
     </section>
   )

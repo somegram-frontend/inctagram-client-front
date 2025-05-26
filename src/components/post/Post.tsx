@@ -2,7 +2,7 @@ import { ItemsType } from '@/api/post/posts-api.types'
 import React, { useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useMeQuery } from '@/api/auth/auth-api'
-import { useDeleteUserPostMutation } from '@/api/post/posts-api'
+import { useDeleteUserPostMutation, useToggleLikePostMutation } from '@/api/post/posts-api'
 import { toast } from 'react-toastify'
 import s from './post.module.scss'
 import { Loader } from '@/components/loader'
@@ -12,6 +12,7 @@ import {
   BookmarkOutline,
   Button,
   Edit2Outline,
+  Heart,
   HeartOutline,
   MoreHorizontalOutline,
   PaperPlaneOutline,
@@ -31,6 +32,7 @@ import {
 import { ControlledInput } from '../controlled/ControlledInput'
 import { formatNumberWithSpaces } from '@/shared/utils/formatNumberWithSpaces'
 import { useInfiniteScroll } from '@/shared/hooks'
+import { useAppSelector } from '@/store'
 
 type Props = {
   setEditPost?: (value: boolean) => void
@@ -48,6 +50,7 @@ export const Post = ({ setEditPost, post }: Props) => {
   const { data: me } = useMeQuery()
   const id = router.query.id as string
   const isOwner = me?.userId === id
+  const isAuth = useAppSelector(state => state.auth.isAuth)
 
   const { control, handleSubmit, reset, watch } = useForm({
     resolver: zodResolver(
@@ -65,6 +68,7 @@ export const Post = ({ setEditPost, post }: Props) => {
     postId: post.id,
     pageNumber: page,
   })
+  const [toggleIsLiked, { isLoading: isLoadingLiked }] = useToggleLikePostMutation()
 
   const totalItems = data?.items?.length || 0
   const totalCount = data?.totalCount || 0
@@ -219,21 +223,51 @@ export const Post = ({ setEditPost, post }: Props) => {
           <div className={s.cursor} ref={lastElementRef} />
         </div>
         <div className={`${s.descriptionReactions} ${s.wrapper}`}>
-          <div className={`${s.descriptionReactionsIconsContainer}`}>
-            <div className={s.descriptionReactionsIcons}>
-              <HeartOutline className={s.descriptionReactionsIcon} />
-              <PaperPlaneOutline className={s.descriptionReactionsIcon} />
+          {isAuth && (
+            <div className={`${s.descriptionReactionsIconsContainer}`}>
+              <div className={s.descriptionReactionsIcons}>
+                {post.like.myStatus === 'like' ? (
+                  <Heart
+                    className={` ${s.descriptionCommentIcon} ${s.iconActive} ${
+                      isLoadingLiked ? s.disabledIcon : ''
+                    }`}
+                    onClick={() => {
+                      if (!isLoadingLiked) {
+                        toggleIsLiked({ postId: post.id, status: 'none' })
+                      }
+                    }}
+                  />
+                ) : (
+                  <HeartOutline
+                    aria-disabled={isLoadingLiked}
+                    className={` ${s.descriptionCommentIcon} ${
+                      isLoadingLiked ? s.disabledIcon : ''
+                    }`}
+                    onClick={() => {
+                      if (!isLoadingLiked) {
+                        toggleIsLiked({ postId: post.id, status: 'like' })
+                      }
+                    }}
+                  />
+                )}
+                <PaperPlaneOutline className={s.descriptionReactionsIcon} />
+              </div>
+              <BookmarkOutline className={s.descriptionReactionsIcon} />
             </div>
-            <BookmarkOutline className={s.descriptionReactionsIcon} />
-          </div>
+          )}
           <div className={s.descriptionReactionsAvatarsContainer}>
-            <Image
-              src={defaultAva}
-              alt="defaultAva"
-              className={s.descriptionReactionsAvatarImage}
-              width={100}
-              height={100}
-            />
+            {post.like.lastLikeUser.map(user => {
+              return (
+                <Image
+                  key={user.userId}
+                  src={user.avatarUrl || defaultAva}
+                  alt="defaultAva"
+                  className={s.descriptionReactionsAvatarImage}
+                  width={100}
+                  height={100}
+                />
+              )
+            })}
             <span>
               {formatNumberWithSpaces(post.like.likeCount)} <b>&quot;Like&quot;</b>
             </span>

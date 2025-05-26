@@ -72,10 +72,13 @@
 
 .like {
   display: flex;
+  gap: 10px;
+  align-items: center;
   padding: 14px 0 24px;
 
   .likeUsersImages {
-    margin: 0 12px 0 0;
+    display: flex;
+    margin-left: 10px;
   }
 }
 
@@ -113,6 +116,19 @@
 
 .avatar {
   margin-right: 12px;
+}
+
+.avatarImage {
+  width: 25px;
+  height: 25px;
+  margin-left: -10px;
+  border-radius: 50px;
+
+  &:hover {
+    z-index: 999;
+    transform: translateY(-5px);
+    transition: transform 0.5s ease-out;
+  }
 }
 
 .descriptionCommentIcon {
