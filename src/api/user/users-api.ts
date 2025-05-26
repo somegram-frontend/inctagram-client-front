@@ -3,6 +3,8 @@ import {
   GetProfileSuccess,
   GetPublicProfileSuccess,
   GetTotalCountResponse,
+  GetUserProfileSuccess,
+  GetUsersResponse,
   ProfileResponse,
   UserProfile,
 } from './users-api.types'
@@ -51,6 +53,40 @@ export const usersApi = baseApi.injectEndpoints({
       getTotalUsersCount: builder.query<GetTotalCountResponse, void>({
         query: () => '/v1/public-users',
       }),
+      getUsers: builder.query<
+        GetUsersResponse,
+        { endCursorUserId?: string; search?: string; pageSize?: number; pageNumber?: number }
+      >({
+        query: ({ endCursorUserId, search, pageSize = 10, pageNumber = 1 }) => {
+          let url = `v1/users/${
+            endCursorUserId ?? ''
+          }?pageSize=${pageSize}&pageNumber=${pageNumber}`
+          if (search) url += `&search=${encodeURIComponent(search)}`
+
+          return {
+            url,
+            method: 'GET',
+          }
+        },
+      }),
+      getUserProfile: builder.query<GetUserProfileSuccess, { userId: string }>({
+        query: ({ userId }) => `v1/users/${userId}/profile`,
+        providesTags: ['PublicProfile'],
+      }),
+      followUser: builder.mutation<void, string>({
+        query: followeeId => ({
+          url: `v1/users/follow/${followeeId}`,
+          method: 'POST',
+        }),
+        invalidatesTags: ['PublicProfile'],
+      }),
+      unfollowUser: builder.mutation<void, string>({
+        query: followeeId => ({
+          url: `v1/users/unfollow/${followeeId}`,
+          method: 'POST',
+        }),
+        invalidatesTags: ['PublicProfile'],
+      }),
     }
   },
 })
@@ -61,5 +97,9 @@ export const {
   useUploadAvatarMutation,
   useDeleteAvatarMutation,
   useProfileFillInfoMutation,
+  useGetUsersQuery,
+  useGetUserProfileQuery,
+  useFollowUserMutation,
+  useUnfollowUserMutation,
   useGetTotalUsersCountQuery,
 } = usersApi
