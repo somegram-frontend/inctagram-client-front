@@ -71,6 +71,7 @@
 }
 
 .like {
+  display: flex;
   padding: 14px 0 24px;
 
   .likeUsersImages {
@@ -112,4 +113,16 @@
 
 .avatar {
   margin-right: 12px;
+}
+
+.descriptionCommentIcon {
+  cursor: pointer;
+
+  &.iconActive {
+    color: var(--color-danger-500);
+  }
+
+  &.disabledIcon {
+    opacity: 0.5;
+  }
 }

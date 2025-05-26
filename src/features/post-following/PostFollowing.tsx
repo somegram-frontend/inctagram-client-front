@@ -6,6 +6,7 @@ import TimeAgo from 'react-timeago'
 import {
   BookmarkOutline,
   Button,
+  Heart,
   HeartOutline,
   MessageCircleOutline,
   MoreHorizontal,
@@ -21,7 +22,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { toast } from 'react-toastify'
 import { ViewPostComment } from './view-post-comments/ViewPostComment'
-import { useState } from 'react'
+import React, { useState } from 'react'
+import { useToggleLikePostMutation } from '@/api/post/posts-api'
+import { useAppSelector } from '@/store'
 
 type Props = {
   post: Items
@@ -31,6 +34,7 @@ type Props = {
 export const PostFollowing = ({ post, isFetching }: Props) => {
   const { id, postOwnerInfo, createdAt } = post
   const [openedPost, setOpenedPost] = useState<boolean>(false)
+  const isAuth = useAppSelector(state => state.auth.isAuth)
 
   const { control, handleSubmit, reset } = useForm({
     resolver: zodResolver(
@@ -52,6 +56,8 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
       .catch(() => toast.error('Comment is not sent'))
     reset({ comment: '' })
   }
+  const [toggleIsLiked, { isLoading: isLoadingLiked }] = useToggleLikePostMutation()
+  const isLiked = post.like.myStatus === 'like'
 
   return (
     <section className={s.post} key={id}>
@@ -81,7 +87,32 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
         <PhotoSlider imgClass={s.imagesPosts} images={post.images} dotClass={s.publicPostDots} />
       </section>
       <section className={s.postActions}>
-        <HeartOutline />
+        {isAuth && (
+          <div className={s.descriptionCommentIconContainer}>
+            {isLiked ? (
+              <Heart
+                className={` ${s.descriptionCommentIcon} ${s.iconActive} ${
+                  isLoadingLiked ? s.disabledIcon : ''
+                }`}
+                onClick={() => {
+                  if (!isLoadingLiked) {
+                    toggleIsLiked({ postId: post.id, status: 'none' })
+                  }
+                }}
+              />
+            ) : (
+              <HeartOutline
+                aria-disabled={isLoadingLiked}
+                className={` ${s.descriptionCommentIcon} ${isLoadingLiked ? s.disabledIcon : ''}`}
+                onClick={() => {
+                  if (!isLoadingLiked) {
+                    toggleIsLiked({ postId: post.id, status: 'like' })
+                  }
+                }}
+              />
+            )}
+          </div>
+        )}
         <MessageCircleOutline className={s.message} />
         <PaperPlaneOutline />
         <BookmarkOutline className={s.book} />
