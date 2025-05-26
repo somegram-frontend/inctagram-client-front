@@ -5,6 +5,13 @@ import { Mutex } from 'async-mutex'
 import Router from 'next/router'
 
 const mutex = new Mutex()
+
+const ENDPOINTS_REQUIRING_CREDENTIALS = ['/v1/public-posts/comments/']
+
+function shouldUseCredentials(url: string): boolean {
+  return ENDPOINTS_REQUIRING_CREDENTIALS.some(endpoint => url.includes(endpoint))
+}
+
 const baseQuery = fetchBaseQuery({
   baseUrl: 'https://somegram.online/api',
   prepareHeaders: headers => {
@@ -15,24 +22,45 @@ const baseQuery = fetchBaseQuery({
     return headers
   },
 })
+
+const baseQueryWithCredentials = fetchBaseQuery({
+  baseUrl: 'https://somegram.online/api',
+  credentials: 'include',
+  prepareHeaders: headers => {
+    const token = localStorage.getItem(EnumTokens.ACCESS_TOKEN)
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`)
+    }
+    return headers
+  },
+})
+
+const refreshBaseQuery = fetchBaseQuery({
+  baseUrl: 'https://somegram.online/api',
+  credentials: 'include',
+})
+
 export const baseQueryWithReauth: BaseQueryFn<
   string | FetchArgs,
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
-  // wait until the mutex is available without locking it
   await mutex.waitForUnlock()
-  let result = await baseQuery(args, api, extraOptions)
+
+  const requestUrl = typeof args === 'string' ? args : args.url || ''
+
+  const queryToUse = shouldUseCredentials(requestUrl) ? baseQueryWithCredentials : baseQuery
+
+  let result = await queryToUse(args, api, extraOptions)
+
   if (result.error && result.error.status === 401) {
-    // checking whether the mutex is locked
     if (!mutex.isLocked()) {
       const release = await mutex.acquire()
       try {
-        const refreshResult = (await baseQuery(
+        const refreshResult = (await refreshBaseQuery(
           {
             url: '/v1/auth/refresh-token',
             method: 'POST',
-            credentials: 'include',
           },
           api,
           extraOptions,
@@ -40,22 +68,21 @@ export const baseQueryWithReauth: BaseQueryFn<
 
         if (refreshResult.data) {
           localStorage.setItem(EnumTokens.ACCESS_TOKEN, refreshResult.data.accessToken)
-          // retry the initial query
-          result = await baseQuery(args, api, extraOptions)
+          // Повторяем исходный запрос с тем же базовым запросом
+          result = await queryToUse(args, api, extraOptions)
         } else {
-          // void Router.push('/auth/signIn')
-          console.error(refreshResult)
+          void Router.push('/auth/signIn')
+          console.error('Failed to refresh token:', refreshResult.error)
         }
       } finally {
-        // release must be called once the mutex should be released again.
         release()
       }
     } else {
-      // wait until the mutex is available without locking it
       await mutex.waitForUnlock()
-      result = await baseQuery(args, api, extraOptions)
+      result = await queryToUse(args, api, extraOptions)
     }
   }
+
   return result
 }
 

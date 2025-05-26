@@ -1,38 +1,36 @@
-import { useEffect, useRef } from 'react'
-
-type UseInfiniteScrollOptions = {
-  hasMore: boolean
-  isLoading: boolean
-  onLoadMore: () => void
-  threshold?: number
-}
+import { useEffect, useRef, useState } from 'react'
 
 export const useInfiniteScroll = ({
-  hasMore,
-  isLoading,
-  onLoadMore,
-  threshold = 1,
-}: UseInfiniteScrollOptions) => {
-  const observerRef = useRef<HTMLDivElement | null>(null)
+  fetchNext,
+  isFetching,
+  hasNext,
+}: {
+  fetchNext: () => void
+  isFetching: boolean
+  hasNext?: boolean
+}) => {
+  const lastElementRef = useRef<HTMLDivElement | null>(null)
+  const observer = useRef<IntersectionObserver | null>(null)
+  const [enabled, setEnabled] = useState(true)
 
   useEffect(() => {
-    if (!observerRef.current) return
+    if (observer.current) observer.current.disconnect()
 
-    const observer = new IntersectionObserver(
-      entries => {
-        if (entries[0].isIntersecting && hasMore && !isLoading) {
-          onLoadMore()
-        }
-      },
-      { threshold },
-    )
+    observer.current = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setEnabled(true)
+      }
+    })
 
-    observer.observe(observerRef.current)
+    if (lastElementRef.current) observer.current.observe(lastElementRef.current)
+  }, [])
 
-    return () => {
-      observer.disconnect()
+  useEffect(() => {
+    if (enabled && !isFetching && hasNext) {
+      fetchNext()
+      setEnabled(false)
     }
-  }, [hasMore, isLoading, onLoadMore, threshold])
+  }, [enabled, isFetching, hasNext])
 
-  return { observerRef }
+  return { lastElementRef }
 }

@@ -58,3 +58,65 @@
   width: 110vh;
   height: 100vh;
 }
+
+.publicPostDots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 24px;
+
+  text-align: center;
+  list-style: none;
+
+  opacity: 0.9;
+  background-color: var(--color-dark-300);
+  border-radius: 2px;
+
+  & li {
+    cursor: pointer;
+
+    position: relative;
+
+    display: inline-flex;
+
+    width: 20px;
+    height: 20px;
+    padding: 0;
+
+    & button {
+      cursor: pointer;
+      color: transparent;
+      background: transparent;
+      outline: none;
+
+      &::before {
+        content: '•';
+
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 100%;
+        height: 100%;
+
+        font-size: 28px;
+        -webkit-font-smoothing: antialiased;
+        color: var(--color-light-100);
+      }
+    }
+  }
+}
+
+.publicPostDots :global(li.slick-active) button::before {
+  color: var(--color-accent-500);
+}

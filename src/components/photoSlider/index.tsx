@@ -59,6 +59,7 @@ const PhotoSlider: React.FC<Props> = ({
       onSetActiveImageIdx?.(idx)
     },
   }
+  const dots = images.length > 1 ? s.publicPostDots : 'slick-dots'
 
   return (
     <div>
@@ -66,7 +67,7 @@ const PhotoSlider: React.FC<Props> = ({
         <Slider
           {...settings}
           className={className ? className : ''}
-          dotsClass={dotClass ? dotClass : 'slick-dots'}
+          dotsClass={dotClass ? dotClass : dots}
           ref={slider => {
             activeImageIdx !== undefined && slider?.slickGoTo(activeImageIdx)
           }}
