@@ -3,6 +3,18 @@ export type CreateCommentRequest = {
   comment: string
 }
 
+export type SetLikeCommentResponse = {
+  postId: string
+  commentId: string
+  status: 'like' | 'dislike' | 'none'
+}
+
+export type SetLikeAnswerCommentPayload = {
+  commentId: string
+  answerId: string
+  status: 'like' | 'dislike' | 'none'
+}
+
 export type CreateAnswerCommentRequest = {
   commentId: string
   comment: string

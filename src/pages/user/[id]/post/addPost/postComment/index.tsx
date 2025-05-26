@@ -4,12 +4,16 @@ import s from '../../../../../../components/post/post.module.scss'
 import { Avatar } from '@/components/avatar'
 import { useAppSelector } from '@/store'
 import TimeAgo from 'react-timeago'
-import { useFetchAnswerCommentQuery } from '@/api/comments/comments-api'
+import {
+  useFetchAnswerCommentQuery,
+  useToggleLikeCommentMutation,
+} from '@/api/comments/comments-api'
 import PostAnswerComment from '@/pages/user/[id]/post/addPost/postComment/postAnswerComment'
 import { useInfiniteScroll } from '@/shared/hooks'
 
 type CommentProps = {
   description?: string | null
+  postId: string
   isDescription?: boolean
   userName: string
   userAvatar: string
@@ -17,6 +21,7 @@ type CommentProps = {
   commentId: string
   likeCount?: number
   setCommentId?: (commentId: string) => void
+  isLiked?: boolean
 }
 
 const PostComment = (props: CommentProps) => {
@@ -29,13 +34,15 @@ const PostComment = (props: CommentProps) => {
     likeCount,
     isDescription = false,
     setCommentId,
+    postId,
+    isLiked = false,
   } = props
-  const [click, setClick] = useState(false)
   const isAuth = useAppSelector(state => state.auth.isAuth)
   const [viewAnswer, setViewAnswer] = useState(false)
   const [pageNumber, setPageNumber] = useState(1)
 
   const { data, isLoading, isFetching } = useFetchAnswerCommentQuery({ commentId, pageNumber })
+  const [toggleIsLiked, { isLoading: isLoadindLiked }] = useToggleLikeCommentMutation()
 
   useEffect(() => {
     if (!viewAnswer) {
@@ -83,7 +90,7 @@ const PostComment = (props: CommentProps) => {
                 <Typography className={s.timeAgo} as={'p'} variant={'small_text'}>
                   <TimeAgo date={createdAt} live={false} />
                 </Typography>
-                <Typography className={s.timeAgo} variant={'semi_bold_small_text'}>
+                <Typography className={s.like} variant={'semi_bold_small_text'}>
                   {!!likeCount && <span>{'Like: ' + likeCount}</span>}
                 </Typography>
                 {!isDescription && isAuth && setCommentId && (
@@ -117,13 +124,27 @@ const PostComment = (props: CommentProps) => {
         )}
         {isAuth && !isDescription && (
           <div className={s.descriptionCommentIconContainer}>
-            {click ? (
+            {isLiked ? (
               <Heart
-                className={`${s.descriptionCommentIcon} ${s.iconActive}`}
-                onClick={() => setClick(false)}
+                className={` ${s.descriptionCommentIcon} ${s.iconActive} ${
+                  isLoadindLiked ? s.disabledIcon : ''
+                }`}
+                onClick={() => {
+                  if (!isLoadindLiked) {
+                    toggleIsLiked({ postId, commentId, status: 'none' })
+                  }
+                }}
               />
             ) : (
-              <HeartOutline className={s.descriptionCommentIcon} onClick={() => setClick(true)} />
+              <HeartOutline
+                aria-disabled={isLoadindLiked}
+                className={` ${s.descriptionCommentIcon} ${isLoadindLiked ? s.disabledIcon : ''}`}
+                onClick={() => {
+                  if (!isLoadindLiked) {
+                    toggleIsLiked({ postId, commentId, status: 'like' })
+                  }
+                }}
+              />
             )}
           </div>
         )}
@@ -131,7 +152,12 @@ const PostComment = (props: CommentProps) => {
       {viewAnswer && data && data.items && (
         <div className={s.answers}>
           {data.items.map(item => (
-            <PostAnswerComment key={item.id} answer={item} setCommentId={setCommentId} />
+            <PostAnswerComment
+              key={item.id}
+              commentId={commentId}
+              answer={item}
+              setCommentId={setCommentId}
+            />
           ))}
           {isLoading && <div className={s.loading}>Loading answers...</div>}
           <div className={s.cursor} ref={lastElementRef} />

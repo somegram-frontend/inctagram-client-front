@@ -1,20 +1,23 @@
-import { useState } from 'react'
+import React from 'react'
 import { Heart, HeartOutline, Typography } from '@honor-ui/inctagram-ui-kit'
 import s from '../../../../../../../components/post/post.module.scss'
 import { Avatar } from '@/components/avatar'
 import { useAppSelector } from '@/store'
 import TimeAgo from 'react-timeago'
 import { Answer } from '@/api/comments/comments-api.types'
+import { useToggleLikeAnswerCommentMutation } from '@/api/comments/comments-api'
 
 type CommentProps = {
   answer: Answer
+  commentId: string
   setCommentId?: (commentId: string) => void
 }
 
 const PostAnswerComment = (props: CommentProps) => {
-  const { answer, setCommentId } = props
-  const [click, setClick] = useState(false)
+  const { answer, setCommentId, commentId } = props
   const isAuth = useAppSelector(state => state.auth.isAuth)
+  const [toggleIsLiked, { isLoading: isLoadindLiked }] = useToggleLikeAnswerCommentMutation()
+  const isLiked = answer.like.myStatus === 'like'
 
   return (
     <div className={s.answerComment}>
@@ -52,13 +55,27 @@ const PostAnswerComment = (props: CommentProps) => {
 
       {isAuth && (
         <div className={s.descriptionCommentIconContainer}>
-          {click ? (
+          {isLiked ? (
             <Heart
-              className={`${s.descriptionCommentIcon} ${s.iconActive}`}
-              onClick={() => setClick(false)}
+              className={` ${s.descriptionCommentIcon} ${s.iconActive} ${
+                isLoadindLiked ? s.disabledIcon : ''
+              }`}
+              onClick={() => {
+                if (!isLoadindLiked) {
+                  toggleIsLiked({ answerId: answer.id, commentId, status: 'none' })
+                }
+              }}
             />
           ) : (
-            <HeartOutline className={s.descriptionCommentIcon} onClick={() => setClick(true)} />
+            <HeartOutline
+              aria-disabled={isLoadindLiked}
+              className={` ${s.descriptionCommentIcon} ${isLoadindLiked ? s.disabledIcon : ''}`}
+              onClick={() => {
+                if (!isLoadindLiked) {
+                  toggleIsLiked({ answerId: answer.id, commentId, status: 'like' })
+                }
+              }}
+            />
           )}
         </div>
       )}

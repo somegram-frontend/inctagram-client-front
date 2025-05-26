@@ -194,13 +194,17 @@ export const Post = ({ setEditPost, post }: Props) => {
               userName={post?.postOwnerInfo.username}
               userAvatar={post?.postOwnerInfo.avatarUrl}
               createdAt={post.createdAt}
+              postId={post.id}
               isDescription
             />
           )}
           {data?.items.map(comment => {
+            console.log(comment)
+
             return (
               <PostComment
                 key={comment.id}
+                postId={post.id}
                 commentId={comment.id}
                 createdAt={comment.createdAt}
                 description={comment.body}
@@ -208,6 +212,7 @@ export const Post = ({ setEditPost, post }: Props) => {
                 userAvatar={comment.user.avatarUrl}
                 likeCount={comment.like.likesCount}
                 setCommentId={selectedCommentHandler}
+                isLiked={comment.like.myStatus === 'like'}
               />
             )
           })}
