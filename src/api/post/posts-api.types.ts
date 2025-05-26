@@ -113,3 +113,10 @@ export type PostsFollowingParams = {
   sortBy?: string
   sortDirection?: string
 }
+
+//----POST LIKED----
+
+export type ToggleLikePostArgs = {
+  postId: string
+  status: 'like' | 'dislike' | 'none'
+}

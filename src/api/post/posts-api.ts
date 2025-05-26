@@ -8,6 +8,7 @@ import {
   GetUserPostsResponse,
   PostsFollowingParams,
   ResPostsFollowing,
+  ToggleLikePostArgs,
   UpdateUserPostArgs,
   UpdateUserPostResponse,
 } from './posts-api.types'
@@ -27,6 +28,16 @@ export const postsApi = baseApi.injectEndpoints({
         }),
 
         providesTags: ['Posts'],
+      }),
+      toggleLikePost: builder.mutation<void, ToggleLikePostArgs>({
+        query: ({ postId, status }) => {
+          return {
+            url: `/v1/posts/like/${postId}`,
+            method: 'PUT',
+            body: { status },
+          }
+        },
+        invalidatesTags: ['Posts'],
       }),
       addUserPosts: builder.mutation<ApiResponse, AddUserPostsArgs>({
         query: ({ files, description }) => {
@@ -75,4 +86,5 @@ export const {
   useDeleteUserPostMutation,
   useGetPostsFollowingQuery,
   useGetPublicPostsQuery,
+  useToggleLikePostMutation,
 } = postsApi
