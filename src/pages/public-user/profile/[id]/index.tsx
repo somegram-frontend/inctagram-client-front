@@ -3,7 +3,12 @@ import { toast } from 'react-toastify'
 
 import { useMeQuery } from '@/api/auth/auth-api'
 import { useGetUserPostsQuery } from '@/api/post/posts-api'
-import { useGetPublicProfileQuery } from '@/api/user/users-api'
+import {
+  useFollowUserMutation,
+  useGetPublicProfileQuery,
+  useGetUserProfileQuery,
+  useUnfollowUserMutation,
+} from '@/api/user/users-api'
 import { ProfileResponse } from '@/api/user/users-api.types'
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/dialog'
 import { Loader } from '@/components/loader'
@@ -13,14 +18,22 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 
 import style from './profile.module.scss'
-import { ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
+import { Button, ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
 import { Post } from '@/components/post/Post'
+import s from '@/pages/user/[id]/profile/uploadProfileAvatar/uploadProfileAvatar.module.scss'
+import { useTranslation } from '@/shared/hooks'
+import { useAppSelector } from '@/store'
+import { fetchIsAuth } from '@/api/auth/auth.selectors'
+import clsx from 'clsx'
+import { formatNumberWithSpaces } from '@/shared/utils/formatNumberWithSpaces'
 
 const Profile = () => {
   const router = useRouter()
+  const t = useTranslation()
   const { id, postId } = router.query
   const [openPost, setOpenPost] = useState(false)
   const [openPostId, setOpenPostId] = useState<string>('')
+  const isAuth = useAppSelector(fetchIsAuth)
   const {
     data: publicData,
     error,
@@ -28,8 +41,20 @@ const Profile = () => {
     isLoading,
   } = useGetPublicProfileQuery({ id: id as string })
 
+  console.log(publicData)
+
   const { data: me, isLoading: isLoadingMe } = useMeQuery()
   const { data: userPosts, isLoading: isPostsLoading } = useGetUserPostsQuery(
+    {
+      userId: id as string,
+    },
+    { skip: id === undefined },
+  )
+
+  const [followUser, { isLoading: isLoadingFollowUser }] = useFollowUserMutation()
+  const [unfollowUser, { isLoading: isLoadingUnfollowUser }] = useUnfollowUserMutation()
+
+  const { data: profileData, isLoading: isLoadingProfile } = useGetUserProfileQuery(
     {
       userId: id as string,
     },
@@ -65,10 +90,18 @@ const Profile = () => {
     router.push({ pathname: router.pathname, query: restQuery })
   }
 
+  const handleFollowUser = () => {
+    if (profileData) {
+      if (profileData.isFollowing) {
+        unfollowUser(profileData.id)
+      } else followUser(profileData.id)
+    }
+  }
+
   if (!isLoading && typeof window !== 'undefined' && publicData?.id === me?.userId) {
     router.push(postId ? `/user/${me?.userId}?postId=${postId}` : `/user/${me?.userId}`)
   }
-  if (isLoading || isLoadingMe) {
+  if (isLoading || isLoadingMe || isLoadingProfile) {
     return <Loader fullHeight /> // TODO: Two loaders are developing on the My Profile page (this loader is called when you go to the My Profile page Although it should not be called in fact)
   }
 
@@ -86,30 +119,47 @@ const Profile = () => {
   if (publicData?.id !== me?.userId) {
     return (
       <Layout>
-        <div className={style.container}>
+        <div className={clsx(style.container, !isAuth && style.public)}>
           <div className={style.profile}>
-            {publicData?.avatar.url ? (
-              <Image
-                alt={'my avatar'}
-                className={style.profileAvatar}
-                height={190}
-                src={publicData ? publicData.avatar.url : ''}
-                width={190}
-              />
+            {profileData?.avatar?.url ? (
+              <div className={s.profileAvaContainer}>
+                <Image
+                  src={profileData?.avatar.url || ''}
+                  className={s.profileAvatar}
+                  alt="my avatar"
+                  width={190}
+                  height={190}
+                />
+              </div>
             ) : (
-              <ImageOutline height={190} viewBox={'0 0 25 25'} width={190} />
+              <div className={s.defaultAvaContainer}>
+                <ImageOutline />
+              </div>
             )}
             <div className={style.profileData}>
               <div className={style.profileNameAndBtnContainer}>
                 <Typography variant={'h1'}>{publicData?.userName}</Typography>
+                {isAuth && (
+                  <div className={style.activeBtns}>
+                    <Button
+                      onClick={handleFollowUser}
+                      disabled={isLoadingFollowUser || isLoadingUnfollowUser}
+                    >
+                      {profileData?.isFollowing ? t.profile.btns.unfollow : t.profile.btns.follow}
+                    </Button>
+                    <Button variant={'secondary'}>{t.profile.btns.send}</Button>
+                  </div>
+                )}
               </div>
               <div className={style.profileFollowersContainer}>
                 <span>
-                  2 218 <br />
+                  {profileData ? formatNumberWithSpaces(profileData.followingCount) : '2 218'}
+                  <br />
                   Following
                 </span>
                 <span>
-                  2 358 <br />
+                  {profileData ? formatNumberWithSpaces(profileData.followersCount) : '2 358'}
+                  <br />
                   Followers
                 </span>
                 <span>

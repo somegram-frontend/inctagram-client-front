@@ -13,17 +13,18 @@ import {
 import LogOut from '@/pages/auth/logOut'
 import { useRouter } from 'next/router'
 import DialogAddUserPost from '@/pages/user/[id]/post/addPost'
-import { MeResponse } from '@/api/auth/auth-api.types'
 import { useState } from 'react'
 import { useTranslation } from '@/shared/hooks'
+import clsx from 'clsx'
+import { useAppSelector } from '@/store'
+import { fetchIsAuth } from '@/api/auth/auth.selectors'
+import { useMeQuery } from '@/api/auth/auth-api'
 
-type Props = {
-  isAuth: boolean
-  data: MeResponse | undefined
-}
-
-export const Sidebars = ({ isAuth, data }: Props) => {
+export const Sidebars = () => {
   const [isActiveCreate, setIsActiveCreate] = useState(false)
+  const { data } = useMeQuery()
+
+  const isAuth = useAppSelector(fetchIsAuth)
   const t = useTranslation()
 
   const router = useRouter()
@@ -70,7 +71,17 @@ export const Sidebars = ({ isAuth, data }: Props) => {
             <Typography as={'li'} variant={'medium_text14'}>
               <MessageCircleOutline /> {t.messenger}
             </Typography>
-            <Typography as={'li'} variant={'medium_text14'} className={s.searchSpace}>
+            <Typography
+              as={'li'}
+              variant={'medium_text14'}
+              className={clsx(
+                s.searchSpace,
+                router.pathname.includes('/search') && !isActiveCreate ? s.active : '',
+              )}
+              onClick={() => {
+                router.push('/search')
+              }}
+            >
               <Search /> {t.search}
             </Typography>
             <Typography as={'li'} variant={'medium_text14'}>
