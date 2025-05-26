@@ -9,6 +9,7 @@ export const baseApi = createApi({
     'Profile',
     'PublicProfile',
     'Posts',
+    'PostsFollowing',
     'CountryCatalog',
     'Notifications',
     'Comments',

@@ -34,6 +34,8 @@ type Props = {
 export const PostFollowing = ({ post, isFetching }: Props) => {
   const { id, postOwnerInfo, createdAt } = post
   const [openedPost, setOpenedPost] = useState<boolean>(false)
+  const [isLiked, setIsLiked] = useState<boolean>(post.like.myStatus === 'like')
+  const [likeCount, setLikeCount] = useState<number>(post.like.likeCount)
   const isAuth = useAppSelector(state => state.auth.isAuth)
 
   const { control, handleSubmit, reset } = useForm({
@@ -57,7 +59,16 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
     reset({ comment: '' })
   }
   const [toggleIsLiked, { isLoading: isLoadingLiked }] = useToggleLikePostMutation()
-  const isLiked = post.like.myStatus === 'like'
+
+  const toggleLikePostHandler = () => {
+    if (post.like.myStatus === 'like' && isLiked) {
+      setIsLiked(false)
+      setLikeCount(likeCount - 1)
+    } else {
+      setIsLiked(true)
+      setLikeCount(likeCount + 1)
+    }
+  }
 
   return (
     <section className={s.post} key={id}>
@@ -97,6 +108,8 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
                 onClick={() => {
                   if (!isLoadingLiked) {
                     toggleIsLiked({ postId: post.id, status: 'none' })
+                      .unwrap()
+                      .then(() => toggleLikePostHandler())
                   }
                 }}
               />
@@ -107,6 +120,8 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
                 onClick={() => {
                   if (!isLoadingLiked) {
                     toggleIsLiked({ postId: post.id, status: 'like' })
+                      .unwrap()
+                      .then(() => toggleLikePostHandler())
                   }
                 }}
               />
@@ -148,7 +163,7 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
         </div>
 
         <Typography variant={'regular_text14'}>
-          {post.like.likeCount}
+          {likeCount}
           <Typography as={'span'} variant={'bold_text14'}>
             {' '}
             &quot;Like&quot;

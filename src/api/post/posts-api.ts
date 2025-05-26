@@ -11,72 +11,90 @@ import {
   ToggleLikePostArgs,
   UpdateUserPostArgs,
   UpdateUserPostResponse,
+  // Убедитесь, что Like импортируется, если он в отдельном файле
 } from './posts-api.types'
 
 export const postsApi = baseApi.injectEndpoints({
-  endpoints: builder => {
-    return {
-      getUserPosts: builder.query<GetUserPostsResponse, GetUserPostsArgs>({
-        query: ({ userId, pageNumber, pageSize }) =>
-          `v1/posts/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
-        providesTags: ['Posts'],
-      }),
-      getPostsFollowing: builder.query<ResPostsFollowing, PostsFollowingParams>({
-        query: ({ endCursorPostId, ...params }) => ({
-          url: `v1/following/posts/${endCursorPostId}`,
-          params,
-        }),
+  endpoints: builder => ({
+    getUserPosts: builder.query<GetUserPostsResponse, GetUserPostsArgs>({
+      query: ({ userId, pageNumber, pageSize }) =>
+        `v1/posts/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+      providesTags: ['Posts'],
+    }),
 
-        providesTags: ['Posts'],
+    getPostsFollowing: builder.query<ResPostsFollowing, PostsFollowingParams>({
+      query: ({ endCursorPostId, ...params }) => ({
+        url: `v1/following/posts/${endCursorPostId}`,
+        params,
       }),
-      toggleLikePost: builder.mutation<void, ToggleLikePostArgs>({
-        query: ({ postId, status }) => {
-          return {
-            url: `/v1/posts/like/${postId}`,
-            method: 'PUT',
-            body: { status },
-          }
-        },
-        invalidatesTags: ['Posts'],
+      providesTags: result =>
+        result
+          ? [
+              { type: 'Posts', id: 'LIST_FOLLOWING' },
+              ...result.items.map(({ id }) => ({ type: 'Posts' as const, id })),
+            ]
+          : [{ type: 'Posts', id: 'LIST_FOLLOWING' }],
+    }),
+
+    addUserPosts: builder.mutation<ApiResponse, AddUserPostsArgs>({
+      query: ({ files, description }) => {
+        const formData = new FormData()
+        files.forEach(file => formData.append('files', file))
+        formData.append('description', description)
+        return {
+          url: 'v1/posts',
+          method: 'POST',
+          body: formData,
+        }
+      },
+      invalidatesTags: ['Posts', { type: 'Posts', id: 'LIST_FOLLOWING' }],
+    }),
+
+    updateUserPost: builder.mutation<UpdateUserPostResponse, UpdateUserPostArgs>({
+      query: ({ postId, description }) => ({
+        url: `v1/posts/${postId}`,
+        method: 'PUT',
+        body: { description },
       }),
-      addUserPosts: builder.mutation<ApiResponse, AddUserPostsArgs>({
-        query: ({ files, description }) => {
-          const formData = new FormData()
-          files.forEach(file => formData.append('files', file))
-          formData.append('description', description)
-          return {
-            url: 'v1/posts',
-            method: 'POST',
-            body: formData,
-          }
-        },
-        invalidatesTags: ['Posts'],
+      invalidatesTags: (result, error, { postId }) => [
+        { type: 'Posts', id: postId },
+        { type: 'Posts', id: 'LIST_FOLLOWING' },
+      ],
+    }),
+
+    deleteUserPost: builder.mutation<ApiResponse, { postId: string }>({
+      query: ({ postId }) => ({
+        url: `v1/posts/${postId}`,
+        method: 'DELETE',
       }),
-      updateUserPost: builder.mutation<UpdateUserPostResponse, UpdateUserPostArgs>({
-        query: ({ postId, description }) => {
-          return {
-            url: `v1/posts/${postId}`,
-            method: 'PUT',
-            body: { description },
-          }
-        },
-        invalidatesTags: ['Posts'],
-      }),
-      deleteUserPost: builder.mutation<ApiResponse, { postId: string }>({
-        query: ({ postId }) => {
-          return {
-            url: `v1/posts/${postId}`,
-            method: 'DELETE',
-          }
-        },
-        invalidatesTags: ['Posts'],
-      }),
-      getPublicPosts: builder.query<GetPublicPostsResponse, GetPublicPostsArgs>({
-        query: ({ endCursorPostId, pageSize, sortBy, sortDirection }) =>
-          `v1/public-posts/all/${endCursorPostId}?pageSize=${pageSize}&sortBy=${sortBy}&sortDirection=${sortDirection}`,
-      }),
-    }
-  },
+      invalidatesTags: (result, error, { postId }) => [
+        { type: 'Posts', id: postId },
+        { type: 'Posts', id: 'LIST_FOLLOWING' },
+      ],
+    }),
+
+    getPublicPosts: builder.query<GetPublicPostsResponse, GetPublicPostsArgs>({
+      query: ({ endCursorPostId, pageSize, sortBy, sortDirection }) =>
+        `v1/public-posts/all/${endCursorPostId}?pageSize=${pageSize}&sortBy=${sortBy}&sortDirection=${sortDirection}`,
+      providesTags: ['Posts'],
+    }),
+
+    toggleLikePost: builder.mutation<void, ToggleLikePostArgs>({
+      query: ({ postId, status }) => {
+        return {
+          url: `/v1/posts/like/${postId}`,
+          method: 'PUT',
+          body: {
+            status: status,
+          },
+        }
+      },
+      invalidatesTags: (result, error, { postId }) => [
+        { type: 'Posts', id: postId },
+        { type: 'Posts', id: 'LIST_FOLLOWING' },
+      ],
+    }),
+  }),
 })
 
 export const {
