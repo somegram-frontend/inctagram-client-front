@@ -4,6 +4,23 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { Loader } from '@/components/loader'
 
+const isPublicRoute = (pathname: string): boolean => {
+  const publicRoutes = [
+    { path: '/', exact: true },
+    { path: '/auth', exact: false },
+    { path: '/public-user', exact: true },
+    { path: '/public-user/profile', exact: false },
+  ]
+
+  return publicRoutes.some(route => {
+    if (route.exact) {
+      return pathname === route.path
+    } else {
+      return pathname.startsWith(route.path)
+    }
+  })
+}
+
 export const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   const isAuth = useAppSelector(fetchIsAuth)
   const isLoading = useAppSelector(fetchIsLoading)
@@ -11,17 +28,28 @@ export const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
 
   useEffect(() => {
-    if (!isAuth && !isLoading) {
-      const publicRoutes = ['/', '/auth/', '/public-user/']
-      const isPublic = publicRoutes.some(route => router.pathname.startsWith(route))
+    if (isLoading || isLogoutLoading) return
 
-      if (!isPublic && !isLogoutLoading) {
-        router.push('/')
-      }
+    const currentPath = router.pathname
+    const isPublic = isPublicRoute(currentPath)
+
+    console.log('AuthGuard debug:', {
+      isAuth,
+      currentPath,
+      isPublic,
+      isLoading,
+      isLogoutLoading,
+    })
+
+    if (!isAuth && !isPublic) {
+      console.log('Redirecting to home page from:', currentPath)
+      router.push('/')
     }
-  }, [isAuth, isLoading, router, isLogoutLoading])
+  }, [isAuth, isLoading, isLogoutLoading, router.pathname])
 
-  if (isLogoutLoading || isLoading) return <Loader fullHeight />
+  if (isLoading || isLogoutLoading) {
+    return <Loader fullHeight />
+  }
 
   return <>{children}</>
 }
