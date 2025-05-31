@@ -7,8 +7,7 @@ import { Loader } from '@/components/loader'
 const isPublicRoute = (pathname: string): boolean => {
   const publicRoutes = [
     { path: '/', exact: true },
-    { path: '/auth/signIn', exact: true },
-    { path: '/auth/signUp', exact: true },
+    { path: '/auth', exact: false },
     { path: '/public-user', exact: true },
     { path: '/public-user/profile', exact: false },
   ]
