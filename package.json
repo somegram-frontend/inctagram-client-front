@@ -49,6 +49,7 @@
     "@types/react-slick": "^0.23.13",
     "@types/react-timeago": "^4.1.7",
     "@types/ws": "^8.5.14",
+    "cypress": "^14.4.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "sass": "^1.77.8",

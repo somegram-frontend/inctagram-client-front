@@ -38,3 +38,20 @@ next-env.d.ts
 /.idea
 /.vscode
 package-lock.json
+
+# node & tooling
+node_modules/
+dist/
+
+# Cypress artefacts
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
+
+# IDE
+.vscode/
+.DS_Store
+
+# Secrets
+cypress.env.json
+.env*
