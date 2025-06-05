@@ -38,7 +38,7 @@ const PublicPost = ({post, setOpenPost, setOpenPostId}: Props) => {
       );
     }
 
-    if (description.length > 230 && expanded) {
+    if (expanded) {
       return (
         <>
           {description.slice(0, 230)}...
@@ -86,7 +86,7 @@ const PublicPost = ({post, setOpenPost, setOpenPostId}: Props) => {
                 <TimeAgo date={post?.createdAt} live={false}/>
               </Typography>
             </div>
-            <Typography variant='regular_text14'>
+            <Typography variant='regular_text14' className={s.publicPostDesc}>
               {defineTheDescription(post?.description)}
             </Typography>
           </div>

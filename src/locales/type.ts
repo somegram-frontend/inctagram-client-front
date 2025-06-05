@@ -54,6 +54,11 @@ type Profile = {
   following: string
   followers: string
   publications: string
+  btns: {
+    follow: string
+    unfollow: string
+    send: string
+  }
 }
 type Common = {
   yes: string
@@ -89,4 +94,15 @@ export type Translation = {
   common: Common
   pagination: Pagination
   notifications: Notification
+  searchPage: {
+    title: string
+    searchPlaceholder: string
+    usersNotFound: {
+      title: string
+      info: {
+        message: string
+        detail: string
+      }
+    }
+  }
 }

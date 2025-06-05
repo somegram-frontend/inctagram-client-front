@@ -14,7 +14,7 @@ const Profile = () => {
     }
   }
 
-  if (isLoading) return <Loader />
+  if (isLoading) return <Loader fullHeight />
 }
 
 export default Profile

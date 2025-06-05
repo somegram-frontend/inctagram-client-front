@@ -7,7 +7,9 @@ import { useState } from 'react'
 import { Dialog } from '@/components/dialog'
 import PublicPost from './public/publicPost/PublicPost'
 import RegisteredUsersList from './public/registeredUsersList/RegisteredUsersList'
-import Image from 'next/image'
+import { useMeQuery } from '@/api/auth/auth-api'
+import PostsFollowing from '@/pages/posts-following/PostsFollowing'
+import { Loader } from '@/components/loader'
 
 type Props = {
   totalUsersCount: GetTotalCountResponse
@@ -35,36 +37,45 @@ export const getStaticProps = async () => {
 export default function Public({ totalUsersCount, publicPosts }: Props) {
   const [openPost, setOpenPost] = useState(false)
   const [openPostId, setOpenPostId] = useState<string>('')
+  const { data: me, isLoading } = useMeQuery()
 
   const handleClosePost = () => {
     setOpenPost(false)
     setOpenPostId('')
   }
 
+  const loading = (me: boolean) => {
+    return Boolean(me) && !isLoading
+  }
+
   return (
     <Layout>
       <div className={s.publicPage}>
-        <RegisteredUsersList usersCount={totalUsersCount?.totalCount} />
-        <div className={s.publicPosts}>
-          {publicPosts?.items.map(post => {
-            return (
-              <Dialog
-                key={post.id}
-                open={openPost && openPostId === post.id}
-                onOpenChange={isOpen => {
-                  if (!isOpen) handleClosePost()
-                }}
-              >
-                <PublicPost
-                  post={post}
+        {isLoading && <Loader />}
+        {loading(!me) && <RegisteredUsersList usersCount={totalUsersCount?.totalCount} />}
+        {loading(!me) && (
+          <div className={s.publicPosts}>
+            {publicPosts?.items?.map(post => {
+              return (
+                <Dialog
                   key={post.id}
-                  setOpenPost={setOpenPost}
-                  setOpenPostId={setOpenPostId}
-                />
-              </Dialog>
-            )
-          })}
-        </div>
+                  open={openPost && openPostId === post.id}
+                  onOpenChange={isOpen => {
+                    if (!isOpen) handleClosePost()
+                  }}
+                >
+                  <PublicPost
+                    post={post}
+                    key={post.id}
+                    setOpenPost={setOpenPost}
+                    setOpenPostId={setOpenPostId}
+                  />
+                </Dialog>
+              )
+            })}
+          </div>
+        )}
+        {loading(!!me) && <PostsFollowing />}
       </div>
     </Layout>
   )

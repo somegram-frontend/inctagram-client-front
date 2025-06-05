@@ -1,0 +1,11 @@
+.containerPostsFollowing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .cursor {
+    width: 100%;
+    height: 50px;
+    background: transparent;
+  }
+}

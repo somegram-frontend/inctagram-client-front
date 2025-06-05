@@ -1,6 +1,6 @@
 .wrapperCropping {
   position: relative;
-  display: flex;
+  max-width: 492px;
 
   & img {
     object-fit: cover;
@@ -33,6 +33,7 @@
   width: 80px;
   height: 92px;
   margin-right: 12px;
+
   transition: transform 0.3s;
 }
 
@@ -68,19 +69,23 @@
 
 .imageModificationMenuButtonsContainer {
   position: absolute;
-  display: flex;
-  bottom: 11px;
   right: 11px;
+  bottom: 11px;
   left: 11px;
 
+  display: flex;
+
   & button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     width: 36px;
     height: 36px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0.8;
+
     color: var(--color-light-100);
+
+    opacity: 0.8;
     background-color: var(--color-dark-500);
     border-radius: 2px;
   }

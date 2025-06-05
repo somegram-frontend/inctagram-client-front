@@ -1,6 +1,32 @@
-.authContent {
+.content {
+  overflow-y: auto;
   display: flex;
+
   width: 100%;
-  max-width: 1280px;
+  min-height: calc(100vh - 60px);
   margin: 0 auto;
+}
+
+.page {
+  width: 100vw;
+  height: 100vh;
+}
+
+.contentChildren {
+  width: calc(100vw - 220px);
+  height: calc(100vh - 60px);
+  min-height: calc(100vh - 60px);
+}
+
+.isNotAuth {
+  width: 100vw;
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100vw;
+  height: 100vh;
 }

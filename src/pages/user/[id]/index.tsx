@@ -19,12 +19,9 @@ const Profile = () => {
   const router = useRouter()
   const { id, postId } = router.query
   const t = useTranslation()
-  const { data: userPosts, isLoading: isPostsLoading } = useGetUserPostsQuery(
-    {
-      userId: id as string,
-    },
-    { skip: id === undefined },
-  )
+  const { data: userPosts, isLoading: isPostsLoading } = useGetUserPostsQuery({
+    userId: id as string,
+  })
 
   useEffect(() => {
     if (Array.isArray(postId)) {
@@ -39,11 +36,15 @@ const Profile = () => {
   }, [postId])
 
   const { data: me } = useMeQuery()
-  if (id !== me?.userId) {
-    router.push(
-      postId ? `/public-user/profile/${id}?postId=${postId}` : `/public-user/profile/${id}`,
-    )
-  }
+
+  useEffect(() => {
+    if (me?.userId && id !== me.userId) {
+      router.push(
+        postId ? `/public-user/profile/${id}?postId=${postId}` : `/public-user/profile/${id}`,
+      )
+    }
+  }, [me, id, postId, router])
+
   const { data: profile } = useGetProfileQuery()
   const [openPost, setOpenPost] = useState(false)
   const [openPostId, setOpenPostId] = useState<string>('')
@@ -73,7 +74,7 @@ const Profile = () => {
   }
 
   if (isPostsLoading) {
-    return <Loader />
+    return <Loader fullHeight /> // TODO: Two loaders are developing on the My Profile page
   }
   if (me?.userId && id === me?.userId) {
     return (
@@ -116,14 +117,7 @@ const Profile = () => {
                   {t.profile.publications}
                 </span>
               </div>
-              <Typography variant="regular_text16">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                exercitation ullamco{' '}
-                <Typography variant="regular_link">
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </Typography>
-              </Typography>
+              <Typography variant="regular_text16">{}</Typography>
             </div>
           </div>
           <div className={style.postsGrid}>

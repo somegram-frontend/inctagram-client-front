@@ -19,7 +19,6 @@ import clsx from 'clsx'
 import { tryCatch } from '@/shared/utils/tryCatch'
 import { BellNotifications } from '@/components/bellNotifications'
 import { Loader } from '@/components/loader'
-import { toast } from 'react-toastify'
 import { useTranslation } from '@/shared/hooks'
 import { useNotification } from '@/wss/notification/lib/useNotification'
 
@@ -50,14 +49,15 @@ export const Notification = ({ className }: Props) => {
     }).finally(() => (saveIdNotification.current = null))
   }
 
-  // Обработка ошибок запроса
   useEffect(() => {
     if (isErrorStory || isErrReed) {
       const errorMessage =
         (errStory && (errStory as Error).message) ||
         (errReed instanceof Error && errReed.message) ||
         'Произошла ошибка'
-      toast.error(errorMessage)
+      console.log(errorMessage)
+      // toast.error(errorMessage) // TODO: Если не авторизирован пользователь выдает ошибку на
+      //  PublicPage
     }
   }, [isErrorStory, isErrReed, errStory, errReed])
 

@@ -26,7 +26,6 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
     trigger,
     handleSubmit,
     watch,
-    setValue,
     formState: { errors },
   } = useForm<UserProfile>({
     resolver: zodResolver(changeProfileSchema),
@@ -35,8 +34,8 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
       firstName: dataValue?.firstName || '',
       lastName: dataValue?.lastName || '',
       dateOfBirth: dataValue?.dateOfBirth || '',
-      country: dataValue?.country || '',
-      city: dataValue?.city || '',
+      country: dataValue?.country ?? '',
+      city: dataValue?.city ?? '',
       about: dataValue?.about || '',
     },
   })
@@ -49,11 +48,7 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
   const t = useTranslation('generalInformation')
 
   const { data: countries, error, isLoading } = useGetCountriesListQuery()
-  const {
-    data: cities,
-    error: citiesError,
-    isLoading: citiesLoading,
-  } = useGetCitiesListQuery(countryId, {
+  const { data: cities, isLoading: citiesLoading } = useGetCitiesListQuery(countryId, {
     skip: !countryId,
   })
 
@@ -65,16 +60,17 @@ const ProfileForm = ({ onSubmit, dataValue, isLoadingUpdate }: Props) => {
   const formId = useId()
 
   useEffect(() => {
-    setCountryId(selectedCountry)
+    const countryId = countries?.find((c: any) => c.name === selectedCountry)?.id
+    if (countryId) {
+      setCountryId(countryId)
+    }
   }, [selectedCountry])
-
-  console.log(selectedCountry)
 
   const optionsCountry = useMemo(() => {
     if (Array.isArray(countries) && !isLoading && !error) {
       return countries.map((country: any) => ({
         label: country.name,
-        value: country.id,
+        value: country.name,
       }))
     }
     return []

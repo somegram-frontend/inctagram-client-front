@@ -8,6 +8,11 @@ export const en: Translation = {
     followers: 'Followers',
     following: 'Following',
     publications: 'Publications',
+    btns: {
+      follow: 'Follow',
+      unfollow: 'Unfollow',
+      send: 'Send Message',
+    },
   },
   profileSettings: 'Profile Settings',
   generalInformation: {
@@ -22,9 +27,9 @@ export const en: Translation = {
     addProfilePhoto: 'Add a Profile photo',
     saveChanges: 'Save Changes',
   },
-  devices: { title: 'devices' },
+  devices: { title: 'Devices' },
   accountManagement: {
-    title: 'Current Subscription',
+    title: 'Account Management',
     expireAt: 'Expire at',
     nextPayment: 'Next payment',
     autoRenewal: 'Auto-Renewal',
@@ -78,5 +83,16 @@ export const en: Translation = {
     title: 'Notifications',
     newNotification: 'New notification!',
     new: 'New',
+  },
+  searchPage: {
+    title: 'Search',
+    searchPlaceholder: 'Search',
+    usersNotFound: {
+      title: 'Recent requests',
+      info: {
+        message: 'Oops! This place looks empty!',
+        detail: 'No recent requests',
+      },
+    },
   },
 }

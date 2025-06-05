@@ -18,6 +18,7 @@ export type ItemsType = {
   updatedAt: string
   images: string[]
   postOwnerInfo: PostOwnerInfoType
+  like: Like
 }
 
 type PostOwnerInfoType = {
@@ -69,3 +70,53 @@ export type GetPublicPostsArgs = {
 }
 
 export type GetPublicPostsResponse = GetUserPostsResponse
+
+// FOLLOWING POSTS -------------------------------------------------
+export type PostOwnerInfo = {
+  userId: string
+  username: string
+  avatarUrl: string
+}
+
+export type LastLikeUser = {
+  userId: string
+  avatarUrl: string
+}
+
+export type Like = {
+  likeCount: number
+  myStatus: string
+  lastLikeUser: LastLikeUser[]
+}
+
+export type Items = {
+  id: string
+  description: string
+  createdAt: string
+  updatedAt: string
+  images: string[]
+  postOwnerInfo: PostOwnerInfo
+  like: Like
+}
+
+export type ResPostsFollowing = {
+  pageNumber: number
+  pagesCount: number
+  pageSize: number
+  totalCount: number
+  items: Items[]
+}
+
+export type PostsFollowingParams = {
+  endCursorPostId?: string
+  pageSize?: number
+  sortBy?: string
+  sortDirection?: string
+}
+
+//----POST LIKED----
+
+export type ToggleLikePostArgs = {
+  postId: string
+  status: 'like' | 'dislike' | 'none'
+}
