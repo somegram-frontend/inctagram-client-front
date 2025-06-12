@@ -68,7 +68,14 @@ export const Sidebars = () => {
             >
               <PersonOutline /> {t.profile.title}
             </Typography>
-            <Typography as={'li'} variant={'medium_text14'}>
+            <Typography
+              as={'li'}
+              onClick={() => {
+                router.push('/messenger')
+              }}
+              variant={'medium_text14'}
+              className={router.pathname.includes('/messenger') && !isActiveCreate ? s.active : ''}
+            >
               <MessageCircleOutline /> {t.messenger}
             </Typography>
             <Typography
