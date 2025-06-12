@@ -20,6 +20,7 @@ export const Avatar = ({ imgSrc, userName, width, height, alt, className }: Prop
         alt={alt}
         width={width}
         height={height}
+        style={{ minWidth: `${width}px`, minHeight: `${height}px` }}
         className={clsx(className, s.avatar)}
       />
     )

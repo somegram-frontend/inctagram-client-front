@@ -1,4 +1,5 @@
 .avatar {
+  object-fit: cover;
   border-radius: 50%;
 }
 
@@ -14,6 +15,6 @@
   font-weight: bold;
   color: var(--color-light-100);
 
-  background-color: var(--color-dark-100);
+  background-color: var(--color-dark-300);
   border-radius: 50%;
 }

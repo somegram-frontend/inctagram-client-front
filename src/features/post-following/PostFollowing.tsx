@@ -24,7 +24,10 @@ import { toast } from 'react-toastify'
 import { ViewPostComment } from './view-post-comments/ViewPostComment'
 import React, { useState } from 'react'
 import { useToggleLikePostMutation } from '@/api/post/posts-api'
-import { useAppSelector } from '@/store'
+import { useAppDispatch, useAppSelector } from '@/store'
+import { chatsActions } from '@/api/chats/chats.slice'
+import { sendMessage } from 'next/dist/client/components/react-dev-overlay/pages/websocket'
+import { useRouter } from 'next/navigation'
 
 type Props = {
   post: Items
@@ -36,6 +39,8 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
   const [openedPost, setOpenedPost] = useState<boolean>(false)
   const isAuth = useAppSelector(state => state.auth.isAuth)
   const defaultAva = '/MaskGroup.jpg'
+  const dispatch = useAppDispatch()
+  const router = useRouter()
 
   const { control, handleSubmit, reset } = useForm({
     resolver: zodResolver(
@@ -58,6 +63,17 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
     reset({ comment: '' })
   }
   const [toggleIsLiked, { isLoading: isLoadingLiked }] = useToggleLikePostMutation()
+
+  const selectUserForChat = () => {
+    dispatch(
+      chatsActions.setSelectedUser({
+        id: post.postOwnerInfo.userId,
+        avatarUrl: post.postOwnerInfo.avatarUrl,
+        userName: post.postOwnerInfo.username,
+      }),
+    )
+    router.push('/messenger')
+  }
 
   return (
     <section className={s.post} key={id}>
@@ -113,7 +129,7 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
             )}
           </div>
         )}
-        <MessageCircleOutline className={s.message} />
+        <MessageCircleOutline className={s.message} onClick={selectUserForChat} />
         <PaperPlaneOutline />
         <BookmarkOutline className={s.book} />
       </section>
