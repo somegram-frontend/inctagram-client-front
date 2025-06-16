@@ -16,8 +16,29 @@ export const chatsApi = baseApi.injectEndpoints({
             params: query,
           }
         },
-        providesTags: ['Chats'],
+        providesTags: (result, error, { query }) => [
+          // 'Chats',
+          { type: 'Chats', page: query.pageNumber },
+          // ...(result?.items.map(chat => ({ type: 'Chat' as const, id: chat.id })) || []),
+        ],
+        serializeQueryArgs: ({ queryArgs }) => {
+          const { endCursorChatId, ...baseArgs } = queryArgs
+          return baseArgs
+        },
+        merge: (currentCache, newItems, { arg }) => {
+          if (arg.endCursorChatId) {
+            return {
+              chats: [...(currentCache?.items || []), ...newItems.items],
+              ...newItems,
+            }
+          }
+          return newItems
+        },
+        forceRefetch({ currentArg, previousArg }) {
+          return currentArg?.query.pageNumber !== previousArg?.query.pageNumber
+        },
       }),
+
       getMessages: build.query<GetMessagesResponse, GetMessagesPayload>({
         query: ({ query, endCursorChatId, chatId }) => {
           return {
@@ -27,7 +48,20 @@ export const chatsApi = baseApi.injectEndpoints({
             params: query,
           }
         },
-        providesTags: (_, __, { chatId }) => ['Messages', { type: 'Messages', id: chatId }],
+        serializeQueryArgs: ({ queryArgs }) => queryArgs,
+        providesTags: (_, __, { chatId, endCursorChatId, query }) => [
+          'Messages',
+          { type: 'Messages', id: chatId, cursor: endCursorChatId, page: query.pageNumber },
+        ],
+
+        merge: (currentCache, newResponse) => {
+          const mergedItems = [...(currentCache?.items || []), ...newResponse.items]
+
+          return {
+            ...newResponse,
+            items: mergedItems,
+          }
+        },
       }),
     }
   },

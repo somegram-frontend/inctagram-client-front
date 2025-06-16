@@ -9,10 +9,11 @@ import { Avatar } from '@/components/avatar'
 import { chatsActions } from '@/api/chats/chats.slice'
 import s from './messenger.module.scss'
 import { useMessengerSocket } from '@/wss/messeger/lib'
+import { useInfiniteScroll } from '@/shared/hooks'
 
 export const Messenger = () => {
   const [pageNumber, setPageNumber] = useState(1)
-  const [endCursorChatId, setEndCursorChatId] = useState<number | ''>('')
+  const [endCursorChatId, setEndCursorChatId] = useState<string>('')
   const [inputValue, setInputValue] = useState<string>('')
   const [searchQuery, setSearchQuery] = useState<string>('')
   const selectedUser = useAppSelector(selectedUserForMessenger)
@@ -21,23 +22,59 @@ export const Messenger = () => {
 
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null)
 
-  const { data: chatsData, refetch: refetchChats } = useGetChatsQuery({
+  const {
+    data: chatsData,
+    refetch: refetchChats,
+    isFetching,
+  } = useGetChatsQuery({
     query: {
       pageNumber,
-      pageSize: 100,
+      pageSize: 20,
       search: searchQuery,
     },
     endCursorChatId,
   })
 
+  const totalItems = chatsData?.items?.length || 0
+  const totalCount = chatsData?.totalCount || 0
+
+  const loadedItemsCount = (pageNumber - 1) * 10 + totalItems
+  const hasMoreItems = totalCount > loadedItemsCount
+
+  const setNextCursorChatId = () => {
+    const nextCursorChatId = chatsData?.items?.[chatsData.items.length - 1]?.id
+    if (nextCursorChatId) {
+      setEndCursorChatId(nextCursorChatId)
+    }
+  }
+
+  const loadMore = () => {
+    if (!isFetching && hasMoreItems) {
+      setPageNumber(prev => prev + 1)
+      setNextCursorChatId()
+    }
+  }
+
+  useEffect(() => {
+    setNextCursorChatId()
+  }, [])
+
+  const { lastElementRef } = useInfiniteScroll({
+    isFetching,
+    hasNext: hasMoreItems,
+    fetchNext: loadMore,
+  })
+
+  useEffect(() => {
+    refetchChats()
+  }, [])
+
   const {} = useMessengerSocket({
     onNewMessage: () => {
       refetchChats()
-      console.log('refetchChats new message')
     },
     onNewChatMessage: () => {
       refetchChats()
-      console.log('refetchChats -> ')
     },
   })
 
@@ -108,7 +145,9 @@ export const Messenger = () => {
         </div>
       </div>
       <div className={s.messengerContent}>
-        <div className={s.chats}>{chatsData && <Chats chats={chatsData.items} />}</div>
+        <div className={s.chats}>
+          {chatsData && <Chats lastElementRef={lastElementRef} chats={chatsData.items} />}
+        </div>
         <div className={s.messages}>
           {!!selectedUser.id ? (
             <Messages refetchChats={refetchChats} />

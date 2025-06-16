@@ -4,7 +4,7 @@ export interface GetChatsPayload {
     pageNumber: number
     search?: string
   }
-  endCursorChatId: number | ''
+  endCursorChatId: string | ''
 }
 
 export interface GetChatsResponse {
@@ -42,7 +42,7 @@ export interface GetMessagesPayload {
     pageNumber: number
   }
   chatId: string
-  endCursorChatId?: number
+  endCursorChatId?: string
 }
 
 export interface GetMessagesResponse {

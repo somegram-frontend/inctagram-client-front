@@ -8,9 +8,10 @@ import { useEffect, useRef } from 'react'
 type Props = {
   messages?: MessageItem[]
   onVisible: (id: string) => void
+  lastElementRef?: React.RefObject<HTMLDivElement>
 }
 
-export const MessagesList = ({ messages, onVisible }: Props) => {
+export const MessagesList = ({ messages, onVisible, lastElementRef }: Props) => {
   const messageRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
   const observerRef = useRef<IntersectionObserver | null>(null)
 
@@ -74,7 +75,7 @@ export const MessagesList = ({ messages, onVisible }: Props) => {
             </Typography>
             <Typography className={s.mineMessageInfo} variant={'small_text'}>
               {formatChatTime(message.createdAt)}
-              {message.myReadStatus ? (
+              {!message.participantReadStatus ? (
                 <CheckmarkOutline width={18} height={16} viewBox={'0 0 22 20'} />
               ) : (
                 <DoneAllOutline width={18} height={16} viewBox={'0 0 22 20'} />
@@ -100,6 +101,7 @@ export const MessagesList = ({ messages, onVisible }: Props) => {
           </div>
         )
       })}
+      <div className={s.cursor} ref={lastElementRef} />
     </>
   )
 }
