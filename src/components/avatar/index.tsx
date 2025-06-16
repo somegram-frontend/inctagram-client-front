@@ -9,10 +9,19 @@ type Props = {
   width?: number
   height?: number
   className?: string
+  backgroundFallback?: 'dark' | 'light'
   alt: string
 }
 
-export const Avatar = ({ imgSrc, userName, width, height, alt, className }: Props) => {
+export const Avatar = ({
+  imgSrc,
+  userName,
+  width,
+  height,
+  alt,
+  className,
+  backgroundFallback,
+}: Props) => {
   if (imgSrc) {
     return (
       <Image
@@ -20,13 +29,14 @@ export const Avatar = ({ imgSrc, userName, width, height, alt, className }: Prop
         alt={alt}
         width={width}
         height={height}
+        style={{ minWidth: `${width}px`, minHeight: `${height}px` }}
         className={clsx(className, s.avatar)}
       />
     )
   } else {
     return (
       <div
-        className={clsx(className, s.fallback)}
+        className={clsx(className, s.fallback, backgroundFallback === 'dark' && s.fallbackDark)}
         style={{
           minWidth: `${width}px`,
           height: `${height}px`,
