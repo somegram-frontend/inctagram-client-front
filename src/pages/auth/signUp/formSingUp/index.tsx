@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Button, Typography, Cards } from '@honor-ui/inctagram-ui-kit'
 import '@honor-ui/inctagram-ui-kit/css'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { isValid, z } from 'zod'
+import { z } from 'zod'
 import { signUpSchema } from '@/shared/const/validationSchemas'
 import s from './formSignUp.module.scss'
 import { ControlledInput } from '@/components/controlled/ControlledInput'
@@ -85,7 +85,7 @@ const FormSignUp = ({ onSubmit, onSignGit, onSignGoogle }: Props) => {
             <Typography
               as={Link}
               href={{
-                pathname: '/privacyPolicy',
+                pathname: '/privacy-policy',
                 query: { href: '/auth/signUp', title: 'Back to Sign Up' },
               }}
               variant={'small_link'}

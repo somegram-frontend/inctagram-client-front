@@ -8,6 +8,7 @@ const isPublicRoute = (pathname: string): boolean => {
   const publicRoutes = [
     { path: '/', exact: true },
     { path: '/auth', exact: false },
+    { path: '/privacy-policy', exact: false },
     { path: '/public-user', exact: true },
     { path: '/public-user/profile', exact: false },
   ]
