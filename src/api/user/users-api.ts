@@ -1,5 +1,6 @@
 import { baseApi } from '@/api/_base/base-api'
 import {
+  GetProfileMetricsSuccess,
   GetProfileSuccess,
   GetPublicProfileSuccess,
   GetTotalCountResponse,
@@ -15,6 +16,10 @@ export const usersApi = baseApi.injectEndpoints({
       getProfile: builder.query<GetProfileSuccess, void>({
         query: () => `v1/users/profile-info`,
         providesTags: ['Profile'],
+      }),
+      getProfileMetrics: builder.query<GetProfileMetricsSuccess, { userId: string }>({
+        query: ({ userId }) => `/v1/users/${userId}/profile`,
+        providesTags: ['ProfileMetrics'],
       }),
       getPublicProfile: builder.query<GetPublicProfileSuccess, { id: string }>({
         query: ({ id }) => `v1/public-users/profile/${id}`,
@@ -102,4 +107,5 @@ export const {
   useFollowUserMutation,
   useUnfollowUserMutation,
   useGetTotalUsersCountQuery,
+  useGetProfileMetricsQuery,
 } = usersApi
