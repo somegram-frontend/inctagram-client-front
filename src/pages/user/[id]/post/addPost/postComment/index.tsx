@@ -81,6 +81,7 @@ const PostComment = (props: CommentProps) => {
               imgSrc={userAvatar}
               userName={userName}
               className={s.avatar}
+              backgroundFallback={'dark'}
             />
             <div className={s.commentContainer}>
               <Typography variant="regular_text14" className={s.descriptionComment}>
