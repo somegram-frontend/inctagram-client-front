@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/dialog'
 import { Button, CloseOutline, ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
 import { useMeQuery } from '@/api/auth/auth-api'
-import { useGetProfileQuery } from '@/api/user/users-api'
+import { useGetProfileMetricsQuery, useGetProfileQuery } from '@/api/user/users-api'
 import Image from 'next/image'
 import s from './profile/uploadProfileAvatar/uploadProfileAvatar.module.scss'
 import style from './user.module.scss'
@@ -14,12 +14,17 @@ import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { Post } from '@/components/post/Post'
 import EditPost from './post/editPost'
 import { useTranslation } from '@/shared/hooks'
+import { formatNumberWithSpaces } from '@/shared/utils/formatNumberWithSpaces'
 
 const Profile = () => {
   const router = useRouter()
   const { id, postId } = router.query
   const t = useTranslation()
   const { data: userPosts, isLoading: isPostsLoading } = useGetUserPostsQuery({
+    userId: id as string,
+  })
+
+  const { data: userMetrics, isLoading: isMetricsLoading } = useGetProfileMetricsQuery({
     userId: id as string,
   })
 
@@ -73,7 +78,7 @@ const Profile = () => {
     router.push({ pathname: router.pathname, query: restQuery })
   }
 
-  if (isPostsLoading) {
+  if (isPostsLoading || isMetricsLoading) {
     return <Loader fullHeight /> // TODO: Two loaders are developing on the My Profile page
   }
   if (me?.userId && id === me?.userId) {
@@ -103,20 +108,28 @@ const Profile = () => {
                   {t.profileSettings}
                 </Button>
               </div>
-              <div className={style.profileFollowersContainer}>
-                <span>
-                  2 218 <br />
-                  {t.profile.following}
-                </span>
-                <span>
-                  2 358 <br />
-                  {t.profile.followers}
-                </span>
-                <span>
-                  2 764 <br />
-                  {t.profile.publications}
-                </span>
-              </div>
+              {!isMetricsLoading && (
+                <div className={style.profileFollowersContainer}>
+                  <span>
+                    {userMetrics?.followingCount &&
+                      formatNumberWithSpaces(userMetrics.followingCount)}
+                    <br />
+                    {t.profile.following}
+                  </span>
+                  <span>
+                    {userMetrics?.followersCount &&
+                      formatNumberWithSpaces(userMetrics?.followersCount)}
+                    <br />
+                    {t.profile.followers}
+                  </span>
+                  <span>
+                    {userMetrics?.publicationsCount &&
+                      formatNumberWithSpaces(userMetrics?.publicationsCount)}
+                    <br />
+                    {t.profile.publications}
+                  </span>
+                </div>
+              )}
               <Typography variant="regular_text16">{}</Typography>
             </div>
           </div>

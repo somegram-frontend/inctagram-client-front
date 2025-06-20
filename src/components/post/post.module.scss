@@ -303,10 +303,10 @@
 }
 
 .answerBtn {
-  font-size: 12px;
-  color: var(--color-light-900);
-  font-weight: var(--font-weight-semi-bold);
   cursor: pointer;
+  font-size: 12px;
+  font-weight: var(--font-weight-semi-bold);
+  color: var(--color-light-900);
 
   &:hover {
     text-decoration: underline;
@@ -315,33 +315,35 @@
 
 .like {
   font-size: 12px;
-  color: var(--color-light-900);
   font-weight: var(--font-weight-semi-bold);
+  color: var(--color-light-900);
 }
 
 .viewAnswerButton {
+  cursor: pointer;
+
   display: flex;
-  align-items: center;
   gap: 10px;
+  align-items: center;
+
+  font-size: 12px;
+  font-weight: var(--font-weight-semi-bold);
+  color: var(--color-light-900);
 
   span {
-    height: 1px;
     width: 24px;
+    height: 1px;
     border-bottom: 1px solid var(--color-light-900);
   }
 
-  font-size: 12px;
-  color: var(--color-light-900);
-  font-weight: var(--font-weight-semi-bold);
-
   &:hover {
-    text-decoration: underline;
     color: var(--color-light-700);
+    text-decoration: underline;
   }
 
   &:active {
-    text-decoration: underline;
     color: var(--color-light-900);
+    text-decoration: underline;
   }
 }
 
@@ -352,14 +354,14 @@
 }
 
 .answers {
-  margin-top: 15px;
   display: flex;
   flex-direction: column;
-  padding-left: 54px;
+  gap: 16px;
+
   box-sizing: border-box;
   width: 88%;
-
-  gap: 16px;
+  margin-top: 15px;
+  padding-left: 54px;
 }
 
 .answerComment {

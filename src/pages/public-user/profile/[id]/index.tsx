@@ -180,7 +180,8 @@ const Profile = () => {
                   Followers
                 </span>
                 <span>
-                  2 764 <br />
+                  {profileData ? formatNumberWithSpaces(profileData.publicationsCount) : '2 764'}
+                  <br />
                   Publications
                 </span>
               </div>
