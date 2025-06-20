@@ -7,6 +7,7 @@ export const baseApi = createApi({
   tagTypes: [
     'Me',
     'Profile',
+    'ProfileMetrics',
     'PublicProfile',
     'Posts',
     'PostsFollowing',

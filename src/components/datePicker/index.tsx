@@ -46,7 +46,7 @@ const RenderCustomInput = forwardRef<HTMLInputElement, InputProps & { startDate?
             <Typography
               as={Link}
               href={{
-                pathname: '/privacyPolicy',
+                pathname: '/privacy-policy',
                 query: { href: `user/${userId}/profile`, title: 'Back to Profile Settings' },
               }}
               variant={'medium_text14'}

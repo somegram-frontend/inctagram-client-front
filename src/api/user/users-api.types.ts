@@ -4,6 +4,20 @@ export type GetProfileSuccess = UserProfile & {
     url: string
   }
 }
+
+export type GetProfileMetricsSuccess = UserProfile & {
+  id: string
+  userName: string
+  isFollowing: boolean
+  isFollowedBy: boolean
+  followingCount: number
+  followersCount: number
+  publicationsCount: number
+  avatar: {
+    url: string
+  }
+}
+
 export type GetPublicProfileSuccess = {
   id: string
   userName: string
