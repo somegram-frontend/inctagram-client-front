@@ -15,6 +15,8 @@ export const baseApi = createApi({
     'Notifications',
     'Comments',
     'Answers',
+    'Chats',
+    'Messages',
     'UserPosts',
     'PublicPosts',
     'PublicPosts',

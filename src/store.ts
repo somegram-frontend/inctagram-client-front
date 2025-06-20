@@ -4,11 +4,13 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { baseApi } from '@/api/_base/base-api'
 import { countriesApi } from './api/countries/countries-api'
 import authReducer from '@/api/auth/auth.slice'
+import chatsReducer from '@/api/chats/chats.slice'
 
 const makeStore = () =>
   configureStore({
     reducer: {
       auth: authReducer,
+      chats: chatsReducer,
       [baseApi.reducerPath]: baseApi.reducer,
     },
     middleware: getDefaultMiddleware =>
