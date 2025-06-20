@@ -60,8 +60,8 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
   const [toggleIsLiked, { isLoading: isLoadingLiked }] = useToggleLikePostMutation()
 
   return (
-    <section className={s.post} key={id}>
-      <section className={s.postHeader}>
+    <div key={id} className={s.post}>
+      <div className={s.postHeader}>
         <Avatar
           alt="avatar"
           className={s.avatar}
@@ -81,12 +81,12 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
         <div className={s.edit}>
           <MoreHorizontal />
         </div>
-      </section>
-      <section className={s.photoSlider}>
+      </div>
+      <div className={s.photoSlider}>
         {isFetching && <Loader className={s.loader} />}
         <PhotoSlider imgClass={s.imagesPosts} images={post.images} dotClass={s.publicPostDots} />
-      </section>
-      <section className={s.postActions}>
+      </div>
+      <div className={s.postActions}>
         {isAuth && (
           <div className={s.descriptionCommentIconContainer}>
             {post.like.myStatus === 'like' ? (
@@ -116,9 +116,9 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
         <MessageCircleOutline className={s.message} />
         <PaperPlaneOutline />
         <BookmarkOutline className={s.book} />
-      </section>
+      </div>
       {!!post.description && (
-        <section className={s.description}>
+        <div className={s.description}>
           <Avatar
             alt="avatar"
             imgSrc={post.postOwnerInfo.avatarUrl}
@@ -133,9 +133,9 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
               {post.description}
             </Typography>
           </Typography>
-        </section>
+        </div>
       )}
-      <section className={s.like}>
+      <div className={s.like}>
         <div className={s.likeUsersImages}>
           {post.like.lastLikeUser.map(likeUser => (
             <Avatar
@@ -156,10 +156,10 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
             &quot;Like&quot;
           </Typography>
         </Typography>
-      </section>
-      <section className={s.viewComments}>
+      </div>
+      <div className={s.viewComments}>
         <ViewPostComment post={post} opened={openedPost} setOpenedPost={setOpenedPost} />
-      </section>
+      </div>
       <form
         onSubmit={e => {
           e.preventDefault()
@@ -177,6 +177,6 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
           <Typography variant="h3">Publish</Typography>
         </Button>
       </form>
-    </section>
+    </div>
   )
 }

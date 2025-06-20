@@ -1,9 +1,7 @@
 .post {
   width: 100%;
   max-width: 491px;
-  max-height: 816px;
   margin: 0 0 36px;
-
   border-bottom: 1px solid var(--color-dark-100);
 
   .postHeader {
@@ -68,6 +66,11 @@
 .description {
   display: flex;
   align-items: start;
+
+  max-width: 491px;
+
+  text-wrap: wrap;
+  word-break: break-all;
 }
 
 .like {

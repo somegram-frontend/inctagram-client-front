@@ -67,6 +67,9 @@ export const baseQueryWithReauth: BaseQueryFn<
 
         if (refreshResult.data) {
           localStorage.setItem(EnumTokens.ACCESS_TOKEN, refreshResult.data.accessToken)
+          document.cookie = `${'token'}=${refreshResult.data.accessToken}; max-age=604800; path=/`
+          document.cookie = `${EnumTokens.ACCESS_TOKEN}=${refreshResult.data.accessToken}; max-age=604800; path=/`
+
           result = await queryToUse(args, api, extraOptions)
         } else {
           // void Router.push('/auth/signIn')

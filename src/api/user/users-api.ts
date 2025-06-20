@@ -1,5 +1,6 @@
 import { baseApi } from '@/api/_base/base-api'
 import {
+  GetProfileMetricsSuccess,
   GetProfileSuccess,
   GetPublicProfileSuccess,
   GetTotalCountResponse,
@@ -15,6 +16,10 @@ export const usersApi = baseApi.injectEndpoints({
       getProfile: builder.query<GetProfileSuccess, void>({
         query: () => `v1/users/profile-info`,
         providesTags: ['Profile'],
+      }),
+      getProfileMetrics: builder.query<GetProfileMetricsSuccess, { userId: string }>({
+        query: ({ userId }) => `/v1/users/${userId}/profile`,
+        providesTags: ['ProfileMetrics'],
       }),
       getPublicProfile: builder.query<GetPublicProfileSuccess, { id: string }>({
         query: ({ id }) => `v1/public-users/profile/${id}`,
@@ -78,14 +83,14 @@ export const usersApi = baseApi.injectEndpoints({
           url: `v1/users/follow/${followeeId}`,
           method: 'POST',
         }),
-        invalidatesTags: ['PublicProfile'],
+        invalidatesTags: ['PublicProfile', 'Posts', 'PublicPosts'],
       }),
       unfollowUser: builder.mutation<void, string>({
         query: followeeId => ({
           url: `v1/users/unfollow/${followeeId}`,
           method: 'POST',
         }),
-        invalidatesTags: ['PublicProfile'],
+        invalidatesTags: ['PublicProfile', 'Posts', 'PublicPosts'],
       }),
     }
   },
@@ -101,5 +106,6 @@ export const {
   useGetUserProfileQuery,
   useFollowUserMutation,
   useUnfollowUserMutation,
+  useGetProfileMetricsQuery,
   useGetTotalUsersCountQuery,
 } = usersApi
