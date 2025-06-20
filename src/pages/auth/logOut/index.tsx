@@ -7,6 +7,8 @@ import { Loader } from '@/components/loader'
 import { RegistrationResponse } from '@/api/auth/auth-api.types'
 import { toast } from 'react-toastify'
 import { useTranslation } from '@/shared/hooks'
+import { EnumTokens } from '@/shared/const/enums'
+import { useRouter } from 'next/router'
 
 type Props = {
   email: string | undefined
@@ -15,8 +17,10 @@ type Props = {
 const LogOut = ({ email }: Props) => {
   const [logout, { isLoading, isSuccess, isError, error }] = useLogoutMutation()
   const t = useTranslation()
+  const navigate = useRouter()
 
   const onClickHandler = () => {
+    localStorage.removeItem(EnumTokens.ACCESS_TOKEN)
     logout()
   }
 
@@ -44,6 +48,8 @@ const LogOut = ({ email }: Props) => {
     } else {
       toast.error(err.data?.message || 'Logout failed')
     }
+
+    navigate.push('/')
   }
 
   return (

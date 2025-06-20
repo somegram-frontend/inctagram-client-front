@@ -8,6 +8,7 @@ export type GetUserPostsResponse = {
   pageSize: number
   totalCount: number
   pagesCount: number
+  pageNumber: number
   items: ItemsType[]
 }
 
@@ -63,13 +64,23 @@ export type AddUserPostsArgs = {
 }
 
 export type GetPublicPostsArgs = {
-  endCursorPostId?: string
+  endCursorPostId: string
   pageSize?: number
+  pageNumber?: number
+  sortBy?: string
+  sortDirection?: string
+}
+
+export type GetPublicPostByIdArgs = {
+  postId: string
+  pageSize?: number
+  pageNumber?: number
   sortBy?: string
   sortDirection?: string
 }
 
 export type GetPublicPostsResponse = GetUserPostsResponse
+export type GetPublicPostByIdResponse = ItemsType
 
 // FOLLOWING POSTS -------------------------------------------------
 export type PostOwnerInfo = {
@@ -111,6 +122,7 @@ export type PostsFollowingParams = {
   endCursorPostId?: string
   pageSize?: number
   sortBy?: string
+  pageNumber?: number
   sortDirection?: string
 }
 

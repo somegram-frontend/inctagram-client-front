@@ -2,12 +2,12 @@ import s from './sidebars.module.scss'
 import { Typography } from '@honor-ui/inctagram-ui-kit'
 
 import {
-  BookmarkOutline,
+  // BookmarkOutline,
   HomeOutline,
   MessageCircleOutline,
   PersonOutline,
   Search,
-  TrendingUp,
+  // TrendingUp,
 } from '@honor-ui/inctagram-ui-kit'
 
 import LogOut from '@/pages/auth/logOut'
@@ -91,12 +91,12 @@ export const Sidebars = () => {
             >
               <Search /> {t.search}
             </Typography>
-            <Typography as={'li'} variant={'medium_text14'}>
-              <TrendingUp /> {t.statistics}
-            </Typography>
-            <Typography as={'li'} variant={'medium_text14'}>
-              <BookmarkOutline /> {t.favorites}
-            </Typography>
+            {/*<Typography as={'li'} variant={'medium_text14'}>*/}
+            {/*  <TrendingUp /> {t.statistics}*/}
+            {/*</Typography>*/}
+            {/*<Typography as={'li'} variant={'medium_text14'}>*/}
+            {/*  <BookmarkOutline /> {t.favorites}*/}
+            {/*</Typography>*/}
             <Typography as={'li'} variant={'medium_text14'}>
               <LogOut email={data?.email} />
             </Typography>

@@ -50,33 +50,36 @@ export default function Public({ totalUsersCount, publicPosts }: Props) {
 
   return (
     <Layout>
-      <div className={s.publicPage}>
-        {isLoading && <Loader />}
-        {loading(!me) && <RegisteredUsersList usersCount={totalUsersCount?.totalCount} />}
-        {loading(!me) && (
-          <div className={s.publicPosts}>
-            {publicPosts?.items?.map(post => {
-              return (
-                <Dialog
-                  key={post.id}
-                  open={openPost && openPostId === post.id}
-                  onOpenChange={isOpen => {
-                    if (!isOpen) handleClosePost()
-                  }}
-                >
-                  <PublicPost
-                    post={post}
+      {loading(!!me) ? (
+        <PostsFollowing />
+      ) : (
+        <div className={s.publicPage}>
+          {isLoading && <Loader />}
+          {loading(!me) && <RegisteredUsersList usersCount={totalUsersCount?.totalCount} />}
+          {loading(!me) && (
+            <div className={s.publicPosts}>
+              {publicPosts?.items?.map(post => {
+                return (
+                  <Dialog
                     key={post.id}
-                    setOpenPost={setOpenPost}
-                    setOpenPostId={setOpenPostId}
-                  />
-                </Dialog>
-              )
-            })}
-          </div>
-        )}
-        {loading(!!me) && <PostsFollowing />}
-      </div>
+                    open={openPost && openPostId === post.id}
+                    onOpenChange={isOpen => {
+                      if (!isOpen) handleClosePost()
+                    }}
+                  >
+                    <PublicPost
+                      post={post}
+                      key={post.id}
+                      setOpenPost={setOpenPost}
+                      setOpenPostId={setOpenPostId}
+                    />
+                  </Dialog>
+                )
+              })}
+            </div>
+          )}
+        </div>
+      )}
     </Layout>
   )
 }

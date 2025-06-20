@@ -59,16 +59,6 @@ const SearchPage = () => {
     }
   }, [data, pageNumber, searchValue])
 
-  // const { observerRef } = useInfiniteScroll({
-  //   hasMore: !!data?.items.length && data.pageNumber < data.pagesCount,
-  //   isLoading: isFetching,
-  //   onLoadMore: () => {
-  //     if (!isFetching && data && data.pageNumber < data.pagesCount) {
-  //       setPageNumber(prev => prev + 1)
-  //     }
-  //   },
-  // })
-
   const { lastElementRef } = useInfiniteScroll({
     isFetching,
     hasNext: Boolean(data?.items.length),

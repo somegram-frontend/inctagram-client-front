@@ -16,6 +16,10 @@ export const baseApi = createApi({
     'Answers',
     'Chats',
     'Messages',
+    'UserPosts',
+    'PublicPosts',
+    'PublicPosts',
+    'ProfileMetrics',
   ],
   endpoints: builder => ({}),
 })

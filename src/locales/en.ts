@@ -1,7 +1,7 @@
 import { Translation } from '@/locales/type'
 
 export const en: Translation = {
-  home: 'Home',
+  home: 'Feed',
   create: 'Create',
   profile: {
     title: 'My Profile',
