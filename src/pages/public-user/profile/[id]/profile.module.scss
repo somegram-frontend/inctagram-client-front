@@ -3,7 +3,9 @@
   flex-direction: column;
 
   width: 100%;
+  max-width: 1060px;
   height: 100%;
+  margin: 0 auto;
   padding: 50px;
 }
 
@@ -67,8 +69,8 @@
 
 .postsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 300px);
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, 228px);
+  gap: 12px;
 }
 
 .postItem {

@@ -1,8 +1,6 @@
 .content {
   overflow-y: auto;
   display: flex;
-
-  width: 100%;
   min-height: calc(100vh - 60px);
   margin: 0 auto;
 }
@@ -13,9 +11,14 @@
 }
 
 .contentChildren {
-  width: calc(100vw - 220px);
+  overflow: hidden auto;
+  width: 100vw;
   height: calc(100vh - 60px);
   min-height: calc(100vh - 60px);
+
+  &WithSidebar {
+    width: calc(100vw - 220px);
+  }
 }
 
 .isNotAuth {

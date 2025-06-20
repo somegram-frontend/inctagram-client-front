@@ -14,6 +14,10 @@ export const baseApi = createApi({
     'Notifications',
     'Comments',
     'Answers',
+    'UserPosts',
+    'PublicPosts',
+    'PublicPosts',
+    'ProfileMetrics',
   ],
   endpoints: builder => ({}),
 })
