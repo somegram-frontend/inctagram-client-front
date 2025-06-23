@@ -28,6 +28,7 @@ const PostAnswerComment = (props: CommentProps) => {
         imgSrc={answer.user.avatarUrl}
         userName={answer.user.username}
         className={s.avatar}
+        backgroundFallback={'dark'}
       />
       <div className={s.commentContainer}>
         <Typography variant="regular_text14" className={s.descriptionComment}>

@@ -33,6 +33,7 @@ import { ControlledInput } from '../controlled/ControlledInput'
 import { formatNumberWithSpaces } from '@/shared/utils/formatNumberWithSpaces'
 import { useInfiniteScroll } from '@/shared/hooks'
 import { useAppSelector } from '@/store'
+import { Avatar } from '@/components/avatar'
 
 type Props = {
   setEditPost?: (value: boolean) => void
@@ -161,12 +162,13 @@ export const Post = ({ setEditPost, post }: Props) => {
       <div className={s.descriptionContainer}>
         <div className={`${s.descriptionHeader} ${s.wrapper}`}>
           <div className={s.descriptionHeaderProfile}>
-            <Image
-              src={post?.postOwnerInfo?.avatarUrl || defaultAva}
-              alt="my avatar"
+            <Avatar
+              imgSrc={post?.postOwnerInfo?.avatarUrl || ''}
+              userName={post?.postOwnerInfo?.username}
+              alt={`Avatar ${post?.postOwnerInfo.username}`}
+              backgroundFallback={'dark'}
               width={40}
               height={40}
-              className={s.descriptionAvatarImage}
             />
             <Typography variant="bold_text16">{post?.postOwnerInfo.username}</Typography>
           </div>
