@@ -1,13 +1,11 @@
+import React, { useState, ChangeEvent, KeyboardEvent, useCallback } from 'react'
 import { Button, ImageOutline, Input, MicOutline } from '@honor-ui/inctagram-ui-kit'
-import { useState, KeyboardEvent, useEffect, ChangeEvent } from 'react'
 import { useAppSelector } from '@/store'
 import { selectedChatIdData, selectedUserForMessenger } from '@/api/chats/chats.selectors'
 import { MessagesList } from '@/features/messenger/messages/messages-list'
-import { useGetMessagesQuery } from '@/api/chats/chats-api'
-import s from './messages.module.scss'
-import { useMessengerSocket } from '@/wss/messeger/lib'
 import { useInfiniteScroll } from '@/shared/hooks'
-import { MessageItem } from '@/api/chats/chats-api.types'
+import s from './messages.module.scss'
+import { useMessagesWithSocket } from '@/api/chats/chats-api'
 
 type Props = {
   refetchChats: () => void
@@ -15,51 +13,15 @@ type Props = {
 
 export const Messages = ({ refetchChats }: Props) => {
   const [inputValue, setInputValue] = useState<string>('')
-  const [chatId, setChatId] = useState<string>('')
-
   const [pageNumber, setPageNumber] = useState(1)
-  const [endCursorChatId, setEndCursorChatId] = useState<string | undefined>()
 
   const selectedUser = useAppSelector(selectedUserForMessenger)
   const selectedChatId = useAppSelector(selectedChatIdData)
 
-  const { data, refetch, isFetching } = useGetMessagesQuery(
-    {
-      query: {
-        pageNumber: pageNumber,
-        pageSize: 10,
-      },
-      endCursorChatId,
-      chatId: selectedChatId,
-    },
-    {
-      skip: !selectedChatId,
-    },
-  )
+  const { messages, isFetching, hasMoreItems, loadMore, sendMessage, readMessage, connected } =
+    useMessagesWithSocket(selectedChatId, refetchChats, pageNumber, setPageNumber)
 
-  const [messages, setMessages] = useState<MessageItem[] | undefined>([])
-
-  useEffect(() => {
-    if (chatId !== selectedChatId) {
-      leaveChat({ chatId: selectedChatId })
-      setChatId(selectedChatId)
-      setMessages(data?.items || [])
-    } else setMessages(prevState => [...(prevState || []), ...(data?.items || [])])
-  }, [data?.items])
-
-  const totalItems = data?.items?.length || 0
-  const totalCount = data?.totalCount || 0
-
-  const loadedItemsCount = (pageNumber - 1) * 10 + totalItems
-  const hasMoreItems = totalCount > loadedItemsCount
-
-  const loadMore = () => {
-    if (!isFetching && hasMoreItems) {
-      setEndCursorChatId(data?.items?.[data.items.length - 1].id)
-      console.log(endCursorChatId)
-      setPageNumber(prev => prev + 1)
-    }
-  }
+  console.log(isFetching, hasMoreItems, loadMore)
 
   const { lastElementRef } = useInfiniteScroll({
     isFetching,
@@ -67,44 +29,27 @@ export const Messages = ({ refetchChats }: Props) => {
     fetchNext: loadMore,
   })
 
-  const handleElementVisible = (id: string) => {
-    if (messages?.find(message => message.id === id)?.myReadStatus) return
-    readMessage({ messageId: id })
-  }
+  const handleElementVisible = useCallback(
+    (messageId: string) => {
+      const message = messages.find(msg => msg.id === messageId)
+      readMessage({ messageId })
 
-  const updateMessages = () => {
-    refetch()
-    refetchChats()
-  }
+      if (message?.participant.userId === selectedUser.id && !message?.participant.readStatus) {
+        readMessage({ messageId })
+      }
+    },
+    [messages, selectedUser.id, readMessage],
+  )
 
-  const { sendMessage, readMessage, leaveChat, connected } = useMessengerSocket({
-    onNewMessage: data => {
-      setMessages(prevState => [data, ...(prevState || [])])
-    },
-    onNewChatMessage: data => {
-      setMessages(prevState => [data, ...(prevState || [])])
-    },
-    onJoined: updateMessages,
-    onReadyMessage: data => {
-      setMessages(prevState => {
-        if (prevState) {
-          return prevState.map(message =>
-            message.id === data.messageId ? { ...message, participantReadStatus: true } : message,
-          )
-        }
-      })
-    },
-  })
-
-  const sendMessageHandler = () => {
-    if (!inputValue.trim()) return
+  const sendMessageHandler = useCallback(() => {
+    if (!inputValue.trim() || !connected) return
 
     sendMessage({
       participantId: selectedUser.id,
       message: inputValue,
     })
     setInputValue('')
-  }
+  }, [inputValue, connected, sendMessage, selectedUser.id])
 
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value)
@@ -116,14 +61,10 @@ export const Messages = ({ refetchChats }: Props) => {
     }
   }
 
-  const onClickButton = () => {
-    sendMessageHandler()
-  }
-
   return (
     <div className={s.chat}>
       <div className={s.messagesList}>
-        {!!selectedChatId && (
+        {selectedChatId && (
           <MessagesList
             messages={messages}
             onVisible={handleElementVisible}
@@ -136,16 +77,16 @@ export const Messages = ({ refetchChats }: Props) => {
           value={inputValue}
           onChange={onInputChange}
           className={s.input}
-          placeholder={'Type Message'}
+          placeholder="Type Message"
           onKeyPress={onKeyPress}
         />
         <div className={s.actionBtns}>
-          {!!inputValue ? (
+          {inputValue ? (
             <Button
               disabled={!connected}
-              onClick={onClickButton}
+              onClick={sendMessageHandler}
               className={s.button}
-              variant={'borderless'}
+              variant="borderless"
             >
               Send Message
             </Button>

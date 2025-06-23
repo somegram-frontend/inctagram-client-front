@@ -55,16 +55,29 @@ export interface GetMessagesResponse {
 
 export interface MessageItem {
   id: string
-  isMine: boolean
   content: string
-  chatId: string
   createdAt: string
-  senderId: string
+  chatId: string
+  messageType: string
+  duration: any
+  sender: Sender
+  participant: Participant
+}
+
+export interface Sender {
+  username: string
+  avatarUrl: any
+  isBan: boolean
+  userId: string
+  readAt: string
+  readStatus: boolean
+}
+
+export interface Participant {
+  username: string
   avatarUrl: string
   isBan: boolean
-  username: string
-  myReadStatus: boolean
-  participantReadStatus: boolean
-  myReadAt: string
-  participantReadAt: string
+  userId: string
+  readAt: any
+  readStatus: boolean
 }

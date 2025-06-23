@@ -20,8 +20,9 @@ import { AppDispatch } from '@/store'
 export const replacePostInCache = (dispatch: AppDispatch, post: Items) => {
   const collections = [
     { endpointName: 'getPublicPosts', args: { endCursorPostId: '', pageSize: 8 } },
+    { endpointName: 'getPostsFollowing', args: { endCursorPostId: '', pageSize: 8 } },
     {
-      endpointName: 'getPostsFollowing',
+      endpointName: 'getPublicPostsForLeed',
       args: { endCursorPostId: '', pageSize: 8, sortBy: undefined, sortDirection: undefined },
     },
   ] as const
@@ -162,7 +163,6 @@ export const postsApi = baseApi.injectEndpoints({
         const uniqueNewItems = newItems.items.filter(item => !existingIds.has(item.id))
 
         return {
-          ...newItems,
           items: [...currentCache.items, ...uniqueNewItems],
           totalCount: newItems.totalCount,
           pageNumber: newItems.pageNumber,
@@ -202,7 +202,7 @@ export const postsApi = baseApi.injectEndpoints({
             replacePostInCache(dispatch, {
               ...result.data,
               like: {
-                myStatus: status,
+                myStatus: result.data.like.myStatus,
                 likeCount: result.data.like.likeCount,
                 lastLikeUser: result.data.like.lastLikeUser,
               },
@@ -211,6 +211,8 @@ export const postsApi = baseApi.injectEndpoints({
         } catch (error) {}
       },
       invalidatesTags: (_, __, { postId }) => [
+        'Posts',
+        'PublicPosts',
         { type: 'Posts', id: postId },
         { type: 'PublicPosts', id: postId },
         { type: 'UserPosts', id: postId },

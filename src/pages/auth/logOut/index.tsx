@@ -9,6 +9,8 @@ import { toast } from 'react-toastify'
 import { useTranslation } from '@/shared/hooks'
 import { EnumTokens } from '@/shared/const/enums'
 import { useRouter } from 'next/router'
+import { useAppDispatch } from '@/store'
+import { authActions } from '@/api/auth/auth.slice'
 
 type Props = {
   email: string | undefined
@@ -18,9 +20,11 @@ const LogOut = ({ email }: Props) => {
   const [logout, { isLoading, isSuccess, isError, error }] = useLogoutMutation()
   const t = useTranslation()
   const navigate = useRouter()
+  const dispatch = useAppDispatch()
 
   const onClickHandler = () => {
     localStorage.removeItem(EnumTokens.ACCESS_TOKEN)
+    dispatch(authActions.setAuth(false))
     logout()
   }
 

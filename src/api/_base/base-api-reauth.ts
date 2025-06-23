@@ -2,13 +2,23 @@ import { EnumTokens } from '@/shared/const/enums'
 import { fetchBaseQuery, FetchBaseQueryMeta } from '@reduxjs/toolkit/query'
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { Mutex } from 'async-mutex'
+import Router from 'next/router'
 
 const mutex = new Mutex()
 
-const ENDPOINTS_REQUIRING_CREDENTIALS = ['/v1/public-posts/comments/']
+const ENDPOINTS_REQUIRING_CREDENTIALS = [
+  'v1/public-posts',
+  '/v1/public-posts',
+  '/v1/public-posts/all',
+  '/v1/public-posts/all/',
+  '/v1/public-posts/comments/',
+]
 
 function shouldUseCredentials(url: string): boolean {
-  return ENDPOINTS_REQUIRING_CREDENTIALS.some(endpoint => url.includes(endpoint))
+  console.log('Checking URL:', url) // добавить это
+  const result = ENDPOINTS_REQUIRING_CREDENTIALS.some(endpoint => url.includes(endpoint))
+  console.log('Should use credentials:', result) // и это
+  return result
 }
 
 const baseQuery = fetchBaseQuery({
@@ -67,12 +77,10 @@ export const baseQueryWithReauth: BaseQueryFn<
 
         if (refreshResult.data) {
           localStorage.setItem(EnumTokens.ACCESS_TOKEN, refreshResult.data.accessToken)
-          document.cookie = `${'token'}=${refreshResult.data.accessToken}; max-age=604800; path=/`
-          document.cookie = `${EnumTokens.ACCESS_TOKEN}=${refreshResult.data.accessToken}; max-age=604800; path=/`
 
           result = await queryToUse(args, api, extraOptions)
         } else {
-          // void Router.push('/auth/signIn')
+          void Router.push('/auth/signIn')
           // есть на проекте AuthGuard который выполняет эту функцию редиректа
           console.error('Failed to refresh token:', refreshResult.error)
         }

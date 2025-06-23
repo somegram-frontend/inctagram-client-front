@@ -17,10 +17,10 @@ type LeaveChatPayload = {
 
 type Events = {
   onJoined?: (data: any) => void
-  onLeft?: (data: any) => void
-  onNewMessage: (data: MessageItem) => void
+  onLeft?: (chatId: string) => void
+  onNewMessage?: (data: MessageItem) => void
   onNewChatMessage?: (data: MessageItem) => void
-  onReadyMessage?: (data: { messageId: string }) => void
+  onReadyMessage?: (data: MessageItem) => void
   onError?: (error: any) => void
 }
 
@@ -68,21 +68,22 @@ export const useMessengerSocket = (events: Events) => {
 
     socket.on('new_message', data => {
       console.log('📩 New message:', data)
-      events.onNewMessage(data)
+      eventsRef.current?.onNewMessage?.(data)
     })
 
-    socket.on('new_chat_message', data => {
+    socket.on('new_chat_message', (data: MessageItem) => {
       console.log('💬 New chat message:', data)
       eventsRef.current?.onNewChatMessage?.(data)
     })
 
-    socket.on('message_read', data => {
-      console.log('💬 Read message:', data)
+    socket.on('message_read', (data: MessageItem) => {
+      // console.log('👁️ Read message:', data)
       eventsRef.current?.onReadyMessage?.(data)
     })
 
-    socket.on('send_message)', data => {
-      console.log('💬 Send message:', data)
+    socket.on('send_message', data => {
+      console.log('📤 Message sent:', data)
+      eventsRef.current?.onReadyMessage?.(data)
     })
 
     socket.on('app_error', error => {
@@ -119,7 +120,7 @@ export const useMessengerSocket = (events: Events) => {
       return false
     }
 
-    console.log('👁️ Reading message:', payload)
+    // console.log('👁️ Reading message:', payload)
     socketRef.current.emit('read_message', payload)
     return true
   }, [])
@@ -132,6 +133,7 @@ export const useMessengerSocket = (events: Events) => {
 
     console.log('🚪 Leaving chat:', payload)
     socketRef.current.emit('leave_chat', payload)
+    eventsRef.current?.onLeft?.(payload.chatId)
     return true
   }, [])
 

@@ -10,18 +10,6 @@ import GeneralInformation from './generalInformation/GeneralInformation'
 
 const Profile = () => {
   const t = useTranslation()
-  const [activeTab, setActiveTab] = useState(t.generalInformation.title)
-
-  useEffect(() => {
-    const savedTab = localStorage.getItem('activeTab')
-    if (savedTab) {
-      setActiveTab(savedTab)
-    }
-  }, [])
-
-  useEffect(() => {
-    localStorage.setItem('activeTab', activeTab)
-  }, [activeTab])
 
   const tabsName = [
     {
@@ -38,20 +26,35 @@ const Profile = () => {
     { text: t.myPayments.title, value: 'My payments', content: <MyPayments /> },
   ]
 
+  const [activeTab, setActiveTab] = useState(tabsName[0].value || '')
+
+  useEffect(() => {
+    const savedTab = localStorage.getItem('activeTab')
+    if (savedTab) {
+      setActiveTab(savedTab)
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('activeTab', activeTab)
+  }, [activeTab])
+
   const handleValueChange = (value: string) => {
     setActiveTab(value)
   }
 
   return (
     <Layout>
-      <div className={s.wrapper}>
-        <div className={s.tabsContent}>
-          <Tabs
-            className={s.tabsClass}
-            tabs={tabsName}
-            onValueChange={handleValueChange}
-            value={activeTab}
-          />
+      <div className={s.container}>
+        <div className={s.wrapper}>
+          <div className={s.tabsContent}>
+            <Tabs
+              className={s.tabsClass}
+              tabs={tabsName}
+              onValueChange={handleValueChange}
+              value={activeTab}
+            />
+          </div>
         </div>
       </div>
     </Layout>
