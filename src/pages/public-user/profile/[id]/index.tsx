@@ -22,10 +22,11 @@ import { Button, ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
 import { Post } from '@/components/post/Post'
 import s from '@/pages/user/[id]/profile/uploadProfileAvatar/uploadProfileAvatar.module.scss'
 import { useTranslation } from '@/shared/hooks'
-import { useAppSelector } from '@/store'
+import { useAppDispatch, useAppSelector } from '@/store'
 import { fetchIsAuth } from '@/api/auth/auth.selectors'
 import clsx from 'clsx'
 import { formatNumberWithSpaces } from '@/shared/utils/formatNumberWithSpaces'
+import { chatsActions } from '@/api/chats/chats.slice'
 
 const Profile = () => {
   const router = useRouter()
@@ -34,6 +35,7 @@ const Profile = () => {
   const [openPost, setOpenPost] = useState(false)
   const [openPostId, setOpenPostId] = useState<string>('')
   const isAuth = useAppSelector(fetchIsAuth)
+  const dispatch = useAppDispatch()
   const {
     data: publicData,
     error,
@@ -98,6 +100,19 @@ const Profile = () => {
     }
   }
 
+  const selectUserForChat = () => {
+    if (profileData) {
+      dispatch(
+        chatsActions.setSelectedUser({
+          id: profileData.id,
+          userName: profileData.userName,
+          avatarUrl: profileData.avatar.url,
+        }),
+      )
+      router.push('/messenger')
+    }
+  }
+
   if (!isLoading && typeof window !== 'undefined' && publicData?.id === me?.userId) {
     router.push(postId ? `/user/${me?.userId}?postId=${postId}` : `/user/${me?.userId}`)
   }
@@ -147,7 +162,9 @@ const Profile = () => {
                     >
                       {profileData?.isFollowing ? t.profile.btns.unfollow : t.profile.btns.follow}
                     </Button>
-                    <Button variant={'secondary'}>{t.profile.btns.send}</Button>
+                    <Button onClick={selectUserForChat} variant={'secondary'}>
+                      {t.profile.btns.send}
+                    </Button>
                   </div>
                 )}
               </div>

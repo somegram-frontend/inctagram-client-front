@@ -108,5 +108,4 @@ export const {
   useUnfollowUserMutation,
   useGetProfileMetricsQuery,
   useGetTotalUsersCountQuery,
-  useGetProfileMetricsQuery,
 } = usersApi

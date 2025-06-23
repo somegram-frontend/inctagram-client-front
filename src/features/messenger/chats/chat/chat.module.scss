@@ -1,0 +1,26 @@
+.dialog {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+
+  &Selected {
+    background: var(--color-dark-100);
+  }
+
+  &Info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .message {
+      color: var(--color-light-900);
+    }
+  }
+}

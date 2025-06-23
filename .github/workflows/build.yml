@@ -20,6 +20,16 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
+          cache: 'npm'
+
+      - name: Check npm registry availability
+        run: |
+          echo "Checking npm registry..."
+          STATUS_CODE=$(curl -o /dev/null -s -w "%{http_code}\n" https://registry.npmjs.org/)
+          if [ "$STATUS_CODE" -ne 200 ]; then
+            echo "❌ npm registry unavailable (HTTP $STATUS_CODE). Exiting."
+            exit 1
+          fi
 
       - name: Install dependencies
         run: npm install

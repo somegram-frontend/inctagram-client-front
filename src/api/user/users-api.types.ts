@@ -80,16 +80,3 @@ export type GetUserProfileSuccess = {
   followersCount: number
   publicationsCount: number
 }
-
-export type GetProfileMetricsSuccess = {
-  id: string
-  userName: string
-  avatar: {
-    url: string
-  }
-  isFollowing: boolean
-  isFollowedBy: boolean
-  followingCount: number
-  followersCount: number
-  publicationsCount: number
-}
