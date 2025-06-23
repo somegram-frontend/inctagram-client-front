@@ -9,7 +9,7 @@ import {
   ProfileResponse,
   UserProfile,
 } from './users-api.types'
-// deploy
+
 export const usersApi = baseApi.injectEndpoints({
   endpoints: builder => {
     return {
