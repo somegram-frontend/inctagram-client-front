@@ -1,6 +1,12 @@
 .postContainer {
   display: flex;
+
+  min-width: 972px;
+  max-width: 972px;
   height: 100%;
+  min-height: 564px;
+  max-height: 564px;
+
   border: 1px solid var(--color-dark-100);
 }
 
@@ -11,7 +17,9 @@
 .postImage {
   width: 100%;
   max-width: 492px;
-  height: 550px;
+  min-height: 562px;
+  max-height: 562px;
+
   object-fit: cover;
 }
 
@@ -97,12 +105,18 @@
 }
 
 .descriptionContainer {
+  min-width: 480px;
+  max-width: 492px;
+  min-height: 562px;
+  max-height: 562px;
+
   border-left: 1px solid var(--color-dark-100);
 }
 
 .descriptionHeader {
   display: flex;
   justify-content: space-between;
+  height: 59px;
   border-bottom: 1px solid var(--color-dark-100);
 }
 
@@ -161,9 +175,15 @@
   flex-direction: column;
   gap: 35px;
 
+  height: 100%;
+  min-height: 336px;
   max-height: 336px;
 
   border-bottom: 1px solid var(--color-dark-100);
+
+  &Public {
+    max-height: 420px;
+  }
 }
 
 .descriptionCommentContainer {
@@ -203,7 +223,12 @@
 }
 
 .descriptionReactions {
+  max-height: 107px;
   border-bottom: 1px solid var(--color-dark-100);
+
+  &Public {
+    max-height: 83px;
+  }
 }
 
 .descriptionReactionsIconsContainer {
@@ -223,7 +248,7 @@
 
 .descriptionReactionsAvatarsContainer {
   display: flex;
-  padding: 19px 10px 5px;
+  padding: 10px 10px 5px;
 
   & span {
     padding-left: 12px;
@@ -251,6 +276,7 @@
   display: flex;
   align-items: center;
   width: 100%;
+  height: 60px;
 }
 
 .descriptionFooterBtn {
@@ -267,7 +293,7 @@
 .form {
   display: flex;
   width: 100%;
-  margin: 0 0 16px;
+  margin: 0;
 
   :global(input[class*='_input']) {
     padding-left: 0;
