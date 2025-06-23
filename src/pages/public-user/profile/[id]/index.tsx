@@ -27,6 +27,7 @@ import { fetchIsAuth } from '@/api/auth/auth.selectors'
 import clsx from 'clsx'
 import { formatNumberWithSpaces } from '@/shared/utils/formatNumberWithSpaces'
 import { chatsActions } from '@/api/chats/chats.slice'
+import { Avatar } from '@/components/avatar'
 
 const Profile = () => {
   const router = useRouter()
@@ -138,10 +139,11 @@ const Profile = () => {
           <div className={style.profile}>
             {profileData?.avatar?.url ? (
               <div className={s.profileAvaContainer}>
-                <Image
-                  src={profileData?.avatar.url || ''}
-                  className={s.profileAvatar}
-                  alt="my avatar"
+                <Avatar
+                  userName={profileData?.userName}
+                  imgSrc={profileData?.avatar.url}
+                  alt={'my avatar'}
+                  className={s.avatar}
                   width={190}
                   height={190}
                 />

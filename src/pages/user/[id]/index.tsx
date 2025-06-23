@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import Layout from '@/layout'
 import { useEffect, useState } from 'react'
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/dialog'
-import { Button, CloseOutline, ImageOutline, Typography } from '@honor-ui/inctagram-ui-kit'
+import { Button, CloseOutline, Typography } from '@honor-ui/inctagram-ui-kit'
 import { useMeQuery } from '@/api/auth/auth-api'
 import { useGetProfileMetricsQuery, useGetProfileQuery } from '@/api/user/users-api'
 import Image from 'next/image'
@@ -15,6 +15,7 @@ import { Post } from '@/components/post/Post'
 import EditPost from './post/editPost'
 import { useTranslation } from '@/shared/hooks'
 import { formatNumberWithSpaces } from '@/shared/utils/formatNumberWithSpaces'
+import { Avatar } from '@/components/avatar'
 
 const Profile = () => {
   const router = useRouter()
@@ -86,21 +87,16 @@ const Profile = () => {
       <Layout>
         <div className={style.container}>
           <div className={style.profile}>
-            {profile?.avatar?.url ? (
-              <div className={s.profileAvaContainer}>
-                <Image
-                  src={profile ? profile.avatar.url : ''}
-                  className={s.profileAvatar}
-                  alt="my avatar"
-                  width={190}
-                  height={190}
-                />
-              </div>
-            ) : (
-              <div className={s.defaultAvaContainer}>
-                <ImageOutline />
-              </div>
-            )}
+            <div className={s.profileAvaContainer}>
+              <Avatar
+                userName={profile?.userName}
+                imgSrc={profile?.avatar.url}
+                alt={'my avatar'}
+                width={190}
+                height={190}
+                className={s.avatar}
+              />
+            </div>
             <div className={style.profileData}>
               <div className={style.profileNameAndBtnContainer}>
                 <Typography variant="h1">{me?.userName}</Typography>
