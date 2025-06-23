@@ -10,7 +10,7 @@ export const ru: Translation = {
     publications: 'Публикации',
     btns: {
       follow: 'Подписаться',
-      unfollow: 'Отриматься',
+      unfollow: 'Отписаться',
       send: 'Отправить сообщение',
     },
   },
