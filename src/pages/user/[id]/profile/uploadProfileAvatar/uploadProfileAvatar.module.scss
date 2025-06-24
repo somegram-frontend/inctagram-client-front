@@ -4,6 +4,12 @@
   align-items: center;
 }
 
+.triggerBtn {
+  cursor: pointer;
+  position: absolute;
+  color: var(--color-danger-300);
+}
+
 .uploadPhoto {
   display: flex;
   flex-direction: column;
