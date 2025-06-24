@@ -7,7 +7,6 @@ import { Button, CloseOutline, ImageOutline, Typography } from '@honor-ui/inctag
 import { useMeQuery } from '@/api/auth/auth-api'
 import { useGetProfileMetricsQuery, useGetProfileQuery } from '@/api/user/users-api'
 import Image from 'next/image'
-import s from './profile/uploadProfileAvatar/uploadProfileAvatar.module.scss'
 import style from './user.module.scss'
 import { Loader } from '@/components/loader'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
@@ -15,6 +14,7 @@ import { Post } from '@/components/post/Post'
 import EditPost from './post/editPost'
 import { useTranslation } from '@/shared/hooks'
 import { formatNumberWithSpaces } from '@/shared/utils/formatNumberWithSpaces'
+import s from './profile/uploadProfileAvatar/uploadProfileAvatar.module.scss'
 
 const Profile = () => {
   const router = useRouter()
