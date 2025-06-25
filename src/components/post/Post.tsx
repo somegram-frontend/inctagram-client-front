@@ -189,7 +189,11 @@ export const Post = ({ setEditPost, post }: Props) => {
             </>
           )}
         </div>
-        <div className={`${s.descriptionCommentsContainer} ${s.wrapper}`}>
+        <div
+          className={`${s.descriptionCommentsContainer} ${s.wrapper} ${
+            !isAuth ? s.descriptionCommentsContainerPublic : ''
+          }`}
+        >
           {post.description && (
             <PostComment
               commentId={post.id}
@@ -221,7 +225,11 @@ export const Post = ({ setEditPost, post }: Props) => {
           })}
           <div className={s.cursor} ref={lastElementRef} />
         </div>
-        <div className={`${s.descriptionReactions} ${s.wrapper}`}>
+        <div
+          className={`${s.descriptionReactions} ${s.wrapper} ${
+            isAuth ? '' : s.descriptionReactionsPublic
+          }`}
+        >
           {isAuth && (
             <div className={`${s.descriptionReactionsIconsContainer}`}>
               <div className={s.descriptionReactionsIcons}>
@@ -267,42 +275,46 @@ export const Post = ({ setEditPost, post }: Props) => {
                 />
               )
             })}
-            <span>
+            <Typography variant={'regular_text14'}>
               {formatNumberWithSpaces(post.like.likeCount)} <b>&quot;Like&quot;</b>
-            </span>
+            </Typography>
           </div>
-          <span className={s.date}>July 3, 2021</span>
+          <Typography variant={'small_text'} className={s.date}>
+            July 3, 2021
+          </Typography>
         </div>
-        <div className={`${s.descriptionFooter} ${s.wrapper}`}>
-          <form
-            onSubmit={e => {
-              e.preventDefault()
-              handleSubmit(handlePostComment)(e)
-            }}
-            className={s.form}
-          >
-            <ControlledInput
-              control={control}
-              name="comment"
-              placeholder={selectedComment ? 'Add answer for comment' : 'Add a Comment...'}
-              inputRef={inputRef}
-              onBlurCapture={() => {
-                if (!watch('comment').trim()) {
-                  setSelectedComment(null)
-                }
+        {isAuth && (
+          <div className={`${s.descriptionFooter} ${s.wrapper}`}>
+            <form
+              onSubmit={e => {
+                e.preventDefault()
+                handleSubmit(handlePostComment)(e)
               }}
-              width="100%"
-            />
-            <Button
-              type="submit"
-              variant="borderless"
-              className={s.btnForm}
-              disabled={isLoadingCreateComment || isLoadingCreateAnswer}
+              className={s.form}
             >
-              <Typography variant="h3">Publish</Typography>
-            </Button>
-          </form>
-        </div>
+              <ControlledInput
+                control={control}
+                name="comment"
+                placeholder={selectedComment ? 'Add answer for comment' : 'Add a Comment...'}
+                inputRef={inputRef}
+                onBlurCapture={() => {
+                  if (!watch('comment').trim()) {
+                    setSelectedComment(null)
+                  }
+                }}
+                width="100%"
+              />
+              <Button
+                type="submit"
+                variant="borderless"
+                className={s.btnForm}
+                disabled={isLoadingCreateComment || isLoadingCreateAnswer}
+              >
+                <Typography variant="h3">Publish</Typography>
+              </Button>
+            </form>
+          </div>
+        )}
       </div>
       {showConfirmDelete && (
         <ConfirmDeletePost onConfirm={confirmDeleteHandler} onCancel={cancelDeleteHandler} />

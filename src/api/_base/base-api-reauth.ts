@@ -2,7 +2,7 @@ import { EnumTokens } from '@/shared/const/enums'
 import { fetchBaseQuery, FetchBaseQueryMeta } from '@reduxjs/toolkit/query'
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { Mutex } from 'async-mutex'
-import Router from 'next/router'
+// import Router from 'next/router'
 
 const mutex = new Mutex()
 
@@ -80,7 +80,7 @@ export const baseQueryWithReauth: BaseQueryFn<
 
           result = await queryToUse(args, api, extraOptions)
         } else {
-          void Router.push('/auth/signIn')
+          // void Router.push('/auth/signIn')
           // есть на проекте AuthGuard который выполняет эту функцию редиректа
           console.error('Failed to refresh token:', refreshResult.error)
         }
