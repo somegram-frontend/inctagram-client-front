@@ -154,7 +154,12 @@ export const Post = ({ setEditPost, post }: Props) => {
   return (
     <div className={s.postContainer}>
       <div className={s.slider}>
-        <PhotoSlider images={post?.images || []} dotClass={dotsClass} imgClass={s.image} />
+        <PhotoSlider
+          images={post?.images || []}
+          dotClass={dotsClass}
+          imgClass={s.image}
+          height={562}
+        />
       </div>
       <div className={s.descriptionContainer}>
         <div className={`${s.descriptionHeader} ${s.wrapper}`}>

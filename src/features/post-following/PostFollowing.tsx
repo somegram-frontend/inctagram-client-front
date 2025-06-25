@@ -26,7 +26,6 @@ import React, { useState } from 'react'
 import { useToggleLikePostMutation } from '@/api/post/posts-api'
 import { useAppDispatch, useAppSelector } from '@/store'
 import { chatsActions } from '@/api/chats/chats.slice'
-import { sendMessage } from 'next/dist/client/components/react-dev-overlay/pages/websocket'
 import { useRouter } from 'next/navigation'
 
 type Props = {
@@ -75,6 +74,10 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
     router.push('/messenger')
   }
 
+  const navigateToProfile = () => {
+    router.push(`/public-user/profile/${post.postOwnerInfo.userId}`)
+  }
+
   return (
     <div key={id} className={s.post}>
       <div className={s.postHeader}>
@@ -86,7 +89,7 @@ export const PostFollowing = ({ post, isFetching }: Props) => {
           width={36}
           height={36}
         />
-        <Typography variant={'h3'} className={s.userName}>
+        <Typography variant={'h3'} className={s.userName} onClick={navigateToProfile}>
           {postOwnerInfo.username}
         </Typography>
         <div className={s.dot} />

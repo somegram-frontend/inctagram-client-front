@@ -24,6 +24,19 @@
 
     .edit {
       margin: 0 0 0 auto;
+
+      .content {
+        max-width: 144px;
+
+        .item {
+          display: flex;
+          gap: 16px;
+          align-items: center;
+
+          width: 100%;
+          max-width: 144px;
+        }
+      }
     }
   }
 
@@ -70,6 +83,13 @@
 
   .book {
     margin: 0 0 0 auto;
+  }
+}
+
+.userName {
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
   }
 }
 

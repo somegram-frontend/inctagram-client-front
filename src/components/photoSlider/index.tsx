@@ -12,6 +12,8 @@ type Props = {
   clickCallback?: () => void | undefined
   onSetActiveImageIdx?: (nextIdx: number) => void
   activeImageIdx?: number
+  height?: number
+  width?: number
 }
 
 const PhotoSlider: React.FC<Props> = ({
@@ -22,6 +24,8 @@ const PhotoSlider: React.FC<Props> = ({
   clickCallback,
   onSetActiveImageIdx,
   activeImageIdx,
+  height,
+  width,
 }) => {
   const [zoomImage, setZoomImage] = useState<string | null>(null)
   const defaultAva = '/MaskGroup.jpg'
@@ -77,8 +81,8 @@ const PhotoSlider: React.FC<Props> = ({
               <Image
                 src={imgSrc || defaultAva}
                 alt="post images"
-                width={492}
-                height={504}
+                width={width || 492}
+                height={height || 504}
                 className={imgClass || ''}
                 onClick={() => handleClick(imgSrc)}
               />
